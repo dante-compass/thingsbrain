@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cn.herodotus.ecosystem</groupId>
+        <artifactId>herodotus-ecosystem-parent</artifactId>
+        <version>4.0.5.2</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>org.dromara.thingsbrain</groupId>
+    <artifactId>thingsbrain-dependencies</artifactId>
+    <name>${project.artifactId}</name>
+    <packaging>pom</packaging>
+
+    <description>Dante Cloud ThingsBrain Dependencies</description>
+
+    <url>https://github.com/dante-compass/thingsbrain</url>
+
+    <licenses>
+        <license>
+            <name>Apache License Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/dante-compass/thingsbrain</url>
+        <connection>scm:git:git@github.com:dante-compass/thingsbrain.git</connection>
+        <developerConnection>scm:git:git@github.com:dante-compass/thingsbrain.git</developerConnection>
+    </scm>
+
+    <organization>
+        <name>dromara</name>
+        <url>https://dromara.org</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <id>herodotus-ecosystem</id>
+            <name>码匠君</name>
+            <email>herodotus@aliyun.com</email>
+            <organization>dromara</organization>
+            <organizationUrl>https://dromara.org</organizationUrl>
+            <url>https://github.com/herodotus-ecosystem</url>
+        </developer>
+    </developers>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-persistence-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-persistence-commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-persistence-jpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

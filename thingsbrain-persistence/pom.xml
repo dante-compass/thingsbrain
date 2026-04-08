@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.dromara.thingsbrain</groupId>
+        <artifactId>thingsbrain</artifactId>
+        <version>4.0.5.2</version>
+    </parent>
+
+    <artifactId>thingsbrain-persistence</artifactId>
+    <name>${project.artifactId}</name>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>thingsbrain-persistence-commons</module>
+        <module>thingsbrain-persistence-autoconfigure</module>
+        <module>thingsbrain-persistence-jpa</module>
+    </modules>
+
+</project>
