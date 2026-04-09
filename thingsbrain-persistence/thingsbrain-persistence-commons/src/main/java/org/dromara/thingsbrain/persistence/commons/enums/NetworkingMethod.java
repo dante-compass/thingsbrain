@@ -36,40 +36,42 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>Description: Mqtt 操作 </p>
+ * <p>Description: 联网方式 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/10/5 13:35
+ * @date : 2024/8/22 21:38
  */
-@Schema(name = "Mqtt 操作")
+@Schema(name = "联网方式")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum Action implements DictionaryEnum {
+public enum NetworkingMethod implements DictionaryEnum {
 
-    publish("publish", "仅发布"),
-    subscribe("subscribe", "仅订阅"),
-    all("all", "发布和订阅");
-
-    private static final Map<Integer, Action> INDEX_MAP = new HashMap<>();
-    private static final List<Dictionary> DICTIONARIES = new ArrayList<>();
-
-    static {
-        for (Action action : Action.values()) {
-            INDEX_MAP.put(action.ordinal(), action);
-            DICTIONARIES.add(action.getDictionary(action.name(), action.ordinal()));
-        }
-    }
+    WIFI("0", "WiFi"),
+    CELLULAR("1", "蜂窝(2G/3G/4G/5G)"),
+    ETHERNET("2", "以太网"),
+    LORAWAN("3", "LoRaWAN"),
+    OTHERS("4", "其它");
 
     @Schema(name = "枚举值")
     private final String value;
     @Schema(name = "说明")
     private final String label;
 
-    Action(String value, String label) {
-        this.value = value;
-        this.label = label;
+    private static final Map<Integer, NetworkingMethod> INDEX_MAP = new HashMap<>();
+    private static final List<Dictionary> DICTIONARIES = new ArrayList<>();
+
+    static {
+        for (NetworkingMethod networkingMethod : NetworkingMethod.values()) {
+            INDEX_MAP.put(networkingMethod.ordinal(), networkingMethod);
+            DICTIONARIES.add(networkingMethod.getDictionary(networkingMethod.name(), networkingMethod.ordinal()));
+        }
     }
 
-    public static Action get(Integer index) {
+    NetworkingMethod(String value, String label) {
+        this.label = label;
+        this.value = value;
+    }
+
+    public static NetworkingMethod get(Integer index) {
         return INDEX_MAP.get(index);
     }
 
@@ -82,7 +84,6 @@ public enum Action implements DictionaryEnum {
         return value;
     }
 
-    @Override
     public String getLabel() {
         return label;
     }

@@ -181,6 +181,7 @@
         <module>thingsbrain-application</module>
         <module>thingsbrain-persistence</module>
         <module>thingsbrain-dependencies</module>
+        <module>thingsbrain-kernel</module>
     </modules>
 
 </project>

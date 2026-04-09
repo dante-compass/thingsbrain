@@ -36,40 +36,56 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>Description: Mqtt 操作 </p>
+ * <p>Description: 网关协议 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/10/5 13:35
+ * @date : 2024/8/22 17:06
  */
-@Schema(name = "Mqtt 操作")
+@Schema(name = "接入网关协议")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum Action implements DictionaryEnum {
-
-    publish("publish", "仅发布"),
-    subscribe("subscribe", "仅订阅"),
-    all("all", "发布和订阅");
-
-    private static final Map<Integer, Action> INDEX_MAP = new HashMap<>();
-    private static final List<Dictionary> DICTIONARIES = new ArrayList<>();
-
-    static {
-        for (Action action : Action.values()) {
-            INDEX_MAP.put(action.ordinal(), action);
-            DICTIONARIES.add(action.getDictionary(action.name(), action.ordinal()));
-        }
-    }
+public enum GatewayProtocol implements DictionaryEnum {
+    /**
+     * 表示子设备和网关之间是其它标准或私有协议
+     */
+    CUSTOM("0", "自定义"),
+    /**
+     * 表示子设备和网关之间的通讯协议是Modbus
+     */
+    MODBUS("1", "Modbus"),
+    /**
+     * 表示子设备和网关之间的通讯协议是OPC UA
+     */
+    OPC_UA("2", "OPC UA"),
+    /**
+     * 表示子设备和网关之间的通讯协议是ZigBee
+     */
+    ZIGBEE("3", "ZigBee"),
+    /**
+     * 表示子设备和网关之间的通讯协议是BLE
+     */
+    BLE("4", "BLE");
 
     @Schema(name = "枚举值")
     private final String value;
     @Schema(name = "说明")
     private final String label;
 
-    Action(String value, String label) {
+    private static final Map<Integer, GatewayProtocol> INDEX_MAP = new HashMap<>();
+    private static final List<Dictionary> DICTIONARIES = new ArrayList<>();
+
+    static {
+        for (GatewayProtocol gatewayProtocol : GatewayProtocol.values()) {
+            INDEX_MAP.put(gatewayProtocol.ordinal(), gatewayProtocol);
+            DICTIONARIES.add(gatewayProtocol.getDictionary(gatewayProtocol.name(), gatewayProtocol.ordinal()));
+        }
+    }
+
+    GatewayProtocol(String value, String label) {
         this.value = value;
         this.label = label;
     }
 
-    public static Action get(Integer index) {
+    public static GatewayProtocol get(Integer index) {
         return INDEX_MAP.get(index);
     }
 
@@ -78,12 +94,12 @@ public enum Action implements DictionaryEnum {
     }
 
     @Override
-    public String getValue() {
-        return value;
+    public String getLabel() {
+        return label;
     }
 
     @Override
-    public String getLabel() {
-        return label;
+    public String getValue() {
+        return value;
     }
 }

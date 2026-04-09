@@ -36,40 +36,49 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>Description: Mqtt 操作 </p>
+ * <p>Description: 节点类型 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/10/5 13:35
+ * @date : 2024/8/22 16:56
  */
-@Schema(name = "Mqtt 操作")
+@Schema(name = "节点类型")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum Action implements DictionaryEnum {
+public enum NodeType implements DictionaryEnum {
 
-    publish("publish", "仅发布"),
-    subscribe("subscribe", "仅订阅"),
-    all("all", "发布和订阅");
-
-    private static final Map<Integer, Action> INDEX_MAP = new HashMap<>();
-    private static final List<Dictionary> DICTIONARIES = new ArrayList<>();
-
-    static {
-        for (Action action : Action.values()) {
-            INDEX_MAP.put(action.ordinal(), action);
-            DICTIONARIES.add(action.getDictionary(action.name(), action.ordinal()));
-        }
-    }
+    /**
+     * 具有IP地址，可直接连接物联网平台，且不能挂载子设备，但可作为子设备挂载到网关下的设备
+     */
+    DIRECTLY_CONNECTED_DEVICE("0", "直连设备"),
+    /**
+     * 不直接连接物联网平台，而是通过网关设备接入物联网平台的设备。网关与子设备说明，请参见网关与子设备
+     */
+    GATEWAY_SUB_DEVICE("1", "网关子设备"),
+    /**
+     * 可以挂载子设备的直连设备。网关具有子设备管理模块，可以维持子设备的拓扑关系，将与子设备的拓扑关系同步到云端
+     */
+    GATEWAY_DEVICE("2", "网关设备");
 
     @Schema(name = "枚举值")
     private final String value;
     @Schema(name = "说明")
     private final String label;
 
-    Action(String value, String label) {
-        this.value = value;
-        this.label = label;
+    private static final Map<Integer, NodeType> INDEX_MAP = new HashMap<>();
+    private static final List<Dictionary> DICTIONARIES = new ArrayList<>();
+
+    static {
+        for (NodeType nodeType : NodeType.values()) {
+            INDEX_MAP.put(nodeType.ordinal(), nodeType);
+            DICTIONARIES.add(nodeType.getDictionary(nodeType.name(), nodeType.ordinal()));
+        }
     }
 
-    public static Action get(Integer index) {
+    NodeType(String value, String label) {
+        this.label = label;
+        this.value = value;
+    }
+
+    public static NodeType get(Integer index) {
         return INDEX_MAP.get(index);
     }
 
@@ -82,7 +91,6 @@ public enum Action implements DictionaryEnum {
         return value;
     }
 
-    @Override
     public String getLabel() {
         return label;
     }

@@ -5,12 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.dromara.thingsbrain</groupId>
-        <artifactId>thingsbrain-persistence</artifactId>
+        <artifactId>thingsbrain-kernel</artifactId>
         <version>4.0.5.2</version>
     </parent>
 
-    <artifactId>thingsbrain-persistence-commons</artifactId>
+    <artifactId>thingsbrain-kernel-commons</artifactId>
     <name>${project.artifactId}</name>
+
+    <description>ThingsBrain 物联网平台核心通用定义代码模块</description>
 
     <dependencies>
         <dependency>
@@ -21,17 +23,7 @@
 
         <dependency>
             <groupId>org.dromara.dante</groupId>
-            <artifactId>dante-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.dromara.dante</groupId>
-            <artifactId>dante-data-commons</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.dromara.thingsbrain</groupId>
-            <artifactId>thingsbrain-kernel-commons</artifactId>
+            <artifactId>dante-spring</artifactId>
         </dependency>
     </dependencies>
 

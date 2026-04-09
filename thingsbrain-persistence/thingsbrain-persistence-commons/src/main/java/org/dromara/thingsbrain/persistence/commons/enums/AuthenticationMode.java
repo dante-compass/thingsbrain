@@ -36,40 +36,41 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>Description: Mqtt 操作 </p>
+ * <p>Description: 物联网设备认证方式 </p>
+ * <p>
+ * 注意：该枚举不能命名为 AuthenticationMethod，会与系统 OAuth2 模块中定义的冲突 AuthenticationMethod
  *
  * @author : gengwei.zheng
- * @date : 2023/10/5 13:35
+ * @date : 2025/4/2 12:16
  */
-@Schema(name = "Mqtt 操作")
+@Schema(name = "认证方式")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum Action implements DictionaryEnum {
+public enum AuthenticationMode implements DictionaryEnum {
 
-    publish("publish", "仅发布"),
-    subscribe("subscribe", "仅订阅"),
-    all("all", "发布和订阅");
-
-    private static final Map<Integer, Action> INDEX_MAP = new HashMap<>();
-    private static final List<Dictionary> DICTIONARIES = new ArrayList<>();
-
-    static {
-        for (Action action : Action.values()) {
-            INDEX_MAP.put(action.ordinal(), action);
-            DICTIONARIES.add(action.getDictionary(action.name(), action.ordinal()));
-        }
-    }
+    DEVICE_SECRET("0", "设备密钥"),
+    OAUTH2("1", "OAuth2 协议");
 
     @Schema(name = "枚举值")
     private final String value;
     @Schema(name = "说明")
     private final String label;
 
-    Action(String value, String label) {
-        this.value = value;
-        this.label = label;
+    private static final Map<Integer, AuthenticationMode> INDEX_MAP = new HashMap<>();
+    private static final List<Dictionary> DICTIONARIES = new ArrayList<>();
+
+    static {
+        for (AuthenticationMode authenticationMode : AuthenticationMode.values()) {
+            INDEX_MAP.put(authenticationMode.ordinal(), authenticationMode);
+            DICTIONARIES.add(authenticationMode.getDictionary(authenticationMode.name(), authenticationMode.ordinal()));
+        }
     }
 
-    public static Action get(Integer index) {
+    AuthenticationMode(String value, String label) {
+        this.label = label;
+        this.value = value;
+    }
+
+    public static AuthenticationMode get(Integer index) {
         return INDEX_MAP.get(index);
     }
 
@@ -82,7 +83,6 @@ public enum Action implements DictionaryEnum {
         return value;
     }
 
-    @Override
     public String getLabel() {
         return label;
     }

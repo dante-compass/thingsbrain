@@ -60,6 +60,17 @@
 
             <dependency>
                 <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-kernel-commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-kernel-hub</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
                 <artifactId>thingsbrain-persistence-autoconfigure</artifactId>
                 <version>${project.version}</version>
             </dependency>
