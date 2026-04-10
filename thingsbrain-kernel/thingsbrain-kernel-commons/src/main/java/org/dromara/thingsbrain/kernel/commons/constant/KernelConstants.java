@@ -41,7 +41,7 @@ public interface KernelConstants extends BaseConstants {
 
     String PROPERTY_IOT_TSDB = PROPERTY_PREFIX_IOT + ".tsdb";
 
-        String CACHE_IOT_PREFIX = CACHE_PREFIX + IOT_AREA_PREFIX;
+    String CACHE_IOT_PREFIX = CACHE_PREFIX + IOT_AREA_PREFIX;
     String CACHE_IOT_TSL_PREFIX = CACHE_IOT_PREFIX + "tsl:";
 
     String CACHE_NAME_IOT_TSL_SPECIFICATION = CACHE_IOT_TSL_PREFIX + "specification:";
