@@ -22,6 +22,7 @@
 package org.dromara.thingsbrain.persistence.commons.service;
 
 import org.dromara.dante.data.commons.service.BaseWriteAndPageService;
+import org.dromara.thingsbrain.kernel.tsl.Specification;
 import org.dromara.thingsbrain.persistence.commons.domain.Product;
 import org.springframework.data.domain.Page;
 
@@ -55,12 +56,12 @@ public interface ProductService extends BaseWriteAndPageService<Product, String>
      * @return 产品信息 {@link Product}
      */
     Product switchAuthentication(Product domain);
-//
-//    /**
-//     * 生成物模型声明
-//     *
-//     * @param productKey 物联网 ProductKey
-//     * @return 物模型声明对象
-//     */
-//    Optional<Specification> generate(String productKey);
+
+    /**
+     * 生成物模型声明
+     *
+     * @param productKey 物联网 ProductKey
+     * @return 物模型声明对象
+     */
+    Optional<Specification> generate(String productKey);
 }

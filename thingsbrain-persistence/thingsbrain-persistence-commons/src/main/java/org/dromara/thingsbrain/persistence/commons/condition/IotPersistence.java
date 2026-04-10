@@ -26,7 +26,7 @@
 package org.dromara.thingsbrain.persistence.commons.condition;
 
 import org.dromara.dante.spring.condition.ConditionEnum;
-import org.dromara.thingsbrain.persistence.commons.constants.PersistenceConstants;
+import org.dromara.thingsbrain.persistence.commons.constant.PersistenceConstants;
 import org.springframework.core.env.Environment;
 
 /**

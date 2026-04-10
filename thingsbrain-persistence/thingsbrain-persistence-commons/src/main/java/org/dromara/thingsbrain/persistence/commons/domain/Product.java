@@ -25,14 +25,14 @@
 
 package org.dromara.thingsbrain.persistence.commons.domain;
 
-import cn.herodotus.thingsbrain.persistence.commons.enums.AuthenticationMode;
-import cn.herodotus.thingsbrain.persistence.commons.enums.GatewayProtocol;
-import cn.herodotus.thingsbrain.persistence.commons.enums.NetworkingMethod;
-import cn.herodotus.thingsbrain.persistence.commons.enums.NodeType;
 import cn.hutool.v7.core.data.id.IdUtil;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.dromara.dante.data.commons.entity.AbstractSysEntity;
+import org.dromara.thingsbrain.persistence.commons.enums.AuthenticationMode;
+import org.dromara.thingsbrain.persistence.commons.enums.GatewayProtocol;
+import org.dromara.thingsbrain.persistence.commons.enums.NetworkingMethod;
+import org.dromara.thingsbrain.persistence.commons.enums.NodeType;
 
 /**
  * <p>Description: 物联网产品统一实体定义 </p>

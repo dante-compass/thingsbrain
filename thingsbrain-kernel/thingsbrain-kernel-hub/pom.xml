@@ -28,7 +28,7 @@
 
         <dependency>
             <groupId>org.dromara.thingsbrain</groupId>
-            <artifactId>thingsbrain-kernel-commons</artifactId>
+            <artifactId>thingsbrain-kernel-tsl</artifactId>
         </dependency>
 
 

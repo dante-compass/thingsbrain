@@ -68,6 +68,16 @@
                 <artifactId>thingsbrain-kernel-hub</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-kernel-protocol</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-kernel-tsl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.dromara.thingsbrain</groupId>

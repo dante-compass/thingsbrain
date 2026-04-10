@@ -23,31 +23,39 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.persistence.commons.constants;
+package org.dromara.thingsbrain.persistence.jpa.logic.generator;
 
-import org.dromara.thingsbrain.kernel.commons.constant.KernelConstants;
+import org.apache.commons.lang3.StringUtils;
+import org.dromara.dante.data.hibernate.generator.AbstractIdGeneratorType;
+import org.dromara.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttAccount;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
+import org.hibernate.generator.GeneratorCreationContext;
+
+import java.lang.reflect.Member;
 
 /**
- * <p>Description: 持久化相关模块通用常量定义 </p>
+ * <p>Description: {@link HerodotusMqttAccount} 主键生成器 </p>
+ * <p>
+ * 保存实体类时，可以在保留主键生成策略的情况下自定义表的主键
  *
- * @author : gengwei_zheng
- * @date : 2026/4/9 13:53
+ * @author : gengwei.zheng
+ * @date : 2023/9/20 22:10
  */
-public interface PersistenceConstants extends KernelConstants {
+public class HerodotusMqttAccountUuidGeneratorType extends AbstractIdGeneratorType {
 
-    String REGION_IOT_PRODUCT = IOT_AREA_PREFIX + "product";
-    String REGION_IOT_PRODUCT_CATEGORY = IOT_AREA_PREFIX + "product:category";
-    String REGION_IOT_DEVICE = IOT_AREA_PREFIX + "device";
-    String REGION_IOT_DEVICE_SHADOW = IOT_AREA_PREFIX + "device:shadow";
-    String REGION_IOT_DEVICE_TAG = IOT_AREA_PREFIX + "device:tag";
-    String REGION_IOT_TAG = IOT_AREA_PREFIX + "tag";
-    String REGION_IOT_TSL_FUNCTION = IOT_AREA_PREFIX + "tsl:function";
-    String REGION_IOT_TSL_ARGUMENT = IOT_AREA_PREFIX + "tsl:attribute";
-    String REGION_IOT_TSL_UNIT = IOT_AREA_PREFIX + "tsl:unit";
+    public HerodotusMqttAccountUuidGeneratorType(HerodotusMqttAccountUuidGenerator config, Member member, GeneratorCreationContext context) {
+        super(member);
+    }
 
-    String REGION_IOT_MQTT_ACCOUNT = IOT_AREA_PREFIX + "mqtt:account";
-    String REGION_IOT_MQTT_CATEGORY = IOT_AREA_PREFIX + "mqtt:category";
-    String REGION_IOT_MQTT_AUTHORITY = IOT_AREA_PREFIX + "mqtt:authority";
+    @Override
+    public Object generate(SharedSessionContractImplementor session, Object object) {
 
-    String ITEM_IOT_PERSISTENCE = PROPERTY_PREFIX_IOT + ".persistence";
+        HerodotusMqttAccount domain = (HerodotusMqttAccount) object;
+
+        if (StringUtils.isEmpty(domain.getAccountId())) {
+            return super.generate(session, object);
+        } else {
+            return domain.getAccountId();
+        }
+    }
 }
