@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.dromara.thingsbrain</groupId>
+        <artifactId>thingsbrain-platform</artifactId>
+        <version>4.0.5.2</version>
+    </parent>
+
+    <artifactId>thingsbrain-platform-autoconfigure</artifactId>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.dromara.thingsbrain</groupId>
+            <artifactId>thingsbrain-platform-rest</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dromara.dante</groupId>
+            <artifactId>cache-spring-boot-starter</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>

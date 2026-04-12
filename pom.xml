@@ -182,6 +182,7 @@
         <module>thingsbrain-persistence</module>
         <module>thingsbrain-dependencies</module>
         <module>thingsbrain-kernel</module>
+        <module>thingsbrain-platform</module>
     </modules>
 
 </project>

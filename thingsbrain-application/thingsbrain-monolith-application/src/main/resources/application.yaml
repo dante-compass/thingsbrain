@@ -160,7 +160,7 @@ spring:
             enabled: true
   data:
     redis:
-      database: 4
+      database: 10
       host: 192.168.101.10
       password:
       port: 16379
@@ -272,19 +272,13 @@ herodotus:
             client-id: 7c1623d76f39097579123e8
             client-secret: 8c343cad9ca732d54242f002
             redirect-uri: http://192.168.101.10:8847/dante-cloud-uaa/oauth/social/gitee
-  oss:
-    dialect: minio
-    proxy:
-      source: http://localhost:3000/api
-      destination: http://127.0.0.1:9000
-    minio:
-      endpoint: http://127.0.0.1:9000
-      access-key: herodotus
-      secret-key: herodotus
-    s3:
-      endpoint: http://127.0.0.1:9000
-      access-key: herodotus
-      secret-key: herodotus
+    oss:
+      endpoint: http://192.168.101.10:9000
+      access-key: 2RO1WHelOwCFxp6Annr7
+      secret-key: h8wpmcmZZZfvMoCat4Vy3Zy1JJSl0fwM8JNsvNxa
+      proxy:
+        source: http://localhost:3000/api
+        destination: http://127.0.0.1:9000
 
 logging:
   file:
@@ -391,7 +385,7 @@ spring:
             enabled: true
   data:
     redis:
-      database: 5
+      database: 11
       host: 192.168.101.10
       password:
       port: 16379
@@ -498,19 +492,13 @@ herodotus:
             client-id: 7c1623d76f39097579123e8
             client-secret: 8c343cad9ca732d54242f002
             redirect-uri: http://192.168.101.10:8847/dante-cloud-uaa/oauth/social/gitee
-  oss:
-    dialect: minio
-    proxy:
-      source: http://localhost:3000/api
-      destination: http://127.0.0.1:9000
-    minio:
-      endpoint: http://127.0.0.1:9000
-      access-key: herodotus
-      secret-key: herodotus
-    s3:
-      endpoint: http://127.0.0.1:9000
-      access-key: herodotus
-      secret-key: herodotus
+    oss:
+      endpoint: http://192.168.101.10:9000
+      access-key: 2RO1WHelOwCFxp6Annr7
+      secret-key: h8wpmcmZZZfvMoCat4Vy3Zy1JJSl0fwM8JNsvNxa
+      proxy:
+        source: http://localhost:3000/api
+        destination: http://127.0.0.1:9000
 
 logging:
   file:
@@ -620,7 +608,7 @@ spring:
             enabled: true
   data:
     redis:
-      database: 6
+      database: 11
       host: 192.168.101.10
       password:
       port: 16379
@@ -730,19 +718,13 @@ herodotus:
             client-id: 7c1623d76f39097579123e8
             client-secret: 8c343cad9ca732d54242f002
             redirect-uri: http://192.168.101.10:8847/dante-cloud-uaa/oauth/social/gitee
-  oss:
-    dialect: minio
-    proxy:
-      source: http://localhost:3000/api
-      destination: http://127.0.0.1:9000
-    minio:
-      endpoint: http://127.0.0.1:9000
-      access-key: herodotus
-      secret-key: herodotus
-    s3:
-      endpoint: http://127.0.0.1:9000
-      access-key: herodotus
-      secret-key: herodotus
+    oss:
+      endpoint: http://192.168.101.10:9000
+      access-key: 2RO1WHelOwCFxp6Annr7
+      secret-key: h8wpmcmZZZfvMoCat4Vy3Zy1JJSl0fwM8JNsvNxa
+      proxy:
+        source: http://localhost:3000/api
+        destination: http://127.0.0.1:9000
 
 logging:
   file:
