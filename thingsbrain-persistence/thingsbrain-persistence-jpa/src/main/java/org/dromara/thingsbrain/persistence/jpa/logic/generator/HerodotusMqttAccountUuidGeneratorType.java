@@ -26,7 +26,7 @@
 package org.dromara.thingsbrain.persistence.jpa.logic.generator;
 
 import org.apache.commons.lang3.StringUtils;
-import org.dromara.dante.data.hibernate.generator.AbstractIdGeneratorType;
+import org.dromara.dante.hibernate.generator.AbstractIdGeneratorType;
 import org.dromara.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttAccount;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.generator.GeneratorCreationContext;
