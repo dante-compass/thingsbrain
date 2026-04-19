@@ -10,7 +10,6 @@
     </parent>
 
     <artifactId>thingsbrain-assemble-autoconfigure</artifactId>
-
     <name>${project.artifactId}</name>
 
     <dependencies>

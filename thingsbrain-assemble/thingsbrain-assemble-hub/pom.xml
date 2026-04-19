@@ -10,6 +10,8 @@
     </parent>
 
     <artifactId>thingsbrain-assemble-hub</artifactId>
+    <name>${project.artifactId}</name>
+
     <description>ThingsBrain 物联网平台业务功能装配模块</description>
 
     <dependencies>

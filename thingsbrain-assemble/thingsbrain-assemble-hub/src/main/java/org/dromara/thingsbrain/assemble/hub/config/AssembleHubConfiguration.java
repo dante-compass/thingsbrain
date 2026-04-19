@@ -23,16 +23,26 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.extension.autoconfigure;
+package org.dromara.thingsbrain.assemble.hub.config;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * <p>Description: TODO </p>
  *
  * @author : gengwei_zheng
- * @date : 2026/4/19 16:33
+ * @date : 2026/4/19 22:22
  */
-@AutoConfiguration
-public class ExtensionOAuth2AutoConfiguration {
+@Configuration(proxyBeanMethods = false)
+public class AssembleHubConfiguration {
+
+    private static final Logger log = LoggerFactory.getLogger(AssembleHubConfiguration.class);
+
+    @PostConstruct
+    public void postConstruct() {
+        log.debug("[ThingsBrain] |- Module [Assemble Hub] Configure.");
+    }
 }

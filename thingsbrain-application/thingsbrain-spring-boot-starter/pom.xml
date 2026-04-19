@@ -14,8 +14,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.dromara.dante</groupId>
-            <artifactId>dante-autoconfigure</artifactId>
+            <groupId>org.dromara.thingsbrain</groupId>
+            <artifactId>thingsbrain-platform-autoconfigure</artifactId>
         </dependency>
     </dependencies>
 

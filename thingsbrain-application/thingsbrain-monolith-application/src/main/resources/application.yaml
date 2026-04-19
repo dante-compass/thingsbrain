@@ -81,8 +81,8 @@ spring:
       # 第一种方式启动的时候 Jpa 会自动创建表，import.sql 只负责创建表单后的初始化数据。第二种方式启动的时候不会创建表，需要在初始化脚本中判断表是否存在，再初始化脚本的步骤
       # refer: https://www.cnblogs.com/ityouknow/p/7089170.html
       data-locations:
-        - classpath:sqls/oss-data-postgresql.sql
-  #        - classpath:sqls/oss-data-mysql.sql
+        - classpath:sqls/dante-data-postgresql.sql
+  #        - classpath:sqls/dante-data-mysql.sql
 
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
@@ -160,7 +160,7 @@ spring:
             enabled: true
   data:
     redis:
-      database: 10
+      database: 11
       host: 192.168.101.10
       password:
       port: 16379
@@ -306,12 +306,12 @@ spring:
       username: ${spring.datasource.username}
       password: ${spring.datasource.password}
       data-locations:
-        #        - classpath:sqls/oss-data-mysql.sql
-        - classpath:sqls/oss-data-postgresql.sql
+        #        - classpath:sqls/dante-data-mysql.sql
+        - classpath:sqls/dante-data-postgresql.sql
 
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-    url: jdbc:p6spy:mysql://127.0.0.1:13306/dante_athena?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:p6spy:mysql://127.0.0.1:13306/dante_thingsbrain?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: athena
     password: athena
     type: com.zaxxer.hikari.HikariDataSource
@@ -385,7 +385,7 @@ spring:
             enabled: true
   data:
     redis:
-      database: 11
+      database: 12
       host: 192.168.101.10
       password:
       port: 16379
@@ -529,12 +529,12 @@ spring:
       # 第一种方式启动的时候 Jpa 会自动创建表，import.sql 只负责创建表单后的初始化数据。第二种方式启动的时候不会创建表，需要在初始化脚本中判断表是否存在，再初始化脚本的步骤
       # refer: https://www.cnblogs.com/ityouknow/p/7089170.html
       data-locations:
-        - classpath:sqls/oss-data-postgresql.sql
-  #        - classpath:sqls/oss-data-mysql.sql
+        - classpath:sqls/dante-data-postgresql.sql
+  #        - classpath:sqls/dante-data-mysql.sql
 
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-    url: jdbc:p6spy:opengauss://localhost:15432/dante_athena
+    url: jdbc:p6spy:opengauss://localhost:15432/dante_thingsbrain
     username: athena
     password: athena
     type: com.zaxxer.hikari.HikariDataSource
@@ -608,7 +608,7 @@ spring:
             enabled: true
   data:
     redis:
-      database: 11
+      database: 12
       host: 192.168.101.10
       password:
       port: 16379

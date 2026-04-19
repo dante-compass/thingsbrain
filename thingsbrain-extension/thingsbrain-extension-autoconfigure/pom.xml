@@ -10,11 +10,28 @@
     </parent>
 
     <artifactId>thingsbrain-extension-autoconfigure</artifactId>
+    <name>${project.artifactId}</name>
 
-    <properties>
-        <maven.compiler.source>25</maven.compiler.source>
-        <maven.compiler.target>25</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.dromara.thingsbrain</groupId>
+            <artifactId>thingsbrain-extension-emqx</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dromara.thingsbrain</groupId>
+            <artifactId>thingsbrain-extension-oauth2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webflux</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-webclient</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

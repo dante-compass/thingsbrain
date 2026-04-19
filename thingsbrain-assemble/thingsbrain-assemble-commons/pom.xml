@@ -10,7 +10,6 @@
     </parent>
 
     <artifactId>thingsbrain-assemble-commons</artifactId>
-
     <name>${project.artifactId}</name>
 
     <dependencies>
