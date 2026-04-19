@@ -26,10 +26,15 @@
 package org.dromara.thingsbrain.platform.autoconfigure;
 
 import jakarta.annotation.PostConstruct;
+import org.dromara.dante.core.function.EnumDictionaryBuilderCustomizer;
+import org.dromara.dante.core.function.ErrorCodeMapperBuilderCustomizer;
+import org.dromara.thingsbrain.platform.autoconfigure.customizer.PlatformEnumDictionaryBuilderCustomizer;
+import org.dromara.thingsbrain.platform.autoconfigure.customizer.PlatformErrorCodeMapperBuilderCustomizer;
 import org.dromara.thingsbrain.platform.rest.config.PlatformRestConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -49,5 +54,19 @@ public class PlatformAutoConfiguration {
     @PostConstruct
     public void postConstruct() {
         log.info("[ThingsBrain] |- Auto [Platform] Configure.");
+    }
+
+    @Bean
+    public EnumDictionaryBuilderCustomizer thingsBrainPlatformEnumDictionaryBuilderCustomizer() {
+        PlatformEnumDictionaryBuilderCustomizer customizer = new PlatformEnumDictionaryBuilderCustomizer();
+        log.debug("[ThingsBrain] |- Strategy [Platform EnumDictionary Builder Customizer] Configure.");
+        return customizer;
+    }
+
+    @Bean
+    public ErrorCodeMapperBuilderCustomizer iotPlatformErrorCodeMapperBuilderCustomizer() {
+        PlatformErrorCodeMapperBuilderCustomizer customizer = new PlatformErrorCodeMapperBuilderCustomizer();
+        log.debug("[ThingsBrain] |- Strategy [Iot Platform ErrorCodeMapper Builder Customizer] Auto Configure.");
+        return customizer;
     }
 }
