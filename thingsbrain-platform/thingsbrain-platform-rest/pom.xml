@@ -14,6 +14,11 @@
     <dependencies>
         <dependency>
             <groupId>org.dromara.thingsbrain</groupId>
+            <artifactId>thingsbrain-platform-commons</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dromara.thingsbrain</groupId>
             <artifactId>thingsbrain-platform-southbound</artifactId>
         </dependency>
 

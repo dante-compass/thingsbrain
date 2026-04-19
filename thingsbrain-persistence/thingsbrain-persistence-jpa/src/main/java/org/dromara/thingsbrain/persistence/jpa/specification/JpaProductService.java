@@ -106,9 +106,9 @@ public class JpaProductService implements ProductService {
 
         return Optional.ofNullable(domain)
                 .map(this.fromProduct::convert)
-                .map(herodotusProductManager::switchAuthentication)
+                .flatMap(herodotusProductManager::switchAuthentication)
                 .map(toProduct::convert)
-                .orElse(null);
+                .orElseThrow(() -> new IllegalArgumentException("Product domain error or item not exist."));
     }
 
     @Override

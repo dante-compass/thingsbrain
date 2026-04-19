@@ -71,7 +71,29 @@ public class HerodotusProductManager {
         return herodotusProductService;
     }
 
-    private HerodotusProduct authentication(HerodotusProduct oldProduct, HerodotusProduct newProduct) {
+    public HerodotusProduct save(HerodotusProduct domain) {
+        return herodotusProductService.saveAndFlush(domain);
+    }
+
+    /**
+     * 动态开启或关闭产品的认证功能
+     *
+     * @param newProduct 物联网产品 {@link HerodotusProduct}
+     * @return 保存后的产品
+     */
+    public Optional<HerodotusProduct> switchAuthentication(HerodotusProduct newProduct) {
+        Optional<HerodotusProduct> oldProduct = herodotusProductService.findById(newProduct.getProductId());
+        return oldProduct.map(item -> switchAuthentication(item, newProduct));
+    }
+
+    /**
+     * 将具体的开启或关闭认证操作提取为单独的方法，方便在 {@link Optional} 中使用
+     *
+     * @param oldProduct 数据库中已经存在的产品
+     * @param newProduct 开启或关闭状态变更的产品
+     * @return 如果开启或关闭状态确实变化了，则返回更新数据库后的产品。否则则返回数据库中原有的、开启或关闭状态变化之前的产品信息。
+     */
+    private HerodotusProduct switchAuthentication(HerodotusProduct oldProduct, HerodotusProduct newProduct) {
 
         log.debug("[ThingsBrain] |- [SWITCH-AUTHENTICATION] Checking switch authentication status.");
 
@@ -88,23 +110,12 @@ public class HerodotusProductManager {
                 // 删除 oauth2_registered_client 表中与之对应的 client 数据，以关闭动态注册
                 authenticationManager.disable(oldProduct.getProductId());
             }
-            oldProduct.setRegistration(newProduct.getRegistration());
+
+            // 更新数据库中产品认证功能开启或关闭状态
+            return herodotusProductService.save(newProduct);
         }
 
         return oldProduct;
-    }
-
-    public HerodotusProduct switchAuthentication(HerodotusProduct newProduct) {
-        Optional<HerodotusProduct> oldProduct = herodotusProductService.findById(newProduct.getProductId());
-
-        return oldProduct
-                .map(item -> authentication(item, newProduct))
-                .map(herodotusProductService::save)
-                .orElse(null);
-    }
-
-    public HerodotusProduct save(HerodotusProduct domain) {
-        return herodotusProductService.saveAndFlush(domain);
     }
 
     @Transactional(rollbackFor = Exception.class)

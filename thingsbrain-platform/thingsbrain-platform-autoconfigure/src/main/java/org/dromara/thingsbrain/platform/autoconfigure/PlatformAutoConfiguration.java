@@ -26,9 +26,11 @@
 package org.dromara.thingsbrain.platform.autoconfigure;
 
 import jakarta.annotation.PostConstruct;
+import org.dromara.thingsbrain.platform.rest.config.PlatformRestConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Import;
 
 /**
  * <p>Description: ThingsBrain 物联网平台自动配置 </p>
@@ -37,6 +39,9 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
  * @date : 2026/4/10 17:34
  */
 @AutoConfiguration
+@Import({
+        PlatformRestConfiguration.class,
+})
 public class PlatformAutoConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(PlatformAutoConfiguration.class);

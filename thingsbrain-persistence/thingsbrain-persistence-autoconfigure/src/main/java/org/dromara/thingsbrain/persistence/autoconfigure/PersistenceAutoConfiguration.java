@@ -25,11 +25,31 @@
 
 package org.dromara.thingsbrain.persistence.autoconfigure;
 
+import jakarta.annotation.PostConstruct;
+import org.dromara.thingsbrain.persistence.jpa.config.PersistenceIotJpaConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Import;
+
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Iot 数据持久化自动配置 </p>
  *
  * @author : gengwei_zheng
  * @date : 2026/4/9 0:18
  */
+@AutoConfiguration
+@Import({
+        PersistenceIotJpaConfiguration.class,
+})
 public class PersistenceAutoConfiguration {
+
+    private static final Logger log = LoggerFactory.getLogger(PersistenceAutoConfiguration.class);
+
+    @PostConstruct
+    public void postConstruct() {
+        log.info("[ThingsBrain] |- Auto [Persistence] Configure.");
+    }
+
+
 }

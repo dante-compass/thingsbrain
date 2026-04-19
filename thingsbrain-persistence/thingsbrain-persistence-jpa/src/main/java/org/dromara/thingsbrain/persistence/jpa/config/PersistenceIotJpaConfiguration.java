@@ -25,11 +25,123 @@
 
 package org.dromara.thingsbrain.persistence.jpa.config;
 
+import jakarta.annotation.PostConstruct;
+import org.dromara.thingsbrain.persistence.commons.condition.ConditionalOnIotPersistence;
+import org.dromara.thingsbrain.persistence.commons.condition.IotPersistence;
+import org.dromara.thingsbrain.persistence.commons.service.*;
+import org.dromara.thingsbrain.persistence.jpa.logic.service.*;
+import org.dromara.thingsbrain.persistence.jpa.manager.HerodotusDeviceConnectionManager;
+import org.dromara.thingsbrain.persistence.jpa.manager.HerodotusDeviceManager;
+import org.dromara.thingsbrain.persistence.jpa.manager.HerodotusProductManager;
+import org.dromara.thingsbrain.persistence.jpa.manager.HerodotusTslFunctionManager;
+import org.dromara.thingsbrain.persistence.jpa.specification.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 使用 JPA 作为底层存储的 IOT 持久化配置 </p>
  *
  * @author : gengwei_zheng
  * @date : 2026/4/9 0:17
  */
+@Configuration(proxyBeanMethods = false)
+@ConditionalOnIotPersistence(IotPersistence.JPA)
+@Import({LogicConfiguration.class})
 public class PersistenceIotJpaConfiguration {
+
+    private static final Logger log = LoggerFactory.getLogger(PersistenceIotJpaConfiguration.class);
+
+    @PostConstruct
+    public void postConstruct() {
+        log.debug("[ThingsBrain] |- Module [Persistence Iot JPA] Configure.");
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ProductCategoryService productCategoryService(HerodotusProductCategoryService herodotusProductCategoryService) {
+        JpaProductCategoryService service = new JpaProductCategoryService(herodotusProductCategoryService);
+        log.trace("[ThingsBrain] |- Bean [Jpa Product Category Service] Configure.");
+        return service;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ProductService productService(HerodotusProductManager herodotusProductManager) {
+        JpaProductService service = new JpaProductService(herodotusProductManager);
+        log.trace("[ThingsBrain] |- Bean [Jpa Product Service] Configure.");
+        return service;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public DeviceService deviceService(HerodotusDeviceManager herodotusDeviceManager) {
+        JpaDeviceService service = new JpaDeviceService(herodotusDeviceManager);
+        log.trace("[ThingsBrain] |- Bean [Jpa Device Service] Configure.");
+        return service;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public DeviceConnectionService deviceConnectionService(HerodotusDeviceConnectionManager herodotusDeviceConnectionManager) {
+        JpaDeviceConnectionService service = new JpaDeviceConnectionService(herodotusDeviceConnectionManager);
+        log.trace("[ThingsBrain] |- Bean [Jpa Device Connection Service] Configure.");
+        return service;
+    }
+
+//    @Bean
+//    @ConditionalOnMissingBean
+//    public DeviceShadowService deviceShadowService(HerodotusDeviceShadowService herodotusDeviceShadowService) {
+//        JpaDeviceShadowService service = new JpaDeviceShadowService(herodotusDeviceShadowService);
+//        log.trace("[ThingsBrain] |- Bean [Jpa Device Shadow Service] Configure.");
+//        return service;
+//    }
+
+    @Bean
+    public MqttAccountService mqttAccountService(HerodotusMqttAccountService herodotusMqttAccountService) {
+        JpaMqttAccountService service = new JpaMqttAccountService(herodotusMqttAccountService);
+        log.trace("[ThingsBrain] |- Bean [Jpa Mqtt Account Service] Configure.");
+        return service;
+    }
+
+    @Bean
+    public MqttCategoryService mqttCategoryService(HerodotusMqttCategoryService herodotusMqttCategoryService) {
+        JpaMqttCategoryService service = new JpaMqttCategoryService(herodotusMqttCategoryService);
+        log.trace("[ThingsBrain] |- Bean [Jpa Mqtt Category Service] Configure.");
+        return service;
+    }
+
+    @Bean
+    public MqttAuthorityService mqttAuthorityService(HerodotusMqttAuthorityService herodotusMqttAuthorityService) {
+        JpaMqttAuthorityService service = new JpaMqttAuthorityService(herodotusMqttAuthorityService);
+        log.trace("[ThingsBrain] |- Bean [Jpa Mqtt Authority Service] Configure.");
+        return service;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public TslUnitService tslUnitService(HerodotusTslUnitService herodotusTslUnitService) {
+        JpaTslUnitService service = new JpaTslUnitService(herodotusTslUnitService);
+        log.trace("[ThingsBrain] |- Bean [Jpa Tsl Unit Service] Configure.");
+        return service;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public TslFunctionService tslFunctionService(HerodotusTslFunctionManager herodotusTslFunctionManager) {
+        JpaTslFunctionService service = new JpaTslFunctionService(herodotusTslFunctionManager);
+        log.trace("[ThingsBrain] |- Bean [Jpa Tsl Function Service] Configure.");
+        return service;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public TslArgumentService tslAttributeService(HerodotusTslArgumentService herodotusTslArgumentService) {
+        JpaTslArgumentService service = new JpaTslArgumentService(herodotusTslArgumentService);
+        log.trace("[ThingsBrain] |- Bean [Jpa Tsl Attribute Service] Configure.");
+        return service;
+    }
 }

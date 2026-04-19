@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.dromara.thingsbrain</groupId>
+        <artifactId>thingsbrain-infrastructure</artifactId>
+        <version>4.0.5.2</version>
+    </parent>
+
+    <artifactId>thingsbrain-infrastructure-tsdb</artifactId>
+    <name>${project.artifactId}</name>
+
+    <description>ThingsBrain 物联网平台时序数据存储基础设施模块</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.dromara.thingsbrain</groupId>
+            <artifactId>thingsbrain-infrastructure-commons</artifactId>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.dromara.dante</groupId>-->
+<!--            <artifactId>dante-nosql-influxdb2</artifactId>-->
+<!--        </dependency>-->
+    </dependencies>
+
+</project>
