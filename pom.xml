@@ -7,7 +7,7 @@
     <parent>
         <groupId>cn.herodotus.ecosystem</groupId>
         <artifactId>herodotus-ecosystem-parent</artifactId>
-        <version>4.0.5.2</version>
+        <version>4.0.6.0</version>
         <relativePath/>
     </parent>
 
@@ -181,6 +181,11 @@
         <module>thingsbrain-application</module>
         <module>thingsbrain-persistence</module>
         <module>thingsbrain-dependencies</module>
+        <module>thingsbrain-kernel</module>
+        <module>thingsbrain-platform</module>
+        <module>thingsbrain-infrastructure</module>
+        <module>thingsbrain-assemble</module>
+        <module>thingsbrain-extension</module>
     </modules>
 
 </project>

@@ -7,7 +7,7 @@
     <parent>
         <groupId>cn.herodotus.ecosystem</groupId>
         <artifactId>herodotus-ecosystem-parent</artifactId>
-        <version>4.0.5.2</version>
+        <version>4.0.6.0</version>
         <relativePath/>
     </parent>
 
@@ -60,6 +60,81 @@
 
             <dependency>
                 <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-assemble-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-assemble-commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-assemble-hub</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-extension-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-extension-emqx</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-extension-oauth2</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-infrastructure-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-infrastructure-commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-infrastructure-mqtt</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-infrastructure-tsdb</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-kernel-commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-kernel-hub</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-kernel-protocol</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-kernel-tsl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
                 <artifactId>thingsbrain-persistence-autoconfigure</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -71,6 +146,31 @@
             <dependency>
                 <groupId>org.dromara.thingsbrain</groupId>
                 <artifactId>thingsbrain-persistence-jpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-platform-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-platform-commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-platform-northbound</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-platform-rest</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-platform-southbound</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
