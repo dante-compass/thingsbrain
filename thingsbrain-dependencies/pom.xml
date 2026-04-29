@@ -132,6 +132,26 @@
                 <artifactId>thingsbrain-kernel-tsl</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-link-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-link-commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-link-manager</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-link-storage</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.dromara.thingsbrain</groupId>

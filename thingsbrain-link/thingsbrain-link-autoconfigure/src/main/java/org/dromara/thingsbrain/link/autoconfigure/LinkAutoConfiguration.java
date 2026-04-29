@@ -1,0 +1,65 @@
+/*
+ * Copyright 2020-2030 码匠君<herodotus@aliyun.com>
+ *
+ * ThingsBrain licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * ThingsBrain 是 Dante Cloud 系统生态产品，采用 APACHE LICENSE 2.0 开源协议，您在使用过程中，需要注意以下几点：
+ *
+ * 1. 请不要删除和修改根目录下的LICENSE文件。
+ * 2. 请不要删除和修改 ThingsBrain 源码头部的版权声明。
+ * 3. 请保留源码和相关描述文件的项目出处，作者声明等。
+ * 4. 分发源码时候，请注明软件出处 <https://gitee.com/dromara/dante-cloud>
+ * 5. 在修改包名，模块名称，项目代码等时，请注明软件出处 <https://gitee.com/dromara/dante-cloud>
+ * 6. 若您的项目无法满足以上几点，可申请商业授权
+ */
+
+package org.dromara.thingsbrain.link.autoconfigure;
+
+import jakarta.annotation.PostConstruct;
+import org.dromara.thingsbrain.link.autoconfigure.initializer.MqttSubscribeTopicSender;
+import org.dromara.thingsbrain.link.commons.definition.MqttAuthorizationManager;
+import org.dromara.thingsbrain.link.manager.config.LinkManagerConfiguration;
+import org.dromara.thingsbrain.link.storage.config.LinkStorageConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+
+/**
+ * <p>Description: 自定义 Link 协议自动配置模块自动配置类 </p>
+ *
+ * @author : gengwei_zheng
+ * @date : 2026/4/29 23:39
+ */
+@AutoConfiguration
+@Import({
+        LinkStorageConfiguration.class,
+        LinkManagerConfiguration.class
+})
+public class LinkAutoConfiguration {
+
+    private static final Logger log = LoggerFactory.getLogger(LinkAutoConfiguration.class);
+
+    @PostConstruct
+    public void postConstruct() {
+        log.info("[ThingsBrain] |- Auto [Link] Configure.");
+    }
+
+    @Bean
+    public MqttSubscribeTopicSender mqttSubscribeTopicSender(MqttAuthorizationManager mqttAuthorizationManager) {
+        MqttSubscribeTopicSender sender = new MqttSubscribeTopicSender(mqttAuthorizationManager);
+        log.trace("[ThingsBrain] |- Bean [Mqtt Subscribe Topic Sender] Configure.");
+        return sender;
+    }
+}
