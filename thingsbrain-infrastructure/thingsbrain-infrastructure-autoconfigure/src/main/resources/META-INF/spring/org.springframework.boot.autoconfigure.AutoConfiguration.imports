@@ -24,4 +24,3 @@
 #
 
 org.dromara.thingsbrain.infrastructure.autoconfigure.InfrastructureMqttAutoConfiguration
-org.dromara.thingsbrain.infrastructure.autoconfigure.InfrastructureTsdbAutoConfiguration
