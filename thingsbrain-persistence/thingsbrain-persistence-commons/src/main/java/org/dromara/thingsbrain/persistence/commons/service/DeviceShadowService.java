@@ -23,13 +23,27 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.extension.oauth2.config;
+package org.dromara.thingsbrain.persistence.commons.service;
+
+import org.dromara.dante.data.commons.service.BaseWriteAndPageService;
+import org.dromara.thingsbrain.persistence.commons.domain.DeviceShadow;
+
+import java.util.Optional;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 物联网设备影子服务统一定义 </p>
  *
- * @author : gengwei_zheng
- * @date : 2026/4/19 16:30
+ * @author : gengwei.zheng
+ * @date : 2025/3/28 23:37
  */
-public class ExtensionOAuth2Configuration {
+public interface DeviceShadowService extends BaseWriteAndPageService<DeviceShadow, String> {
+
+    /**
+     * 根据 ProductKey 和 DeviceName 查找设备影子
+     *
+     * @param productKey 物联网 ProductKey
+     * @param deviceName 物联网 DeviceName
+     * @return 设备影子 {@link Optional}
+     */
+    Optional<DeviceShadow> findOneByProductKeyAndDeviceName(String productKey, String deviceName);
 }

@@ -20,7 +20,6 @@
         <module>thingsbrain-infrastructure-autoconfigure</module>
         <module>thingsbrain-infrastructure-commons</module>
         <module>thingsbrain-infrastructure-mqtt</module>
-        <module>thingsbrain-infrastructure-tsdb</module>
     </modules>
 
 </project>

@@ -17,11 +17,6 @@
     <dependencies>
         <dependency>
             <groupId>org.dromara.thingsbrain</groupId>
-            <artifactId>thingsbrain-infrastructure-tsdb</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.dromara.thingsbrain</groupId>
             <artifactId>thingsbrain-infrastructure-mqtt</artifactId>
         </dependency>
 
