@@ -184,7 +184,6 @@
         <module>thingsbrain-kernel</module>
         <module>thingsbrain-platform</module>
         <module>thingsbrain-infrastructure</module>
-        <module>thingsbrain-assemble</module>
         <module>thingsbrain-extension</module>
         <module>thingsbrain-link</module>
     </modules>

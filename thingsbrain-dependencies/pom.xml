@@ -58,21 +58,6 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
-                <artifactId>thingsbrain-assemble-autoconfigure</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
-                <artifactId>thingsbrain-assemble-commons</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
-                <artifactId>thingsbrain-assemble-hub</artifactId>
-                <version>${project.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>org.dromara.thingsbrain</groupId>
