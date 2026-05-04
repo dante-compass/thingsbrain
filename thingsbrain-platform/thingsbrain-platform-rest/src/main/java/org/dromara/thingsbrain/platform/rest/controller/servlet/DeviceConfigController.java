@@ -38,6 +38,7 @@ import org.dromara.dante.core.domain.Result;
 import org.dromara.dante.security.domain.UserPrincipal;
 import org.dromara.dante.security.utils.ServletSecurityUtils;
 import org.dromara.dante.web.annotation.Idempotent;
+import org.dromara.thingsbrain.mqtt.outbound.service.DeviceConfigService;
 import org.dromara.thingsbrain.platform.rest.dto.DeviceConfigLogPushRequest;
 import org.dromara.thingsbrain.platform.rest.dto.DeviceConfigPushRequest;
 import org.dromara.thingsbrain.platform.rest.dto.TslSetPropertyRequest;
@@ -63,11 +64,11 @@ import org.springframework.web.bind.annotation.RestController;
 })
 public class DeviceConfigController {
 
-//    private final DeviceConfigService deviceConfigService;
-//
-//    public DeviceConfigController(DeviceConfigService deviceConfigService) {
-//        this.deviceConfigService = deviceConfigService;
-//    }
+    private final DeviceConfigService deviceConfigService;
+
+    public DeviceConfigController(DeviceConfigService deviceConfigService) {
+        this.deviceConfigService = deviceConfigService;
+    }
 
     @Idempotent
     @Operation(summary = "设备接收订阅云端推送日志配置", description = "设备接收订阅云端推送日志配置",
@@ -79,7 +80,7 @@ public class DeviceConfigController {
     @PutMapping("/log/push")
     public Result<String> logPush(@Validated @RequestBody DeviceConfigLogPushRequest domain) {
 
-//        deviceConfigService.logPush(domain.getProductKey(), domain.getDeviceName(), domain.getEnabled());
+        deviceConfigService.logPush(domain.getProductKey(), domain.getDeviceName(), domain.getEnabled());
         return Result.success("发送设置设备属性请求成功");
     }
 
@@ -95,7 +96,7 @@ public class DeviceConfigController {
 
         UserPrincipal userPrincipal = ServletSecurityUtils.getUserPrincipal(request);
 
-//        deviceConfigService.push(domain.getProductKey(), domain.getDeviceName(), domain.getParams(), userPrincipal);
+        deviceConfigService.push(domain.getProductKey(), domain.getDeviceName(), domain.getParams(), userPrincipal);
         return Result.success("发送设置设备属性请求成功");
     }
 }

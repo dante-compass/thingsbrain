@@ -31,11 +31,6 @@
 
         <dependency>
             <groupId>org.dromara.thingsbrain</groupId>
-            <artifactId>thingsbrain-kernel-hub</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.dromara.thingsbrain</groupId>
             <artifactId>thingsbrain-kernel-tsl</artifactId>
         </dependency>
     </dependencies>

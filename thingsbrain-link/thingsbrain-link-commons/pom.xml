@@ -23,7 +23,7 @@
 
         <dependency>
             <groupId>org.dromara.thingsbrain</groupId>
-            <artifactId>thingsbrain-kernel-protocol</artifactId>
+            <artifactId>thingsbrain-kernel-link</artifactId>
         </dependency>
     </dependencies>
 </project>

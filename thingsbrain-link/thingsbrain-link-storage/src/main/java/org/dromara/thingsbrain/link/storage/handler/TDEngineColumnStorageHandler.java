@@ -25,7 +25,7 @@
 
 package org.dromara.thingsbrain.link.storage.handler;
 
-import org.dromara.thingsbrain.kernel.protocol.domain.specification.*;
+import org.dromara.thingsbrain.kernel.link.domain.specification.*;
 import org.dromara.thingsbrain.link.commons.definition.DataStorageHandler;
 import org.dromara.thingsbrain.link.commons.exception.DataStorageException;
 import org.dromara.thingsbrain.link.storage.constant.StorageConstants;

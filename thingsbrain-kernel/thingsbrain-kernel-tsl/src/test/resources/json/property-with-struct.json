@@ -1,0 +1,189 @@
+{
+  "properties": [
+    {
+      "identifier": "fan_doule_property",
+      "name": "风扇双精度型属性",
+      "accessMode": "r",
+      "required": true,
+      "dataType": {
+        "type": "double",
+        "specs": {
+          "min": "0.0",
+          "max": "100.0",
+          "unit": "g/ml",
+          "unitName": "毫升"
+        }
+      }
+    },
+    {
+      "identifier": "fan_int_property",
+      "name": "风扇整数型属性",
+      "accessMode": "rw",
+      "required": true,
+      "dataType": {
+        "type": "int",
+        "specs": {
+          "min": "0",
+          "max": "100",
+          "unit": "g/ml",
+          "unitName": "毫升"
+        }
+      }
+    },
+    {
+      "identifier": "batch_enum_attr_id",
+      "name": "风扇枚举型属性",
+      "accessMode": "r",
+      "required": true,
+      "dataType": {
+        "type": "enum",
+        "specs": {
+          "0": "one",
+          "1": "two",
+          "2": "three"
+        }
+      }
+    },
+    {
+      "identifier": "fan_float_property",
+      "name": "风扇浮点型测试",
+      "accessMode": "r",
+      "required": true,
+      "dataType": {
+        "type": "float",
+        "specs": {
+          "min": "0.0",
+          "max": "100.0",
+          "unit": "g/ml",
+          "unitName": "毫升"
+        }
+      }
+    },
+    {
+      "identifier": "fan_text_property",
+      "name": "风扇字符型属性",
+      "accessMode": "r",
+      "required": true,
+      "dataType": {
+        "type": "text",
+        "specs": {
+          "length": "64"
+        }
+      }
+    },
+    {
+      "identifier": "fan_date_property",
+      "name": "风扇时间型属性",
+      "accessMode": "r",
+      "required": true,
+      "dataType": {
+        "type": "date",
+        "specs": {}
+      }
+    },
+    {
+      "identifier": "batch_boolean_attr_id",
+      "name": "风扇布尔型属性",
+      "accessMode": "r",
+      "required": true,
+      "dataType": {
+        "type": "bool",
+        "specs": {
+          "0": "close",
+          "1": "open"
+        }
+      }
+    },
+    {
+      "identifier": "fan_struct_property",
+      "name": "风扇结构型属性",
+      "accessMode": "r",
+      "required": true,
+      "dataType": {
+        "type": "struct",
+        "specs": [
+          {
+            "identifier": "fan_struct_property_double_child",
+            "name": "风扇双精度型属性",
+            "dataType": {
+              "type": "double",
+              "specs": {
+                "min": "0.0",
+                "max": "100.0",
+                "unit": "g/ml",
+                "unitName": "毫升"
+              }
+            }
+          },
+          {
+            "identifier": "fan_struct_property_float_child",
+            "name": "风扇结构型属性浮点子属性",
+            "dataType": {
+              "type": "float",
+              "specs": {
+                "min": "0.0",
+                "max": "255.0",
+                "unit": "°",
+                "unitName": "度"
+              }
+            }
+          },
+          {
+            "identifier": "fan_struct_property_int_child",
+            "name": "风扇结构型属性整数子属性",
+            "dataType": {
+              "type": "int",
+              "specs": {
+                "min": "0",
+                "max": "255",
+                "unit": "°",
+                "unitName": "度"
+              }
+            }
+          },
+          {
+            "identifier": "fan_struct_property_text_child",
+            "name": "风扇结构型属性字符子属性",
+            "dataType": {
+              "type": "text",
+              "specs": {
+                "length": "200"
+              }
+            }
+          },
+          {
+            "identifier": "fan_struct_property_date_child",
+            "name": "风扇结构型属性时间子属性",
+            "dataType": {
+              "type": "date",
+              "specs": {}
+            }
+          },
+          {
+            "identifier": "fan_struct_property_enum_child",
+            "name": "风扇结构型属性枚举子属性",
+            "dataType": {
+              "type": "enum",
+              "specs": {
+                "0": "one",
+                "1": "two",
+                "2": "three"
+              }
+            }
+          },
+          {
+            "identifier": "fan_struct_property_boolean_child",
+            "name": "风扇结构型属性布尔子属性",
+            "dataType": {
+              "type": "bool",
+              "specs": {
+                "0": "close",
+                "1": "open"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

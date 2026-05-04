@@ -13,6 +13,8 @@
     <artifactId>thingsbrain-kernel-tsl</artifactId>
     <name>${project.artifactId}</name>
 
+    <description>ThingsBrain 物联网平台物模型核心定义代码模块</description>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

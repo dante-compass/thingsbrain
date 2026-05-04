@@ -28,18 +28,18 @@ package org.dromara.thingsbrain.kernel.commons.constant;
 import org.dromara.dante.core.constant.BaseConstants;
 
 /**
- * <p>Description: ThingsBrain 核心通用常量定义 </p>
+ * <p>Description: Link 协议涉及常量 </p>
  *
- * @author : gengwei_zheng
- * @date : 2026/4/9 14:02
+ * @author : gengwei.zheng
+ * @date : 2024/9/28 17:35
  */
 public interface KernelConstants extends BaseConstants {
 
-    // 物联网相关模块统一数据存储前缀定义
-    String IOT_AREA_PREFIX = AREA_PREFIX + "iot:";
-
 
     String PROPERTY_IOT_TSDB = PROPERTY_PREFIX_IOT + ".tsdb";
+
+
+    String IOT_AREA_PREFIX = AREA_PREFIX + "iot:";
 
     String CACHE_IOT_PREFIX = CACHE_PREFIX + IOT_AREA_PREFIX;
     String CACHE_IOT_TSL_PREFIX = CACHE_IOT_PREFIX + "tsl:";

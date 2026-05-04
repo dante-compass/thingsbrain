@@ -19,8 +19,7 @@
 
     <modules>
         <module>thingsbrain-kernel-commons</module>
-        <module>thingsbrain-kernel-hub</module>
-        <module>thingsbrain-kernel-protocol</module>
+        <module>thingsbrain-kernel-link</module>
         <module>thingsbrain-kernel-tsl</module>
     </modules>
 

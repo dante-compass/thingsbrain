@@ -25,10 +25,10 @@
 
 package org.dromara.thingsbrain.link.commons.definition;
 
-import org.dromara.thingsbrain.kernel.protocol.definition.DeviceModule;
-import org.dromara.thingsbrain.kernel.protocol.domain.ota.DeviceInformParam;
-import org.dromara.thingsbrain.kernel.protocol.domain.ota.DeviceProgressParam;
-import org.dromara.thingsbrain.kernel.protocol.domain.ota.HttpProtocolDomain;
+import org.dromara.thingsbrain.kernel.link.definition.DeviceModule;
+import org.dromara.thingsbrain.kernel.link.domain.ota.DeviceInformParam;
+import org.dromara.thingsbrain.kernel.link.domain.ota.DeviceProgressParam;
+import org.dromara.thingsbrain.kernel.link.domain.ota.HttpProtocolDomain;
 
 /**
  * <p>Description: Ota 操作管理器 </p>

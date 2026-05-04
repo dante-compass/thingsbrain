@@ -35,8 +35,8 @@ import org.springframework.context.annotation.Configuration;
 /**
  * <p>Description: ThingsBrain Rest API 配置 </p>
  *
- * @author : gengwei_zheng
- * @date : 2026/4/10 17:36
+ * @author : gengwei.zheng
+ * @date : 2024/9/4 13:25
  */
 @Configuration(proxyBeanMethods = false)
 public class PlatformRestConfiguration {
@@ -54,6 +54,15 @@ public class PlatformRestConfiguration {
             "org.dromara.thingsbrain.platform.rest.controller.servlet",
     })
     static class ServletControllerConfiguration {
+
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
+    @ComponentScan(basePackages = {
+            "org.dromara.thingsbrain.platform.rest.controller.reactive",
+    })
+    static class ReactiveControllerConfiguration {
 
     }
 }

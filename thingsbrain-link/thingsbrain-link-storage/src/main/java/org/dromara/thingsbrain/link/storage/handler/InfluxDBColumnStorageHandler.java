@@ -33,7 +33,7 @@ import org.dromara.dante.nosql.influxdb3.definition.AbstractInfluxDB3Service;
 import org.dromara.dante.nosql.influxdb3.pool.InfluxDB3ClientObjectPool;
 import org.dromara.thingsbrain.kernel.commons.constant.KernelConstants;
 import org.dromara.thingsbrain.kernel.commons.constant.ProtocolConstants;
-import org.dromara.thingsbrain.kernel.protocol.domain.specification.*;
+import org.dromara.thingsbrain.kernel.link.domain.specification.*;
 import org.dromara.thingsbrain.link.commons.definition.DataStorageHandler;
 import org.dromara.thingsbrain.link.commons.exception.DataStorageException;
 import org.dromara.thingsbrain.link.storage.constant.StorageConstants;

@@ -25,7 +25,7 @@
 
 package org.dromara.thingsbrain.link.commons.definition;
 
-import org.dromara.thingsbrain.kernel.protocol.domain.specification.*;
+import org.dromara.thingsbrain.kernel.link.domain.specification.*;
 import org.dromara.thingsbrain.link.commons.exception.DataStorageException;
 
 import java.util.Map;

@@ -12,7 +12,7 @@
     <artifactId>thingsbrain-kernel-commons</artifactId>
     <name>${project.artifactId}</name>
 
-    <description>ThingsBrain 物联网平台核心通用定义代码模块</description>
+    <description>ThingsBrain 物联网平台核心定义通用代码模块</description>
 
     <dependencies>
         <dependency>

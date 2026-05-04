@@ -33,10 +33,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.dromara.dante.core.domain.Result;
 import org.dromara.dante.data.commons.service.BaseWriteAndPageService;
 import org.dromara.dante.data.rest.servlet.AbstractEntityWriteAndPageController;
+import org.dromara.dante.web.annotation.AccessLimited;
+import org.dromara.thingsbrain.kernel.commons.definition.SignatureProcessor;
 import org.dromara.thingsbrain.persistence.commons.domain.Device;
 import org.dromara.thingsbrain.persistence.commons.service.DeviceService;
 import org.springframework.data.domain.Page;
@@ -47,6 +50,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * <p>Description: 物联网设备接口 </p>
@@ -64,10 +68,11 @@ import java.util.Map;
 public class DeviceController extends AbstractEntityWriteAndPageController<Device, String, BaseWriteAndPageService<Device, String>> {
 
     private final DeviceService deviceService;
-//    private final EmqxSignatureHandler emqxSignatureHandler;
+    private final SignatureProcessor signatureProcessor;
 
-    public DeviceController(DeviceService deviceService) {
+    public DeviceController(DeviceService deviceService, SignatureProcessor signatureProcessor) {
         this.deviceService = deviceService;
+        this.signatureProcessor = signatureProcessor;
     }
 
     @Override
@@ -91,16 +96,16 @@ public class DeviceController extends AbstractEntityWriteAndPageController<Devic
         return resultFromPage(pages);
     }
 
-//    @AccessLimited
-//    @Operation(summary = "获取设备签名信息", description = "获取MQTT连接签名参数值",
-//            responses = {@ApiResponse(description = "人员分页列表", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))})
-//    @Parameters({
-//            @Parameter(name = "clientId", required = true, description = "设备 ClientID"),
-//    })
-//    @GetMapping("/signature")
-//    public Result<MqttSignatureGenerationResult> signature(@NotBlank @RequestParam("clientId") String clientId) {
-//        Optional<Device> optional = deviceService.findByClientId(clientId);
-//        MqttSignatureGenerationResult result = optional.map(device -> emqxSignatureHandler.generation(device.getProduct().getProductKey(), device.getDeviceName(), device.getDeviceSecret())).orElse(new MqttSignatureGenerationResult());
-//        return result(result);
-//    }
+    @AccessLimited
+    @Operation(summary = "获取设备签名信息", description = "获取MQTT连接签名参数值",
+            responses = {@ApiResponse(description = "人员分页列表", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))})
+    @Parameters({
+            @Parameter(name = "clientId", required = true, description = "设备 ClientID"),
+    })
+    @GetMapping("/signature")
+    public Result<org.dromara.thingsbrain.kernel.commons.domain.SignatureGenerationResult> signature(@NotBlank @RequestParam("clientId") String clientId) {
+        Optional<Device> optional = deviceService.findByClientId(clientId);
+        org.dromara.thingsbrain.kernel.commons.domain.SignatureGenerationResult result = optional.map(device -> signatureProcessor.generation(device.getProduct().getProductKey(), device.getDeviceName(), device.getDeviceSecret())).orElse(new org.dromara.thingsbrain.kernel.commons.domain.SignatureGenerationResult());
+        return result(result);
+    }
 }
