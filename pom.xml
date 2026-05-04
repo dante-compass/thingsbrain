@@ -179,14 +179,12 @@
 
     <modules>
         <module>thingsbrain-application</module>
-        <module>thingsbrain-persistence</module>
         <module>thingsbrain-dependencies</module>
         <module>thingsbrain-kernel</module>
-        <module>thingsbrain-platform</module>
-        <module>thingsbrain-infrastructure</module>
-        <module>thingsbrain-extension</module>
         <module>thingsbrain-link</module>
         <module>thingsbrain-mqtt</module>
+        <module>thingsbrain-persistence</module>
+        <module>thingsbrain-platform</module>
     </modules>
 
 </project>

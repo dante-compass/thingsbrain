@@ -17,6 +17,7 @@
         <module>thingsbrain-platform-commons</module>
         <module>thingsbrain-platform-southbound</module>
         <module>thingsbrain-platform-northbound</module>
+        <module>thingsbrain-platform-registration</module>
     </modules>
 
     <properties>

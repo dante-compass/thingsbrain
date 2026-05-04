@@ -5,16 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.dromara.thingsbrain</groupId>
-        <artifactId>thingsbrain</artifactId>
+        <artifactId>thingsbrain-platform</artifactId>
         <version>4.0.6.0</version>
     </parent>
 
-    <artifactId>thingsbrain-extension</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>thingsbrain-extension-autoconfigure</module>
-        <module>thingsbrain-extension-emqx</module>
-    </modules>
+    <artifactId>thingsbrain-platform-registration</artifactId>
 
     <properties>
         <maven.compiler.source>25</maven.compiler.source>
