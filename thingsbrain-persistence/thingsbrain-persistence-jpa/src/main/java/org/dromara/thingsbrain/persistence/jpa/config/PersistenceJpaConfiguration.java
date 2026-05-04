@@ -51,9 +51,9 @@ import org.springframework.context.annotation.Import;
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnIotPersistence(IotPersistence.JPA)
 @Import({LogicConfiguration.class})
-public class PersistenceIotJpaConfiguration {
+public class PersistenceJpaConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(PersistenceIotJpaConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(PersistenceJpaConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {

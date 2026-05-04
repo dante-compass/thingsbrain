@@ -26,7 +26,8 @@
 package org.dromara.thingsbrain.persistence.autoconfigure;
 
 import jakarta.annotation.PostConstruct;
-import org.dromara.thingsbrain.persistence.jpa.config.PersistenceIotJpaConfiguration;
+import org.dromara.thingsbrain.persistence.autoconfigure.manager.PersistenceManagerConfiguration;
+import org.dromara.thingsbrain.persistence.jpa.config.PersistenceJpaConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -40,7 +41,8 @@ import org.springframework.context.annotation.Import;
  */
 @AutoConfiguration
 @Import({
-        PersistenceIotJpaConfiguration.class,
+        PersistenceJpaConfiguration.class,
+        PersistenceManagerConfiguration.class
 })
 public class PersistenceAutoConfiguration {
 

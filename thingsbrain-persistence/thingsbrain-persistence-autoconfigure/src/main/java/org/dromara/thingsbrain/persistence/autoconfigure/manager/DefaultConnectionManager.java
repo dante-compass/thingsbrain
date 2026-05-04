@@ -23,30 +23,35 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.link.manager.specification;
+package org.dromara.thingsbrain.persistence.autoconfigure.manager;
 
-import org.dromara.dante.core.support.factory.StrategyFactory;
-import org.dromara.thingsbrain.link.commons.definition.DataStorageHandler;
-import org.dromara.thingsbrain.link.commons.definition.SpecificationPostManager;
+import org.dromara.thingsbrain.persistence.commons.domain.DeviceConnection;
+import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
+import org.dromara.thingsbrain.persistence.commons.service.DeviceConnectionService;
 
-import java.util.Optional;
+import java.time.LocalDateTime;
 
 /**
- * <p>Description: 物模型上报数据管理器定义 </p>
+ * <p>Description: 物联网设备上下线管理器默认实现 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/6/9 16:29
+ * @date : 2025/10/5 17:31
  */
-public class DefaultSpecificationPostManager implements SpecificationPostManager {
+class DefaultConnectionManager implements ConnectionManager {
 
-    private final StrategyFactory<DataStorageHandler> strategyFactory;
+    private final DeviceConnectionService deviceConnectionService;
 
-    public DefaultSpecificationPostManager(StrategyFactory<DataStorageHandler> strategyFactory) {
-        this.strategyFactory = strategyFactory;
+    public DefaultConnectionManager(DeviceConnectionService deviceConnectionService) {
+        this.deviceConnectionService = deviceConnectionService;
     }
 
     @Override
-    public Optional<DataStorageHandler> getStorageHandler() {
-        return strategyFactory.getHandler();
+    public void connected(String clientId, boolean isSignature, DeviceConnection deviceConnection) {
+        deviceConnectionService.connected(clientId, isSignature, deviceConnection);
+    }
+
+    @Override
+    public void disconnected(String clientId, String reason, LocalDateTime disconnectedAt) {
+        deviceConnectionService.disconnected(clientId, reason, disconnectedAt);
     }
 }
