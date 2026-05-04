@@ -10,11 +10,16 @@
     </parent>
 
     <artifactId>thingsbrain-mqtt-inbound</artifactId>
+    <name>${project.artifactId}</name>
 
-    <properties>
-        <maven.compiler.source>25</maven.compiler.source>
-        <maven.compiler.target>25</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <description>ThingsBrain 物联网平台 Mqtt 入站数据业务逻辑实现代码模块</description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.dromara.thingsbrain</groupId>
+            <artifactId>thingsbrain-mqtt-commons</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
