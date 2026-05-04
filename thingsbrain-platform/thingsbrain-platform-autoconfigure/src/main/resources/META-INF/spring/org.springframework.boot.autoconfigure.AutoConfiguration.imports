@@ -24,3 +24,4 @@
 #
 
 org.dromara.thingsbrain.platform.autoconfigure.PlatformAutoConfiguration
+org.dromara.thingsbrain.platform.autoconfigure.ServletPlatformRegistrationAutoConfiguration

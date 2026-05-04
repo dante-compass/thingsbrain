@@ -23,34 +23,37 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.autoconfigure.customizer;
+package org.dromara.thingsbrain.platform.registration.http;
 
-import org.dromara.dante.core.builder.EnumDictionaryBuilder;
-import org.dromara.dante.core.function.EnumDictionaryBuilderCustomizer;
-import org.dromara.thingsbrain.kernel.tsl.enums.*;
-import org.dromara.thingsbrain.persistence.commons.enums.*;
+import org.dromara.dante.oauth2.commons.event.OAuth2DeviceVerificationSuccessEvent;
+import org.dromara.dante.security.domain.DeviceVerificationTransmitter;
+import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.context.ApplicationListener;
 
 /**
- * <p>Description: Things Brain Platform 相关模块枚举数据字典定义器 </p>
+ * <p>Description: 本地设备校验成功事件处理信息监听 </p>
  *
  * @author : gengwei.zheng
- * @date : 2024/8/23 16:00
+ * @date : 2025/2/28 22:25
  */
-public class PlatformEnumDictionaryBuilderCustomizer implements EnumDictionaryBuilderCustomizer {
+public class LocalOAuth2DeviceVerificationSuccessListener extends AbstractOAuth2DeviceVerificationSuccessListener implements ApplicationListener<OAuth2DeviceVerificationSuccessEvent> {
+
+    private static final Logger log = LoggerFactory.getLogger(LocalOAuth2DeviceVerificationSuccessListener.class);
+
+    public LocalOAuth2DeviceVerificationSuccessListener(ObjectProvider<IdentifierManager> identifierManagerProvider) {
+        super(identifierManagerProvider);
+    }
 
     @Override
-    public void customize(EnumDictionaryBuilder builder) {
-        builder.append(AccessMode.getDictionaries());
-        builder.append(ArgumentType.getDictionaries());
-        builder.append(CallType.getDictionaries());
-        builder.append(EventType.getDictionaries());
-        builder.append(Dimension.getDictionaries());
-        builder.append(Action.getDictionaries());
-        builder.append(NetworkingMethod.getDictionaries());
-        builder.append(NodeType.getDictionaries());
-        builder.append(Permission.getDictionaries());
-        builder.append(GatewayProtocol.getDictionaries());
-        builder.append(AuthenticationMode.getDictionaries());
-        builder.append(Area.getDictionaries());
+    public void onApplicationEvent(OAuth2DeviceVerificationSuccessEvent event) {
+
+        log.info("[ThingsBrain] |- OAuth2 device verification LOCAL listener, response event!");
+
+        DeviceVerificationTransmitter transmitter = event.getData();
+
+        process(transmitter);
     }
 }

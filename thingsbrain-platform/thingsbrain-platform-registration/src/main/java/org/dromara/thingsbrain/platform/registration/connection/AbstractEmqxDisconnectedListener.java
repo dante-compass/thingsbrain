@@ -23,34 +23,30 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.autoconfigure.customizer;
+package org.dromara.thingsbrain.platform.registration.connection;
 
-import org.dromara.dante.core.builder.EnumDictionaryBuilder;
-import org.dromara.dante.core.function.EnumDictionaryBuilderCustomizer;
-import org.dromara.thingsbrain.kernel.tsl.enums.*;
-import org.dromara.thingsbrain.persistence.commons.enums.*;
+import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
+
+import java.time.LocalDateTime;
 
 /**
- * <p>Description: Things Brain Platform 相关模块枚举数据字典定义器 </p>
+ * <p>Description: Emqx Client 下线通用代码提取抽象类 </p>
  *
  * @author : gengwei.zheng
- * @date : 2024/8/23 16:00
+ * @date : 2025/4/7 23:00
  */
-public class PlatformEnumDictionaryBuilderCustomizer implements EnumDictionaryBuilderCustomizer {
+abstract class AbstractEmqxDisconnectedListener<E extends ApplicationEvent> implements ApplicationListener<E> {
 
-    @Override
-    public void customize(EnumDictionaryBuilder builder) {
-        builder.append(AccessMode.getDictionaries());
-        builder.append(ArgumentType.getDictionaries());
-        builder.append(CallType.getDictionaries());
-        builder.append(EventType.getDictionaries());
-        builder.append(Dimension.getDictionaries());
-        builder.append(Action.getDictionaries());
-        builder.append(NetworkingMethod.getDictionaries());
-        builder.append(NodeType.getDictionaries());
-        builder.append(Permission.getDictionaries());
-        builder.append(GatewayProtocol.getDictionaries());
-        builder.append(AuthenticationMode.getDictionaries());
-        builder.append(Area.getDictionaries());
+    private final ConnectionManager connectionManager;
+
+    protected AbstractEmqxDisconnectedListener(ObjectProvider<ConnectionManager> connectionManagerProvider) {
+        this.connectionManager = connectionManagerProvider.getIfAvailable();
+    }
+
+    protected void disconnected(String clientId, String reason, LocalDateTime disconnectedAt) {
+        connectionManager.disconnected(clientId, reason, disconnectedAt);
     }
 }

@@ -23,34 +23,30 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.autoconfigure.customizer;
+package org.dromara.thingsbrain.platform.registration.mqtt;
 
-import org.dromara.dante.core.builder.EnumDictionaryBuilder;
-import org.dromara.dante.core.function.EnumDictionaryBuilderCustomizer;
-import org.dromara.thingsbrain.kernel.tsl.enums.*;
-import org.dromara.thingsbrain.persistence.commons.enums.*;
+import org.dromara.thingsbrain.platform.registration.definition.domain.OAuth2ClientRegistration;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+
+import java.util.List;
 
 /**
- * <p>Description: Things Brain Platform 相关模块枚举数据字典定义器 </p>
+ * <p>Description: 客户端注册工具类 </p>
  *
  * @author : gengwei.zheng
- * @date : 2024/8/23 16:00
+ * @date : 2025/7/4 23:38
  */
-public class PlatformEnumDictionaryBuilderCustomizer implements EnumDictionaryBuilderCustomizer {
+public class RegistrationUtils {
 
-    @Override
-    public void customize(EnumDictionaryBuilder builder) {
-        builder.append(AccessMode.getDictionaries());
-        builder.append(ArgumentType.getDictionaries());
-        builder.append(CallType.getDictionaries());
-        builder.append(EventType.getDictionaries());
-        builder.append(Dimension.getDictionaries());
-        builder.append(Action.getDictionaries());
-        builder.append(NetworkingMethod.getDictionaries());
-        builder.append(NodeType.getDictionaries());
-        builder.append(Permission.getDictionaries());
-        builder.append(GatewayProtocol.getDictionaries());
-        builder.append(AuthenticationMode.getDictionaries());
-        builder.append(Area.getDictionaries());
+    public static OAuth2ClientRegistration create(String productKey, String deviceName) {
+        OAuth2ClientRegistration registration = new OAuth2ClientRegistration();
+        registration.setProductKey(productKey);
+        registration.setGrantTypes(List.of(AuthorizationGrantType.DEVICE_CODE.getValue(), AuthorizationGrantType.CLIENT_CREDENTIALS.getValue()));
+        registration.setScope("openid email profile");
+        registration.setClientName(deviceName);
+        registration.setTokenEndpointAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST.getValue());
+        registration.setRedirectUris(List.of("http://192.168.101.10:3000"));
+        return registration;
     }
 }

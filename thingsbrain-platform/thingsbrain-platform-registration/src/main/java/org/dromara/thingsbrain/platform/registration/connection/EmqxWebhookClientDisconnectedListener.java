@@ -23,34 +23,36 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.autoconfigure.customizer;
+package org.dromara.thingsbrain.platform.registration.connection;
 
-import org.dromara.dante.core.builder.EnumDictionaryBuilder;
-import org.dromara.dante.core.function.EnumDictionaryBuilderCustomizer;
-import org.dromara.thingsbrain.kernel.tsl.enums.*;
-import org.dromara.thingsbrain.persistence.commons.enums.*;
+import org.dromara.dante.message.emqx.domain.WebhookClientDisconnected;
+import org.dromara.dante.message.emqx.event.WebhookClientDisconnectedEvent;
+import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.ObjectProvider;
 
 /**
- * <p>Description: Things Brain Platform 相关模块枚举数据字典定义器 </p>
+ * <p>Description: 物联网设备下线监听 </p>
  *
  * @author : gengwei.zheng
- * @date : 2024/8/23 16:00
+ * @date : 2023/10/11 22:14
  */
-public class PlatformEnumDictionaryBuilderCustomizer implements EnumDictionaryBuilderCustomizer {
+public class EmqxWebhookClientDisconnectedListener extends AbstractEmqxDisconnectedListener<WebhookClientDisconnectedEvent> {
+
+    private static final Logger log = LoggerFactory.getLogger(EmqxWebhookClientDisconnectedListener.class);
+
+    public EmqxWebhookClientDisconnectedListener(ObjectProvider<ConnectionManager> connectionManagerProvider) {
+        super(connectionManagerProvider);
+    }
 
     @Override
-    public void customize(EnumDictionaryBuilder builder) {
-        builder.append(AccessMode.getDictionaries());
-        builder.append(ArgumentType.getDictionaries());
-        builder.append(CallType.getDictionaries());
-        builder.append(EventType.getDictionaries());
-        builder.append(Dimension.getDictionaries());
-        builder.append(Action.getDictionaries());
-        builder.append(NetworkingMethod.getDictionaries());
-        builder.append(NodeType.getDictionaries());
-        builder.append(Permission.getDictionaries());
-        builder.append(GatewayProtocol.getDictionaries());
-        builder.append(AuthenticationMode.getDictionaries());
-        builder.append(Area.getDictionaries());
+    public void onApplicationEvent(WebhookClientDisconnectedEvent event) {
+
+        log.debug("[ThingsBrain] |- Emqx WEBHOOK [DISCONNECTED] listener, response event!");
+
+        WebhookClientDisconnected data = event.getData();
+
+        disconnected(data.getClientId(), data.getReason(), data.getDisconnectedAt());
     }
 }

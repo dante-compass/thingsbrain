@@ -30,6 +30,7 @@ import org.dromara.dante.core.function.EnumDictionaryBuilderCustomizer;
 import org.dromara.dante.core.function.ErrorCodeMapperBuilderCustomizer;
 import org.dromara.thingsbrain.platform.autoconfigure.customizer.PlatformEnumDictionaryBuilderCustomizer;
 import org.dromara.thingsbrain.platform.autoconfigure.customizer.PlatformErrorCodeMapperBuilderCustomizer;
+import org.dromara.thingsbrain.platform.registration.config.PlatformRegistrationConfiguration;
 import org.dromara.thingsbrain.platform.rest.config.PlatformRestConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,11 +41,12 @@ import org.springframework.context.annotation.Import;
 /**
  * <p>Description: ThingsBrain 物联网平台自动配置 </p>
  *
- * @author : gengwei_zheng
- * @date : 2026/4/10 17:34
+ * @author : gengwei.zheng
+ * @date : 2024/10/31 23:40
  */
 @AutoConfiguration
 @Import({
+        PlatformRegistrationConfiguration.class,
         PlatformRestConfiguration.class,
 })
 public class PlatformAutoConfiguration {

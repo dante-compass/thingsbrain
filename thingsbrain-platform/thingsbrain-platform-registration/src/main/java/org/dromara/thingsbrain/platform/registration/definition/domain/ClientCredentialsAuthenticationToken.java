@@ -23,34 +23,19 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.autoconfigure.customizer;
+package org.dromara.thingsbrain.platform.registration.definition.domain;
 
-import org.dromara.dante.core.builder.EnumDictionaryBuilder;
-import org.dromara.dante.core.function.EnumDictionaryBuilderCustomizer;
-import org.dromara.thingsbrain.kernel.tsl.enums.*;
-import org.dromara.thingsbrain.persistence.commons.enums.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * <p>Description: Things Brain Platform 相关模块枚举数据字典定义器 </p>
+ * <p>Description: 客户端认证 Token </p>
  *
  * @author : gengwei.zheng
- * @date : 2024/8/23 16:00
+ * @date : 2024/5/19 22:14
  */
-public class PlatformEnumDictionaryBuilderCustomizer implements EnumDictionaryBuilderCustomizer {
-
-    @Override
-    public void customize(EnumDictionaryBuilder builder) {
-        builder.append(AccessMode.getDictionaries());
-        builder.append(ArgumentType.getDictionaries());
-        builder.append(CallType.getDictionaries());
-        builder.append(EventType.getDictionaries());
-        builder.append(Dimension.getDictionaries());
-        builder.append(Action.getDictionaries());
-        builder.append(NetworkingMethod.getDictionaries());
-        builder.append(NodeType.getDictionaries());
-        builder.append(Permission.getDictionaries());
-        builder.append(GatewayProtocol.getDictionaries());
-        builder.append(AuthenticationMode.getDictionaries());
-        builder.append(Area.getDictionaries());
-    }
+public record ClientCredentialsAuthenticationToken(
+        @JsonProperty("access_token") String accessToken,
+        @JsonProperty("scope") String scope,
+        @JsonProperty("token_type") String tokenType,
+        @JsonProperty("expires_in") Integer expiresIn) {
 }
