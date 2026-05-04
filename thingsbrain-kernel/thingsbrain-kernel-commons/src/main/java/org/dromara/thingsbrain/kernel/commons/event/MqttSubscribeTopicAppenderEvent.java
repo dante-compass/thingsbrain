@@ -23,19 +23,27 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.kernel.commons.constant;
+package org.dromara.thingsbrain.kernel.commons.event;
 
-import org.dromara.dante.core.feedback.InternalServerErrorFeedback;
-import org.dromara.dante.core.feedback.PreconditionFailedFeedback;
+import org.dromara.dante.message.commons.definition.event.AbstractApplicationEvent;
+import org.dromara.thingsbrain.kernel.commons.definition.domain.SubscribeTopic;
+
+import java.time.Clock;
+import java.util.Set;
 
 /**
- * <p>Description: 系统核心错误代码 </p>
+ * <p>Description: Mqtt 动态订阅主题事件 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/5/23 23:53
+ * @date : 2025/10/14 0:04
  */
-public interface KernelErrorCodes {
+public class MqttSubscribeTopicAppenderEvent extends AbstractApplicationEvent<Set<? extends SubscribeTopic>> {
 
-    PreconditionFailedFeedback JSON_SCHEMA_VALIDATE_ERROR_EXCEPTION = new PreconditionFailedFeedback("JsonSchema 校验输入参数错误");
-    InternalServerErrorFeedback INBOUND_MESSAGE_PROCESSING_EXCEPTION = new InternalServerErrorFeedback("Mqtt 入站消息时序存储异常，无法找到指定处理器");
+    public MqttSubscribeTopicAppenderEvent(Set<? extends SubscribeTopic> data) {
+        super(data);
+    }
+
+    public MqttSubscribeTopicAppenderEvent(Set<? extends SubscribeTopic> data, Clock clock) {
+        super(data, clock);
+    }
 }

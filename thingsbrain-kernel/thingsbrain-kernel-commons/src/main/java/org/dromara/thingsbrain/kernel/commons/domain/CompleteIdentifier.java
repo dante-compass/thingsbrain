@@ -25,53 +25,62 @@
 
 package org.dromara.thingsbrain.kernel.commons.domain;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.google.common.base.MoreObjects;
-import org.dromara.thingsbrain.kernel.commons.definition.domain.shadow.AbstractShadow;
-import org.dromara.thingsbrain.kernel.commons.definition.domain.shadow.State;
+import org.dromara.dante.core.jackson.JacksonUtils;
+import org.dromara.dante.core.utils.StringTemplateUtils;
+import org.dromara.thingsbrain.kernel.commons.constant.ProtocolConstants;
 
-import java.util.function.Consumer;
+import java.util.Map;
 
 /**
- * <p>Description: 设备影子结构定义 </p>
+ * <p>Description: Mqtt 主题中包含的参数定义实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/5/28 21:33
+ * @date : 2025/5/14 18:21
  */
-public class Shadow extends AbstractShadow {
+public class CompleteIdentifier extends Identifier {
 
-    private Long timestamp;
+    @JsonAlias(value = {ProtocolConstants.VARIABLE__EVENT_IDENTIFIER, ProtocolConstants.VARIABLE__SERVICE_IDENTIFIER})
+    private String identifier;
 
-    public Shadow() {
+    public CompleteIdentifier() {
         super();
     }
 
-    public Long getTimestamp() {
-        return timestamp;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
-    private void process(State state, Long version, Consumer<State> consumer) {
-        consumer.accept(state);
-        this.setVersion(version);
-        this.setTimestamp(System.currentTimeMillis());
-    }
-
-    public void update(State state, Long version) {
-        process(state, version, this::update);
-    }
-
-    public void delete(State state, Long version) {
-        process(state, version, this::delete);
+    public static Builder of(String template, String topic) {
+        return new Builder(template, topic);
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("timestamp", timestamp)
+                .add("identifier", identifier)
                 .addValue(super.toString())
                 .toString();
+    }
+
+    public static class Builder {
+
+        private final String template;
+        private final String topic;
+
+        protected Builder(String template, String topic) {
+            this.template = template;
+            this.topic = topic;
+        }
+
+        public CompleteIdentifier build() {
+            Map<String, String> arguments = StringTemplateUtils.extract(this.template, this.topic);
+            return JacksonUtils.getObjectMapper().convertValue(arguments, CompleteIdentifier.class);
+        }
     }
 }

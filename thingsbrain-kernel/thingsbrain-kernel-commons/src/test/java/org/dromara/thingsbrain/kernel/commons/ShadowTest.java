@@ -23,19 +23,35 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.kernel.commons.constant;
+package org.dromara.thingsbrain.kernel.commons;
 
-import org.dromara.dante.core.feedback.InternalServerErrorFeedback;
-import org.dromara.dante.core.feedback.PreconditionFailedFeedback;
+import cn.hutool.v7.core.io.file.FileUtil;
+import org.apache.commons.lang3.ObjectUtils;
+import org.dromara.dante.core.jackson.JacksonUtils;
+import org.dromara.thingsbrain.kernel.commons.domain.Shadow;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.util.ResourceUtils;
+
+import java.io.File;
+import java.nio.charset.StandardCharsets;
 
 /**
- * <p>Description: 系统核心错误代码 </p>
+ * <p>Description: {@link Shadow} 测试类 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/5/23 23:53
+ * @date : 2025/6/3 16:30
  */
-public interface KernelErrorCodes {
+public class ShadowTest {
 
-    PreconditionFailedFeedback JSON_SCHEMA_VALIDATE_ERROR_EXCEPTION = new PreconditionFailedFeedback("JsonSchema 校验输入参数错误");
-    InternalServerErrorFeedback INBOUND_MESSAGE_PROCESSING_EXCEPTION = new InternalServerErrorFeedback("Mqtt 入站消息时序存储异常，无法找到指定处理器");
+    @Test
+    void shadowDeserialization() throws Exception {
+        File file = ResourceUtils.getFile("classpath:json/default-shadow.json");
+        String json = FileUtil.readString(file, StandardCharsets.UTF_8);
+
+        Assertions.assertNotNull(json, "测试代码无法读取 default-shadow.json 文件");
+
+        Shadow shadow = JacksonUtils.toObject(json, Shadow.class);
+        Assertions.assertTrue(ObjectUtils.isNotEmpty(shadow), "Shadow 反序列化出错");
+    }
 }

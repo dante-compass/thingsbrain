@@ -23,19 +23,37 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.kernel.commons.constant;
+package org.dromara.thingsbrain.kernel.commons.event;
 
-import org.dromara.dante.core.feedback.InternalServerErrorFeedback;
-import org.dromara.dante.core.feedback.PreconditionFailedFeedback;
+import org.dromara.dante.message.commons.definition.event.AbstractApplicationEvent;
+import org.dromara.thingsbrain.kernel.commons.enums.AuthType;
+
+import java.time.Clock;
 
 /**
- * <p>Description: 系统核心错误代码 </p>
+ * <p>Description: 基于MQTT协议的设备动态注册成功事件 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/5/23 23:53
+ * @date : 2025/7/6 23:27
  */
-public interface KernelErrorCodes {
+public class MqttRegistrationSuccessEvent extends AbstractApplicationEvent<String> {
 
-    PreconditionFailedFeedback JSON_SCHEMA_VALIDATE_ERROR_EXCEPTION = new PreconditionFailedFeedback("JsonSchema 校验输入参数错误");
-    InternalServerErrorFeedback INBOUND_MESSAGE_PROCESSING_EXCEPTION = new InternalServerErrorFeedback("Mqtt 入站消息时序存储异常，无法找到指定处理器");
+    /**
+     * 基于MQTT协议的设备动态注册类型，参见 {@link AuthType}
+     */
+    private final String type;
+
+    public MqttRegistrationSuccessEvent(String data, String type) {
+        super(data);
+        this.type = type;
+    }
+
+    public MqttRegistrationSuccessEvent(String data, Clock clock, String type) {
+        super(data, clock);
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
 }

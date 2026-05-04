@@ -23,19 +23,62 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.kernel.commons.constant;
+package org.dromara.thingsbrain.kernel.commons.domain;
 
-import org.dromara.dante.core.feedback.InternalServerErrorFeedback;
-import org.dromara.dante.core.feedback.PreconditionFailedFeedback;
+import com.google.common.base.MoreObjects;
+import org.dromara.dante.core.domain.BaseModel;
 
 /**
- * <p>Description: 系统核心错误代码 </p>
+ * <p>Description: Mqtt 签名生成结果 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/5/23 23:53
+ * @date : 2025/10/9 15:10
  */
-public interface KernelErrorCodes {
+public class SignatureGenerationResult implements BaseModel {
 
-    PreconditionFailedFeedback JSON_SCHEMA_VALIDATE_ERROR_EXCEPTION = new PreconditionFailedFeedback("JsonSchema 校验输入参数错误");
-    InternalServerErrorFeedback INBOUND_MESSAGE_PROCESSING_EXCEPTION = new InternalServerErrorFeedback("Mqtt 入站消息时序存储异常，无法找到指定处理器");
+    /**
+     * Mqtt ClientId
+     */
+    private String mqttClientId;
+    /**
+     * Mqtt Username;
+     */
+    private String mqttUsername;
+    /**
+     * Mqtt Password;
+     */
+    private String mqttPassword;
+
+    public String getMqttClientId() {
+        return mqttClientId;
+    }
+
+    public void setMqttClientId(String mqttClientId) {
+        this.mqttClientId = mqttClientId;
+    }
+
+    public String getMqttUsername() {
+        return mqttUsername;
+    }
+
+    public void setMqttUsername(String mqttUsername) {
+        this.mqttUsername = mqttUsername;
+    }
+
+    public String getMqttPassword() {
+        return mqttPassword;
+    }
+
+    public void setMqttPassword(String mqttPassword) {
+        this.mqttPassword = mqttPassword;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("mqttClientId", mqttClientId)
+                .add("mqttUsername", mqttUsername)
+                .add("mqttPassword", mqttPassword)
+                .toString();
+    }
 }

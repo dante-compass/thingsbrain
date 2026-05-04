@@ -23,19 +23,46 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.kernel.commons.constant;
+package org.dromara.thingsbrain.kernel.commons.enums;
 
-import org.dromara.dante.core.feedback.InternalServerErrorFeedback;
-import org.dromara.dante.core.feedback.PreconditionFailedFeedback;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * <p>Description: 系统核心错误代码 </p>
+ * <p>Description: 主题分类 </p>
+ * <p>
+ * 主题第一段内容，作为主题分类。不同的类别结构、用法都会不同。
  *
  * @author : gengwei.zheng
- * @date : 2025/5/23 23:53
+ * @date : 2025/6/4 23:08
  */
-public interface KernelErrorCodes {
+public enum TopicCategory {
 
-    PreconditionFailedFeedback JSON_SCHEMA_VALIDATE_ERROR_EXCEPTION = new PreconditionFailedFeedback("JsonSchema 校验输入参数错误");
-    InternalServerErrorFeedback INBOUND_MESSAGE_PROCESSING_EXCEPTION = new InternalServerErrorFeedback("Mqtt 入站消息时序存储异常，无法找到指定处理器");
+    SYS("sys"),
+    SHADOW("shadow"),
+    OTA("ota"),
+    EXT("ext");
+
+    private static final Map<String, TopicCategory> INDEX_MAP = new HashMap<>();
+
+    static {
+        for (TopicCategory topicCategory : TopicCategory.values()) {
+            INDEX_MAP.put(topicCategory.getValue(), topicCategory);
+        }
+    }
+
+    private final String value;
+
+
+    TopicCategory(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public static TopicCategory get(String index) {
+        return INDEX_MAP.get(index);
+    }
 }

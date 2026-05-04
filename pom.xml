@@ -186,6 +186,7 @@
         <module>thingsbrain-infrastructure</module>
         <module>thingsbrain-extension</module>
         <module>thingsbrain-link</module>
+        <module>thingsbrain-mqtt</module>
     </modules>
 
 </project>
