@@ -99,7 +99,7 @@
             </dependency>
             <dependency>
                 <groupId>org.dromara.thingsbrain</groupId>
-                <artifactId>thingsbrain-kernel-protocol</artifactId>
+                <artifactId>thingsbrain-kernel-link</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

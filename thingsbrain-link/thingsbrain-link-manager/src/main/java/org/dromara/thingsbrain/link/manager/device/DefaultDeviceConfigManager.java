@@ -21,8 +21,8 @@
 
 package org.dromara.thingsbrain.link.manager.device;
 
-import org.dromara.thingsbrain.kernel.protocol.definition.config.FileConfig;
-import org.dromara.thingsbrain.kernel.protocol.domain.config.ConfigDomain;
+import org.dromara.thingsbrain.kernel.link.definition.config.FileConfig;
+import org.dromara.thingsbrain.kernel.link.domain.config.ConfigDomain;
 import org.dromara.thingsbrain.link.commons.definition.DeviceConfigManager;
 
 /**

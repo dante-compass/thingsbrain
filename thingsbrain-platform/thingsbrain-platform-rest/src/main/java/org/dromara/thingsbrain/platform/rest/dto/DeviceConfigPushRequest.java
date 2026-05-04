@@ -28,7 +28,7 @@ package org.dromara.thingsbrain.platform.rest.dto;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import org.dromara.thingsbrain.kernel.protocol.domain.config.ConfigDomain;
+import org.dromara.thingsbrain.kernel.link.domain.config.ConfigDomain;
 
 
 /**

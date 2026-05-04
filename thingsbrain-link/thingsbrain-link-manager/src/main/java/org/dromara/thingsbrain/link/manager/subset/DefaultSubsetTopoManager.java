@@ -23,7 +23,7 @@ package org.dromara.thingsbrain.link.manager.subset;
 
 import org.dromara.thingsbrain.kernel.commons.domain.Identifier;
 import org.dromara.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
-import org.dromara.thingsbrain.kernel.protocol.definition.Signature;
+import org.dromara.thingsbrain.kernel.link.definition.Signature;
 import org.dromara.thingsbrain.link.commons.definition.SubsetTopoManager;
 
 import java.util.List;

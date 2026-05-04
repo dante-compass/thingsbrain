@@ -21,9 +21,9 @@
 
 package org.dromara.thingsbrain.link.manager.device;
 
-import org.dromara.thingsbrain.kernel.protocol.definition.config.ContentConfig;
-import org.dromara.thingsbrain.kernel.protocol.domain.config.LogConfigDomain;
-import org.dromara.thingsbrain.kernel.protocol.domain.config.LogParam;
+import org.dromara.thingsbrain.kernel.link.definition.config.ContentConfig;
+import org.dromara.thingsbrain.kernel.link.domain.config.LogConfigDomain;
+import org.dromara.thingsbrain.kernel.link.domain.config.LogParam;
 import org.dromara.thingsbrain.link.commons.definition.DeviceConfigLogManager;
 import org.apache.commons.collections4.CollectionUtils;
 

@@ -27,7 +27,7 @@ package org.dromara.thingsbrain.link.commons.definition;
 
 import org.dromara.thingsbrain.kernel.commons.domain.Identifier;
 import org.dromara.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
-import org.dromara.thingsbrain.kernel.protocol.definition.Signature;
+import org.dromara.thingsbrain.kernel.link.definition.Signature;
 
 import java.util.List;
 

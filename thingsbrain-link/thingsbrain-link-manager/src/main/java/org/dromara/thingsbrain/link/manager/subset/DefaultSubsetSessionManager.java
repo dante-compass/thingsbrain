@@ -22,8 +22,8 @@
 package org.dromara.thingsbrain.link.manager.subset;
 
 import org.dromara.thingsbrain.kernel.commons.domain.Identifier;
-import org.dromara.thingsbrain.kernel.protocol.domain.session.BatchLogin;
-import org.dromara.thingsbrain.kernel.protocol.domain.session.Login;
+import org.dromara.thingsbrain.kernel.link.domain.session.BatchLogin;
+import org.dromara.thingsbrain.kernel.link.domain.session.Login;
 import org.dromara.thingsbrain.link.commons.definition.SubsetSessionManager;
 
 import java.util.List;
