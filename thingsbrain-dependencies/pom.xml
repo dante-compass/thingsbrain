@@ -136,11 +136,6 @@
             </dependency>
             <dependency>
                 <groupId>org.dromara.thingsbrain</groupId>
-                <artifactId>thingsbrain-platform-commons</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
                 <artifactId>thingsbrain-platform-registration</artifactId>
                 <version>${project.version}</version>
             </dependency>
