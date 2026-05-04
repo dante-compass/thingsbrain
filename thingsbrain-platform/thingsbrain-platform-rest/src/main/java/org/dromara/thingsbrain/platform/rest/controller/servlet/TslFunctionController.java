@@ -33,19 +33,24 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import org.dromara.dante.core.domain.Result;
 import org.dromara.dante.data.commons.service.BaseWriteAndPageService;
 import org.dromara.dante.data.rest.servlet.AbstractEntityWriteAndPageController;
+import org.dromara.dante.security.domain.UserPrincipal;
+import org.dromara.dante.security.utils.ServletSecurityUtils;
 import org.dromara.dante.web.annotation.AccessLimited;
+import org.dromara.dante.web.annotation.Idempotent;
+import org.dromara.thingsbrain.mqtt.outbound.service.TslServiceService;
 import org.dromara.thingsbrain.persistence.commons.domain.TslFunction;
 import org.dromara.thingsbrain.persistence.commons.service.TslFunctionService;
+import org.dromara.thingsbrain.platform.rest.dto.TslInvokeServiceRequest;
+import org.dromara.thingsbrain.platform.rest.dto.TslSetPropertyRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -65,10 +70,11 @@ import java.util.Map;
 public class TslFunctionController extends AbstractEntityWriteAndPageController<TslFunction, String, BaseWriteAndPageService<TslFunction, String>> {
 
     private final TslFunctionService tslFunctionService;
-//    private final TslServiceService tslServiceService;
+    private final TslServiceService tslServiceService;
 
-    public TslFunctionController(TslFunctionService tslFunctionService) {
+    public TslFunctionController(TslFunctionService tslFunctionService, TslServiceService tslServiceService) {
         this.tslFunctionService = tslFunctionService;
+        this.tslServiceService = tslServiceService;
     }
 
     @Override
@@ -115,34 +121,34 @@ public class TslFunctionController extends AbstractEntityWriteAndPageController<
 //        return result(functions);
 //    }
 
-//    @Idempotent
-//    @Operation(summary = "设置设备属性", description = "设置设备属性",
-//            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = TslSetPropertyRequest.class))),
-//            responses = {@ApiResponse(description = "已保存数据", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))})
-//    @Parameters({
-//            @Parameter(name = "domain", required = true, description = "可转换为实体的json数据")
-//    })
-//    @PutMapping("/property")
-//    public Result<String> setProperty(@Validated @RequestBody TslSetPropertyRequest domain, HttpServletRequest request) {
-//
-//        UserPrincipal userPrincipal = ServletSecurityUtils.getUserPrincipal(request);
-//
-//        tslServiceService.set(domain.getProductKey(), domain.getDeviceName(), domain.getParams(), userPrincipal);
-//        return Result.success("发送设置设备属性请求成功");
-//    }
+    @Idempotent
+    @Operation(summary = "设置设备属性", description = "设置设备属性",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = TslSetPropertyRequest.class))),
+            responses = {@ApiResponse(description = "已保存数据", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))})
+    @Parameters({
+            @Parameter(name = "domain", required = true, description = "可转换为实体的json数据")
+    })
+    @PutMapping("/property")
+    public Result<String> setProperty(@Validated @RequestBody TslSetPropertyRequest domain, HttpServletRequest request) {
+
+        UserPrincipal userPrincipal = ServletSecurityUtils.getUserPrincipal(request);
+
+        tslServiceService.set(domain.getProductKey(), domain.getDeviceName(), domain.getParams(), userPrincipal);
+        return Result.success("发送设置设备属性请求成功");
+    }
 
 
-//    @Idempotent
-//    @Operation(summary = "设置设备属性", description = "设置设备属性",
-//            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = TslInvokeServiceRequest.class))),
-//            responses = {@ApiResponse(description = "已保存数据", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))})
-//    @Parameters({
-//            @Parameter(name = "domain", required = true, description = "可转换为实体的json数据")
-//    })
-//    @PutMapping("/invoke")
-//    public Result<String> invokeService(@Validated @RequestBody TslInvokeServiceRequest domain, HttpServletRequest request) {
-//        UserPrincipal userPrincipal = ServletSecurityUtils.getUserPrincipal(request);
-//        tslServiceService.invoke(domain.getProductKey(), domain.getDeviceName(), domain.getIdentifier(), domain.getParams(), userPrincipal);
-//        return Result.success("设置设备属性操作成功");
-//    }
+    @Idempotent
+    @Operation(summary = "设置设备属性", description = "设置设备属性",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = TslInvokeServiceRequest.class))),
+            responses = {@ApiResponse(description = "已保存数据", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))})
+    @Parameters({
+            @Parameter(name = "domain", required = true, description = "可转换为实体的json数据")
+    })
+    @PutMapping("/invoke")
+    public Result<String> invokeService(@Validated @RequestBody TslInvokeServiceRequest domain, HttpServletRequest request) {
+        UserPrincipal userPrincipal = ServletSecurityUtils.getUserPrincipal(request);
+        tslServiceService.invoke(domain.getProductKey(), domain.getDeviceName(), domain.getIdentifier(), domain.getParams(), userPrincipal);
+        return Result.success("设置设备属性操作成功");
+    }
 }

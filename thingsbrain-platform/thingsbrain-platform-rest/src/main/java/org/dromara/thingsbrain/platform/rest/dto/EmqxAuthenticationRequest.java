@@ -27,34 +27,60 @@ package org.dromara.thingsbrain.platform.rest.dto;
 
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
-import org.dromara.thingsbrain.kernel.link.domain.config.ConfigDomain;
+import jakarta.validation.constraints.NotBlank;
+import org.dromara.dante.core.domain.BaseDto;
 
 /**
- * <p>Description: 设备远程配置推送请求参数实体 </p>
+ * <p>Description: Emqx 认证 Webhook 请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/10/19 20:56
+ * @date : 2025/6/26 22:19
  */
-@Schema(name = "设备远程配置推送请求参数实体")
-public class DeviceConfigPushRequest extends AbstractRequest {
+@Schema(name = "Emqx 认证 Webhook 请求参数实体")
+public class EmqxAuthenticationRequest implements BaseDto {
 
-    @NotNull(message = "推送配置信息不能为空")
-    @Schema(name = "推送配置信息")
-    private ConfigDomain params;
+    @NotBlank(message = "Client ID 不能为空")
+    @Schema(name = "Mqtt客户端ID")
+    private String clientId;
 
-    public ConfigDomain getParams() {
-        return params;
+    @NotBlank(message = "Username 不能为空")
+    @Schema(name = "Mqtt用户名")
+    private String username;
+
+    @NotBlank(message = "Password 不能为空")
+    @Schema(name = "Mqtt密码")
+    private String password;
+
+    public String getClientId() {
+        return clientId;
     }
 
-    public void setParams(ConfigDomain params) {
-        this.params = params;
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("params", params)
+                .add("clientId", clientId)
+                .add("username", username)
+                .add("password", password)
                 .toString();
     }
 }

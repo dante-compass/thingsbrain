@@ -20,17 +20,23 @@
 
         <dependency>
             <groupId>org.dromara.thingsbrain</groupId>
-            <artifactId>thingsbrain-platform-northbound</artifactId>
+            <artifactId>thingsbrain-platform-registration</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.dromara.thingsbrain</groupId>
-            <artifactId>thingsbrain-platform-southbound</artifactId>
+            <artifactId>thingsbrain-mqtt-autoconfigure</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-restclient</artifactId>
+            <optional>true</optional>
+        </dependency>
 
         <dependency>
-            <groupId>org.dromara.dante</groupId>
-            <artifactId>cache-spring-boot-starter</artifactId>
+            <groupId>org.dromara.thingsbrain</groupId>
+            <artifactId>thingsbrain-link-autoconfigure</artifactId>
         </dependency>
 
     </dependencies>

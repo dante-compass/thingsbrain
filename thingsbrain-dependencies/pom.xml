@@ -64,7 +64,6 @@
                 <artifactId>thingsbrain-kernel-commons</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.dromara.thingsbrain</groupId>
                 <artifactId>thingsbrain-kernel-link</artifactId>
@@ -115,7 +114,6 @@
                 <artifactId>thingsbrain-mqtt-outbound</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.dromara.thingsbrain</groupId>
                 <artifactId>thingsbrain-persistence-autoconfigure</artifactId>
@@ -143,17 +141,12 @@
             </dependency>
             <dependency>
                 <groupId>org.dromara.thingsbrain</groupId>
-                <artifactId>thingsbrain-platform-northbound</artifactId>
+                <artifactId>thingsbrain-platform-registration</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.dromara.thingsbrain</groupId>
                 <artifactId>thingsbrain-platform-rest</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
-                <artifactId>thingsbrain-platform-southbound</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

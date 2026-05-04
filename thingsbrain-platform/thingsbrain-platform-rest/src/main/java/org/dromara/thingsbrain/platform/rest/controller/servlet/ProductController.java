@@ -40,6 +40,7 @@ import org.dromara.dante.data.commons.service.BaseWriteAndPageService;
 import org.dromara.dante.data.rest.servlet.AbstractEntityWriteAndPageController;
 import org.dromara.dante.web.annotation.AccessLimited;
 import org.dromara.dante.web.annotation.Idempotent;
+import org.dromara.thingsbrain.link.commons.definition.SpecificationManager;
 import org.dromara.thingsbrain.persistence.commons.domain.Product;
 import org.dromara.thingsbrain.persistence.commons.service.ProductService;
 import org.springframework.data.domain.Page;
@@ -65,16 +66,12 @@ import java.util.Optional;
 public class ProductController extends AbstractEntityWriteAndPageController<Product, String, BaseWriteAndPageService<Product, String>> {
 
     private final ProductService productService;
+    private final SpecificationManager specificationManager;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
+    public ProductController(SpecificationManager specificationManager) {
+        this.productService = specificationManager.getProductService();
+        this.specificationManager = specificationManager;
     }
-//    private final SpecificationManager specificationManager;
-
-//    public ProductController(SpecificationManager specificationManager) {
-//        this.productService = specificationManager.getProductService();
-//        this.specificationManager = specificationManager;
-//    }
 
     @Override
     public BaseWriteAndPageService<Product, String> getService() {
@@ -132,16 +129,16 @@ public class ProductController extends AbstractEntityWriteAndPageController<Prod
         return result(product);
     }
 
-//    @Idempotent
-//    @Operation(summary = "发布产品", description = "发布产品将其 Release 状态修改为 True",
-//            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
-//            responses = {@ApiResponse(description = "已保存数据", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))})
-//    @Parameters({
-//            @Parameter(name = "domain", required = true, description = "可转换为实体的json数据")
-//    })
-//    @PutMapping("/release")
-//    public Result<Boolean> release(@RequestBody Product domain) {
-//        boolean result = specificationManager.release(domain.getProductKey());
-//        return result(result);
-//    }
+    @Idempotent
+    @Operation(summary = "发布产品", description = "发布产品将其 Release 状态修改为 True",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
+            responses = {@ApiResponse(description = "已保存数据", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))})
+    @Parameters({
+            @Parameter(name = "domain", required = true, description = "可转换为实体的json数据")
+    })
+    @PutMapping("/release")
+    public Result<Boolean> release(@RequestBody Product domain) {
+        boolean result = specificationManager.release(domain.getProductKey());
+        return result(result);
+    }
 }
