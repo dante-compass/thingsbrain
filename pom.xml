@@ -178,7 +178,6 @@
     </build>
 
     <modules>
-        <module>thingsbrain-application</module>
         <module>thingsbrain-dependencies</module>
         <module>thingsbrain-kernel</module>
         <module>thingsbrain-link</module>

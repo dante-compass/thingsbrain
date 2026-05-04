@@ -15,5 +15,6 @@
         <module>thingsbrain-platform-autoconfigure</module>
         <module>thingsbrain-platform-rest</module>
         <module>thingsbrain-platform-registration</module>
+        <module>thingsbrain-monolith-application</module>
     </modules>
 </project>

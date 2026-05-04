@@ -3,25 +3,22 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.dromara.thingsbrain</groupId>
-        <artifactId>thingsbrain-application</artifactId>
+        <artifactId>thingsbrain-platform</artifactId>
         <version>4.0.6.0</version>
     </parent>
 
     <artifactId>thingsbrain-monolith-application</artifactId>
-    <name>${project.artifactId}</name>
 
     <dependencies>
         <dependency>
             <groupId>org.dromara.dante</groupId>
             <artifactId>dante-monolith-autoconfigure</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.dromara.thingsbrain</groupId>
-            <artifactId>thingsbrain-spring-boot-starter</artifactId>
+            <artifactId>thingsbrain-platform-autoconfigure</artifactId>
         </dependency>
     </dependencies>
 
@@ -33,6 +30,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>
