@@ -26,9 +26,8 @@
 package org.dromara.thingsbrain.kernel.tsl.specs;
 
 import com.google.common.base.MoreObjects;
-import org.apache.commons.lang3.ObjectUtils;
-import org.dromara.thingsbrain.kernel.tsl.definition.AbstractUnitSpecs;
-import org.dromara.thingsbrain.kernel.tsl.definition.Describe;
+import org.dromara.thingsbrain.kernel.tsl.definition.AbstractDigitalDescribe;
+import org.dromara.thingsbrain.kernel.tsl.definition.AbstractDigitalSpecs;
 import org.dromara.thingsbrain.kernel.tsl.describe.IntegerDescribe;
 
 /**
@@ -37,62 +36,20 @@ import org.dromara.thingsbrain.kernel.tsl.describe.IntegerDescribe;
  * @author : gengwei.zheng
  * @date : 2024/8/2 18:09
  */
-public class IntegerSpecs extends AbstractUnitSpecs {
-
-    private Integer min;
-
-    private Integer max;
-
-    private Integer step;
+public class IntegerSpecs extends AbstractDigitalSpecs<Integer> {
 
     public IntegerSpecs() {
     }
 
-    public Integer getMin() {
-        return min;
-    }
-
-    public void setMin(Integer min) {
-        this.min = min;
-    }
-
-    public Integer getMax() {
-        return max;
-    }
-
-    public void setMax(Integer max) {
-        this.max = max;
-    }
-
-    public Integer getStep() {
-        return step;
-    }
-
-    public void setStep(Integer step) {
-        this.step = step;
-    }
-
     @Override
-    public Describe getDescribe() {
-        IntegerDescribe describe = new IntegerDescribe();
-
-        if (ObjectUtils.isNotEmpty(getMin()) && ObjectUtils.isNotEmpty(getMax())) {
-            describe.setMinimum(getMin());
-            describe.setMaximum(getMax());
-        }
-        if (ObjectUtils.isNotEmpty(getStep())) {
-            describe.setMultipleOf(getStep());
-        }
-
-        return describe;
+    protected AbstractDigitalDescribe<Integer> getInstance() {
+        return new IntegerDescribe();
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("min", min)
-                .add("max", max)
-                .add("step", step)
+                .addValue(super.toString())
                 .toString();
     }
 }

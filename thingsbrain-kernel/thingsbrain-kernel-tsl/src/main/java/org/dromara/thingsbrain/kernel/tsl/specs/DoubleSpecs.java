@@ -25,9 +25,9 @@
 
 package org.dromara.thingsbrain.kernel.tsl.specs;
 
-import org.apache.commons.lang3.ObjectUtils;
-import org.dromara.thingsbrain.kernel.tsl.definition.AbstractUnitSpecs;
-import org.dromara.thingsbrain.kernel.tsl.definition.Describe;
+import com.google.common.base.MoreObjects;
+import org.dromara.thingsbrain.kernel.tsl.definition.AbstractDigitalDescribe;
+import org.dromara.thingsbrain.kernel.tsl.definition.AbstractDigitalSpecs;
 import org.dromara.thingsbrain.kernel.tsl.describe.DoubleDescribe;
 
 /**
@@ -36,53 +36,20 @@ import org.dromara.thingsbrain.kernel.tsl.describe.DoubleDescribe;
  * @author : gengwei.zheng
  * @date : 2024/8/2 18:09
  */
-public class DoubleSpecs extends AbstractUnitSpecs {
-
-    private Double min;
-
-    private Double max;
-
-    private Double step;
+public class DoubleSpecs extends AbstractDigitalSpecs<Double> {
 
     public DoubleSpecs() {
     }
 
-    public Double getMin() {
-        return min;
-    }
-
-    public void setMin(Double min) {
-        this.min = min;
-    }
-
-    public Double getMax() {
-        return max;
-    }
-
-    public void setMax(Double max) {
-        this.max = max;
-    }
-
-    public Double getStep() {
-        return step;
-    }
-
-    public void setStep(Double step) {
-        this.step = step;
+    @Override
+    protected AbstractDigitalDescribe<Double> getInstance() {
+        return new DoubleDescribe();
     }
 
     @Override
-    public Describe getDescribe() {
-        DoubleDescribe describe = new DoubleDescribe();
-
-        if (ObjectUtils.isNotEmpty(getMin()) && ObjectUtils.isNotEmpty(getMax())) {
-            describe.setMinimum(getMin());
-            describe.setMaximum(getMax());
-        }
-        if (ObjectUtils.isNotEmpty(getStep())) {
-            describe.setMultipleOf(getStep());
-        }
-
-        return describe;
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .addValue(super.toString())
+                .toString();
     }
 }

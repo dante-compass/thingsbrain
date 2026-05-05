@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.dromara.thingsbrain</groupId>
         <artifactId>thingsbrain-mqtt</artifactId>
-        <version>4.0.6.0</version>
+        <version>4.0.6.1</version>
     </parent>
 
     <artifactId>thingsbrain-mqtt-autoconfigure</artifactId>

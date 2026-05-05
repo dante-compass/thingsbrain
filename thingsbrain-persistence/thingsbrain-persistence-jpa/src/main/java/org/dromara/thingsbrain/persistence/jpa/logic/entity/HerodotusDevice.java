@@ -29,7 +29,7 @@ import cn.hutool.v7.core.data.id.IdUtil;
 import com.google.common.base.MoreObjects;
 import jakarta.persistence.*;
 import org.dromara.dante.data.jpa.entity.AbstractSysEntity;
-import org.dromara.dante.security.domain.RegisteredClientDetails;
+import org.dromara.dante.security.definition.RegisteredClientDetails;
 import org.dromara.thingsbrain.persistence.commons.constant.PersistenceConstants;
 import org.dromara.thingsbrain.persistence.jpa.logic.generator.HerodotusDeviceUuidGenerator;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
