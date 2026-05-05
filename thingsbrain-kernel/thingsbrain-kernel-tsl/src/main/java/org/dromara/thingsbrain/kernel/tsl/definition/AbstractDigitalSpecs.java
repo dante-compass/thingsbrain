@@ -23,32 +23,72 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.kernel.tsl.specs;
+package org.dromara.thingsbrain.kernel.tsl.definition;
 
 import com.google.common.base.MoreObjects;
-import org.dromara.thingsbrain.kernel.tsl.definition.AbstractDigitalDescribe;
-import org.dromara.thingsbrain.kernel.tsl.definition.AbstractDigitalSpecs;
-import org.dromara.thingsbrain.kernel.tsl.describe.FloatDescribe;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
- * <p>Description: TSL Float 数据类型说明 </p>
+ * <p>Description: 物模型数字类型元素声明抽象定义 </p>
  *
- * @author : gengwei.zheng
- * @date : 2024/8/2 18:09
+ * @author : gengwei_zheng
+ * @date : 2026/5/5 16:41
  */
-public class FloatSpecs extends AbstractDigitalSpecs<Float> {
+public abstract class AbstractDigitalSpecs<T> extends AbstractUnitSpecs {
 
-    public FloatSpecs() {
+    private T min;
+
+    private T max;
+
+    private T step;
+
+    public T getMin() {
+        return min;
     }
 
+    public void setMin(T min) {
+        this.min = min;
+    }
+
+    public T getMax() {
+        return max;
+    }
+
+    public void setMax(T max) {
+        this.max = max;
+    }
+
+    public T getStep() {
+        return step;
+    }
+
+    public void setStep(T step) {
+        this.step = step;
+    }
+
+    protected abstract AbstractDigitalDescribe<T> getInstance();
+
     @Override
-    protected AbstractDigitalDescribe<Float> getInstance() {
-        return new FloatDescribe();
+    public Describe getDescribe() {
+        AbstractDigitalDescribe<T> describe = getInstance();
+
+        if (ObjectUtils.isNotEmpty(getMin()) && ObjectUtils.isNotEmpty(getMax())) {
+            describe.setMinimum(getMin());
+            describe.setMaximum(getMax());
+        }
+        if (ObjectUtils.isNotEmpty(getStep())) {
+            describe.setMultipleOf(getStep());
+        }
+
+        return describe;
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
+                .add("min", min)
+                .add("max", max)
+                .add("step", step)
                 .addValue(super.toString())
                 .toString();
     }
