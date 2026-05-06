@@ -48,7 +48,7 @@ public abstract class AbstractTslArgument extends AbstractAuditEntity {
     @Column(name = "argument_name", length = 30)
     private String name;
 
-    @Column(name = "argument_type")
+    @Column(name = "argument_type", length = 50)
     @Enumerated(EnumType.STRING)
     private ArgumentType type;
 
