@@ -69,7 +69,7 @@ public class JpaMqttCategoryService implements MqttCategoryService {
 
     @Override
     public MqttCategory save(MqttCategory domain) {
-        HerodotusMqttCategory entity = delegate.saveAndFlush(fromMqttCategory.convert(domain));
+        HerodotusMqttCategory entity = delegate.save(fromMqttCategory.convert(domain));
         return toMqttCategory.convert(entity);
     }
 

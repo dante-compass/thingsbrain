@@ -67,7 +67,7 @@ public class JpaMqttAuthorityService implements MqttAuthorityService {
 
     @Override
     public MqttAuthority save(MqttAuthority domain) {
-        HerodotusMqttAuthority entity = delegate.saveAndFlush(fromMqttAuthority.convert(domain));
+        HerodotusMqttAuthority entity = delegate.save(fromMqttAuthority.convert(domain));
         return toMqttAuthority.convert(entity);
     }
 
