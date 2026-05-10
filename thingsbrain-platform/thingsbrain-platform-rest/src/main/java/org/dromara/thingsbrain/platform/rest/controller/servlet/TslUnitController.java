@@ -25,15 +25,25 @@
 
 package org.dromara.thingsbrain.platform.rest.controller.servlet;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import org.dromara.dante.core.domain.Result;
 import org.dromara.dante.data.commons.service.BasePageableService;
 import org.dromara.dante.data.commons.service.BaseWriteAndPageService;
 import org.dromara.dante.data.rest.servlet.AbstractEntityPageableController;
+import org.dromara.dante.web.annotation.AccessLimited;
 import org.dromara.thingsbrain.persistence.commons.domain.TslUnit;
 import org.dromara.thingsbrain.persistence.commons.service.TslUnitService;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>Description: 物联网物模型条目单位管理接口 </p>
@@ -50,14 +60,23 @@ import org.springframework.web.bind.annotation.RestController;
 })
 public class TslUnitController extends AbstractEntityPageableController<TslUnit, String, BasePageableService<TslUnit, String>> {
 
-    private final TslUnitService iotTslUnitService;
+    private final TslUnitService tslUnitService;
 
-    public TslUnitController(TslUnitService iotTslUnitService) {
-        this.iotTslUnitService = iotTslUnitService;
+    public TslUnitController(TslUnitService tslUnitService) {
+        this.tslUnitService = tslUnitService;
     }
 
     @Override
     public BaseWriteAndPageService<TslUnit, String> getService() {
-        return iotTslUnitService;
+        return tslUnitService;
+    }
+
+    @AccessLimited
+    @Operation(summary = "获取全部物模型单位接口", description = "获取全部物模型单位接口",
+            responses = {@ApiResponse(description = "单位列表", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Result.class)))})
+    @GetMapping("/list")
+    public Result<List<TslUnit>> findAll() {
+        List<TslUnit> units = tslUnitService.findAll();
+        return result(units);
     }
 }

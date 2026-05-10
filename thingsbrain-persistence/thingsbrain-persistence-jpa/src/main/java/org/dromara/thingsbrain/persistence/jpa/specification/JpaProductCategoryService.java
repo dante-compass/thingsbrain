@@ -67,7 +67,7 @@ public class JpaProductCategoryService implements ProductCategoryService {
 
     @Override
     public ProductCategory save(ProductCategory domain) {
-        HerodotusProductCategory entity = delegate.saveAndFlush(fromProductCategory.convert(domain));
+        HerodotusProductCategory entity = delegate.save(fromProductCategory.convert(domain));
         return toProductCategory.convert(entity);
     }
 

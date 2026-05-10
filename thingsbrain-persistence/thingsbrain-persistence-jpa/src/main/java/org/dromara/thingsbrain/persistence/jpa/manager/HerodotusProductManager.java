@@ -72,7 +72,7 @@ public class HerodotusProductManager {
     }
 
     public HerodotusProduct save(HerodotusProduct domain) {
-        return herodotusProductService.saveAndFlush(domain);
+        return herodotusProductService.save(domain);
     }
 
     /**

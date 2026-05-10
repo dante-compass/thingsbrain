@@ -66,6 +66,6 @@ public class HerodotusTslFunctionManager {
                 domain.setArguments(new HashSet<>(attributes));
             }
         }
-        return herodotusTslFunctionService.saveAndFlush(domain);
+        return herodotusTslFunctionService.save(domain);
     }
 }

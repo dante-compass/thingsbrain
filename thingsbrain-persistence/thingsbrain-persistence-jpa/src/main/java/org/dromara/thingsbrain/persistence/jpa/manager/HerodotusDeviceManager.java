@@ -70,7 +70,7 @@ public class HerodotusDeviceManager {
     }
 
     private HerodotusDevice save(HerodotusDevice domain) {
-        return herodotusDeviceService.saveAndFlush(domain);
+        return herodotusDeviceService.save(domain);
     }
 
     /**

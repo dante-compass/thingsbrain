@@ -28,6 +28,8 @@ package org.dromara.thingsbrain.persistence.commons.service;
 import org.dromara.dante.data.commons.service.BaseWriteAndPageService;
 import org.dromara.thingsbrain.persistence.commons.domain.TslUnit;
 
+import java.util.List;
+
 /**
  * <p>Description: 物联网物模型单位服务定义 </p>
  *
@@ -35,4 +37,6 @@ import org.dromara.thingsbrain.persistence.commons.domain.TslUnit;
  * @date : 2025/4/4 16:00
  */
 public interface TslUnitService extends BaseWriteAndPageService<TslUnit, String> {
+
+    List<TslUnit> findAll();
 }

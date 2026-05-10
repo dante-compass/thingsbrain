@@ -68,19 +68,19 @@ public class HerodotusTslFunction extends AbstractTslArgument implements Metadat
     @Column(name = "product_key", length = 32)
     private String productKey;
 
-    @Column(name = "dimension")
+    @Column(name = "dimension", length = 50)
     @Enumerated(EnumType.STRING)
     private Dimension dimension;
 
-    @Column(name = "access_mode")
+    @Column(name = "access_mode", length = 50)
     @Enumerated(EnumType.STRING)
     private AccessMode accessMode;
 
-    @Column(name = "event_type")
+    @Column(name = "event_type", length = 50)
     @Enumerated(EnumType.STRING)
     private EventType eventType;
 
-    @Column(name = "call_type")
+    @Column(name = "call_type", length = 50)
     @Enumerated(EnumType.STRING)
     private CallType callType;
 

@@ -66,11 +66,11 @@ public class HerodotusMqttCategory extends AbstractSysEntity {
     @Column(name = "is_standard")
     private Boolean standard;
 
-    @Column(name = "area")
+    @Column(name = "area", length = 50)
     @Enumerated(EnumType.STRING)
     private Area area = Area.DEVICE;
 
-    @Column(name = "action")
+    @Column(name = "action", length = 50)
     @Enumerated(EnumType.STRING)
     private Action action;
 

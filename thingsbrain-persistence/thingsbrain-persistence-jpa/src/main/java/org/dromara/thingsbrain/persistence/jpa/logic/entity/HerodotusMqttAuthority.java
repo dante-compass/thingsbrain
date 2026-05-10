@@ -60,11 +60,11 @@ public class HerodotusMqttAuthority extends AbstractSysEntity {
     @Column(name = "topic", length = 128)
     private String topic;
 
-    @Column(name = "permission")
+    @Column(name = "permission", length = 50)
     @Enumerated(EnumType.STRING)
     private Permission permission = Permission.allow;
 
-    @Column(name = "action")
+    @Column(name = "action", length = 50)
     @Enumerated(EnumType.STRING)
     private Action action;
 

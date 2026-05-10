@@ -67,7 +67,7 @@ public class JpaMqttAccountService implements MqttAccountService {
 
     @Override
     public MqttAccount save(MqttAccount domain) {
-        HerodotusMqttAccount entity = delegate.saveAndFlush(fromMqttAccount.convert(domain));
+        HerodotusMqttAccount entity = delegate.save(fromMqttAccount.convert(domain));
         return toMqttAccount.convert(entity);
     }
 
