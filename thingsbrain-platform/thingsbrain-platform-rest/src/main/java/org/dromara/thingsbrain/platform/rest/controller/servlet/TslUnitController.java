@@ -60,15 +60,15 @@ import java.util.List;
 })
 public class TslUnitController extends AbstractEntityPageableController<TslUnit, String, BasePageableService<TslUnit, String>> {
 
-    private final TslUnitService iotTslUnitService;
+    private final TslUnitService tslUnitService;
 
-    public TslUnitController(TslUnitService iotTslUnitService) {
-        this.iotTslUnitService = iotTslUnitService;
+    public TslUnitController(TslUnitService tslUnitService) {
+        this.tslUnitService = tslUnitService;
     }
 
     @Override
     public BaseWriteAndPageService<TslUnit, String> getService() {
-        return iotTslUnitService;
+        return tslUnitService;
     }
 
     @AccessLimited
@@ -76,7 +76,7 @@ public class TslUnitController extends AbstractEntityPageableController<TslUnit,
             responses = {@ApiResponse(description = "单位列表", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Result.class)))})
     @GetMapping("/list")
     public Result<List<TslUnit>> findAll() {
-        List<TslUnit> sysElements = iotTslUnitService.findAll();
-        return result(sysElements);
+        List<TslUnit> units = tslUnitService.findAll();
+        return result(units);
     }
 }

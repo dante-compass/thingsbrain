@@ -34,6 +34,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
+import java.util.List;
+
 /**
  * <p>Description: 物联网物模型单位 Service Jpa 实现 </p>
  * <p>
@@ -62,5 +64,13 @@ public class JpaTslUnitService implements TslUnitService {
     public Page<TslUnit> findByPage(int pageNumber, int pageSize) {
         Page<HerodotusTslUnit> pages = delegate.findByPage(pageNumber, pageSize);
         return pages.map(toTslUnit::convert);
+    }
+
+    @Override
+    public List<TslUnit> findAll() {
+        List<HerodotusTslUnit> units = delegate.findAll();
+        return units.stream()
+                .map(toTslUnit::convert)
+                .toList();
     }
 }
