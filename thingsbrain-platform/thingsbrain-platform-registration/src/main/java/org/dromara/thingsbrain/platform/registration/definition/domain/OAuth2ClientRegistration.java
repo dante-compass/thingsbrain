@@ -28,6 +28,7 @@ package org.dromara.thingsbrain.platform.registration.definition.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.MoreObjects;
 import org.dromara.dante.core.constant.SystemConstants;
 import org.dromara.dante.spring.jackson.ArrayOrStringToListDeserializer;
 import tools.jackson.databind.annotation.JsonDeserialize;
@@ -48,39 +49,103 @@ import java.util.List;
 public class OAuth2ClientRegistration implements Serializable {
 
     /**
-     * 自定义属性，用于 IOT 设备识别
+     * 自定义属性，用于 IOT 设备识别。
+     * <p>
+     * 非 IOT 用途，在请求时可以不用传该参数
      */
     @JsonProperty(SystemConstants.PARAMETER__PRODUCT_KEY)
     private String productKey;
 
+    /**
+     * 指定 OAuth2 客户端 AccessToken 格式。
+     * <p>
+     * 如果不指定，平台默认使用 Opaque Token
+     */
+    @JsonProperty(SystemConstants.TOKEN_FORMAT)
+    private String tokenFormat;
+    /**
+     * 客户端ID。
+     * <p>
+     * 发送客户端动态注册请求时，该参数无需传递，SAS {@code OAuth2ClientRegistrationRegisteredClientConverter} 会自动生成。目前本系统未对该参数进行任何改造
+     */
     @JsonProperty(OAuth2ClientMetadataClaimNames.CLIENT_ID)
     private String clientId;
 
+    /**
+     * 客户端颁发时间。
+     * <p>
+     * 发送客户端动态注册请求时，该参数无需传递，SAS {@code OAuth2ClientRegistrationRegisteredClientConverter} 会自动生成，为当前时间。
+     */
     @JsonProperty(OAuth2ClientMetadataClaimNames.CLIENT_ID_ISSUED_AT)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "GMT+8", timezone = "GMT+8", shape = JsonFormat.Shape.NUMBER_INT)
     private Instant clientIdIssuedAt;
 
+    /**
+     * 客户端密钥。
+     * <p>
+     * 发送客户端动态注册请求时，可以设置也可以不设置。
+     * · 如果 token_endpoint_auth_method 设置为 ClientAuthenticationMethod.CLIENT_SECRET_POST，则会为客户端生成默认密码
+     * · 如果 token_endpoint_auth_method 设置为 ClientAuthenticationMethod.NONE 则不会为客户端生成默认密码
+     * · 如果不设置 token_endpoint_auth_method ，则会默认设置为 ClientAuthenticationMethod.CLIENT_SECRET_BASIC 并生成默认密码
+     * <p>
+     * 参见 SAS {@code OAuth2ClientRegistrationRegisteredClientConverter}
+     */
     @JsonProperty(OAuth2ClientMetadataClaimNames.CLIENT_SECRET)
     private String clientSecret;
 
+    /**
+     * 客户端密钥过期时间
+     * <p>
+     * 发送客户端动态注册请求时，可以不设置。如果不设置，则认为密钥不过期
+     */
     @JsonProperty(OAuth2ClientMetadataClaimNames.CLIENT_SECRET_EXPIRES_AT)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "GMT+8", timezone = "GMT+8", shape = JsonFormat.Shape.NUMBER_INT)
     private Instant clientSecretExpiresAt;
 
+    /**
+     * 客户端名称。
+     * <p>
+     * 发送客户端动态注册请求时，可以不设置。如果不设置，则默认设置为系统自动生成的 Client Id。参见：{@code RegisteredClient.Build}
+     */
     @JsonProperty(OAuth2ClientMetadataClaimNames.CLIENT_NAME)
     private String clientName;
 
+    /**
+     * 重定向地址。
+     * <p>
+     * 如果 grantTypes 中包含 AuthorizationGrantType.AUTHORIZATION_CODE，或者 responseTypes 中包含 code，则必须传递 redirectUris。除此以外可以不传。
+     */
     @JsonProperty(OAuth2ClientMetadataClaimNames.REDIRECT_URIS)
     @JsonDeserialize(using = ArrayOrStringToListDeserializer.class)
     private List<String> redirectUris;
 
+    /**
+     * 客户端认证方法
+     * <p>
+     * 发送客户端动态注册请求时，可以设置也可以不设置。
+     * · 如果设置为 ClientAuthenticationMethod.CLIENT_SECRET_POST，则会为客户端生成默认密码
+     * · 如果设置为 ClientAuthenticationMethod.NONE 则不会为客户端生成默认密码
+     * · 如果不设置，则会默认设置为 ClientAuthenticationMethod.CLIENT_SECRET_BASIC 并生成默认密码
+     */
     @JsonProperty(OAuth2ClientMetadataClaimNames.TOKEN_ENDPOINT_AUTH_METHOD)
     private String tokenEndpointAuthenticationMethod;
 
+    /**
+     * 认证方法。
+     * <p>
+     * 发送客户端动态注册请求时，允许不传递该参数。但实际使用中，不指定认证方式，那么 OAuth2 没有任何意义
+     */
     @JsonProperty(OAuth2ClientMetadataClaimNames.GRANT_TYPES)
     @JsonDeserialize(using = ArrayOrStringToListDeserializer.class)
     private List<String> grantTypes;
 
+    /**
+     * 响应类型。
+     * <p>
+     * 发送客户端动态注册请求时，允许不传递该参数。如果传递了该参数，同时其中包含 code，那么系统会自动将 grantTypes 设置为 AuthorizationGrantType.AUTHORIZATION_CODE。
+     * <p>
+     * 参见 SAS {@code OAuth2ClientRegistrationRegisteredClientConverter}
+     */
     @JsonProperty(OAuth2ClientMetadataClaimNames.RESPONSE_TYPES)
     @JsonDeserialize(using = ArrayOrStringToListDeserializer.class)
     private List<String> responseTypes;
@@ -90,10 +155,18 @@ public class OAuth2ClientRegistration implements Serializable {
      * <p>
      * 参见：<code>org.springframework.security.oauth2.server.authorization.oidc.http.converter.OidcClientRegistrationHttpMessageConverter</code>
      * 其中静态类<code>MapOidcClientRegistrationConverter</code>的<code>convertScope</code>方法
+     * <p>
+     * 注意：在最新版本的 SAS 中，客户端动态注册时默认不需要传 scope 参数。如果传了 scope 参数，那么客户端动态注册时会抛出。参见：SAS {@code OAuth2ClientRegistrationAuthenticationValidator}
+     * 当然，如果需要传递 scope，需要自己重新实现 {@code OAuth2ClientRegistrationAuthenticationValidator}
      */
     @JsonProperty(OAuth2ClientMetadataClaimNames.SCOPE)
     private String scope;
 
+    /**
+     * JWKS 地址。
+     * <p>
+     * 发送客户端动态注册请求时，允许不传递该参数
+     */
     @JsonProperty(OAuth2ClientMetadataClaimNames.JWKS_URI)
     private String jwksUri;
 
@@ -103,6 +176,14 @@ public class OAuth2ClientRegistration implements Serializable {
 
     public void setProductKey(String productKey) {
         this.productKey = productKey;
+    }
+
+    public String getTokenFormat() {
+        return tokenFormat;
+    }
+
+    public void setTokenFormat(String tokenFormat) {
+        this.tokenFormat = tokenFormat;
     }
 
     public String getClientId() {
@@ -191,5 +272,21 @@ public class OAuth2ClientRegistration implements Serializable {
 
     public void setJwksUri(String jwksUri) {
         this.jwksUri = jwksUri;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("productKey", productKey)
+                .add("tokenFormat", tokenFormat)
+                .add("clientId", clientId)
+                .add("clientIdIssuedAt", clientIdIssuedAt)
+                .add("clientSecret", clientSecret)
+                .add("clientSecretExpiresAt", clientSecretExpiresAt)
+                .add("clientName", clientName)
+                .add("tokenEndpointAuthenticationMethod", tokenEndpointAuthenticationMethod)
+                .add("scope", scope)
+                .add("jwksUri", jwksUri)
+                .toString();
     }
 }
