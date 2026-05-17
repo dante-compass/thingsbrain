@@ -26,7 +26,7 @@
 package org.dromara.thingsbrain.platform.registration.mqtt;
 
 import org.dromara.dante.core.constant.SystemConstants;
-import org.dromara.dante.core.utils.TokenUtils;
+import org.dromara.dante.core.utils.AccessTokenUtils;
 import org.dromara.dante.spring.context.ServiceContextHolder;
 import org.dromara.thingsbrain.platform.registration.definition.domain.ClientCredentialsAuthenticationToken;
 import org.dromara.thingsbrain.platform.registration.definition.domain.OAuth2ClientRegistration;
@@ -70,7 +70,7 @@ public class ServletLocalOAuth2ClientRegistrationHandler {
                 .uri(ServiceContextHolder.getAccessTokenEndpoint())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .accept(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, TokenUtils.basic(clientId, clientSecret))
+                .header(HttpHeaders.AUTHORIZATION, AccessTokenUtils.basic(clientId, clientSecret))
                 .body(params)
                 .retrieve()
                 .body(ClientCredentialsAuthenticationToken.class);
@@ -82,7 +82,7 @@ public class ServletLocalOAuth2ClientRegistrationHandler {
                 .uri(ServiceContextHolder.getClientRegistrationEndpoint())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, TokenUtils.bearer(token))
+                .header(HttpHeaders.AUTHORIZATION, AccessTokenUtils.bearer(token))
                 .body(OAuth2ClientRegistration)
                 .retrieve()
                 .body(OAuth2ClientRegistration.class);
@@ -111,7 +111,7 @@ public class ServletLocalOAuth2ClientRegistrationHandler {
         return this.restClient.mutate().build()
                 .get()
                 .uri(registrationClientUri)
-                .header(HttpHeaders.AUTHORIZATION, TokenUtils.bearer(registrationAccessToken))
+                .header(HttpHeaders.AUTHORIZATION, AccessTokenUtils.bearer(registrationAccessToken))
                 .retrieve()
                 .body(OAuth2ClientRegistration.class);
     }
