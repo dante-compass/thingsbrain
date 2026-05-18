@@ -70,7 +70,8 @@ public class HerodotusDeviceManager {
     }
 
     private HerodotusDevice save(HerodotusDevice domain) {
-        return herodotusDeviceService.save(domain);
+        Optional<HerodotusDevice> optional = herodotusDeviceService.findByClientId(domain.getClientId());
+        return optional.orElse(herodotusDeviceService.save(domain));
     }
 
     /**
