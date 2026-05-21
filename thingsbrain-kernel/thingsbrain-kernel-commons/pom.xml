@@ -31,7 +31,7 @@
     <parent>
         <groupId>org.dromara.thingsbrain</groupId>
         <artifactId>thingsbrain-kernel</artifactId>
-        <version>4.0.6.3</version>
+        <version>4.0.6.4</version>
     </parent>
 
     <artifactId>thingsbrain-kernel-commons</artifactId>
