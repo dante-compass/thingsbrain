@@ -46,21 +46,6 @@ import org.dromara.thingsbrain.platform.commons.domain.SignatureGenerationResult
 public interface MqttSignatureGenerator {
 
     /**
-     * 客户端注册密码签名验证
-     * <p>
-     * 如果返回的 HTTP 状态码为 200，认证结果通过 Body 中的 result 标示，Emqx Http 授权响应支持三种状态，可选值为：
-     * · allow：允许发布或订阅
-     * · deny：禁止发布或订阅
-     * · ignore：忽略请求，移交下一个认证器以继续执行认证链。ignore 为 默认值
-     *
-     * @param mqttClientId Mqtt ClientId
-     * @param mqttUsername Mqtt 用户名
-     * @param mqttPassword Mqtt 密码
-     * @return 认证结果 {@link EmqxAuthenticationStatus}
-     */
-    EmqxAuthenticationStatus authentication(String mqttClientId, String mqttUsername, String mqttPassword);
-
-    /**
      * 生成客户端登录签名
      *
      * @param productKey 物联网产品 ProductKey
@@ -69,7 +54,7 @@ public interface MqttSignatureGenerator {
      * @param factory    Mqtt ClientId 工厂 {@link MqttClientIdFactory}
      * @return 生成签名 {@link SignatureGenerationResult}
      */
-    SignatureGenerationResult generation(String productKey, String deviceName, String key, MqttClientIdFactory factory);
+    SignatureGenerationResult process(String productKey, String deviceName, String key, MqttClientIdFactory factory);
 
     /**
      * 指定 clientId，并生成使用默认配置的签名
@@ -80,13 +65,13 @@ public interface MqttSignatureGenerator {
      * @param key        签名密钥（根据不同场景使用 ProductSecret 或者 DeviceSecret）
      * @return 生成签名 {@link SignatureGenerationResult}
      */
-    default SignatureGenerationResult generation(String productKey, String deviceName, String clientId, String key) {
+    default SignatureGenerationResult process(String productKey, String deviceName, String clientId, String key) {
         MqttClientIdFactory factory = MqttClientIdFactory.with(clientId)
                 .secureMode(2)
                 .signMethod(SignatureMethod.HMAC_SHA256)
                 .timestamp()
                 .build();
-        return generation(productKey, deviceName, key, factory);
+        return process(productKey, deviceName, key, factory);
     }
 
     /**
@@ -97,12 +82,12 @@ public interface MqttSignatureGenerator {
      * @param key        签名密钥（根据不同场景使用 ProductSecret 或者 DeviceSecret）
      * @return 生成签名 {@link SignatureGenerationResult}
      */
-    default SignatureGenerationResult generation(String productKey, String deviceName, String key) {
+    default SignatureGenerationResult process(String productKey, String deviceName, String key) {
         MqttClientIdFactory factory = MqttClientIdFactory.with(productKey, deviceName)
                 .secureMode(2)
                 .signMethod(SignatureMethod.HMAC_SHA256)
                 .timestamp()
                 .build();
-        return generation(productKey, deviceName, key, factory);
+        return process(productKey, deviceName, key, factory);
     }
 }

@@ -42,6 +42,7 @@ import org.dromara.dante.web.annotation.AccessLimited;
 import org.dromara.thingsbrain.platform.commons.definition.MqttSignatureGenerator;
 import org.dromara.thingsbrain.persistence.commons.domain.Device;
 import org.dromara.thingsbrain.persistence.commons.service.DeviceService;
+import org.dromara.thingsbrain.platform.commons.domain.SignatureGenerationResult;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -103,9 +104,9 @@ public class DeviceController extends AbstractEntityWriteAndPageController<Devic
             @Parameter(name = "clientId", required = true, description = "设备 ClientID"),
     })
     @GetMapping("/signature")
-    public Result<org.dromara.thingsbrain.platform.commons.domain.SignatureGenerationResult> signature(@NotBlank @RequestParam("clientId") String clientId) {
+    public Result<SignatureGenerationResult> signature(@NotBlank @RequestParam("clientId") String clientId) {
         Optional<Device> optional = deviceService.findByClientId(clientId);
-        org.dromara.thingsbrain.platform.commons.domain.SignatureGenerationResult result = optional.map(device -> mqttSignatureGenerator.generation(device.getProduct().getProductKey(), device.getDeviceName(), device.getDeviceSecret())).orElse(new org.dromara.thingsbrain.platform.commons.domain.SignatureGenerationResult());
+        SignatureGenerationResult result = optional.map(device -> mqttSignatureGenerator.process(device.getProduct().getProductKey(), device.getDeviceName(), device.getDeviceSecret())).orElse(new org.dromara.thingsbrain.platform.commons.domain.SignatureGenerationResult());
         return result(result);
     }
 }

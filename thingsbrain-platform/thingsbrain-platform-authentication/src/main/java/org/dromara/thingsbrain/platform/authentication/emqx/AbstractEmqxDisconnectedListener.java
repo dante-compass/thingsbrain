@@ -23,36 +23,30 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.authentication.connection;
+package org.dromara.thingsbrain.platform.authentication.emqx;
 
-import org.dromara.dante.message.emqx.domain.SystemClientDisconnected;
-import org.dromara.dante.message.emqx.event.SystemClientDisconnectedEvent;
 import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
+
+import java.time.LocalDateTime;
 
 /**
- * <p>Description: 物联网设备下线监听 </p>
+ * <p>Description: Emqx Client 下线通用代码提取抽象类 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/10/11 22:14
+ * @date : 2025/4/7 23:00
  */
-public class EmqxSystemClientDisconnectedListener extends AbstractEmqxDisconnectedListener<SystemClientDisconnectedEvent> {
+abstract class AbstractEmqxDisconnectedListener<E extends ApplicationEvent> implements ApplicationListener<E> {
 
-    private static final Logger log = LoggerFactory.getLogger(EmqxSystemClientDisconnectedListener.class);
+    private final ConnectionManager connectionManager;
 
-    public EmqxSystemClientDisconnectedListener(ObjectProvider<ConnectionManager> connectionManagerProvider) {
-        super(connectionManagerProvider);
+    protected AbstractEmqxDisconnectedListener(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
     }
 
-    @Override
-    public void onApplicationEvent(SystemClientDisconnectedEvent event) {
-
-        log.debug("[ThingsBrain] |- Emqx SYSTEM TOPIC [DISCONNECTED] listener, response event!");
-
-        SystemClientDisconnected data = event.getData();
-
-        disconnected(data.getClientId(), data.getReason(), data.getDisconnectedAt());
+    protected void disconnected(String clientId, String reason, LocalDateTime disconnectedAt) {
+        connectionManager.disconnected(clientId, reason, disconnectedAt);
     }
 }

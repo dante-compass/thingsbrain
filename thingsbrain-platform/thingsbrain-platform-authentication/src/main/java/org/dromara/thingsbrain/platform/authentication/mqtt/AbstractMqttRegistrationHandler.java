@@ -25,25 +25,22 @@
 
 package org.dromara.thingsbrain.platform.authentication.mqtt;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.dromara.dante.core.jackson.JacksonUtils;
 import org.dromara.dante.message.emqx.event.WebhookClientConnectedEvent;
 import org.dromara.dante.spring.context.ServiceContextHolder;
-import org.dromara.thingsbrain.platform.commons.domain.MqttClientIdFactory;
+import org.dromara.thingsbrain.kernel.commons.domain.Identifier;
 import org.dromara.thingsbrain.kernel.commons.enums.AuthType;
-import org.dromara.thingsbrain.kernel.commons.event.MqttRegistrationSuccessEvent;
+import org.dromara.thingsbrain.kernel.commons.event.MqttRegistrationResponseEvent;
 import org.dromara.thingsbrain.kernel.commons.utils.DataFormatUtils;
-import org.dromara.thingsbrain.persistence.commons.domain.Device;
 import org.dromara.thingsbrain.persistence.commons.domain.Product;
 import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
-import org.dromara.thingsbrain.platform.authentication.definition.MqttDynamicRegistrationProcessor;
-import org.dromara.thingsbrain.platform.authentication.definition.domain.OAuth2ClientRegistration;
-import org.dromara.thingsbrain.platform.authentication.definition.domain.RegisterDomain;
+import org.dromara.thingsbrain.platform.authentication.domain.MqttRegistrationResponse;
+import org.dromara.thingsbrain.platform.authentication.domain.OAuth2ClientRegistration;
+import org.dromara.thingsbrain.platform.commons.domain.MqttClientIdFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.ObjectProvider;
-
-import java.util.Optional;
 
 /**
  * <p>Description: 基于 Mqtt 协议的设备动态注册抽象定义 </p>
@@ -80,42 +77,34 @@ import java.util.Optional;
  * @author : gengwei.zheng
  * @date : 2025/7/6 16:05
  */
-public abstract class AbstractEmqxDynamicRegistrationHandler implements MqttDynamicRegistrationProcessor {
+public abstract class AbstractMqttRegistrationHandler implements MqttRegistrationHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(AbstractEmqxDynamicRegistrationHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(AbstractMqttRegistrationHandler.class);
 
     private final IdentifierManager identifierManager;
 
-    protected AbstractEmqxDynamicRegistrationHandler(ObjectProvider<IdentifierManager> identifierManagerProvider) {
-        this.identifierManager = identifierManagerProvider.getIfAvailable();
-    }
-
-    @Override
-    public void registration(MqttClientIdFactory factory, String mqttUsername) {
-        if (factory.getAuthType() == AuthType.REGISTER) {
-            success(factory.getClientId(), AuthType.REGISTER);
-        } else {
-            DataFormatUtils.fromMqttUsername(mqttUsername).ifPresent(identifier -> registration(identifier.getProductKey(), identifier.getDeviceName()));
-        }
+    protected AbstractMqttRegistrationHandler(IdentifierManager identifierManager) {
+        this.identifierManager = identifierManager;
     }
 
     /**
      * 一型一密认证方式，不同类型将返回不同的认证参数：
-     * · register：一型一密预注册认证方式，返回DeviceSecret。
-     * · regnwl：一型一密免预注册认证方式，返回DeviceToken、ClientID。
-     * <p>
-     * 当前方法为：regnwl，一型一密免预注册认证方式。
-     * <p>
-     * 采用 OAuth2 DeviceCode 模式注册，然后返回 DeviceToken、ClientID
+     * · register：一型一密预注册认证方式，无需通过 OAuth2 动态注册流程，返回DeviceSecret。
+     * · regnwl：一型一密免预注册认证方式，需要进入 OAuth2 动态注册流程，返回DeviceSecret。
      *
-     * @param productKey 物联网 ProductKey
-     * @param deviceName 物联网 DeviceName
+     * @param factory      mqtt 客户端ID {@link MqttClientIdFactory}
+     * @param mqttUsername mqtt 用户名
      */
-    private void registration(String productKey, String deviceName) {
-        Optional<Product> optional = identifierManager.findProductByProductKey(productKey);
-        optional.ifPresent(product -> {
-            registration(product.getProductKey(), product.getProductSecret(), productKey, deviceName);
-        });
+    @Override
+    public void process(MqttClientIdFactory factory, String mqttUsername) {
+        DataFormatUtils.fromMqttUsername(mqttUsername)
+                .ifPresent(identifier -> {
+                    if (factory.getAuthType() == AuthType.REGISTER) {
+                        register(factory.getClientId(), identifier);
+                    } else {
+                        regnwl(factory.getClientId(), identifier);
+                    }
+                });
     }
 
     /**
@@ -123,37 +112,64 @@ public abstract class AbstractEmqxDynamicRegistrationHandler implements MqttDyna
      * <p>
      * 定义为抽象方法，以便支持 Reactive 和 Servlet 不同环境的实现。
      *
-     * @param clientId     OAuth2 ClientId（“父”客户端 ID）
-     * @param clientSecret OAuth2 ClientSecret（“父”客户端密钥）
-     * @param productKey   物联网产品 ProductKey
-     * @param deviceName   物联网设备 DeviceName
+     * @param clientId      OAuth2 ClientId（“父”客户端 ID）
+     * @param productKey    物联网产品 ProductKey
+     * @param productSecret 物联网产品 ProductSecret（“父”客户端密钥）
+     * @param deviceName    物联网设备 DeviceName
      */
-    protected abstract void registration(String clientId, String clientSecret, String productKey, String deviceName);
+    protected abstract void registration(String productKey, String productSecret, String deviceName, String clientId);
 
     /**
-     * regnwl，一型一密免预注册认证方式注册成功的后续操作
+     * 一型一密注册认证方式。即 {@link AuthType} 为 "regnwl" 类型的方式
      *
-     * @param OAuth2ClientRegistration 注册成功信息 {@link OAuth2ClientRegistration}
+     * @param clientId   设备 ClientId
+     * @param identifier 设备标识符 {@link Identifier}
      */
-    protected void success(OAuth2ClientRegistration OAuth2ClientRegistration) {
-        if (ObjectUtils.isNotEmpty(OAuth2ClientRegistration)) {
-            success(OAuth2ClientRegistration.getClientId(), AuthType.REGNWL);
-        }
+    private void regnwl(String clientId, Identifier identifier) {
+        identifierManager.findProductByProductKey(identifier.getProductKey())
+                .filter(Product::getRegistration)
+                .ifPresent(product -> {
+                    boolean exists = identifierManager.isDeviceExists(identifier.getDeviceName(), clientId);
+                    if (!exists) {
+                        registration(product.getProductKey(), product.getProductSecret(), identifier.getDeviceName(), clientId);
+                    }
+                });
     }
 
     /**
-     * 注册成功后返回内容
+     * 一型一密预注册认证方式。即 {@link AuthType} 为 "register" 类型的方式。
+     * <p>
+     * 该方式需要提前在系统中添加设备。提前添加了设备，所以通过 DeviceName 查询设备信息后，返回 DeviceSecret 等信息。
      *
-     * @param clientId 客户端ID
-     * @param authType 认证类型 {@link AuthType}
+     * @param clientId   设备 ClientId
+     * @param identifier 设备标识符 {@link Identifier}
      */
-    private void success(String clientId, AuthType authType) {
-        Optional<Device> optional = identifierManager.findDeviceByClientId(clientId);
-        optional.ifPresent(device -> {
-            RegisterDomain registerDomain = new RegisterDomain(device.getProduct().getProductKey(), device.getDeviceName(), device.getDeviceSecret());
-            log.debug("[ThingsBrain] |- [MQTT-REGISTRATION] Device [{}] successfully activated.", clientId);
-            ServiceContextHolder.publishEvent(new MqttRegistrationSuccessEvent(JacksonUtils.toJson(registerDomain), authType.getValue()));
-        });
+    private void register(String clientId, Identifier identifier) {
+        identifierManager.findProductByProductKey(identifier.getProductKey())
+                // 判断是否开启了设备动态注册
+                .filter(product -> BooleanUtils.isTrue(product.getRegistration()))
+                .ifPresent(product -> identifierManager.findDeviceByDeviceName(identifier.getDeviceName())
+                        .ifPresent(device -> onSuccess(clientId, product.getProductKey(), device.getDeviceName(), device.getDeviceSecret(), AuthType.REGISTER)));
+    }
 
+    /**
+     * 注册成功操作。注册成功后返回具体设备信息。
+     *
+     * @param clientId     设备 ClientId
+     * @param productKey   物联网产品 ProductKey
+     * @param deviceName   物联网设备 DeviceName
+     * @param deviceSecret 设备密钥
+     * @param authType     Mqtt 动态注册类型 {@link AuthType}。不同注册方式结果信息发送到不同主题
+     */
+    private void onSuccess(String clientId, String productKey, String deviceName, String deviceSecret, AuthType authType) {
+        MqttRegistrationResponse mqttRegistrationResponse = new MqttRegistrationResponse(productKey, deviceName, deviceSecret);
+        log.debug("[ThingsBrain] |- [MQTT-REGISTRATION] Device [{}] successfully activated.", clientId);
+        ServiceContextHolder.publishEvent(new MqttRegistrationResponseEvent(JacksonUtils.toJson(mqttRegistrationResponse), authType.getValue()));
+    }
+
+    public void onSuccess(OAuth2ClientRegistration result) {
+        if (ObjectUtils.isNotEmpty(result)) {
+            onSuccess(result.getClientId(), result.getProductKey(), result.getClientName(), result.getClientSecret(), AuthType.REGNWL);
+        }
     }
 }

@@ -33,7 +33,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
-import org.dromara.thingsbrain.platform.commons.definition.MqttSignatureGenerator;
+import org.dromara.thingsbrain.platform.commons.definition.EmqxAuthenticationHandler;
 import org.dromara.thingsbrain.platform.commons.domain.EmqxAuthenticationStatus;
 import org.dromara.thingsbrain.platform.rest.dto.EmqxAuthenticationRequest;
 import org.dromara.thingsbrain.platform.rest.dto.EmqxAuthenticationResponse;
@@ -59,15 +59,16 @@ import org.springframework.web.bind.annotation.RestController;
         @Tag(name = "ThingsBrain物联网接口"),
         @Tag(name = "Emqx HTTP API 认证接口"),
 })
-public class EmqxSignatureAuthenticationController {
+public class EmqxOpenController {
 
-    private static final Logger log = LoggerFactory.getLogger(EmqxSignatureAuthenticationController.class);
+    private static final Logger log = LoggerFactory.getLogger(EmqxOpenController.class);
 
-    private final MqttSignatureGenerator mqttSignatureGenerator;
+    private final EmqxAuthenticationHandler emqxAuthenticationHandler;
 
-    public EmqxSignatureAuthenticationController(MqttSignatureGenerator mqttSignatureGenerator) {
-        this.mqttSignatureGenerator = mqttSignatureGenerator;
+    public EmqxOpenController(EmqxAuthenticationHandler emqxAuthenticationHandler) {
+        this.emqxAuthenticationHandler = emqxAuthenticationHandler;
     }
+
 
     @Operation(summary = "Emqx Webhook 认证接口", description = "用于基于 Mqtt 的客户端动态注册动态注册",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
@@ -77,7 +78,7 @@ public class EmqxSignatureAuthenticationController {
     })
     @PostMapping("/authentication")
     public EmqxAuthenticationResponse authentication(@RequestBody @Validated EmqxAuthenticationRequest request) {
-        EmqxAuthenticationStatus result = mqttSignatureGenerator.authentication(request.getClientId(), request.getUsername(), request.getPassword());
+        EmqxAuthenticationStatus result = emqxAuthenticationHandler.process(request.getClientId(), request.getUsername(), request.getPassword());
         return EmqxAuthenticationResponse.builder().status(result.getStatus().name()).build();
     }
 }

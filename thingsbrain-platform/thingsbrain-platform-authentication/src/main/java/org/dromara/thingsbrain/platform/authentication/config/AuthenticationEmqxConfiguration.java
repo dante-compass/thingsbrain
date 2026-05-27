@@ -28,15 +28,14 @@ package org.dromara.thingsbrain.platform.authentication.config;
 import jakarta.annotation.PostConstruct;
 import org.dromara.dante.message.emqx.condition.ConditionalOnEventSource;
 import org.dromara.dante.message.emqx.condition.EventSource;
+import org.dromara.dante.web.definition.SignatureValidator;
 import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
-import org.dromara.thingsbrain.platform.authentication.connection.EmqxSystemClientConnectedListener;
-import org.dromara.thingsbrain.platform.authentication.connection.EmqxSystemClientDisconnectedListener;
-import org.dromara.thingsbrain.platform.authentication.connection.EmqxWebhookClientConnectedListener;
-import org.dromara.thingsbrain.platform.authentication.connection.EmqxWebhookClientDisconnectedListener;
-import org.dromara.thingsbrain.platform.authentication.definition.MqttDynamicRegistrationProcessor;
+import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
+import org.dromara.thingsbrain.platform.authentication.emqx.*;
+import org.dromara.thingsbrain.platform.authentication.mqtt.MqttRegistrationHandler;
+import org.dromara.thingsbrain.platform.commons.definition.EmqxAuthenticationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -47,13 +46,13 @@ import org.springframework.context.annotation.Configuration;
  * @date : 2025/10/5 17:39
  */
 @Configuration(proxyBeanMethods = false)
-class EmqxConnectionConfiguration {
+class AuthenticationEmqxConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(EmqxConnectionConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(AuthenticationEmqxConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[ThingsBrain] |- Module [Emqx Connection] Configure.");
+        log.debug("[ThingsBrain] |- Module [Platform Authentication Emqx] Configure.");
     }
 
     @Configuration(proxyBeanMethods = false)
@@ -61,15 +60,15 @@ class EmqxConnectionConfiguration {
     static class EmqxWebhookConfiguration {
 
         @Bean
-        public EmqxWebhookClientConnectedListener emqxWebhookClientConnectedListener(ObjectProvider<ConnectionManager> connectionManagerProvider, MqttDynamicRegistrationProcessor emqxDynamicRegistrationHandler) {
-            EmqxWebhookClientConnectedListener listener = new EmqxWebhookClientConnectedListener(connectionManagerProvider, emqxDynamicRegistrationHandler);
+        public EmqxWebhookClientConnectedListener emqxWebhookClientConnectedListener(ConnectionManager connectionManager, MqttRegistrationHandler emqxDynamicRegistrationHandler) {
+            EmqxWebhookClientConnectedListener listener = new EmqxWebhookClientConnectedListener(connectionManager, emqxDynamicRegistrationHandler);
             log.trace("[ThingsBrain] |- Bean [Emqx Webhook Client Connected Listener] Configure.");
             return listener;
         }
 
         @Bean
-        public EmqxWebhookClientDisconnectedListener emqxWebhookClientDisconnectedListener(ObjectProvider<ConnectionManager> connectionManagerProvider) {
-            EmqxWebhookClientDisconnectedListener listener = new EmqxWebhookClientDisconnectedListener(connectionManagerProvider);
+        public EmqxWebhookClientDisconnectedListener emqxWebhookClientDisconnectedListener(ConnectionManager connectionManager) {
+            EmqxWebhookClientDisconnectedListener listener = new EmqxWebhookClientDisconnectedListener(connectionManager);
             log.trace("[ThingsBrain] |- Bean [Emqx Webhook Client Disconnected Listener] Configure.");
             return listener;
         }
@@ -80,17 +79,24 @@ class EmqxConnectionConfiguration {
     static class EmqxTopicConfiguration {
 
         @Bean
-        public EmqxSystemClientConnectedListener emqxSystemClientConnectedListener(ObjectProvider<ConnectionManager> connectionManagerProvider, MqttDynamicRegistrationProcessor emqxDynamicRegistrationHandler) {
-            EmqxSystemClientConnectedListener listener = new EmqxSystemClientConnectedListener(connectionManagerProvider, emqxDynamicRegistrationHandler);
+        public EmqxSystemClientConnectedListener emqxSystemClientConnectedListener(ConnectionManager connectionManager, MqttRegistrationHandler emqxDynamicRegistrationHandler) {
+            EmqxSystemClientConnectedListener listener = new EmqxSystemClientConnectedListener(connectionManager, emqxDynamicRegistrationHandler);
             log.trace("[ThingsBrain] |- Bean [Emqx System Client Connected Listener] Configure.");
             return listener;
         }
 
         @Bean
-        public EmqxSystemClientDisconnectedListener emqxSystemClientDisconnectedListener(ObjectProvider<ConnectionManager> connectionManagerProvider) {
-            EmqxSystemClientDisconnectedListener listener = new EmqxSystemClientDisconnectedListener(connectionManagerProvider);
+        public EmqxSystemClientDisconnectedListener emqxSystemClientDisconnectedListener(ConnectionManager connectionManager) {
+            EmqxSystemClientDisconnectedListener listener = new EmqxSystemClientDisconnectedListener(connectionManager);
             log.trace("[ThingsBrain] |- Bean [Emqx System Client Disconnected Listener] Configure.");
             return listener;
         }
+    }
+
+    @Bean
+    public EmqxAuthenticationHandler emqxAuthenticationHandler(IdentifierManager identifierManager, SignatureValidator signatureValidator) {
+        DefaultEmqxAuthenticationHandler handler = new DefaultEmqxAuthenticationHandler(identifierManager, signatureValidator);
+        log.trace("[ThingsBrain] |- Bean [Emqx Authentication Handler] Configure.");
+        return handler;
     }
 }

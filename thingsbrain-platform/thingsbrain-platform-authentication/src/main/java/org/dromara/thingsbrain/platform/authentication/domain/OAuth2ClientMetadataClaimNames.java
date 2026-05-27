@@ -22,7 +22,7 @@
  * 5. 在修改包名，模块名称，项目代码等时，请注明软件出处 <https://gitee.com/dromara/dante-cloud>
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
-package org.dromara.thingsbrain.platform.authentication.definition.domain;
+package org.dromara.thingsbrain.platform.authentication.domain;
 
 /**
  * 从 spring-security-oauth2-authorization-server 模块中复制出来，方便使用

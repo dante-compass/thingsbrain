@@ -23,10 +23,10 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.authentication.connection;
+package org.dromara.thingsbrain.platform.authentication.emqx;
 
-import org.dromara.dante.message.emqx.domain.WebhookClientDisconnected;
-import org.dromara.dante.message.emqx.event.WebhookClientDisconnectedEvent;
+import org.dromara.dante.message.emqx.domain.SystemClientDisconnected;
+import org.dromara.dante.message.emqx.event.SystemClientDisconnectedEvent;
 import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,20 +38,20 @@ import org.springframework.beans.factory.ObjectProvider;
  * @author : gengwei.zheng
  * @date : 2023/10/11 22:14
  */
-public class EmqxWebhookClientDisconnectedListener extends AbstractEmqxDisconnectedListener<WebhookClientDisconnectedEvent> {
+public class EmqxSystemClientDisconnectedListener extends AbstractEmqxDisconnectedListener<SystemClientDisconnectedEvent> {
 
-    private static final Logger log = LoggerFactory.getLogger(EmqxWebhookClientDisconnectedListener.class);
+    private static final Logger log = LoggerFactory.getLogger(EmqxSystemClientDisconnectedListener.class);
 
-    public EmqxWebhookClientDisconnectedListener(ObjectProvider<ConnectionManager> connectionManagerProvider) {
-        super(connectionManagerProvider);
+    public EmqxSystemClientDisconnectedListener(ConnectionManager connectionManager) {
+        super(connectionManager);
     }
 
     @Override
-    public void onApplicationEvent(WebhookClientDisconnectedEvent event) {
+    public void onApplicationEvent(SystemClientDisconnectedEvent event) {
 
-        log.debug("[ThingsBrain] |- Emqx WEBHOOK [DISCONNECTED] listener, response event!");
+        log.debug("[ThingsBrain] |- Emqx SYSTEM TOPIC [DISCONNECTED] listener, response event!");
 
-        WebhookClientDisconnected data = event.getData();
+        SystemClientDisconnected data = event.getData();
 
         disconnected(data.getClientId(), data.getReason(), data.getDisconnectedAt());
     }

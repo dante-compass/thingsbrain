@@ -23,30 +23,23 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.authentication.connection;
+package org.dromara.thingsbrain.platform.authentication.mqtt;
 
-import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
-import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationListener;
-
-import java.time.LocalDateTime;
+import org.dromara.thingsbrain.platform.commons.domain.MqttClientIdFactory;
 
 /**
- * <p>Description: Emqx Client 下线通用代码提取抽象类 </p>
+ * <p>Description: Mqtt 自动注册服务 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/4/7 23:00
+ * @date : 2025/7/1 15:12
  */
-abstract class AbstractEmqxDisconnectedListener<E extends ApplicationEvent> implements ApplicationListener<E> {
+public interface MqttRegistrationHandler {
 
-    private final ConnectionManager connectionManager;
-
-    protected AbstractEmqxDisconnectedListener(ObjectProvider<ConnectionManager> connectionManagerProvider) {
-        this.connectionManager = connectionManagerProvider.getIfAvailable();
-    }
-
-    protected void disconnected(String clientId, String reason, LocalDateTime disconnectedAt) {
-        connectionManager.disconnected(clientId, reason, disconnectedAt);
-    }
+    /**
+     * Mqtt 客户端动态注册
+     *
+     * @param factory      mqtt 客户端ID {@link MqttClientIdFactory}
+     * @param mqttUsername mqtt 用户名
+     */
+    void process(MqttClientIdFactory factory, String mqttUsername);
 }

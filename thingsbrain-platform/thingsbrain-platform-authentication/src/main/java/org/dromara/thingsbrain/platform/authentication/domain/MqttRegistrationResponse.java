@@ -23,30 +23,41 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.authentication.mqtt;
+package org.dromara.thingsbrain.platform.authentication.domain;
 
-import org.dromara.thingsbrain.platform.authentication.definition.domain.OAuth2ClientRegistration;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-
-import java.util.List;
+import com.google.common.base.MoreObjects;
+import org.dromara.thingsbrain.kernel.commons.domain.Identifier;
 
 /**
- * <p>Description: 客户端注册工具类 </p>
+ * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/7/4 23:38
+ * @date : 2025/7/5 17:19
  */
-public class RegistrationUtils {
+public class MqttRegistrationResponse extends Identifier {
 
-    public static OAuth2ClientRegistration create(String productKey, String deviceName) {
-        OAuth2ClientRegistration registration = new OAuth2ClientRegistration();
-        registration.setProductKey(productKey);
-        registration.setGrantTypes(List.of(AuthorizationGrantType.DEVICE_CODE.getValue(), AuthorizationGrantType.CLIENT_CREDENTIALS.getValue()));
-        registration.setScope("openid email profile");
-        registration.setClientName(deviceName);
-        registration.setTokenEndpointAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST.getValue());
-        registration.setRedirectUris(List.of("http://192.168.101.10:3000"));
-        return registration;
+    public MqttRegistrationResponse() {
+    }
+
+    public MqttRegistrationResponse(String productKey, String deviceName, String deviceSecret) {
+        super(productKey, deviceName);
+        this.deviceSecret = deviceSecret;
+    }
+
+    private String deviceSecret;
+
+    public String getDeviceSecret() {
+        return deviceSecret;
+    }
+
+    public void setDeviceSecret(String deviceSecret) {
+        this.deviceSecret = deviceSecret;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("deviceSecret", deviceSecret)
+                .toString();
     }
 }

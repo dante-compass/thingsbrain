@@ -27,16 +27,14 @@ package org.dromara.thingsbrain.platform.authentication.config;
 
 import jakarta.annotation.PostConstruct;
 import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
-import org.dromara.thingsbrain.platform.authentication.definition.MqttDynamicRegistrationProcessor;
-import org.dromara.thingsbrain.platform.authentication.mqtt.ServletEmqxDynamicRegistrationHandler;
-import org.dromara.thingsbrain.platform.authentication.mqtt.ServletLocalOAuth2ClientRegistrationHandler;
+import org.dromara.thingsbrain.platform.authentication.mqtt.MqttRegistrationHandler;
+import org.dromara.thingsbrain.platform.authentication.mqtt.ServletMqttRegistrationHandler;
+import org.dromara.thingsbrain.platform.authentication.oauth2.ServletLocalOAuth2ClientRegistrationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestClient;
 
 /**
  * <p>Description: ThingsBrain 物联网平台阻塞式 Emqx 扩展功能装配配置 </p>
@@ -45,28 +43,24 @@ import org.springframework.web.client.RestClient;
  * @date : 2025/10/6 14:18
  */
 @Configuration(proxyBeanMethods = false)
-public class ServletEmqxRegistrationConfiguration {
+public class AuthenticationMqttConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(ServletEmqxRegistrationConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(AuthenticationMqttConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[ThingsBrain] |- Module [Reactive Extension Emqx] Configure.");
+        log.debug("[ThingsBrain] |- Module [Platform Authentication Mqtt] Configure.");
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public ServletLocalOAuth2ClientRegistrationHandler servletOidcClientRegistrationHandler(RestClient restClient) {
-        ServletLocalOAuth2ClientRegistrationHandler handler = new ServletLocalOAuth2ClientRegistrationHandler(restClient);
-        log.trace("[ThingsBrain] |- Bean [Servlet Oidc Client Registration Handler] Configure.");
-        return handler;
-    }
+    @Configuration(proxyBeanMethods = false)
+    @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+    static class ServletMqttRegistrationConfiguration {
 
-    @Bean
-    @ConditionalOnMissingBean
-    public MqttDynamicRegistrationProcessor servletMqttRegistrationHandler(ObjectProvider<IdentifierManager> identifierManagerProvider, ServletLocalOAuth2ClientRegistrationHandler servletLocalOAuth2ClientRegistrationHandler) {
-        ServletEmqxDynamicRegistrationHandler handler = new ServletEmqxDynamicRegistrationHandler(identifierManagerProvider, servletLocalOAuth2ClientRegistrationHandler);
-        log.trace("[ThingsBrain] |- Bean [Servlet Mqtt Registration Handler] Configure.");
-        return handler;
+        @Bean
+        public MqttRegistrationHandler servletMqttRegistrationHandler(IdentifierManager identifierManager, ServletLocalOAuth2ClientRegistrationHandler servletLocalOAuth2ClientRegistrationHandler) {
+            ServletMqttRegistrationHandler handler = new ServletMqttRegistrationHandler(identifierManager, servletLocalOAuth2ClientRegistrationHandler);
+            log.trace("[ThingsBrain] |- Bean [Servlet Mqtt Registration Handler] Configure.");
+            return handler;
+        }
     }
 }

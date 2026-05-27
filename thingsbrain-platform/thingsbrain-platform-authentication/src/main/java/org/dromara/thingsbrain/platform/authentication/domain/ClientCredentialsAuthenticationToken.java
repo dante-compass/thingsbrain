@@ -23,41 +23,19 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.authentication.definition.domain;
+package org.dromara.thingsbrain.platform.authentication.domain;
 
-import com.google.common.base.MoreObjects;
-import org.dromara.thingsbrain.kernel.commons.domain.Identifier;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 客户端认证 Token </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/7/5 17:19
+ * @date : 2024/5/19 22:14
  */
-public class RegisterDomain extends Identifier {
-
-    public RegisterDomain() {
-    }
-
-    public RegisterDomain(String productKey, String deviceName, String deviceSecret) {
-        super(productKey, deviceName);
-        this.deviceSecret = deviceSecret;
-    }
-
-    private String deviceSecret;
-
-    public String getDeviceSecret() {
-        return deviceSecret;
-    }
-
-    public void setDeviceSecret(String deviceSecret) {
-        this.deviceSecret = deviceSecret;
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("deviceSecret", deviceSecret)
-                .toString();
-    }
+public record ClientCredentialsAuthenticationToken(
+        @JsonProperty("access_token") String accessToken,
+        @JsonProperty("scope") String scope,
+        @JsonProperty("token_type") String tokenType,
+        @JsonProperty("expires_in") Integer expiresIn) {
 }

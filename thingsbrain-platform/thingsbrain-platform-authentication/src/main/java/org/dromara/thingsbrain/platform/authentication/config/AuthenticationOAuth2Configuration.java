@@ -29,15 +29,15 @@ import jakarta.annotation.PostConstruct;
 import org.dromara.dante.spring.condition.ConditionalOnArchitecture;
 import org.dromara.dante.spring.enums.Architecture;
 import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
-import org.dromara.thingsbrain.platform.authentication.oauth2.LocalOAuth2ClientRegistrationSuccessListener;
-import org.dromara.thingsbrain.platform.authentication.oauth2.LocalOAuth2DeviceVerificationSuccessListener;
-import org.dromara.thingsbrain.platform.authentication.oauth2.RemoteOAuth2ClientRegistrationSuccessListener;
-import org.dromara.thingsbrain.platform.authentication.oauth2.RemoteOAuth2DeviceVerificationSuccessListener;
+import org.dromara.thingsbrain.platform.authentication.oauth2.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestClient;
 
 /**
  * <p>Description: ThingsBrain 物联网平台 OAuth2 信息同步配置 </p>
@@ -65,13 +65,13 @@ import org.springframework.context.annotation.Configuration;
  * @date : 2025/10/5 23:27
  */
 @Configuration(proxyBeanMethods = false)
-class OAuth2HttpRegistrationConfiguration {
+class AuthenticationOAuth2Configuration {
 
-    private static final Logger log = LoggerFactory.getLogger(OAuth2HttpRegistrationConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(AuthenticationOAuth2Configuration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[ThingsBrain] |- Module [Platform OAuth2] Configure.");
+        log.debug("[ThingsBrain] |- Module [Platform Authentication OAuth2] Configure.");
     }
 
     @Configuration(proxyBeanMethods = false)
@@ -111,4 +111,18 @@ class OAuth2HttpRegistrationConfiguration {
             return listener;
         }
     }
+
+    @Configuration(proxyBeanMethods = false)
+    @ConditionalOnClass(RestClient.class)
+    @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+    static class ServletOAuth2ClientRegistrationConfiguration {
+
+        @Bean
+        public ServletLocalOAuth2ClientRegistrationHandler servletLocalOAuth2ClientRegistrationHandler(RestClient restClient) {
+            ServletLocalOAuth2ClientRegistrationHandler handler = new ServletLocalOAuth2ClientRegistrationHandler(restClient);
+            log.trace("[ThingsBrain] |- Bean [Servlet OAuth2 Client Registration Handler] Configure.");
+            return handler;
+        }
+    }
+
 }

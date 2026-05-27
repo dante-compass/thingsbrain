@@ -23,7 +23,7 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.authentication.connection;
+package org.dromara.thingsbrain.platform.authentication.emqx;
 
 import org.dromara.dante.message.emqx.domain.WebhookClientConnected;
 import org.dromara.dante.message.emqx.event.WebhookClientConnectedEvent;
@@ -32,7 +32,7 @@ import org.dromara.thingsbrain.kernel.commons.domain.Identifier;
 import org.dromara.thingsbrain.kernel.commons.utils.DataFormatUtils;
 import org.dromara.thingsbrain.persistence.commons.domain.DeviceConnection;
 import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
-import org.dromara.thingsbrain.platform.authentication.definition.MqttDynamicRegistrationProcessor;
+import org.dromara.thingsbrain.platform.authentication.mqtt.MqttRegistrationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
@@ -50,8 +50,8 @@ public class EmqxWebhookClientConnectedListener extends AbstractEmqxConnectedLis
 
     private static final Logger log = LoggerFactory.getLogger(EmqxWebhookClientConnectedListener.class);
 
-    public EmqxWebhookClientConnectedListener(ObjectProvider<ConnectionManager> connectionManagerProvider, MqttDynamicRegistrationProcessor mqttDynamicRegistrationProcessor) {
-        super(connectionManagerProvider, new WebhookConnectedToDeviceConnectionConverter(), mqttDynamicRegistrationProcessor);
+    public EmqxWebhookClientConnectedListener(ConnectionManager connectionManager, MqttRegistrationHandler mqttRegistrationHandler) {
+        super(connectionManager, new WebhookConnectedToDeviceConnectionConverter(), mqttRegistrationHandler);
     }
 
     @Override

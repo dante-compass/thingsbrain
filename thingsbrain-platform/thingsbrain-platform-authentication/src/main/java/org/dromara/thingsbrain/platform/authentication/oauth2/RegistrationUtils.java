@@ -23,37 +23,29 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.kernel.commons.event;
+package org.dromara.thingsbrain.platform.authentication.oauth2;
 
-import org.dromara.dante.message.commons.definition.event.AbstractApplicationEvent;
-import org.dromara.thingsbrain.kernel.commons.enums.AuthType;
+import org.dromara.thingsbrain.platform.authentication.domain.OAuth2ClientRegistration;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 
-import java.time.Clock;
+import java.util.List;
 
 /**
- * <p>Description: 基于MQTT协议的设备动态注册成功事件 </p>
+ * <p>Description: 客户端注册工具类 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/7/6 23:27
+ * @date : 2025/7/4 23:38
  */
-public class MqttRegistrationSuccessEvent extends AbstractApplicationEvent<String> {
+public class RegistrationUtils {
 
-    /**
-     * 基于MQTT协议的设备动态注册类型，参见 {@link AuthType}
-     */
-    private final String type;
-
-    public MqttRegistrationSuccessEvent(String data, String type) {
-        super(data);
-        this.type = type;
-    }
-
-    public MqttRegistrationSuccessEvent(String data, Clock clock, String type) {
-        super(data, clock);
-        this.type = type;
-    }
-
-    public String getType() {
-        return type;
+    public static OAuth2ClientRegistration create(String productKey, String deviceName) {
+        OAuth2ClientRegistration registration = new OAuth2ClientRegistration();
+        registration.setProductKey(productKey);
+        registration.setGrantTypes(List.of(AuthorizationGrantType.CLIENT_CREDENTIALS.getValue()));
+        registration.setScope("profile");
+        registration.setClientName(deviceName);
+        registration.setTokenEndpointAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST.getValue());
+        return registration;
     }
 }

@@ -23,13 +23,13 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.authentication.mqtt;
+package org.dromara.thingsbrain.platform.authentication.oauth2;
 
 import org.dromara.dante.core.constant.SystemConstants;
 import org.dromara.dante.core.utils.AccessTokenUtils;
 import org.dromara.dante.spring.context.ServiceContextHolder;
-import org.dromara.thingsbrain.platform.authentication.definition.domain.ClientCredentialsAuthenticationToken;
-import org.dromara.thingsbrain.platform.authentication.definition.domain.OAuth2ClientRegistration;
+import org.dromara.thingsbrain.platform.authentication.domain.ClientCredentialsAuthenticationToken;
+import org.dromara.thingsbrain.platform.authentication.domain.OAuth2ClientRegistration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;

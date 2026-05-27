@@ -23,23 +23,35 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.authentication.definition;
+package org.dromara.thingsbrain.platform.authentication.emqx;
 
-import org.dromara.thingsbrain.platform.commons.domain.MqttClientIdFactory;
+import org.dromara.dante.message.emqx.domain.WebhookClientDisconnected;
+import org.dromara.dante.message.emqx.event.WebhookClientDisconnectedEvent;
+import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * <p>Description: Mqtt 自动注册服务 </p>
+ * <p>Description: 物联网设备下线监听 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/7/1 15:12
+ * @date : 2023/10/11 22:14
  */
-public interface MqttDynamicRegistrationProcessor {
+public class EmqxWebhookClientDisconnectedListener extends AbstractEmqxDisconnectedListener<WebhookClientDisconnectedEvent> {
 
-    /**
-     * Mqtt 客户端动态注册
-     *
-     * @param factory      mqtt 客户端ID {@link MqttClientIdFactory}
-     * @param mqttUsername mqtt 用户名
-     */
-    void registration(MqttClientIdFactory factory, String mqttUsername);
+    private static final Logger log = LoggerFactory.getLogger(EmqxWebhookClientDisconnectedListener.class);
+
+    public EmqxWebhookClientDisconnectedListener(ConnectionManager connectionManager) {
+        super(connectionManager);
+    }
+
+    @Override
+    public void onApplicationEvent(WebhookClientDisconnectedEvent event) {
+
+        log.debug("[ThingsBrain] |- Emqx WEBHOOK [DISCONNECTED] listener, response event!");
+
+        WebhookClientDisconnected data = event.getData();
+
+        disconnected(data.getClientId(), data.getReason(), data.getDisconnectedAt());
+    }
 }

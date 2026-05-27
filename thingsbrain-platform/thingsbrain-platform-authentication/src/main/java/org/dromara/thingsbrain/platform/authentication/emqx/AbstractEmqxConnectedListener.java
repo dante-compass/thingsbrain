@@ -23,14 +23,14 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.authentication.connection;
+package org.dromara.thingsbrain.platform.authentication.emqx;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.dromara.dante.message.emqx.definition.domain.AbstractEmqxDomain;
-import org.dromara.thingsbrain.platform.commons.domain.MqttClientIdFactory;
 import org.dromara.thingsbrain.persistence.commons.domain.DeviceConnection;
 import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
-import org.dromara.thingsbrain.platform.authentication.definition.MqttDynamicRegistrationProcessor;
+import org.dromara.thingsbrain.platform.authentication.mqtt.MqttRegistrationHandler;
+import org.dromara.thingsbrain.platform.commons.domain.MqttClientIdFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
@@ -50,12 +50,12 @@ abstract class AbstractEmqxConnectedListener<D extends AbstractEmqxDomain, E ext
 
     private final ConnectionManager connectionManager;
     private final Converter<D, DeviceConnection> toDeviceConnection;
-    private final MqttDynamicRegistrationProcessor mqttDynamicRegistrationProcessor;
+    private final MqttRegistrationHandler mqttRegistrationHandler;
 
-    protected AbstractEmqxConnectedListener(ObjectProvider<ConnectionManager> connectionManagerProvider, Converter<D, DeviceConnection> toDeviceConnection, MqttDynamicRegistrationProcessor mqttDynamicRegistrationProcessor) {
-        this.connectionManager = connectionManagerProvider.getIfAvailable();
+    protected AbstractEmqxConnectedListener(ConnectionManager connectionManager, Converter<D, DeviceConnection> toDeviceConnection, MqttRegistrationHandler mqttRegistrationHandler) {
+        this.connectionManager = connectionManager;
         this.toDeviceConnection = toDeviceConnection;
-        this.mqttDynamicRegistrationProcessor = mqttDynamicRegistrationProcessor;
+        this.mqttRegistrationHandler = mqttRegistrationHandler;
     }
 
     protected void connected(D data) {
@@ -68,7 +68,7 @@ abstract class AbstractEmqxConnectedListener<D extends AbstractEmqxDomain, E ext
         // 如果 mqttClientId 中包含 authType，则认为是 mqtt 动态注册
         if (ObjectUtils.isNotEmpty(factory.getAuthType())) {
             log.info("[ThingsBrain] |- [MQTT-REGISTRATION] Is mqtt registration!!!");
-            mqttDynamicRegistrationProcessor.registration(factory, mqttUsername);
+            mqttRegistrationHandler.process(factory, mqttUsername);
         } else {
             DeviceConnection deviceConnection = toDeviceConnection.convert(data);
             connectionManager.connected(factory.getClientId(), factory.getSignature(), deviceConnection);

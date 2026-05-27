@@ -26,7 +26,8 @@
 package org.dromara.thingsbrain.platform.authentication.mqtt;
 
 import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
-import org.dromara.thingsbrain.platform.authentication.definition.domain.OAuth2ClientRegistration;
+import org.dromara.thingsbrain.platform.authentication.domain.OAuth2ClientRegistration;
+import org.dromara.thingsbrain.platform.authentication.oauth2.ServletLocalOAuth2ClientRegistrationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
@@ -37,14 +38,14 @@ import org.springframework.beans.factory.ObjectProvider;
  * @author : gengwei.zheng
  * @date : 2025/7/5 17:09
  */
-public class ServletEmqxDynamicRegistrationHandler extends AbstractEmqxDynamicRegistrationHandler {
+public class ServletMqttRegistrationHandler extends AbstractMqttRegistrationHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(ServletEmqxDynamicRegistrationHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(ServletMqttRegistrationHandler.class);
 
     private final ServletLocalOAuth2ClientRegistrationHandler servletLocalOAuth2ClientRegistrationHandler;
 
-    public ServletEmqxDynamicRegistrationHandler(ObjectProvider<IdentifierManager> identifierManagerProvider, ServletLocalOAuth2ClientRegistrationHandler servletLocalOAuth2ClientRegistrationHandler) {
-        super(identifierManagerProvider);
+    public ServletMqttRegistrationHandler(IdentifierManager identifierManager, ServletLocalOAuth2ClientRegistrationHandler servletLocalOAuth2ClientRegistrationHandler) {
+        super(identifierManager);
         this.servletLocalOAuth2ClientRegistrationHandler = servletLocalOAuth2ClientRegistrationHandler;
     }
 
@@ -52,6 +53,6 @@ public class ServletEmqxDynamicRegistrationHandler extends AbstractEmqxDynamicRe
     protected void registration(String clientId, String clientSecret, String productKey, String deviceName) {
         log.debug("[ThingsBrain] |- [MQTT-REGISTRATION] Registration device begin processing.");
         OAuth2ClientRegistration OAuth2ClientRegistration = servletLocalOAuth2ClientRegistrationHandler.register(clientId, clientSecret, productKey, deviceName);
-        success(OAuth2ClientRegistration);
+        onSuccess(OAuth2ClientRegistration);
     }
 }

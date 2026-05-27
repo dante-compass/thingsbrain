@@ -23,19 +23,37 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.authentication.definition.domain;
+package org.dromara.thingsbrain.kernel.commons.event;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.dromara.dante.message.commons.definition.event.AbstractApplicationEvent;
+import org.dromara.thingsbrain.kernel.commons.enums.AuthType;
+
+import java.time.Clock;
 
 /**
- * <p>Description: 客户端认证 Token </p>
+ * <p>Description: 基于MQTT协议的设备动态注册成功事件 </p>
  *
  * @author : gengwei.zheng
- * @date : 2024/5/19 22:14
+ * @date : 2025/7/6 23:27
  */
-public record ClientCredentialsAuthenticationToken(
-        @JsonProperty("access_token") String accessToken,
-        @JsonProperty("scope") String scope,
-        @JsonProperty("token_type") String tokenType,
-        @JsonProperty("expires_in") Integer expiresIn) {
+public class MqttRegistrationResponseEvent extends AbstractApplicationEvent<String> {
+
+    /**
+     * 基于MQTT协议的设备动态注册类型，参见 {@link AuthType}
+     */
+    private final String type;
+
+    public MqttRegistrationResponseEvent(String data, String type) {
+        super(data);
+        this.type = type;
+    }
+
+    public MqttRegistrationResponseEvent(String data, Clock clock, String type) {
+        super(data, clock);
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
 }
