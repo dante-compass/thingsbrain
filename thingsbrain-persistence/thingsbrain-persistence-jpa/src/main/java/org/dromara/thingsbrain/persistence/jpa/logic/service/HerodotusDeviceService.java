@@ -91,4 +91,8 @@ public class HerodotusDeviceService extends AbstractJpaService<HerodotusDevice, 
     public Optional<HerodotusDevice> findByDeviceName(String deviceName) {
         return herodotusDeviceRepository.findByDeviceName(deviceName);
     }
+
+    public boolean isDeviceExists(String deviceName, String clientId) {
+        return herodotusDeviceRepository.findFirstByDeviceNameOrClientId(deviceName, clientId).isPresent();
+    }
 }

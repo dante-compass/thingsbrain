@@ -23,10 +23,9 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.kernel.commons;
+package org.dromara.thingsbrain.platform.commons.domain;
 
 import org.dromara.dante.core.enums.SignatureMethod;
-import org.dromara.thingsbrain.kernel.commons.domain.MqttClientIdFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

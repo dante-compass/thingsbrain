@@ -33,8 +33,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
-import org.dromara.thingsbrain.kernel.commons.definition.SignatureProcessor;
-import org.dromara.thingsbrain.kernel.commons.domain.SignatureAuthenticationResult;
+import org.dromara.thingsbrain.platform.commons.definition.MqttSignatureGenerator;
+import org.dromara.thingsbrain.platform.commons.domain.EmqxAuthenticationStatus;
 import org.dromara.thingsbrain.platform.rest.dto.EmqxAuthenticationRequest;
 import org.dromara.thingsbrain.platform.rest.dto.EmqxAuthenticationResponse;
 import org.slf4j.Logger;
@@ -63,10 +63,10 @@ public class EmqxSignatureAuthenticationController {
 
     private static final Logger log = LoggerFactory.getLogger(EmqxSignatureAuthenticationController.class);
 
-    private final SignatureProcessor signatureProcessor;
+    private final MqttSignatureGenerator mqttSignatureGenerator;
 
-    public EmqxSignatureAuthenticationController(SignatureProcessor signatureProcessor) {
-        this.signatureProcessor = signatureProcessor;
+    public EmqxSignatureAuthenticationController(MqttSignatureGenerator mqttSignatureGenerator) {
+        this.mqttSignatureGenerator = mqttSignatureGenerator;
     }
 
     @Operation(summary = "Emqx Webhook 认证接口", description = "用于基于 Mqtt 的客户端动态注册动态注册",
@@ -77,7 +77,7 @@ public class EmqxSignatureAuthenticationController {
     })
     @PostMapping("/authentication")
     public EmqxAuthenticationResponse authentication(@RequestBody @Validated EmqxAuthenticationRequest request) {
-        SignatureAuthenticationResult result = signatureProcessor.authentication(request.getClientId(), request.getUsername(), request.getPassword());
+        EmqxAuthenticationStatus result = mqttSignatureGenerator.authentication(request.getClientId(), request.getUsername(), request.getPassword());
         return EmqxAuthenticationResponse.builder().status(result.getStatus().name()).build();
     }
 }

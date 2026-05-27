@@ -27,9 +27,9 @@ package org.dromara.thingsbrain.platform.authentication.config;
 
 import jakarta.annotation.PostConstruct;
 import org.dromara.dante.web.definition.SignatureValidator;
-import org.dromara.thingsbrain.kernel.commons.definition.SignatureProcessor;
+import org.dromara.thingsbrain.platform.commons.definition.MqttSignatureGenerator;
 import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
-import org.dromara.thingsbrain.platform.authentication.signature.DefaultSignatureProcessor;
+import org.dromara.thingsbrain.platform.authentication.signature.DefaultMqttSignatureGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
@@ -58,8 +58,8 @@ public class PlatformRegistrationConfiguration {
     }
 
     @Bean
-    public SignatureProcessor signatureProcessor(ObjectProvider<IdentifierManager> identifierManagerProvider, SignatureValidator signatureValidator) {
-        DefaultSignatureProcessor handler = new DefaultSignatureProcessor(identifierManagerProvider, signatureValidator);
+    public MqttSignatureGenerator signatureProcessor(ObjectProvider<IdentifierManager> identifierManagerProvider, SignatureValidator signatureValidator) {
+        DefaultMqttSignatureGenerator handler = new DefaultMqttSignatureGenerator(identifierManagerProvider, signatureValidator);
         log.trace("[ThingsBrain] |- Bean [Signature Processor] Configure.");
         return handler;
     }

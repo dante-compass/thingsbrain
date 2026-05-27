@@ -31,11 +31,11 @@ import org.dromara.dante.core.domain.SignatureValidationResult;
 import org.dromara.dante.core.utils.SignatureUtils;
 import org.dromara.dante.web.definition.SignatureValidator;
 import org.dromara.thingsbrain.kernel.commons.constant.KernelConstants;
-import org.dromara.thingsbrain.kernel.commons.definition.SignatureProcessor;
+import org.dromara.thingsbrain.platform.commons.definition.MqttSignatureGenerator;
 import org.dromara.thingsbrain.kernel.commons.domain.Identifier;
-import org.dromara.thingsbrain.kernel.commons.domain.MqttClientIdFactory;
-import org.dromara.thingsbrain.kernel.commons.domain.SignatureAuthenticationResult;
-import org.dromara.thingsbrain.kernel.commons.domain.SignatureGenerationResult;
+import org.dromara.thingsbrain.platform.commons.domain.MqttClientIdFactory;
+import org.dromara.thingsbrain.platform.commons.domain.EmqxAuthenticationStatus;
+import org.dromara.thingsbrain.platform.commons.domain.SignatureGenerationResult;
 import org.dromara.thingsbrain.kernel.commons.enums.AuthType;
 import org.dromara.thingsbrain.kernel.commons.utils.DataFormatUtils;
 import org.dromara.thingsbrain.persistence.commons.domain.Device;
@@ -55,14 +55,14 @@ import java.util.Optional;
  * @author : gengwei.zheng
  * @date : 2025/9/25 22:35
  */
-public class DefaultSignatureProcessor implements SignatureProcessor {
+public class DefaultMqttSignatureGenerator implements MqttSignatureGenerator {
 
-    private static final Logger log = LoggerFactory.getLogger(DefaultSignatureProcessor.class);
+    private static final Logger log = LoggerFactory.getLogger(DefaultMqttSignatureGenerator.class);
 
     private final SignatureValidator signatureValidator;
     private final IdentifierManager identifierManager;
 
-    public DefaultSignatureProcessor(ObjectProvider<IdentifierManager> identifierManagerProvider, SignatureValidator signatureValidator) {
+    public DefaultMqttSignatureGenerator(ObjectProvider<IdentifierManager> identifierManagerProvider, SignatureValidator signatureValidator) {
         this.identifierManager = identifierManagerProvider.getIfAvailable();
         this.signatureValidator = signatureValidator;
     }
@@ -71,19 +71,19 @@ public class DefaultSignatureProcessor implements SignatureProcessor {
      * {@inheritDoc}
      */
     @Override
-    public SignatureAuthenticationResult authentication(String mqttClientId, String mqttUsername, String mqttPassword) {
+    public EmqxAuthenticationStatus authentication(String mqttClientId, String mqttUsername, String mqttPassword) {
 
         MqttClientIdFactory id = MqttClientIdFactory.of(mqttClientId).parse();
 
         // 如果 mqttClientId 不是 client + |xxxx| 格式，即不包含参数，则是使用其它途径进行认证
         if (!id.getSignature()) {
             log.warn("[ThingsBrain] |- Webhook authentication is not applicable to this client [{}].", mqttClientId);
-            return SignatureAuthenticationResult.ignore("Webhook authentication is not applicable to this client!");
+            return EmqxAuthenticationStatus.ignore("Webhook authentication is not applicable to this client!");
         }
 
         return DataFormatUtils.fromMqttUsername(mqttUsername)
                 .map(identifier -> authentication(identifier, id, mqttPassword))
-                .orElse(SignatureAuthenticationResult.deny("Mqtt username format error."));
+                .orElse(EmqxAuthenticationStatus.deny("Mqtt username format error."));
     }
 
     /**
@@ -107,9 +107,9 @@ public class DefaultSignatureProcessor implements SignatureProcessor {
      * @param identifier   物联网设备标识符 {@link Identifier}
      * @param factory      MqttClientId 工厂 {@link MqttClientIdFactory}
      * @param mqttPassword Mqtt 链接密码
-     * @return 签名认证结果 {@link SignatureAuthenticationResult}
+     * @return 签名认证结果 {@link EmqxAuthenticationStatus}
      */
-    private SignatureAuthenticationResult authentication(Identifier identifier, MqttClientIdFactory factory, String mqttPassword) {
+    private EmqxAuthenticationStatus authentication(Identifier identifier, MqttClientIdFactory factory, String mqttPassword) {
         Optional<Product> optional = identifierManager.findProductByProductKey(identifier.getProductKey());
 
         // 验证 productKey 是否正确
@@ -129,11 +129,11 @@ public class DefaultSignatureProcessor implements SignatureProcessor {
                                 return authentication(product.getProductSecret(), identifier, factory, mqttPassword);
                             }
                         } else {
-                            return SignatureAuthenticationResult.deny("The dynamic registration switch is not turned on!");
+                            return EmqxAuthenticationStatus.deny("The dynamic registration switch is not turned on!");
                         }
                     }
                 })
-                .orElse(SignatureAuthenticationResult.deny("ProductKey is not correct!"));
+                .orElse(EmqxAuthenticationStatus.deny("ProductKey is not correct!"));
     }
 
     /**
@@ -143,9 +143,9 @@ public class DefaultSignatureProcessor implements SignatureProcessor {
      * @param factory     MqttClientId 工厂 {@link MqttClientIdFactory}
      * @param signature   待验证签名
      * @param forRegister false 普通认证，true 动态注册认证
-     * @return 认证结果 {@link SignatureAuthenticationResult}
+     * @return 认证结果 {@link EmqxAuthenticationStatus}
      */
-    private SignatureAuthenticationResult authentication(Identifier identifier, MqttClientIdFactory factory, String signature, boolean forRegister) {
+    private EmqxAuthenticationStatus authentication(Identifier identifier, MqttClientIdFactory factory, String signature, boolean forRegister) {
         Optional<Device> optional = identifierManager.findDeviceByDeviceName(identifier.getDeviceName());
 
         return optional
@@ -153,7 +153,7 @@ public class DefaultSignatureProcessor implements SignatureProcessor {
                     String key = forRegister ? device.getProduct().getProductSecret() : device.getDeviceSecret();
                     return authentication(key, identifier, factory, signature);
                 })
-                .orElse(SignatureAuthenticationResult.deny("Device does " + identifier.getDeviceName() + " not exist!"));
+                .orElse(EmqxAuthenticationStatus.deny("Device does " + identifier.getDeviceName() + " not exist!"));
     }
 
     /**
@@ -163,16 +163,16 @@ public class DefaultSignatureProcessor implements SignatureProcessor {
      * @param identifier 物联网设备标识符 {@link Identifier}
      * @param factory    MqttClientId 工厂 {@link MqttClientIdFactory}
      * @param signature  待验证签名
-     * @return 认证结果 {@link SignatureAuthenticationResult}
+     * @return 认证结果 {@link EmqxAuthenticationStatus}
      */
-    private SignatureAuthenticationResult authentication(String key, Identifier identifier, MqttClientIdFactory factory, String signature) {
+    private EmqxAuthenticationStatus authentication(String key, Identifier identifier, MqttClientIdFactory factory, String signature) {
         Map<String, String> contents = content(identifier, factory);
 
         SignatureValidationResult result = signatureValidator.validate(key, factory.getSignMethod(), contents, signature);
         if (result.isValid()) {
-            return SignatureAuthenticationResult.allow();
+            return EmqxAuthenticationStatus.allow();
         } else {
-            return SignatureAuthenticationResult.deny(result.getMessage());
+            return EmqxAuthenticationStatus.deny(result.getMessage());
         }
     }
 

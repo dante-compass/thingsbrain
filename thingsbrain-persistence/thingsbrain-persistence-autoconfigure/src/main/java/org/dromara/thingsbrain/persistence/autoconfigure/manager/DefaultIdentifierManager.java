@@ -77,6 +77,15 @@ class DefaultIdentifierManager implements IdentifierManager {
      * {@inheritDoc}
      */
     @Override
+    public boolean isDeviceExists(String deviceName, String clientId) {
+        return deviceService.isDeviceExists(deviceName, clientId);
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void activation(String clientId) {
         deviceService.activation(clientId);
     }

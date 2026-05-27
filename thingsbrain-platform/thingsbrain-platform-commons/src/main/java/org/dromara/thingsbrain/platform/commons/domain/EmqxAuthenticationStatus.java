@@ -23,7 +23,7 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.kernel.commons.domain;
+package org.dromara.thingsbrain.platform.commons.domain;
 
 import org.dromara.dante.core.domain.BaseModel;
 
@@ -33,7 +33,7 @@ import org.dromara.dante.core.domain.BaseModel;
  * @author : gengwei.zheng
  * @date : 2025/6/26 22:04
  */
-public class SignatureAuthenticationResult implements BaseModel {
+public class EmqxAuthenticationStatus implements BaseModel {
 
     public enum Status {
         allow, deny, ignore;
@@ -49,25 +49,25 @@ public class SignatureAuthenticationResult implements BaseModel {
      */
     private final String message;
 
-    private SignatureAuthenticationResult(Status status) {
+    private EmqxAuthenticationStatus(Status status) {
         this(status, null);
     }
 
-    private SignatureAuthenticationResult(Status status, String message) {
+    private EmqxAuthenticationStatus(Status status, String message) {
         this.status = status;
         this.message = message;
     }
 
-    public static SignatureAuthenticationResult allow() {
-        return new SignatureAuthenticationResult(Status.allow);
+    public static EmqxAuthenticationStatus allow() {
+        return new EmqxAuthenticationStatus(Status.allow);
     }
 
-    public static SignatureAuthenticationResult deny(String message) {
-        return new SignatureAuthenticationResult(Status.deny, message);
+    public static EmqxAuthenticationStatus deny(String message) {
+        return new EmqxAuthenticationStatus(Status.deny, message);
     }
 
-    public static SignatureAuthenticationResult ignore(String message) {
-        return new SignatureAuthenticationResult(Status.ignore, message);
+    public static EmqxAuthenticationStatus ignore(String message) {
+        return new EmqxAuthenticationStatus(Status.ignore, message);
     }
 
     public Status getStatus() {

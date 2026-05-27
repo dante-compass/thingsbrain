@@ -15,6 +15,10 @@
     <description>ThingsBrain 物联网平台设备认证代码模块</description>
 
     <dependencies>
+        <dependency>
+            <groupId>org.dromara.thingsbrain</groupId>
+            <artifactId>thingsbrain-platform-commons</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.dromara.thingsbrain</groupId>

@@ -29,7 +29,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.dromara.dante.core.jackson.JacksonUtils;
 import org.dromara.dante.message.emqx.event.WebhookClientConnectedEvent;
 import org.dromara.dante.spring.context.ServiceContextHolder;
-import org.dromara.thingsbrain.kernel.commons.domain.MqttClientIdFactory;
+import org.dromara.thingsbrain.platform.commons.domain.MqttClientIdFactory;
 import org.dromara.thingsbrain.kernel.commons.enums.AuthType;
 import org.dromara.thingsbrain.kernel.commons.event.MqttRegistrationSuccessEvent;
 import org.dromara.thingsbrain.kernel.commons.utils.DataFormatUtils;

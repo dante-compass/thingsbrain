@@ -23,12 +23,12 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.kernel.commons.definition;
+package org.dromara.thingsbrain.platform.commons.definition;
 
 import org.dromara.dante.core.enums.SignatureMethod;
-import org.dromara.thingsbrain.kernel.commons.domain.MqttClientIdFactory;
-import org.dromara.thingsbrain.kernel.commons.domain.SignatureAuthenticationResult;
-import org.dromara.thingsbrain.kernel.commons.domain.SignatureGenerationResult;
+import org.dromara.thingsbrain.platform.commons.domain.MqttClientIdFactory;
+import org.dromara.thingsbrain.platform.commons.domain.EmqxAuthenticationStatus;
+import org.dromara.thingsbrain.platform.commons.domain.SignatureGenerationResult;
 
 /**
  * <p>Description: Mqtt 签名认证处理器 </p>
@@ -43,7 +43,7 @@ import org.dromara.thingsbrain.kernel.commons.domain.SignatureGenerationResult;
  * @author : gengwei.zheng
  * @date : 2025/9/25 22:26
  */
-public interface SignatureProcessor {
+public interface MqttSignatureGenerator {
 
     /**
      * 客户端注册密码签名验证
@@ -56,9 +56,9 @@ public interface SignatureProcessor {
      * @param mqttClientId Mqtt ClientId
      * @param mqttUsername Mqtt 用户名
      * @param mqttPassword Mqtt 密码
-     * @return 认证结果 {@link SignatureAuthenticationResult}
+     * @return 认证结果 {@link EmqxAuthenticationStatus}
      */
-    SignatureAuthenticationResult authentication(String mqttClientId, String mqttUsername, String mqttPassword);
+    EmqxAuthenticationStatus authentication(String mqttClientId, String mqttUsername, String mqttPassword);
 
     /**
      * 生成客户端登录签名

@@ -25,7 +25,7 @@
 
 package org.dromara.thingsbrain.platform.authentication.definition;
 
-import org.dromara.thingsbrain.kernel.commons.domain.MqttClientIdFactory;
+import org.dromara.thingsbrain.platform.commons.domain.MqttClientIdFactory;
 
 /**
  * <p>Description: Mqtt 自动注册服务 </p>
