@@ -13,7 +13,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.dromara.dante</groupId>
+            <groupId>org.dromara.dantecloud</groupId>
             <artifactId>dante-monolith-autoconfigure</artifactId>
         </dependency>
         <dependency>
