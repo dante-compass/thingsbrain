@@ -23,7 +23,7 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.registration.http;
+package org.dromara.thingsbrain.platform.registration.oauth2;
 
 import org.apache.commons.lang3.StringUtils;
 import org.dromara.dante.security.domain.RegisteredClientTransmitter;

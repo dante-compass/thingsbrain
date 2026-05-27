@@ -23,39 +23,40 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.registration.http;
+package org.dromara.thingsbrain.platform.registration.oauth2;
 
-import org.dromara.dante.core.jackson.JacksonUtils;
-import org.dromara.dante.oauth2.authorization.autoconfigure.bus.RemoteOidcClientRegistrationSuccessEvent;
-import org.dromara.dante.security.domain.RegisteredClientTransmitter;
+import org.apache.commons.lang3.StringUtils;
+import org.dromara.dante.security.domain.DeviceVerificationTransmitter;
 import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.context.ApplicationListener;
+
+import java.util.Optional;
 
 /**
- * <p>Description: 远程设备注册同步信息监听 </p>
+ * <p>Description: 设备验证成功事件通用监听 </p>
  *
  * @author : gengwei.zheng
- * @date : 2024/10/16 11:01
+ * @date : 2025/2/28 22:25
  */
-public class RemoteOAuth2ClientRegistrationSuccessListener extends AbstractOAuth2ClientRegistrationSuccessListener implements ApplicationListener<RemoteOidcClientRegistrationSuccessEvent> {
+abstract class AbstractOAuth2DeviceVerificationSuccessListener {
 
-    private static final Logger log = LoggerFactory.getLogger(RemoteOAuth2ClientRegistrationSuccessListener.class);
+    private static final Logger log = LoggerFactory.getLogger(AbstractOAuth2DeviceVerificationSuccessListener.class);
 
-    public RemoteOAuth2ClientRegistrationSuccessListener(ObjectProvider<IdentifierManager> identifierManagerProvider) {
-        super(identifierManagerProvider);
+    private final IdentifierManager identifierManager;
+
+    protected AbstractOAuth2DeviceVerificationSuccessListener(ObjectProvider<IdentifierManager> identifierManagerProvider) {
+        this.identifierManager = identifierManagerProvider.getIfAvailable();
     }
 
-    @Override
-    public void onApplicationEvent(RemoteOidcClientRegistrationSuccessEvent event) {
-        String data = event.getData();
+    protected void process(DeviceVerificationTransmitter deviceVerificationTransmitter) {
 
-        log.info("[ThingsBrain] |- Oidc client registration REMOTE listener, response event!");
+        log.debug("[ThingsBrain] |- [OAUTH2-DEVICE-VERIFICATION] Device verification process BEGIN!");
 
-        RegisteredClientTransmitter authentication = JacksonUtils.toObject(data, RegisteredClientTransmitter.class);
-
-        process(authentication);
+        Optional.ofNullable(deviceVerificationTransmitter)
+                .filter(iotDeviceTransmitter -> StringUtils.isNotBlank(iotDeviceTransmitter.getClientId()))
+                .map(DeviceVerificationTransmitter::getClientId)
+                .ifPresent(identifierManager::activation);
     }
 }

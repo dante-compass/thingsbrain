@@ -23,11 +23,10 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.registration.http;
+package org.dromara.thingsbrain.platform.registration.oauth2;
 
-import org.dromara.dante.core.jackson.JacksonUtils;
-import org.dromara.dante.oauth2.authorization.autoconfigure.bus.RemoteOAuth2DeviceVerificationSuccessEvent;
-import org.dromara.dante.security.domain.DeviceVerificationTransmitter;
+import org.dromara.dante.oauth2.commons.event.OAuth2ClientRegistrationSuccessEvent;
+import org.dromara.dante.security.domain.RegisteredClientTransmitter;
 import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,27 +34,26 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.ApplicationListener;
 
 /**
- * <p>Description: 远程设备校验成功事件处理信息监听 </p>
+ * <p>Description: 本地设备注册同步信息监听 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/2/28 22:28
+ * @date : 2024/10/16 11:01
  */
-public class RemoteOAuth2DeviceVerificationSuccessListener extends AbstractOAuth2DeviceVerificationSuccessListener implements ApplicationListener<RemoteOAuth2DeviceVerificationSuccessEvent> {
+public class LocalOAuth2ClientRegistrationSuccessListener extends AbstractOAuth2ClientRegistrationSuccessListener implements ApplicationListener<OAuth2ClientRegistrationSuccessEvent> {
 
-    private static final Logger log = LoggerFactory.getLogger(RemoteOAuth2DeviceVerificationSuccessListener.class);
+    private static final Logger log = LoggerFactory.getLogger(LocalOAuth2ClientRegistrationSuccessListener.class);
 
-    public RemoteOAuth2DeviceVerificationSuccessListener(ObjectProvider<IdentifierManager> identifierManagerProvider) {
+    public LocalOAuth2ClientRegistrationSuccessListener(ObjectProvider<IdentifierManager> identifierManagerProvider) {
         super(identifierManagerProvider);
     }
 
     @Override
-    public void onApplicationEvent(RemoteOAuth2DeviceVerificationSuccessEvent event) {
-        String data = event.getData();
+    public void onApplicationEvent(OAuth2ClientRegistrationSuccessEvent event) {
 
-        log.info("[ThingsBrain] |- OAuth2 device verification REMOTE listener, response event!");
+        log.info("[ThingsBrain] |- OAuth2 client registration LOCAL listener, response event!");
 
-        DeviceVerificationTransmitter transmitter = JacksonUtils.toObject(data, DeviceVerificationTransmitter.class);
+        RegisteredClientTransmitter authentication = event.getData();
 
-        process(transmitter);
+        process(authentication);
     }
 }

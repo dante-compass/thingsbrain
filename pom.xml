@@ -60,7 +60,7 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.dromara.dante</groupId>
+                <groupId>org.dromara.dantecloud</groupId>
                 <artifactId>dante-cloud-dependencies</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>

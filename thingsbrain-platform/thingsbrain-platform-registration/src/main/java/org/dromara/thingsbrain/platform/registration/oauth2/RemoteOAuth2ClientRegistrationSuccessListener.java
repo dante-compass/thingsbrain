@@ -23,9 +23,10 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.registration.http;
+package org.dromara.thingsbrain.platform.registration.oauth2;
 
-import org.dromara.dante.oauth2.commons.event.OidcClientRegistrationSuccessEvent;
+import org.dromara.dante.core.jackson.JacksonUtils;
+import org.dromara.dante.oauth2.authorization.autoconfigure.bus.RemoteOAuth2ClientRegistrationSuccessEvent;
 import org.dromara.dante.security.domain.RegisteredClientTransmitter;
 import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.slf4j.Logger;
@@ -34,25 +35,26 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.ApplicationListener;
 
 /**
- * <p>Description: 本地设备注册同步信息监听 </p>
+ * <p>Description: 远程设备注册同步信息监听 </p>
  *
  * @author : gengwei.zheng
  * @date : 2024/10/16 11:01
  */
-public class LocalOAuth2ClientRegistrationSuccessListener extends AbstractOAuth2ClientRegistrationSuccessListener implements ApplicationListener<OidcClientRegistrationSuccessEvent> {
+public class RemoteOAuth2ClientRegistrationSuccessListener extends AbstractOAuth2ClientRegistrationSuccessListener implements ApplicationListener<RemoteOAuth2ClientRegistrationSuccessEvent> {
 
-    private static final Logger log = LoggerFactory.getLogger(LocalOAuth2ClientRegistrationSuccessListener.class);
+    private static final Logger log = LoggerFactory.getLogger(RemoteOAuth2ClientRegistrationSuccessListener.class);
 
-    public LocalOAuth2ClientRegistrationSuccessListener(ObjectProvider<IdentifierManager> identifierManagerProvider) {
+    public RemoteOAuth2ClientRegistrationSuccessListener(ObjectProvider<IdentifierManager> identifierManagerProvider) {
         super(identifierManagerProvider);
     }
 
     @Override
-    public void onApplicationEvent(OidcClientRegistrationSuccessEvent event) {
+    public void onApplicationEvent(RemoteOAuth2ClientRegistrationSuccessEvent event) {
+        String data = event.getData();
 
-        log.info("[ThingsBrain] |- Oidc client registration LOCAL listener, response event!");
+        log.info("[ThingsBrain] |- Oidc client registration REMOTE listener, response event!");
 
-        RegisteredClientTransmitter authentication = event.getData();
+        RegisteredClientTransmitter authentication = JacksonUtils.toObject(data, RegisteredClientTransmitter.class);
 
         process(authentication);
     }
