@@ -23,40 +23,39 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.autoconfigure;
+package org.dromara.thingsbrain.platform.authentication.oauth2;
 
-import jakarta.annotation.PostConstruct;
+import org.dromara.dante.core.jackson.JacksonUtils;
+import org.dromara.dante.oauth2.authorization.autoconfigure.bus.RemoteOAuth2ClientRegistrationSuccessEvent;
+import org.dromara.dante.security.domain.RegisteredClientTransmitter;
 import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
-import org.dromara.thingsbrain.platform.authentication.config.ServletEmqxRegistrationConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.boot.restclient.autoconfigure.RestClientAutoConfiguration;
-import org.springframework.context.annotation.Import;
-import org.springframework.web.client.RestClient;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.context.ApplicationListener;
 
 /**
- * <p>Description: ThingsBrain 物联网平台组赛式安全功能自动配置 </p>
+ * <p>Description: 远程设备注册同步信息监听 </p>
  *
- * @author : gengwei_zheng
- * @date : 2026/5/3 19:46
+ * @author : gengwei.zheng
+ * @date : 2024/10/16 11:01
  */
-@AutoConfiguration(after = RestClientAutoConfiguration.class)
-@ConditionalOnClass(RestClient.class)
-@ConditionalOnBean({IdentifierManager.class})
-@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-@Import({
-        ServletEmqxRegistrationConfiguration.class
-})
-public class ServletPlatformRegistrationAutoConfiguration {
+public class RemoteOAuth2ClientRegistrationSuccessListener extends AbstractOAuth2ClientRegistrationSuccessListener implements ApplicationListener<RemoteOAuth2ClientRegistrationSuccessEvent> {
 
-    private static final Logger log = LoggerFactory.getLogger(ServletPlatformRegistrationAutoConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(RemoteOAuth2ClientRegistrationSuccessListener.class);
 
-    @PostConstruct
-    public void postConstruct() {
-        log.info("[ThingsBrain] |- Auto [Servlet Platform Security] Configure.");
+    public RemoteOAuth2ClientRegistrationSuccessListener(ObjectProvider<IdentifierManager> identifierManagerProvider) {
+        super(identifierManagerProvider);
+    }
+
+    @Override
+    public void onApplicationEvent(RemoteOAuth2ClientRegistrationSuccessEvent event) {
+        String data = event.getData();
+
+        log.info("[ThingsBrain] |- Oidc client registration REMOTE listener, response event!");
+
+        RegisteredClientTransmitter authentication = JacksonUtils.toObject(data, RegisteredClientTransmitter.class);
+
+        process(authentication);
     }
 }

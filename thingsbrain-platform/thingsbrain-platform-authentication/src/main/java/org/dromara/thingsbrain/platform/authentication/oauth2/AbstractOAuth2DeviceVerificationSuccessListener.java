@@ -23,40 +23,40 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.platform.autoconfigure;
+package org.dromara.thingsbrain.platform.authentication.oauth2;
 
-import jakarta.annotation.PostConstruct;
+import org.apache.commons.lang3.StringUtils;
+import org.dromara.dante.security.domain.DeviceVerificationTransmitter;
 import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
-import org.dromara.thingsbrain.platform.authentication.config.ServletEmqxRegistrationConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.boot.restclient.autoconfigure.RestClientAutoConfiguration;
-import org.springframework.context.annotation.Import;
-import org.springframework.web.client.RestClient;
+import org.springframework.beans.factory.ObjectProvider;
+
+import java.util.Optional;
 
 /**
- * <p>Description: ThingsBrain 物联网平台组赛式安全功能自动配置 </p>
+ * <p>Description: 设备验证成功事件通用监听 </p>
  *
- * @author : gengwei_zheng
- * @date : 2026/5/3 19:46
+ * @author : gengwei.zheng
+ * @date : 2025/2/28 22:25
  */
-@AutoConfiguration(after = RestClientAutoConfiguration.class)
-@ConditionalOnClass(RestClient.class)
-@ConditionalOnBean({IdentifierManager.class})
-@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-@Import({
-        ServletEmqxRegistrationConfiguration.class
-})
-public class ServletPlatformRegistrationAutoConfiguration {
+abstract class AbstractOAuth2DeviceVerificationSuccessListener {
 
-    private static final Logger log = LoggerFactory.getLogger(ServletPlatformRegistrationAutoConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(AbstractOAuth2DeviceVerificationSuccessListener.class);
 
-    @PostConstruct
-    public void postConstruct() {
-        log.info("[ThingsBrain] |- Auto [Servlet Platform Security] Configure.");
+    private final IdentifierManager identifierManager;
+
+    protected AbstractOAuth2DeviceVerificationSuccessListener(ObjectProvider<IdentifierManager> identifierManagerProvider) {
+        this.identifierManager = identifierManagerProvider.getIfAvailable();
+    }
+
+    protected void process(DeviceVerificationTransmitter deviceVerificationTransmitter) {
+
+        log.debug("[ThingsBrain] |- [OAUTH2-DEVICE-VERIFICATION] Device verification process BEGIN!");
+
+        Optional.ofNullable(deviceVerificationTransmitter)
+                .filter(iotDeviceTransmitter -> StringUtils.isNotBlank(iotDeviceTransmitter.getClientId()))
+                .map(DeviceVerificationTransmitter::getClientId)
+                .ifPresent(identifierManager::activation);
     }
 }

@@ -20,7 +20,7 @@
 
         <dependency>
             <groupId>org.dromara.thingsbrain</groupId>
-            <artifactId>thingsbrain-platform-registration</artifactId>
+            <artifactId>thingsbrain-platform-authentication</artifactId>
         </dependency>
 
         <dependency>

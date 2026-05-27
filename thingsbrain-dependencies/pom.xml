@@ -155,7 +155,7 @@
             </dependency>
             <dependency>
                 <groupId>org.dromara.thingsbrain</groupId>
-                <artifactId>thingsbrain-platform-registration</artifactId>
+                <artifactId>thingsbrain-platform-authentication</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

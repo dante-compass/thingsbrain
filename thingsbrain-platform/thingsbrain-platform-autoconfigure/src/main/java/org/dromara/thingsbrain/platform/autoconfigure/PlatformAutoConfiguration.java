@@ -30,7 +30,7 @@ import org.dromara.dante.core.function.EnumDictionaryBuilderCustomizer;
 import org.dromara.dante.core.function.ErrorCodeMapperBuilderCustomizer;
 import org.dromara.thingsbrain.platform.autoconfigure.customizer.PlatformEnumDictionaryBuilderCustomizer;
 import org.dromara.thingsbrain.platform.autoconfigure.customizer.PlatformErrorCodeMapperBuilderCustomizer;
-import org.dromara.thingsbrain.platform.registration.config.PlatformRegistrationConfiguration;
+import org.dromara.thingsbrain.platform.authentication.config.PlatformRegistrationConfiguration;
 import org.dromara.thingsbrain.platform.rest.config.PlatformRestConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
