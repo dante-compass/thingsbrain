@@ -27,9 +27,11 @@ package org.dromara.thingsbrain.platform.authentication.config;
 
 import jakarta.annotation.PostConstruct;
 import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
+import org.dromara.thingsbrain.platform.authentication.mqtt.DefaultMqttSignatureGenerator;
 import org.dromara.thingsbrain.platform.authentication.mqtt.MqttRegistrationHandler;
 import org.dromara.thingsbrain.platform.authentication.mqtt.ServletMqttRegistrationHandler;
 import org.dromara.thingsbrain.platform.authentication.oauth2.ServletLocalOAuth2ClientRegistrationHandler;
+import org.dromara.thingsbrain.platform.commons.definition.MqttSignatureGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -51,6 +53,14 @@ public class AuthenticationMqttConfiguration {
     public void postConstruct() {
         log.debug("[ThingsBrain] |- Module [Platform Authentication Mqtt] Configure.");
     }
+
+    @Bean
+    public MqttSignatureGenerator mqttSignatureGenerator() {
+        DefaultMqttSignatureGenerator generator = new DefaultMqttSignatureGenerator();
+        log.trace("[ThingsBrain] |- Bean [Mqtt Signature Generator] Configure.");
+        return generator;
+    }
+
 
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
