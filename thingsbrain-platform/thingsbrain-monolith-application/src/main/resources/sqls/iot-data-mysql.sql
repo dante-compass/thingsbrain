@@ -385,6 +385,13 @@ INSERT INTO `sys_element_role` (`element_id`, `role_id`) VALUES ('b827346f-494d-
 INSERT INTO `sys_element_role` (`element_id`, `role_id`) VALUES ('310a9900-400d-43cf-9e3b-e262c61a5cd5', '1');
 INSERT INTO `sys_element_role` (`element_id`, `role_id`) VALUES ('0ada5e0f-fc28-4bef-adf1-388629dc6aa7', '1');
 INSERT INTO `sys_element_role` (`element_id`, `role_id`) VALUES ('26553c53-f11a-4c27-a415-350e0a383881', '1');
+INSERT INTO `sys_element_role` (`element_id`, `role_id`) VALUES ('c2f9d2a0-04d4-4afa-a54a-f602449e74bd', '7e43d37d-d045-445f-a1de-cb1259f7709c');
+INSERT INTO `sys_element_role` (`element_id`, `role_id`) VALUES ('548d3452-fa99-4ad4-8607-13dff96a32ee', '7e43d37d-d045-445f-a1de-cb1259f7709c');
+INSERT INTO `sys_element_role` (`element_id`, `role_id`) VALUES ('8d5bbd69-f73b-4288-8577-c7a6a47c2ab6', '7e43d37d-d045-445f-a1de-cb1259f7709c');
+INSERT INTO `sys_element_role` (`element_id`, `role_id`) VALUES ('e6b9d450-043f-4f62-b85a-2b5007c808b6', '7e43d37d-d045-445f-a1de-cb1259f7709c');
+INSERT INTO `sys_element_role` (`element_id`, `role_id`) VALUES ('68584367-af66-4a23-aba2-b656e2c947a6', '7e43d37d-d045-445f-a1de-cb1259f7709c');
+INSERT INTO `sys_element_role` (`element_id`, `role_id`) VALUES ('8026d76e-8b75-430d-919e-e41cf63fa72f', '7e43d37d-d045-445f-a1de-cb1259f7709c');
+INSERT INTO `sys_element_role` (`element_id`, `role_id`) VALUES ('9d7356c7-14a8-40fe-ad87-700b8b962a97', '7e43d37d-d045-445f-a1de-cb1259f7709c');
 
 -- ----------------------------
 -- Table data for iot_tsl_unit
