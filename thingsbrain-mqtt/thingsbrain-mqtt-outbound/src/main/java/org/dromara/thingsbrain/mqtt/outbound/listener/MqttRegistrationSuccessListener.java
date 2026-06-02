@@ -26,7 +26,7 @@
 package org.dromara.thingsbrain.mqtt.outbound.listener;
 
 import org.dromara.thingsbrain.kernel.commons.enums.AuthType;
-import org.dromara.thingsbrain.kernel.commons.event.MqttRegistrationSuccessEvent;
+import org.dromara.thingsbrain.kernel.commons.event.MqttRegistrationResponseEvent;
 import org.dromara.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +40,7 @@ import org.springframework.stereotype.Component;
  * @date : 2025/7/7 14:23
  */
 @Component
-public class MqttRegistrationSuccessListener implements ApplicationListener<MqttRegistrationSuccessEvent> {
+public class MqttRegistrationSuccessListener implements ApplicationListener<MqttRegistrationResponseEvent> {
 
     private static final Logger log = LoggerFactory.getLogger(MqttRegistrationSuccessListener.class);
 
@@ -51,7 +51,7 @@ public class MqttRegistrationSuccessListener implements ApplicationListener<Mqtt
     }
 
     @Override
-    public void onApplicationEvent(MqttRegistrationSuccessEvent event) {
+    public void onApplicationEvent(MqttRegistrationResponseEvent event) {
 
         String type = event.getType();
         String data = event.getData();

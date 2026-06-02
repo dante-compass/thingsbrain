@@ -39,9 +39,10 @@ import org.dromara.dante.core.domain.Result;
 import org.dromara.dante.data.commons.service.BaseWriteAndPageService;
 import org.dromara.dante.data.rest.servlet.AbstractEntityWriteAndPageController;
 import org.dromara.dante.web.annotation.AccessLimited;
-import org.dromara.thingsbrain.kernel.commons.definition.SignatureProcessor;
+import org.dromara.thingsbrain.platform.commons.definition.MqttSignatureGenerator;
 import org.dromara.thingsbrain.persistence.commons.domain.Device;
 import org.dromara.thingsbrain.persistence.commons.service.DeviceService;
+import org.dromara.thingsbrain.platform.commons.domain.SignatureGenerationResult;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,11 +69,11 @@ import java.util.Optional;
 public class DeviceController extends AbstractEntityWriteAndPageController<Device, String, BaseWriteAndPageService<Device, String>> {
 
     private final DeviceService deviceService;
-    private final SignatureProcessor signatureProcessor;
+    private final MqttSignatureGenerator mqttSignatureGenerator;
 
-    public DeviceController(DeviceService deviceService, SignatureProcessor signatureProcessor) {
+    public DeviceController(DeviceService deviceService, MqttSignatureGenerator mqttSignatureGenerator) {
         this.deviceService = deviceService;
-        this.signatureProcessor = signatureProcessor;
+        this.mqttSignatureGenerator = mqttSignatureGenerator;
     }
 
     @Override
@@ -103,9 +104,9 @@ public class DeviceController extends AbstractEntityWriteAndPageController<Devic
             @Parameter(name = "clientId", required = true, description = "设备 ClientID"),
     })
     @GetMapping("/signature")
-    public Result<org.dromara.thingsbrain.kernel.commons.domain.SignatureGenerationResult> signature(@NotBlank @RequestParam("clientId") String clientId) {
+    public Result<SignatureGenerationResult> signature(@NotBlank @RequestParam("clientId") String clientId) {
         Optional<Device> optional = deviceService.findByClientId(clientId);
-        org.dromara.thingsbrain.kernel.commons.domain.SignatureGenerationResult result = optional.map(device -> signatureProcessor.generation(device.getProduct().getProductKey(), device.getDeviceName(), device.getDeviceSecret())).orElse(new org.dromara.thingsbrain.kernel.commons.domain.SignatureGenerationResult());
+        SignatureGenerationResult result = optional.map(device -> mqttSignatureGenerator.process(device.getProduct().getProductKey(), device.getDeviceName(), device.getDeviceSecret())).orElse(new org.dromara.thingsbrain.platform.commons.domain.SignatureGenerationResult());
         return result(result);
     }
 }

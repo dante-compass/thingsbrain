@@ -56,13 +56,4 @@ public class PlatformRestConfiguration {
     static class ServletControllerConfiguration {
 
     }
-
-    @Configuration(proxyBeanMethods = false)
-    @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
-    @ComponentScan(basePackages = {
-            "org.dromara.thingsbrain.platform.rest.controller.reactive",
-    })
-    static class ReactiveControllerConfiguration {
-
-    }
 }

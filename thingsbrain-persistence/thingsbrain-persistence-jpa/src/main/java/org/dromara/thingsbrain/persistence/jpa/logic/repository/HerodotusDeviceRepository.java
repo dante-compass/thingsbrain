@@ -60,6 +60,15 @@ public interface HerodotusDeviceRepository extends BaseJpaRepository<HerodotusDe
     @QueryHints(@QueryHint(name = AvailableHints.HINT_CACHEABLE, value = "true"))
     Optional<HerodotusDevice> findByDeviceName(String deviceName);
 
+    /**
+     * 查询系统中是否已经存在 clientId 或者 deviceName
+     *
+     * @param deviceName 物联网设备
+     * @param clientId   设备 ClientId
+     * @return 设备详情 {@link HerodotusDevice}
+     */
+    Optional<HerodotusDevice> findFirstByDeviceNameOrClientId(String deviceName, String clientId);
+
     @QueryHints(@QueryHint(name = AvailableHints.HINT_CACHEABLE, value = "true"))
     @EntityGraph(attributePaths = {"deviceTags", "deviceTags.tag"})
     Optional<HerodotusDevice> findWithTagsByDeviceId(String deviceId);

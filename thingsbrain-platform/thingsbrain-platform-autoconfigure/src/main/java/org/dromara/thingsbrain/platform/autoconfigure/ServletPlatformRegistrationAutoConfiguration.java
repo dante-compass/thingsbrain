@@ -27,7 +27,7 @@ package org.dromara.thingsbrain.platform.autoconfigure;
 
 import jakarta.annotation.PostConstruct;
 import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
-import org.dromara.thingsbrain.platform.registration.config.ServletEmqxRegistrationConfiguration;
+import org.dromara.thingsbrain.platform.authentication.config.AuthenticationMqttConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -49,7 +49,7 @@ import org.springframework.web.client.RestClient;
 @ConditionalOnBean({IdentifierManager.class})
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @Import({
-        ServletEmqxRegistrationConfiguration.class
+        AuthenticationMqttConfiguration.class
 })
 public class ServletPlatformRegistrationAutoConfiguration {
 

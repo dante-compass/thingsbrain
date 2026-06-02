@@ -1,0 +1,84 @@
+/*
+ * Copyright 2020-2030 码匠君<herodotus@aliyun.com>
+ *
+ * ThingsBrain licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * ThingsBrain 是 Dante Cloud 系统生态产品，采用 APACHE LICENSE 2.0 开源协议，您在使用过程中，需要注意以下几点：
+ *
+ * 1. 请不要删除和修改根目录下的LICENSE文件。
+ * 2. 请不要删除和修改 ThingsBrain 源码头部的版权声明。
+ * 3. 请保留源码和相关描述文件的项目出处，作者声明等。
+ * 4. 分发源码时候，请注明软件出处 <https://gitee.com/dromara/dante-cloud>
+ * 5. 在修改包名，模块名称，项目代码等时，请注明软件出处 <https://gitee.com/dromara/dante-cloud>
+ * 6. 若您的项目无法满足以上几点，可申请商业授权
+ */
+
+package org.dromara.thingsbrain.platform.rest.controller.servlet;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
+import org.dromara.thingsbrain.platform.commons.definition.EmqxAuthenticationHandler;
+import org.dromara.thingsbrain.platform.commons.domain.EmqxAuthenticationStatus;
+import org.dromara.thingsbrain.platform.rest.dto.EmqxAuthenticationRequest;
+import org.dromara.thingsbrain.platform.rest.dto.EmqxAuthenticationResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * <p>Description: "Emqx Webhook 开放接口 </p>
+ *
+ * @author : gengwei.zheng
+ * @date : 2025/6/26 22:00
+ */
+@RestController
+@RequestMapping("/open/emqx")
+@Tags({
+        @Tag(name = "物联网业务功能接口"),
+        @Tag(name = "ThingsBrain物联网接口"),
+        @Tag(name = "Emqx HTTP API 认证接口"),
+})
+public class EmqxOpenController {
+
+    private static final Logger log = LoggerFactory.getLogger(EmqxOpenController.class);
+
+    private final EmqxAuthenticationHandler emqxAuthenticationHandler;
+
+    public EmqxOpenController(EmqxAuthenticationHandler emqxAuthenticationHandler) {
+        this.emqxAuthenticationHandler = emqxAuthenticationHandler;
+    }
+
+
+    @Operation(summary = "Emqx Webhook 认证接口", description = "用于基于 Mqtt 的客户端动态注册动态注册",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
+            responses = {@ApiResponse(description = "认证结果", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))})
+    @Parameters({
+            @Parameter(name = "request", required = true, description = "Emqx Http 方式授权请求参数实体", schema = @Schema(implementation = EmqxAuthenticationRequest.class)),
+    })
+    @PostMapping("/authentication")
+    public EmqxAuthenticationResponse authentication(@RequestBody @Validated EmqxAuthenticationRequest request) {
+        EmqxAuthenticationStatus result = emqxAuthenticationHandler.process(request.getClientId(), request.getUsername(), request.getPassword());
+        return EmqxAuthenticationResponse.builder().status(result.getStatus().name()).build();
+    }
+}

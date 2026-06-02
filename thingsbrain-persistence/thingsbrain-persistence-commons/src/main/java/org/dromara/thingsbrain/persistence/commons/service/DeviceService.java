@@ -66,6 +66,15 @@ public interface DeviceService extends BaseWriteAndPageService<Device, String> {
     Optional<Device> findByDeviceName(String deviceName);
 
     /**
+     * 根据 clientId 或者 deviceName 判断设备 {@link Device} 是否已经存在
+     *
+     * @param deviceName 物联网设备 DeviceName
+     * @param clientId   设备 ClientId
+     * @return true 设备已存在；false 设备不存在。
+     */
+    boolean isDeviceExists(String deviceName, String clientId);
+
+    /**
      * 设备注册
      *
      * @param device 设备信息

@@ -6,14 +6,14 @@
     <parent>
         <groupId>org.dromara.thingsbrain</groupId>
         <artifactId>thingsbrain-platform</artifactId>
-        <version>4.0.6.4</version>
+        <version>4.0.6.5</version>
     </parent>
 
     <artifactId>thingsbrain-monolith-application</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>org.dromara.dante</groupId>
+            <groupId>org.dromara.dantecloud</groupId>
             <artifactId>dante-monolith-autoconfigure</artifactId>
         </dependency>
         <dependency>

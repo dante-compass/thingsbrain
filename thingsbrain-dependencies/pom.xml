@@ -32,7 +32,7 @@
     <parent>
         <groupId>cn.herodotus.ecosystem</groupId>
         <artifactId>herodotus-ecosystem-parent</artifactId>
-        <version>4.0.6.4</version>
+        <version>4.0.6.5</version>
         <relativePath/>
     </parent>
 
@@ -150,12 +150,17 @@
             </dependency>
             <dependency>
                 <groupId>org.dromara.thingsbrain</groupId>
+                <artifactId>thingsbrain-platform-authentication</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.dromara.thingsbrain</groupId>
                 <artifactId>thingsbrain-platform-autoconfigure</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.dromara.thingsbrain</groupId>
-                <artifactId>thingsbrain-platform-registration</artifactId>
+                <artifactId>thingsbrain-platform-commons</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

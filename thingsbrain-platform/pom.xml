@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.dromara.thingsbrain</groupId>
         <artifactId>thingsbrain</artifactId>
-        <version>4.0.6.4</version>
+        <version>4.0.6.5</version>
     </parent>
 
     <artifactId>thingsbrain-platform</artifactId>
@@ -14,7 +14,8 @@
     <modules>
         <module>thingsbrain-platform-autoconfigure</module>
         <module>thingsbrain-platform-rest</module>
-        <module>thingsbrain-platform-registration</module>
+        <module>thingsbrain-platform-authentication</module>
         <module>thingsbrain-monolith-application</module>
+        <module>thingsbrain-platform-commons</module>
     </modules>
 </project>

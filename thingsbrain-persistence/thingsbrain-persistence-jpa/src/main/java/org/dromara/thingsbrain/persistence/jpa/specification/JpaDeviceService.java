@@ -105,10 +105,16 @@ public class JpaDeviceService implements DeviceService {
     }
 
     @Override
+    public boolean isDeviceExists(String deviceName, String clientId) {
+        return delegate.isDeviceExists(deviceName, clientId);
+    }
+
+
+    @Override
     public void registration(Device domain) {
         HerodotusDevice device = fromDevice.convert(domain);
         HerodotusDevice result = herodotusDeviceManager.registration(device);
-        log.debug("[ThingsBrain] |- [OIDC-CLIENT-REGISTRATION] Oidc client registration process FINISHED for [{}].", result.getClientId());
+        log.debug("[ThingsBrain] |- [OAUTH2-CLIENT-REGISTRATION] OAuth2 client registration process FINISHED for [{}].", result.getClientId());
     }
 
     @Override
