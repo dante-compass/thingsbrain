@@ -312,7 +312,7 @@ herodotus:
         - tcp://localhost:1883
       username: herodotus
       password: herodotus
-      client-id: herodotus-iot-platform
+      client-id: thingsbrain-platform
   nosql:
     influxdb2:
       url: http://192.168.101.10:8086

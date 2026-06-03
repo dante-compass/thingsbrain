@@ -194,7 +194,7 @@ INSERT INTO "iot_product" ("product_id", "create_time", "update_time", "create_b
 -- ----------------------------
 -- Table data for iot_mqtt_account
 -- ----------------------------
-INSERT INTO "iot_mqtt_account" ("account_id", "create_time", "update_time", "create_by", "reversion", "update_by", "description", "ranking", "is_reserved", "status", "client_id", "password", "username") VALUES ('herodotus-iot-platform', '2025-10-07 22:42:29', '2025-10-07 22:42:32', 'system', 0, 'system', '物联网平台链接Mqtt默认账号', 0, 't', 0, 'herodotus-iot-platform', '{bcrypt}$2a$10$/XF002c2EuL0NyaEZ8a0be8S2IxKjFDd8f1ryY6wHpRMuXCiF2x7K', 'herodotus');
+INSERT INTO "iot_mqtt_account" ("account_id", "create_time", "update_time", "create_by", "reversion", "update_by", "description", "ranking", "is_reserved", "status", "client_id", "password", "username") VALUES ('thingsbrain-platform', '2025-10-07 22:42:29', '2025-10-07 22:42:32', 'system', 0, 'system', '物联网平台链接Mqtt默认账号', 0, 't', 0, 'thingsbrain-platform', '{bcrypt}$2a$10$/XF002c2EuL0NyaEZ8a0be8S2IxKjFDd8f1ryY6wHpRMuXCiF2x7K', 'herodotus');
 
 -- ----------------------------
 -- Table data for iot_mqtt_account_category
@@ -207,8 +207,8 @@ INSERT INTO "iot_mqtt_category" ("category_id", "create_time", "update_time", "c
 -- ----------------------------
 -- Table data for iot_mqtt_category
 -- ----------------------------
-INSERT INTO "iot_mqtt_account_category" ("account_id", "category_id") VALUES ('herodotus-iot-platform', '1');
-INSERT INTO "iot_mqtt_account_category" ("account_id", "category_id") VALUES ('herodotus-iot-platform', '2');
+INSERT INTO "iot_mqtt_account_category" ("account_id", "category_id") VALUES ('thingsbrain-platform', '1');
+INSERT INTO "iot_mqtt_account_category" ("account_id", "category_id") VALUES ('thingsbrain-platform', '2');
 -- INSERT INTO "iot_mqtt_account_category" ("account_id", "category_id") VALUES ('83a59414-04b9-4e83-af8a-a756a2e8f01f', '4');
 -- INSERT INTO "iot_mqtt_account_category" ("account_id", "category_id") VALUES ('83a59414-04b9-4e83-af8a-a756a2e8f01f', '3');
 
