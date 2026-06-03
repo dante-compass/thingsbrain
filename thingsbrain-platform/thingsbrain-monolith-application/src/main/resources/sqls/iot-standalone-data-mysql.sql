@@ -194,7 +194,7 @@ INSERT INTO `iot_product` (`product_id`, `create_time`, `update_time`, `create_b
 -- ----------------------------
 -- Table data for iot_mqtt_account
 -- ----------------------------
-INSERT INTO `iot_mqtt_account` (`account_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `client_id`, `password`, `username`) VALUES ('thingsbrain-platform', '2025-10-07 22:42:29', '2025-10-07 22:42:32', 'system', 0, 'system', '物联网平台链接Mqtt默认账号', 0, b'1', 0, 'thingsbrain-platform', '{bcrypt}$2a$10$/XF002c2EuL0NyaEZ8a0be8S2IxKjFDd8f1ryY6wHpRMuXCiF2x7K', 'herodotus');
+INSERT INTO `iot_mqtt_account` (`account_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `client_id`, `password`, `username`, `is_superuser`) VALUES ('thingsbrain-platform', '2025-10-07 22:42:29', '2025-10-07 22:42:32', 'system', 0, 'system', '物联网平台链接Mqtt默认账号', 0, b'1', 0, 'thingsbrain-platform', '{bcrypt}$2a$10$/XF002c2EuL0NyaEZ8a0be8S2IxKjFDd8f1ryY6wHpRMuXCiF2x7K', 'herodotus', 't');
 
 -- ----------------------------
 -- Table data for iot_mqtt_account_category
