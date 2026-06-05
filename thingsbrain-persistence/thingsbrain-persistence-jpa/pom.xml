@@ -12,6 +12,8 @@
     <artifactId>thingsbrain-persistence-jpa</artifactId>
     <name>${project.artifactId}</name>
 
+    <description>ThingsBrain 物联网平台以 JPA 作为核心业务数据持久化层实现模块</description>
+
     <dependencies>
         <dependency>
             <groupId>org.dromara.thingsbrain</groupId>

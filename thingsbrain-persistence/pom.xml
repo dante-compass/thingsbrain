@@ -11,7 +11,10 @@
 
     <artifactId>thingsbrain-persistence</artifactId>
     <name>${project.artifactId}</name>
+
     <packaging>pom</packaging>
+
+    <description>ThingsBrain 物联网平台数据持久化相关模块分组</description>
 
     <modules>
         <module>thingsbrain-persistence-commons</module>

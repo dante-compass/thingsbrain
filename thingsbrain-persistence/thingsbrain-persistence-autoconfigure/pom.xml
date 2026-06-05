@@ -12,6 +12,8 @@
     <artifactId>thingsbrain-persistence-autoconfigure</artifactId>
     <name>${project.artifactId}</name>
 
+    <description>ThingsBrain 物联网平台数据持久化自动配置模块</description>
+
     <dependencies>
         <dependency>
             <groupId>org.dromara.thingsbrain</groupId>
