@@ -15,7 +15,7 @@
 
     <packaging>pom</packaging>
 
-    <description>ThingsBrain 物联网平台核心逻辑相关模块分组</description>
+    <description>ThingsBrain 物联网平台核心定义相关模块分组</description>
 
     <modules>
         <module>thingsbrain-kernel-commons</module>
