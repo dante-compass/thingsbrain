@@ -37,7 +37,7 @@
     <artifactId>thingsbrain-link-storage</artifactId>
     <name>${project.artifactId}</name>
 
-    <description>ThingsBrain 物联网平台自定义 Link 协议上报数据存储模块</description>
+    <description>ThingsBrain 物联网平台自定义 Link 协议上报数据存储模块(时序数据)</description>
 
     <dependencies>
         <dependency>
