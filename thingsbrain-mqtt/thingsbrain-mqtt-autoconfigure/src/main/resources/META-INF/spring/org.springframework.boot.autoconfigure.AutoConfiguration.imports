@@ -24,6 +24,3 @@
 #
 
 org.dromara.thingsbrain.mqtt.autoconfigure.MqttAutoConfiguration
-org.dromara.thingsbrain.mqtt.autoconfigure.MqttInboundAutoConfiguration
-org.dromara.thingsbrain.mqtt.autoconfigure.MqttIntegrationAutoConfiguration
-org.dromara.thingsbrain.mqtt.autoconfigure.MqttOutboundAutoConfiguration

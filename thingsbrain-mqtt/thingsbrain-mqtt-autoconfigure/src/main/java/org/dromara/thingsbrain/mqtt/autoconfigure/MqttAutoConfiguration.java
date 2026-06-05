@@ -26,20 +26,45 @@
 package org.dromara.thingsbrain.mqtt.autoconfigure;
 
 import jakarta.annotation.PostConstruct;
+import org.dromara.dante.core.utils.ListUtils;
+import org.dromara.dante.message.autoconfigure.emqx.IntegrationEmqxAutoConfiguration;
+import org.dromara.dante.message.autoconfigure.mqtt.MqttProperties;
+import org.dromara.dante.message.commons.constant.Channels;
+import org.dromara.thingsbrain.mqtt.autoconfigure.integration.MqttMessageHandler;
+import org.dromara.thingsbrain.mqtt.autoconfigure.integration.MqttSubscribeTopicAppenderListener;
+import org.dromara.thingsbrain.mqtt.autoconfigure.integration.MqttTopicProperties;
 import org.dromara.thingsbrain.mqtt.autoconfigure.publisher.DefaultMqttMessagePublisher;
 import org.dromara.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
+import org.dromara.thingsbrain.mqtt.inbound.config.MqttInboundConfiguration;
+import org.dromara.thingsbrain.mqtt.inbound.dispatcher.MqttInboundMessageDispatcher;
+import org.dromara.thingsbrain.mqtt.outbound.config.MqttOutboundConfiguration;
+import org.eclipse.paho.mqttv5.client.IMqttAsyncClient;
+import org.eclipse.paho.mqttv5.client.MqttConnectionOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.integration.context.IntegrationContextUtils;
+import org.springframework.integration.dsl.IntegrationFlow;
+import org.springframework.integration.dsl.MessageChannels;
+import org.springframework.integration.mqtt.core.ClientManager;
+import org.springframework.integration.mqtt.inbound.Mqttv5PahoMessageDrivenChannelAdapter;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: ThingsBrain 平台 Mqtt 相关功能自动配置 </p>
  *
  * @author : gengwei_zheng
  * @date : 2026/5/1 15:26
  */
-@AutoConfiguration
+@AutoConfiguration(after = {IntegrationEmqxAutoConfiguration.class})
+@EnableConfigurationProperties({MqttTopicProperties.class})
+@Import({
+        MqttInboundConfiguration.class,
+        MqttOutboundConfiguration.class
+})
 public class MqttAutoConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(MqttAutoConfiguration.class);
@@ -47,6 +72,35 @@ public class MqttAutoConfiguration {
     @PostConstruct
     public void postConstruct() {
         log.info("[ThingsBrain] |- Auto [Mqtt] Configure.");
+    }
+
+    @Bean(name = "mqttThingsBrainInbound")
+    public Mqttv5PahoMessageDrivenChannelAdapter mqttThingsBrainInbound(
+            ClientManager<IMqttAsyncClient, MqttConnectionOptions> clientManager,
+            MqttTopicProperties mqttTopicProperties) {
+        Mqttv5PahoMessageDrivenChannelAdapter adapter = new Mqttv5PahoMessageDrivenChannelAdapter(clientManager, ListUtils.toStringArray(mqttTopicProperties.getDefaultSubscribes()));
+        adapter.setManualAcks(false);
+        adapter.setOutputChannel(MessageChannels.publishSubscribe(Channels.MQTT__THINGS_BRAIN_INBOUND_CHANNEL).getObject());
+        adapter.setErrorChannelName(IntegrationContextUtils.ERROR_CHANNEL_BEAN_NAME);
+        log.trace("[ThingsBrain] |- Bean [Things Brain Mqtt Message Driven Channel Adapter] Configure.");
+        return adapter;
+    }
+
+    @Bean
+    public IntegrationFlow mqttThingsBrainInboundFlow(
+            @Qualifier("mqttThingsBrainInbound") Mqttv5PahoMessageDrivenChannelAdapter mqttThingsBrainInbound,
+            MqttProperties mqttProperties,
+            MqttInboundMessageDispatcher mqttInboundMessageDispatcher) {
+        return IntegrationFlow.from(mqttThingsBrainInbound)
+                .handle(new MqttMessageHandler(mqttProperties, mqttInboundMessageDispatcher))
+                .get();
+    }
+
+    @Bean
+    public MqttSubscribeTopicAppenderListener mqttSubscribeTopicAppenderListener(@Qualifier("mqttThingsBrainInbound") Mqttv5PahoMessageDrivenChannelAdapter mqttThingsBrainInbound) {
+        MqttSubscribeTopicAppenderListener listener = new MqttSubscribeTopicAppenderListener(mqttThingsBrainInbound);
+        log.trace("[ThingsBrain] |- Bean [Mqtt Subscribe Topic Appender] Configure.");
+        return listener;
     }
 
     @Bean
