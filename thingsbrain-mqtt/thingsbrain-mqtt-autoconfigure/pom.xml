@@ -12,7 +12,7 @@
     <artifactId>thingsbrain-mqtt-autoconfigure</artifactId>
     <name>${project.artifactId}</name>
 
-    <description>ThingsBrain 物联网平台 Mqtt 业务逻辑模块自动配置模块</description>
+    <description>ThingsBrain 物联网平台 Mqtt 业务逻辑自动配置模块</description>
 
     <dependencies>
 
