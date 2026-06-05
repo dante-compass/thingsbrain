@@ -10,7 +10,12 @@
     </parent>
 
     <artifactId>thingsbrain-platform</artifactId>
+    <name>${project.artifactId}</name>
+
     <packaging>pom</packaging>
+
+    <description>ThingsBrain 物联网平台平台功能相关模块分组</description>
+
     <modules>
         <module>thingsbrain-platform-autoconfigure</module>
         <module>thingsbrain-platform-rest</module>

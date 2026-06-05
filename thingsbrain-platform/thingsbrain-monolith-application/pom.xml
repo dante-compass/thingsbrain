@@ -10,6 +10,9 @@
     </parent>
 
     <artifactId>thingsbrain-monolith-application</artifactId>
+    <name>${project.artifactId}</name>
+
+    <description>ThingsBrain 物联网平台应用(单体版)</description>
 
     <dependencies>
         <dependency>

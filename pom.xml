@@ -14,9 +14,10 @@
     <groupId>org.dromara.thingsbrain</groupId>
     <artifactId>thingsbrain</artifactId>
     <name>${project.artifactId}</name>
+
     <packaging>pom</packaging>
 
-    <description>Dante Cloud 物联网平台 ThingsBrain</description>
+    <description>Dante Cloud 生态产品 -- ThingsBrain 物联网平台</description>
 
     <url>https://github.com/dante-compass/thingsbrain</url>
 
