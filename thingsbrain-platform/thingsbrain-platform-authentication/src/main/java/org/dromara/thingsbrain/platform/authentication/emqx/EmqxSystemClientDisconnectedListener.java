@@ -30,7 +30,6 @@ import org.dromara.dante.message.emqx.event.SystemClientDisconnectedEvent;
 import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.ObjectProvider;
 
 /**
  * <p>Description: 物联网设备下线监听 </p>

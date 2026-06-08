@@ -30,7 +30,6 @@ import org.dromara.thingsbrain.platform.authentication.domain.OAuth2ClientRegist
 import org.dromara.thingsbrain.platform.authentication.oauth2.ServletLocalOAuth2ClientRegistrationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.ObjectProvider;
 
 /**
  * <p>Description: 阻塞式环境基于 Mqtt 协议的设备动态注册 </p>

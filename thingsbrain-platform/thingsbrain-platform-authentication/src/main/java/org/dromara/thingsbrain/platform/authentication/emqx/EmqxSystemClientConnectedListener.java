@@ -34,7 +34,6 @@ import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
 import org.dromara.thingsbrain.platform.authentication.mqtt.MqttRegistrationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.core.convert.converter.Converter;
 
 import java.util.Optional;

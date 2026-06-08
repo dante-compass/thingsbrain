@@ -27,7 +27,6 @@ package org.dromara.thingsbrain.platform.commons.definition;
 
 import org.dromara.dante.core.enums.SignatureMethod;
 import org.dromara.thingsbrain.platform.commons.domain.MqttClientIdFactory;
-import org.dromara.thingsbrain.platform.commons.domain.EmqxAuthenticationStatus;
 import org.dromara.thingsbrain.platform.commons.domain.SignatureGenerationResult;
 
 /**

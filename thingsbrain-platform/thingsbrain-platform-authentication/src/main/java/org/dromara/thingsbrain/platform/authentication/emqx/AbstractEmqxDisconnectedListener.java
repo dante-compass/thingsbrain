@@ -26,7 +26,6 @@
 package org.dromara.thingsbrain.platform.authentication.emqx;
 
 import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 

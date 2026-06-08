@@ -33,7 +33,6 @@ import org.dromara.thingsbrain.platform.authentication.mqtt.MqttRegistrationHand
 import org.dromara.thingsbrain.platform.commons.domain.MqttClientIdFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.convert.converter.Converter;

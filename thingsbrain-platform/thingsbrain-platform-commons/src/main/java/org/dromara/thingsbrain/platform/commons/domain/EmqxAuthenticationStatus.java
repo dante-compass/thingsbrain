@@ -25,10 +25,11 @@
 
 package org.dromara.thingsbrain.platform.commons.domain;
 
+import com.google.common.base.MoreObjects;
 import org.dromara.dante.core.domain.BaseModel;
 
 /**
- * <p>Description: Emqx 认证 Webhook 结果 </p>
+ * <p>Description: Emqx Http 认证返回结果 </p>
  *
  * @author : gengwei.zheng
  * @date : 2025/6/26 22:04
@@ -44,37 +45,30 @@ public class EmqxAuthenticationStatus implements BaseModel {
      */
     private final Status status;
 
-    /**
-     * 错误信息
-     */
-    private final String message;
-
     private EmqxAuthenticationStatus(Status status) {
-        this(status, null);
-    }
-
-    private EmqxAuthenticationStatus(Status status, String message) {
         this.status = status;
-        this.message = message;
     }
 
     public static EmqxAuthenticationStatus allow() {
         return new EmqxAuthenticationStatus(Status.allow);
     }
 
-    public static EmqxAuthenticationStatus deny(String message) {
-        return new EmqxAuthenticationStatus(Status.deny, message);
+    public static EmqxAuthenticationStatus deny() {
+        return new EmqxAuthenticationStatus(Status.deny);
     }
 
-    public static EmqxAuthenticationStatus ignore(String message) {
-        return new EmqxAuthenticationStatus(Status.ignore, message);
+    public static EmqxAuthenticationStatus ignore() {
+        return new EmqxAuthenticationStatus(Status.ignore);
     }
 
     public Status getStatus() {
         return status;
     }
 
-    public String getMessage() {
-        return message;
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("status", status)
+                .toString();
     }
 }
