@@ -137,7 +137,7 @@ public class DefaultEmqxAuthenticationHandler implements EmqxAuthenticationHandl
      */
     private EmqxAuthenticationStatus verify(Identifier identifier, MqttClientIdFactory factory, String signature, boolean forRegister) {
         // 一机一密、一型一密预注册认证方式，设备信息已经存在。
-        Optional<Device> optional = identifierManager.findDeviceByDeviceName(identifier.getDeviceName());
+        Optional<Device> optional = identifierManager.findDeviceByClientId(factory.getClientId());
 
         return optional
                 .map(device -> {
@@ -145,7 +145,7 @@ public class DefaultEmqxAuthenticationHandler implements EmqxAuthenticationHandl
                     return verify(key, identifier, factory, signature);
                 })
                 .orElseGet(() -> {
-                    log.warn("[ThingsBrain] |- Device does [{}] not exist!.", identifier.getDeviceName());
+                    log.warn("[ThingsBrain] |- Device does [{}] not exist!.", factory.getClientId());
                     return EmqxAuthenticationStatus.deny();
                 });
     }

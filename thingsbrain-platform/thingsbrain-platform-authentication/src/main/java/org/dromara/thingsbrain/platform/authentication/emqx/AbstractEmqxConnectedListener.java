@@ -66,7 +66,7 @@ abstract class AbstractEmqxConnectedListener<D extends AbstractEmqxDomain, E ext
         MqttClientIdFactory factory = MqttClientIdFactory.of(mqttClientId).parse();
         // 如果 mqttClientId 中包含 authType，则认为是 mqtt 动态注册
         if (ObjectUtils.isNotEmpty(factory.getAuthType())) {
-            log.info("[ThingsBrain] |- [MQTT-REGISTRATION] Is mqtt registration!!!");
+            log.info("[ThingsBrain] |- PROCESSING mqtt dynamic registration!");
             mqttRegistrationHandler.process(factory, mqttUsername);
         } else {
             DeviceConnection deviceConnection = toDeviceConnection.convert(data);

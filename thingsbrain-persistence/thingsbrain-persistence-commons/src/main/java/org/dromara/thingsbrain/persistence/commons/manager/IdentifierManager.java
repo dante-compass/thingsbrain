@@ -66,15 +66,6 @@ public interface IdentifierManager {
     Optional<Device> findDeviceByDeviceName(String deviceName);
 
     /**
-     * 根据 clientId 和 deviceName 判断设备 {@link Device} 是否已经存在
-     *
-     * @param deviceName 物联网设备 DeviceName
-     * @param clientId   设备 ClientId
-     * @return true 设备已存在；false 设备不存在。
-     */
-    boolean isDeviceExists(String deviceName, String clientId);
-
-    /**
      * 物联网设备激活。设备首次上线，连接成功后设置激活状态。
      *
      * @param clientId 物联网设备 ClientId
