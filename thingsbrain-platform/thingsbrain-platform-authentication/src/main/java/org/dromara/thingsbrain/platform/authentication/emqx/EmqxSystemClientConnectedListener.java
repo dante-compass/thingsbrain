@@ -30,8 +30,8 @@ import org.dromara.dante.message.emqx.event.SystemClientConnectedEvent;
 import org.dromara.thingsbrain.kernel.commons.domain.Identifier;
 import org.dromara.thingsbrain.kernel.commons.utils.DataFormatUtils;
 import org.dromara.thingsbrain.persistence.commons.domain.DeviceConnection;
-import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
-import org.dromara.thingsbrain.platform.authentication.mqtt.MqttRegistrationHandler;
+import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
+import org.dromara.thingsbrain.platform.authentication.mqtt.MqttIdentificationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
@@ -48,8 +48,8 @@ public class EmqxSystemClientConnectedListener extends AbstractEmqxConnectedList
 
     private static final Logger log = LoggerFactory.getLogger(EmqxSystemClientConnectedListener.class);
 
-    public EmqxSystemClientConnectedListener(ConnectionManager connectionManager, MqttRegistrationHandler mqttRegistrationHandler) {
-        super(connectionManager, new SystemClientConnectedToDeviceConnectionConverter(), mqttRegistrationHandler);
+    public EmqxSystemClientConnectedListener(IdentifierManager identifierManager, MqttIdentificationHandler mqttIdentificationHandler) {
+        super(identifierManager, new SystemClientConnectedToDeviceConnectionConverter(), mqttIdentificationHandler);
     }
 
     @Override

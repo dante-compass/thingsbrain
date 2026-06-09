@@ -28,8 +28,8 @@ package org.dromara.thingsbrain.platform.authentication.emqx;
 import org.apache.commons.lang3.ObjectUtils;
 import org.dromara.dante.message.emqx.definition.domain.AbstractEmqxDomain;
 import org.dromara.thingsbrain.persistence.commons.domain.DeviceConnection;
-import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
-import org.dromara.thingsbrain.platform.authentication.mqtt.MqttRegistrationHandler;
+import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
+import org.dromara.thingsbrain.platform.authentication.mqtt.MqttIdentificationHandler;
 import org.dromara.thingsbrain.platform.commons.domain.MqttClientIdFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,14 +47,14 @@ abstract class AbstractEmqxConnectedListener<D extends AbstractEmqxDomain, E ext
 
     private static final Logger log = LoggerFactory.getLogger(AbstractEmqxConnectedListener.class);
 
-    private final ConnectionManager connectionManager;
+    private final IdentifierManager identifierManager;
     private final Converter<D, DeviceConnection> toDeviceConnection;
-    private final MqttRegistrationHandler mqttRegistrationHandler;
+    private final MqttIdentificationHandler mqttIdentificationHandler;
 
-    protected AbstractEmqxConnectedListener(ConnectionManager connectionManager, Converter<D, DeviceConnection> toDeviceConnection, MqttRegistrationHandler mqttRegistrationHandler) {
-        this.connectionManager = connectionManager;
+    protected AbstractEmqxConnectedListener(IdentifierManager identifierManager, Converter<D, DeviceConnection> toDeviceConnection, MqttIdentificationHandler mqttIdentificationHandler) {
+        this.identifierManager = identifierManager;
         this.toDeviceConnection = toDeviceConnection;
-        this.mqttRegistrationHandler = mqttRegistrationHandler;
+        this.mqttIdentificationHandler = mqttIdentificationHandler;
     }
 
     protected void connected(D data) {
@@ -63,14 +63,20 @@ abstract class AbstractEmqxConnectedListener<D extends AbstractEmqxDomain, E ext
 
         log.debug("[ThingsBrain] |- Mqtt client [{}] connected.", mqttClientId);
 
-        MqttClientIdFactory factory = MqttClientIdFactory.of(mqttClientId).parse();
-        // 如果 mqttClientId 中包含 authType，则认为是 mqtt 动态注册
-        if (ObjectUtils.isNotEmpty(factory.getAuthType())) {
-            log.info("[ThingsBrain] |- PROCESSING mqtt dynamic registration!");
-            mqttRegistrationHandler.process(factory, mqttUsername);
+        MqttClientIdFactory id = MqttClientIdFactory.of(mqttClientId).parse();
+
+        // 如果 clientId 是签名形式，则认为是一机一密或者一型一密的注册认证。因为正常连接使用 ProductKey、DeviceName和 DeviceSecret 不在需要签名
+        if (id.getSignature()) {
+            if (ObjectUtils.isNotEmpty(id.getAuthType())) {
+                log.info("[ThingsBrain] |- PROCESSING mqtt per product identification (registration and authentication).");
+                mqttIdentificationHandler.perProductIdentify(id.getClientId(), mqttUsername, id.getAuthType());
+            } else {
+                log.info("[ThingsBrain] |- PROCESSING mqtt per device identification (registration and authentication).");
+                mqttIdentificationHandler.perDeviceIdentify(id.getClientId());
+            }
         } else {
             DeviceConnection deviceConnection = toDeviceConnection.convert(data);
-            connectionManager.connected(factory.getClientId(), factory.getSignature(), deviceConnection);
+            identifierManager.connected(id.getClientId(), deviceConnection);
         }
     }
 }

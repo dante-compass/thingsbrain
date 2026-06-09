@@ -101,7 +101,7 @@ public class DefaultEmqxAuthenticationHandler implements EmqxAuthenticationHandl
         return optional.map(product -> {
                     // 如果 mqttClientId 不包含 authType 参数，则认为是正常的链接
                     // 适用于一机一密、一型一密预注册认证方式：使用设备证书（ProductKey、DeviceName和DeviceSecret）连接
-                    // TODO: 一机一密、一型一密预注册和免于注册，securemode 值分别为：2、2 和 -2 目前没有用到，后续根据情况添加。目前根据 AuthType 判断即可满足
+                    // TODO: 一机一密、一型一密预注册和免预注册，securemode 值分别为：2、2 和 -2 目前没有用到，后续根据情况添加。目前根据 AuthType 判断即可满足
                     if (ObjectUtils.isEmpty(factory.getAuthType())) {
                         return verify(identifier, factory, mqttPassword, false);
                     } else {

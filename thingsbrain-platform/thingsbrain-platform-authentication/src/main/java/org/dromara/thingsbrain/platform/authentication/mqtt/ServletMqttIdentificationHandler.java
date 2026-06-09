@@ -37,19 +37,19 @@ import org.slf4j.LoggerFactory;
  * @author : gengwei.zheng
  * @date : 2025/7/5 17:09
  */
-public class ServletMqttRegistrationHandler extends AbstractMqttRegistrationHandler {
+public class ServletMqttIdentificationHandler extends AbstractMqttIdentificationHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(ServletMqttRegistrationHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(ServletMqttIdentificationHandler.class);
 
     private final ServletLocalOAuth2ClientRegistrationHandler servletLocalOAuth2ClientRegistrationHandler;
 
-    public ServletMqttRegistrationHandler(IdentifierManager identifierManager, ServletLocalOAuth2ClientRegistrationHandler servletLocalOAuth2ClientRegistrationHandler) {
+    public ServletMqttIdentificationHandler(IdentifierManager identifierManager, ServletLocalOAuth2ClientRegistrationHandler servletLocalOAuth2ClientRegistrationHandler) {
         super(identifierManager);
         this.servletLocalOAuth2ClientRegistrationHandler = servletLocalOAuth2ClientRegistrationHandler;
     }
 
     @Override
-    protected void registration(String clientId, String clientSecret, String productKey, String deviceName) {
+    protected void performOAuth2ClientRegistration(String clientId, String clientSecret, String productKey, String deviceName) {
         log.debug("[ThingsBrain] |- [MQTT-REGISTRATION] Registration device begin processing.");
         OAuth2ClientRegistration OAuth2ClientRegistration = servletLocalOAuth2ClientRegistrationHandler.register(clientId, clientSecret, productKey, deviceName);
         onSuccess(OAuth2ClientRegistration);

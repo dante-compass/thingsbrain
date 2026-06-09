@@ -26,11 +26,13 @@
 package org.dromara.thingsbrain.persistence.autoconfigure.manager;
 
 import org.dromara.thingsbrain.persistence.commons.domain.Device;
+import org.dromara.thingsbrain.persistence.commons.domain.DeviceConnection;
 import org.dromara.thingsbrain.persistence.commons.domain.Product;
 import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.dromara.thingsbrain.persistence.commons.service.DeviceService;
 import org.dromara.thingsbrain.persistence.commons.service.ProductService;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -77,15 +79,41 @@ class DefaultIdentifierManager implements IdentifierManager {
      * {@inheritDoc}
      */
     @Override
-    public void activation(String clientId) {
-        deviceService.activation(clientId);
+    public void connected(String clientId, DeviceConnection deviceConnection) {
+        deviceService.connected(clientId, deviceConnection);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void registration(Device device) {
-        deviceService.registration(device);
+    public void disconnected(String clientId, String reason, LocalDateTime disconnectedAt) {
+        deviceService.disconnected(clientId, reason, disconnectedAt);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void performMqttIdentification(String clientId) {
+        deviceService.performMqttIdentification(clientId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void performOAuth2Synchronization(Device device) {
+        deviceService.performOAuth2Synchronization(device);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void performOAuth2Verification(String clientId) {
+        deviceService.performOAuth2Verification(clientId);
+    }
+
+
 }

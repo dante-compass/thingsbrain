@@ -28,7 +28,6 @@ package org.dromara.thingsbrain.persistence.jpa.config;
 import jakarta.annotation.PostConstruct;
 import org.dromara.dante.security.definition.AuthenticationManager;
 import org.dromara.thingsbrain.persistence.jpa.logic.service.*;
-import org.dromara.thingsbrain.persistence.jpa.manager.HerodotusDeviceConnectionManager;
 import org.dromara.thingsbrain.persistence.jpa.manager.HerodotusDeviceManager;
 import org.dromara.thingsbrain.persistence.jpa.manager.HerodotusProductManager;
 import org.dromara.thingsbrain.persistence.jpa.manager.HerodotusTslFunctionManager;
@@ -71,13 +70,8 @@ class LogicConfiguration {
     }
 
     @Bean
-    public HerodotusDeviceManager herodotusDeviceManager(HerodotusDeviceService herodotusDeviceService, HerodotusMqttAccountService herodotusMqttAccountService, HerodotusMqttCategoryService herodotusMqttCategoryService, AuthenticationManager authenticationManager) {
-        return new HerodotusDeviceManager(herodotusDeviceService, herodotusMqttAccountService, herodotusMqttCategoryService, authenticationManager);
-    }
-
-    @Bean
-    public HerodotusDeviceConnectionManager herodotusDeviceConnectionManager(HerodotusDeviceManager herodotusDeviceManager, HerodotusDeviceConnectionService herodotusDeviceConnectionService) {
-        return new HerodotusDeviceConnectionManager(herodotusDeviceManager, herodotusDeviceConnectionService);
+    public HerodotusDeviceManager herodotusDeviceManager(HerodotusDeviceService herodotusDeviceService, HerodotusDeviceConnectionService herodotusDeviceConnectionService,  HerodotusMqttAccountService herodotusMqttAccountService, HerodotusMqttCategoryService herodotusMqttCategoryService, AuthenticationManager authenticationManager) {
+        return new HerodotusDeviceManager(herodotusDeviceService, herodotusDeviceConnectionService, herodotusMqttAccountService, herodotusMqttCategoryService, authenticationManager);
     }
 
     @Bean

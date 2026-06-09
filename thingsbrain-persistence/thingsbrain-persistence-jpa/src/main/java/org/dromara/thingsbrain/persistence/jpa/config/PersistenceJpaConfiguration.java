@@ -30,7 +30,6 @@ import org.dromara.thingsbrain.persistence.commons.condition.ConditionalOnIotPer
 import org.dromara.thingsbrain.persistence.commons.condition.IotPersistence;
 import org.dromara.thingsbrain.persistence.commons.service.*;
 import org.dromara.thingsbrain.persistence.jpa.logic.service.*;
-import org.dromara.thingsbrain.persistence.jpa.manager.HerodotusDeviceConnectionManager;
 import org.dromara.thingsbrain.persistence.jpa.manager.HerodotusDeviceManager;
 import org.dromara.thingsbrain.persistence.jpa.manager.HerodotusProductManager;
 import org.dromara.thingsbrain.persistence.jpa.manager.HerodotusTslFunctionManager;
@@ -61,7 +60,6 @@ public class PersistenceJpaConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
     public ProductCategoryService productCategoryService(HerodotusProductCategoryService herodotusProductCategoryService) {
         JpaProductCategoryService service = new JpaProductCategoryService(herodotusProductCategoryService);
         log.trace("[ThingsBrain] |- Bean [Jpa Product Category Service] Configure.");
@@ -69,7 +67,6 @@ public class PersistenceJpaConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
     public ProductService productService(HerodotusProductManager herodotusProductManager) {
         JpaProductService service = new JpaProductService(herodotusProductManager);
         log.trace("[ThingsBrain] |- Bean [Jpa Product Service] Configure.");
@@ -77,18 +74,9 @@ public class PersistenceJpaConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean
     public DeviceService deviceService(HerodotusDeviceManager herodotusDeviceManager) {
         JpaDeviceService service = new JpaDeviceService(herodotusDeviceManager);
         log.trace("[ThingsBrain] |- Bean [Jpa Device Service] Configure.");
-        return service;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public DeviceConnectionService deviceConnectionService(HerodotusDeviceConnectionManager herodotusDeviceConnectionManager) {
-        JpaDeviceConnectionService service = new JpaDeviceConnectionService(herodotusDeviceConnectionManager);
-        log.trace("[ThingsBrain] |- Bean [Jpa Device Connection Service] Configure.");
         return service;
     }
 

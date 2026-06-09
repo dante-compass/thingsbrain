@@ -26,10 +26,13 @@
 package org.dromara.thingsbrain.persistence.jpa.specification;
 
 import org.dromara.thingsbrain.persistence.commons.domain.Device;
+import org.dromara.thingsbrain.persistence.commons.domain.DeviceConnection;
 import org.dromara.thingsbrain.persistence.commons.service.DeviceService;
+import org.dromara.thingsbrain.persistence.jpa.converter.FromDeviceConnectionConverter;
 import org.dromara.thingsbrain.persistence.jpa.converter.FromDeviceConverter;
 import org.dromara.thingsbrain.persistence.jpa.converter.ToDeviceConverter;
 import org.dromara.thingsbrain.persistence.jpa.logic.entity.HerodotusDevice;
+import org.dromara.thingsbrain.persistence.jpa.logic.entity.HerodotusDeviceConnection;
 import org.dromara.thingsbrain.persistence.jpa.logic.service.HerodotusDeviceService;
 import org.dromara.thingsbrain.persistence.jpa.manager.HerodotusDeviceManager;
 import org.slf4j.Logger;
@@ -38,6 +41,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -54,12 +58,14 @@ public class JpaDeviceService implements DeviceService {
     private final HerodotusDeviceService delegate;
     private final Converter<HerodotusDevice, Device> toDevice;
     private final Converter<Device, HerodotusDevice> fromDevice;
+    private final Converter<DeviceConnection, HerodotusDeviceConnection> fromDeviceConnection;
 
     public JpaDeviceService(HerodotusDeviceManager herodotusDeviceManager) {
         this.delegate = herodotusDeviceManager.getHerodotusDeviceService();
         this.herodotusDeviceManager = herodotusDeviceManager;
         this.toDevice = new ToDeviceConverter();
         this.fromDevice = new FromDeviceConverter();
+        this.fromDeviceConnection = new FromDeviceConnectionConverter();
     }
 
     @Override
@@ -105,15 +111,31 @@ public class JpaDeviceService implements DeviceService {
     }
 
     @Override
-    public void registration(Device domain) {
+    public void connected(String clientId, DeviceConnection deviceConnection) {
+        HerodotusDeviceConnection connection = fromDeviceConnection.convert(deviceConnection);
+        herodotusDeviceManager.connected(clientId, connection);
+    }
+
+    @Override
+    public void disconnected(String clientId, String reason, LocalDateTime disconnectedAt) {
+        herodotusDeviceManager.disconnected(clientId, reason, disconnectedAt);
+    }
+
+    @Override
+    public void performMqttIdentification(String clientId) {
+        herodotusDeviceManager.performMqttIdentification(clientId);
+    }
+
+    @Override
+    public void performOAuth2Synchronization(Device domain) {
         HerodotusDevice device = fromDevice.convert(domain);
-        HerodotusDevice result = herodotusDeviceManager.registration(device);
+        HerodotusDevice result = herodotusDeviceManager.performOAuth2Synchronization(device);
         log.debug("[ThingsBrain] |- [OAUTH2-CLIENT-REGISTRATION] OAuth2 client registration process FINISHED for [{}].", result.getClientId());
     }
 
     @Override
-    public void activation(String clientId) {
-        herodotusDeviceManager.activation(clientId);
+    public void performOAuth2Verification(String clientId) {
+        herodotusDeviceManager.performOAuth2Verification(clientId);
         log.debug("[ThingsBrain] |- [OAUTH2-DEVICE-VERIFICATION] OAuth2 device verification process FINISHED for [{}].", clientId);
     }
 }

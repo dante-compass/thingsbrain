@@ -23,35 +23,31 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.persistence.commons.manager;
+package org.dromara.thingsbrain.platform.authentication.mqtt;
 
-import org.dromara.thingsbrain.persistence.commons.domain.DeviceConnection;
-
-import java.time.LocalDateTime;
+import org.dromara.thingsbrain.kernel.commons.enums.AuthType;
 
 /**
- * <p>Description: 物联网设备上下线管理器 </p>
+ * <p>Description: Mqtt 自动注册服务 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/10/5 17:08
+ * @date : 2025/7/1 15:12
  */
-public interface ConnectionManager {
+public interface MqttIdentificationHandler {
 
     /**
-     * 设备上线
+     * Mqtt 一型一密注册认证
      *
-     * @param clientId         设备 ClientId
-     * @param isSignature      是否为签名方式链接
-     * @param deviceConnection 上线信息 {@link DeviceConnection}
+     * @param clientId     物联网设备 ClientId
+     * @param mqttUsername Mqtt 用户名
+     * @param authType     一型一密注册认证方式 {@link AuthType}
      */
-    void connected(String clientId, boolean isSignature, DeviceConnection deviceConnection);
+    void perProductIdentify(String clientId, String mqttUsername, AuthType authType);
 
     /**
-     * 设备下线
+     * Mqtt 一机一密注册认证
      *
-     * @param clientId       设备 ClientId
-     * @param reason         下线原因
-     * @param disconnectedAt 下线时间 {@link LocalDateTime}
+     * @param clientId 物联网设备 ClientId
      */
-    void disconnected(String clientId, String reason, LocalDateTime disconnectedAt);
+    void perDeviceIdentify(String clientId);
 }

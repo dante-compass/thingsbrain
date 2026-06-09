@@ -64,7 +64,7 @@ abstract class AbstractOAuth2ClientRegistrationSuccessListener {
                 .map(RegisteredClientTransmitter::getParentClientId)
                 .flatMap(identifierManager::findProductByProductKey)
                 .map(product -> toDevice(registeredClientTransmitter, product))
-                .ifPresent(identifierManager::registration);
+                .ifPresent(identifierManager::performOAuth2Synchronization);
     }
 
     private Device toDevice(RegisteredClientTransmitter registeredClientTransmitter, Product product) {

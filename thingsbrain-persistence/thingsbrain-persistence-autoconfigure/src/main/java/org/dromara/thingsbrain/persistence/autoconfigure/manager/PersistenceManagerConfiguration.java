@@ -25,12 +25,10 @@
 
 package org.dromara.thingsbrain.persistence.autoconfigure.manager;
 
-import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
+import jakarta.annotation.PostConstruct;
 import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
-import org.dromara.thingsbrain.persistence.commons.service.DeviceConnectionService;
 import org.dromara.thingsbrain.persistence.commons.service.DeviceService;
 import org.dromara.thingsbrain.persistence.commons.service.ProductService;
-import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -51,14 +49,6 @@ public class PersistenceManagerConfiguration {
     @PostConstruct
     public void postConstruct() {
         log.debug("[ThingsBrain] |- Module [Link Persistence Manager] Configure.");
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public ConnectionManager connectionManager(DeviceConnectionService deviceConnectionService) {
-        DefaultConnectionManager manager = new DefaultConnectionManager(deviceConnectionService);
-        log.trace("[ThingsBrain] |- Bean [Connection Manager] Configure.");
-        return manager;
     }
 
     @Bean

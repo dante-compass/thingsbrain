@@ -28,8 +28,8 @@ package org.dromara.thingsbrain.platform.authentication.config;
 import jakarta.annotation.PostConstruct;
 import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.dromara.thingsbrain.platform.authentication.mqtt.DefaultMqttSignatureGenerator;
-import org.dromara.thingsbrain.platform.authentication.mqtt.MqttRegistrationHandler;
-import org.dromara.thingsbrain.platform.authentication.mqtt.ServletMqttRegistrationHandler;
+import org.dromara.thingsbrain.platform.authentication.mqtt.MqttIdentificationHandler;
+import org.dromara.thingsbrain.platform.authentication.mqtt.ServletMqttIdentificationHandler;
 import org.dromara.thingsbrain.platform.authentication.oauth2.ServletLocalOAuth2ClientRegistrationHandler;
 import org.dromara.thingsbrain.platform.commons.definition.MqttSignatureGenerator;
 import org.slf4j.Logger;
@@ -67,8 +67,8 @@ public class AuthenticationMqttConfiguration {
     static class ServletMqttRegistrationConfiguration {
 
         @Bean
-        public MqttRegistrationHandler servletMqttRegistrationHandler(IdentifierManager identifierManager, ServletLocalOAuth2ClientRegistrationHandler servletLocalOAuth2ClientRegistrationHandler) {
-            ServletMqttRegistrationHandler handler = new ServletMqttRegistrationHandler(identifierManager, servletLocalOAuth2ClientRegistrationHandler);
+        public MqttIdentificationHandler servletMqttRegistrationHandler(IdentifierManager identifierManager, ServletLocalOAuth2ClientRegistrationHandler servletLocalOAuth2ClientRegistrationHandler) {
+            ServletMqttIdentificationHandler handler = new ServletMqttIdentificationHandler(identifierManager, servletLocalOAuth2ClientRegistrationHandler);
             log.trace("[ThingsBrain] |- Bean [Servlet Mqtt Registration Handler] Configure.");
             return handler;
         }

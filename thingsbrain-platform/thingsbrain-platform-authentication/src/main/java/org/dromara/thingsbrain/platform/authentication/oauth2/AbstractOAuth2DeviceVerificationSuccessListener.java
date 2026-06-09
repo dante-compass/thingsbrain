@@ -57,6 +57,6 @@ abstract class AbstractOAuth2DeviceVerificationSuccessListener {
         Optional.ofNullable(deviceVerificationTransmitter)
                 .filter(iotDeviceTransmitter -> StringUtils.isNotBlank(iotDeviceTransmitter.getClientId()))
                 .map(DeviceVerificationTransmitter::getClientId)
-                .ifPresent(identifierManager::activation);
+                .ifPresent(identifierManager::performOAuth2Verification);
     }
 }
