@@ -54,8 +54,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/iot/tsl/unit")
 @Tags({
-        @Tag(name = "物联网业务功能接口"),
-        @Tag(name = "ThingsBrain物联网接口"),
+        @Tag(name = "ThingsBrain物联网平台 REST 接口"),
+        @Tag(name = "物联网平台业务功能接口"),
         @Tag(name = "物联网物模型属性单位管理接口"),
 })
 public class TslUnitController extends AbstractEntityPageableController<TslUnit, String, BasePageableService<TslUnit, String>> {

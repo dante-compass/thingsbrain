@@ -63,8 +63,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/iot/tsl/function")
 @Tags({
-        @Tag(name = "物联网业务功能接口"),
-        @Tag(name = "ThingsBrain物联网接口"),
+        @Tag(name = "ThingsBrain物联网平台 REST 接口"),
+        @Tag(name = "物联网平台业务功能接口"),
         @Tag(name = "物联网物模型功能管理接口"),
 })
 public class TslFunctionController extends AbstractEntityWriteAndPageController<TslFunction, String, BaseWriteAndPageService<TslFunction, String>> {

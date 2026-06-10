@@ -43,8 +43,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/iot/product-category")
 @Tags({
-        @Tag(name = "物联网业务业务功能接口"),
-        @Tag(name = "ThingsBrain物联网接口"),
+        @Tag(name = "ThingsBrain物联网平台 REST 接口"),
+        @Tag(name = "物联网平台业务功能接口"),
         @Tag(name = "物联网产品品类管理接口"),
 })
 public class ProductCategoryController extends AbstractEntityWriteAndPageController<ProductCategory, String, BaseWriteAndPageService<ProductCategory, String>> {

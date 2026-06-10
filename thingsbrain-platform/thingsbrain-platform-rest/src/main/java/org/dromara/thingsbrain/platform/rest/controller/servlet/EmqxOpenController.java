@@ -47,7 +47,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * <p>Description: "Emqx Webhook 开放接口 </p>
+ * <p>Description: Emqx Http 方式客户端认证开放接口 </p>
  *
  * @author : gengwei.zheng
  * @date : 2025/6/26 22:00
@@ -55,9 +55,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/open/emqx")
 @Tags({
-        @Tag(name = "物联网业务功能接口"),
-        @Tag(name = "ThingsBrain物联网接口"),
-        @Tag(name = "Emqx HTTP API 认证接口"),
+        @Tag(name = "ThingsBrain物联网平台 REST 接口"),
+        @Tag(name = "物联网平台扩展功能接口"),
+        @Tag(name = "系统开放权限接口"),
+        @Tag(name = "Emqx HTTP 方式客户端认证接口"),
 })
 public class EmqxOpenController {
 
@@ -70,11 +71,11 @@ public class EmqxOpenController {
     }
 
 
-    @Operation(summary = "Emqx Webhook 认证接口", description = "用于基于 Mqtt 的客户端动态注册动态注册",
+    @Operation(summary = "Emqx Http 客户端认证接口", description = "用于 Emqx Http 方式的客户端认证",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
             responses = {@ApiResponse(description = "认证结果", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))})
     @Parameters({
-            @Parameter(name = "request", required = true, description = "Emqx Http 方式授权请求参数实体", schema = @Schema(implementation = EmqxAuthenticationRequest.class)),
+            @Parameter(name = "request", required = true, description = "Emqx Http 方式客户端认证请求参数实体", schema = @Schema(implementation = EmqxAuthenticationRequest.class)),
     })
     @PostMapping("/authentication")
     public EmqxAuthenticationResponse authentication(@RequestBody @Validated EmqxAuthenticationRequest request) {
