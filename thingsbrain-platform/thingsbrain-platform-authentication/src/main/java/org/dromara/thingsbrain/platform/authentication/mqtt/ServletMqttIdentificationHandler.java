@@ -52,6 +52,6 @@ public class ServletMqttIdentificationHandler extends AbstractMqttIdentification
     protected void performOAuth2ClientRegistration(String clientId, String clientSecret, String productKey, String deviceName) {
         log.debug("[ThingsBrain] |- [MQTT-REGISTRATION] Registration device begin processing.");
         OAuth2ClientRegistration OAuth2ClientRegistration = servletLocalOAuth2ClientRegistrationHandler.register(clientId, clientSecret, productKey, deviceName);
-        onSuccess(OAuth2ClientRegistration);
+        onRegistrationSuccess(OAuth2ClientRegistration);
     }
 }
