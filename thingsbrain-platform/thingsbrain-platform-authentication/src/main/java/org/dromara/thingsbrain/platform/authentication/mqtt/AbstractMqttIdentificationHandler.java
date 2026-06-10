@@ -92,7 +92,7 @@ public abstract class AbstractMqttIdentificationHandler implements MqttIdentific
      * {@inheritDoc}
      */
     @Override
-    public void perDeviceIdentify(String clientId) {
+    public void identifyPerDevice(String clientId) {
         // 一机一密注册认证，只需要给设备配置 Mqtt Account 即可
         identifierManager.performMqttIdentification(clientId);
     }
@@ -101,7 +101,7 @@ public abstract class AbstractMqttIdentificationHandler implements MqttIdentific
      * {@inheritDoc}
      */
     @Override
-    public void perProductIdentify(String clientId, String mqttUsername, AuthType authType) {
+    public void identifyPerProduct(String clientId, String mqttUsername, AuthType authType) {
         // 无需抛出错误或者提示信息，在 Emqx Http 认证阶段已经做了校验以及错误处理
         DataFormatUtils.fromMqttUsername(mqttUsername)
                 .ifPresent(identifier -> {

@@ -42,12 +42,12 @@ public interface MqttIdentificationHandler {
      * @param mqttUsername Mqtt 用户名
      * @param authType     一型一密注册认证方式 {@link AuthType}
      */
-    void perProductIdentify(String clientId, String mqttUsername, AuthType authType);
+    void identifyPerProduct(String clientId, String mqttUsername, AuthType authType);
 
     /**
      * Mqtt 一机一密注册认证
      *
      * @param clientId 物联网设备 ClientId
      */
-    void perDeviceIdentify(String clientId);
+    void identifyPerDevice(String clientId);
 }

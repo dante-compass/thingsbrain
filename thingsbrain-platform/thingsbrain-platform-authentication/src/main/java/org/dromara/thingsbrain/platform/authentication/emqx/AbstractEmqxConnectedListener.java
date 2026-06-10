@@ -38,7 +38,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: Emqx Client 上线通用代码提取抽象类 </p>
+ * <p>Description: Emqx 客户端上线通用代码提取抽象类 </p>
  *
  * @author : gengwei.zheng
  * @date : 2025/7/2 14:50
@@ -48,13 +48,13 @@ abstract class AbstractEmqxConnectedListener<D extends AbstractEmqxDomain, E ext
     private static final Logger log = LoggerFactory.getLogger(AbstractEmqxConnectedListener.class);
 
     private final IdentifierManager identifierManager;
-    private final Converter<D, DeviceConnection> toDeviceConnection;
     private final MqttIdentificationHandler mqttIdentificationHandler;
+    private final Converter<D, DeviceConnection> toDeviceConnection;
 
-    protected AbstractEmqxConnectedListener(IdentifierManager identifierManager, Converter<D, DeviceConnection> toDeviceConnection, MqttIdentificationHandler mqttIdentificationHandler) {
+    protected AbstractEmqxConnectedListener(IdentifierManager identifierManager, MqttIdentificationHandler mqttIdentificationHandler, Converter<D, DeviceConnection> toDeviceConnection) {
         this.identifierManager = identifierManager;
-        this.toDeviceConnection = toDeviceConnection;
         this.mqttIdentificationHandler = mqttIdentificationHandler;
+        this.toDeviceConnection = toDeviceConnection;
     }
 
     protected void connected(D data) {
@@ -63,20 +63,20 @@ abstract class AbstractEmqxConnectedListener<D extends AbstractEmqxDomain, E ext
 
         log.debug("[ThingsBrain] |- Mqtt client [{}] connected.", mqttClientId);
 
-        MqttClientIdFactory id = MqttClientIdFactory.of(mqttClientId).parse();
+        MqttClientIdFactory factory = MqttClientIdFactory.of(mqttClientId).parse();
 
         // 如果 clientId 是签名形式，则认为是一机一密或者一型一密的注册认证。因为正常连接使用 ProductKey、DeviceName和 DeviceSecret 不在需要签名
-        if (id.getSignature()) {
-            if (ObjectUtils.isNotEmpty(id.getAuthType())) {
+        if (factory.getSignature()) {
+            if (ObjectUtils.isNotEmpty(factory.getAuthType())) {
                 log.info("[ThingsBrain] |- PROCESSING mqtt per product identification (registration and authentication).");
-                mqttIdentificationHandler.perProductIdentify(id.getClientId(), mqttUsername, id.getAuthType());
+                mqttIdentificationHandler.identifyPerProduct(factory.getClientId(), mqttUsername, factory.getAuthType());
             } else {
                 log.info("[ThingsBrain] |- PROCESSING mqtt per device identification (registration and authentication).");
-                mqttIdentificationHandler.perDeviceIdentify(id.getClientId());
+                mqttIdentificationHandler.identifyPerDevice(factory.getClientId());
             }
         } else {
             DeviceConnection deviceConnection = toDeviceConnection.convert(data);
-            identifierManager.connected(id.getClientId(), deviceConnection);
+            identifierManager.connected(factory.getClientId(), deviceConnection);
         }
     }
 }

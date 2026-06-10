@@ -83,12 +83,13 @@ public class HerodotusDeviceManager {
      * <p>
      * 因 clientId 是设备关键信息，又因 clientId 内容非常灵活不便于作为主键。所以额外查询一次，确保 clientId 的唯一性
      *
-     * @param domain 设备实体 {@link HerodotusDevice}
+     * @param newDevice 设备实体 {@link HerodotusDevice}
      * @return 已保存设备实体 {@link HerodotusDevice}
      */
-    private HerodotusDevice save(HerodotusDevice domain) {
-        Optional<HerodotusDevice> optional = herodotusDeviceService.findByClientId(domain.getClientId());
-        return optional.orElse(herodotusDeviceService.save(domain));
+    private HerodotusDevice save(HerodotusDevice newDevice) {
+        Optional<HerodotusDevice> optional = herodotusDeviceService.findByClientId(newDevice.getClientId());
+        optional.ifPresent(oldDevice -> newDevice.setDeviceId(oldDevice.getDeviceId()));
+        return herodotusDeviceService.save(newDevice);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -110,7 +111,7 @@ public class HerodotusDeviceManager {
         return save(domain);
     }
 
-    private void createMqttIdentify(HerodotusDevice domain) {
+    private void enableMqttIdentify(HerodotusDevice domain) {
         HerodotusMqttAccount account = toMqttAccount.convert(domain);
 
         Set<HerodotusMqttCategory> categories = herodotusMqttCategoryService.findStandardCategoryForDevice();
@@ -130,16 +131,19 @@ public class HerodotusDeviceManager {
      * @param connection 设备上线信息 {@link HerodotusDeviceConnection}。允许传递 null，为 null 时用于 OAuth2 DeviceFlow 的验证，
      */
     private void activate(HerodotusDevice device, HerodotusDeviceConnection connection) {
-        if (ObjectUtils.isEmpty(connection)) {
-            // 如果 connection 为空，则认为是 OAuth2 DeviceFlow 的设备校验
-            HerodotusDeviceConnection defaultConnection = toDeviceConnection.convert(device);
-            herodotusDeviceConnectionService.connected(defaultConnection);
-            // DeviceFlow 检验通过，为设备创建 Mqtt 账号权限，OAuth2 与 Mqtt 的联动
-            createMqttIdentify(device);
-        } else {
-            herodotusDeviceConnectionService.connected(connection);
+
+        HerodotusDeviceConnection currentConnection = connection;
+        if (ObjectUtils.isEmpty(currentConnection)) {
+            // 如果 connection 为空，则认为是 OAuth2 DeviceFlow 的设备校验。
+            // OAuth2 DeviceFlow 无法获取到 connection 对象，需要为其生成一个默认的、仅包含基本信息的、没有 mqtt 信息的 connection 对象
+            currentConnection = toDeviceConnection.convert(device);
         }
 
+        // 为设备开启 Mqtt ACL
+        enableMqttIdentify(device);
+        // 记录线下信息。激活操作代表第一次成功连接，所以也需要生成connection 信息
+        herodotusDeviceConnectionService.connected(currentConnection);
+        // 更新设备的激活状态标识。目前仅作一个标识，没有实际约束操作。后续可以根据需要删除或者扩展
         device.setActivated(true);
         herodotusDeviceService.save(device);
     }
@@ -149,11 +153,12 @@ public class HerodotusDeviceManager {
      * <p>
      * 该方法主要用于 Mqtt。Mqtt 首次连接进行激活，该场景下 HerodotusDeviceConnection 参数一定有值
      *
-     * @param clientId 物联网设备 ClientId
+     * @param clientId   物联网设备 ClientId
+     * @param connection 设备上线信息 {@link HerodotusDeviceConnection}
      */
-    private void activate(String clientId, HerodotusDeviceConnection domain) {
+    private void activate(String clientId, HerodotusDeviceConnection connection) {
         Optional<HerodotusDevice> optional = herodotusDeviceService.findByClientId(clientId);
-        optional.ifPresent(herodotusDevice -> activate(herodotusDevice, domain));
+        optional.ifPresent(herodotusDevice -> activate(herodotusDevice, connection));
     }
 
     /**
@@ -164,6 +169,7 @@ public class HerodotusDeviceManager {
      */
     public void connected(String clientId, HerodotusDeviceConnection newConnection) {
         Optional<HerodotusDeviceConnection> optional = herodotusDeviceConnectionService.findByClientId(clientId);
+        // 如果设备对应的 connected 信息已经存在，则认为是正常连接。如果不存在，则认为是第一次连接，所以需要进行激活操作
         optional.ifPresentOrElse(
                 oldConnection -> herodotusDeviceConnectionService.reconnected(oldConnection, newConnection),
                 () -> activate(clientId, newConnection));
@@ -189,7 +195,7 @@ public class HerodotusDeviceManager {
      */
     public void performMqttIdentification(String clientId) {
         Optional<HerodotusDevice> optional = herodotusDeviceService.findByClientId(clientId);
-        optional.ifPresent(this::createMqttIdentify);
+        optional.ifPresent(this::enableMqttIdentify);
     }
 
     /**
@@ -210,6 +216,8 @@ public class HerodotusDeviceManager {
 
     /**
      * 该方法为使用 OAuth2 设备码授权模式校验设备时，校验通过后激活设备信息。
+     * <p>
+     * OAuth2 Device Flow 的 Verification 本身也是一种认证，认证通过后，后续直接访问连接即可。
      * <p>
      * OAuth2 DeviceFlow 验证通过后，调用该方法创建，该场景下 HerodotusDeviceConnection 参数没有值
      *

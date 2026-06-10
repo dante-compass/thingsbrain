@@ -49,7 +49,7 @@ public class EmqxSystemClientConnectedListener extends AbstractEmqxConnectedList
     private static final Logger log = LoggerFactory.getLogger(EmqxSystemClientConnectedListener.class);
 
     public EmqxSystemClientConnectedListener(IdentifierManager identifierManager, MqttIdentificationHandler mqttIdentificationHandler) {
-        super(identifierManager, new SystemClientConnectedToDeviceConnectionConverter(), mqttIdentificationHandler);
+        super(identifierManager, mqttIdentificationHandler, new SystemClientConnectedToDeviceConnectionConverter());
     }
 
     @Override

@@ -50,7 +50,7 @@ public class EmqxWebhookClientConnectedListener extends AbstractEmqxConnectedLis
     private static final Logger log = LoggerFactory.getLogger(EmqxWebhookClientConnectedListener.class);
 
     public EmqxWebhookClientConnectedListener(IdentifierManager identifierManager, MqttIdentificationHandler mqttIdentificationHandler) {
-        super(identifierManager, new WebhookConnectedToDeviceConnectionConverter(), mqttIdentificationHandler);
+        super(identifierManager, mqttIdentificationHandler, new WebhookConnectedToDeviceConnectionConverter());
     }
 
     @Override
