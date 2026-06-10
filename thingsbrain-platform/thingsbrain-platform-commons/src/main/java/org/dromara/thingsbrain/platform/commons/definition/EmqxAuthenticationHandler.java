@@ -28,7 +28,7 @@ package org.dromara.thingsbrain.platform.commons.definition;
 import org.dromara.thingsbrain.platform.commons.domain.EmqxAuthenticationStatus;
 
 /**
- * <p>Description: Emqx 注册认证逻辑定义 </p>
+ * <p>Description: Emqx Http 方式客户端认证定义 </p>
  *
  * @author : gengwei_zheng
  * @date : 2026/5/27 13:10
@@ -36,12 +36,14 @@ import org.dromara.thingsbrain.platform.commons.domain.EmqxAuthenticationStatus;
 public interface EmqxAuthenticationHandler {
 
     /**
-     * Emqx 基于 Mqtt 协议的注册注册认证。
+     * 执行 Emqx Http 方式客户端认证。
      * <p>
-     * 如果返回的 HTTP 状态码为 200，认证结果通过 Body 中的 result 标示，Emqx Http 授权响应支持三种状态，可选值为：
+     * 如果返回的 HTTP 状态码为 200，认证结果通过 Body 中的 result 标识，Emqx Http 授权响应支持三种状态，可选值为：
      * · allow：允许发布或订阅
      * · deny：禁止发布或订阅
      * · ignore：忽略请求，移交下一个认证器以继续执行认证链。ignore 为 默认值
+     * <p>
+     * 进入该方法的前提是：设备尚未接电激活，Emqx 数据库认证方式中，数据库尚未有任何设备信息。
      *
      * @param mqttClientId Mqtt ClientId
      * @param mqttUsername Mqtt 用户名
