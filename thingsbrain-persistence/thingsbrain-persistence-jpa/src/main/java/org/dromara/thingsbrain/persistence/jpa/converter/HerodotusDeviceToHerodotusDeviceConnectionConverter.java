@@ -23,31 +23,28 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.mqtt.autoconfigure;
+package org.dromara.thingsbrain.persistence.jpa.converter;
 
-import jakarta.annotation.PostConstruct;
-import org.dromara.thingsbrain.mqtt.outbound.config.MqttOutboundConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.dromara.thingsbrain.kernel.commons.utils.DataFormatUtils;
+import org.dromara.thingsbrain.persistence.jpa.logic.entity.HerodotusDevice;
+import org.dromara.thingsbrain.persistence.jpa.logic.entity.HerodotusDeviceConnection;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: Mqtt 出站数据处理逻辑自动配置 </p>
+ * <p>Description:  {@link HerodotusDevice} 转 {@link HerodotusDeviceConnection} 转换器 </p>
  *
  * @author : gengwei_zheng
- * @date : 2026/5/3 18:34
+ * @date : 2026/6/9 23:26
  */
-@AutoConfiguration(after = MqttAutoConfiguration.class)
-@Import({
-        MqttOutboundConfiguration.class
-})
-public class MqttOutboundAutoConfiguration {
+public class HerodotusDeviceToHerodotusDeviceConnectionConverter implements Converter<HerodotusDevice, HerodotusDeviceConnection> {
 
-    private static final Logger log = LoggerFactory.getLogger(MqttOutboundAutoConfiguration.class);
-
-    @PostConstruct
-    public void postConstruct() {
-        log.info("[ThingsBrain] |- Auto [Mqtt Outbound] Configure.");
+    @Override
+    public HerodotusDeviceConnection convert(HerodotusDevice source) {
+        HerodotusDeviceConnection target = new HerodotusDeviceConnection();
+        String productKey = source.getProduct().getProductKey();
+        String deviceName = source.getDeviceName();
+        target.setClientId(source.getClientId());
+        target.setUsername(DataFormatUtils.toMqttUsername(productKey, deviceName));
+        return target;
     }
 }

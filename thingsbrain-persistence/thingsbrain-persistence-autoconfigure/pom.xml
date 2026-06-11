@@ -6,11 +6,13 @@
     <parent>
         <groupId>org.dromara.thingsbrain</groupId>
         <artifactId>thingsbrain-persistence</artifactId>
-        <version>4.0.6.5</version>
+        <version>4.0.7.1</version>
     </parent>
 
     <artifactId>thingsbrain-persistence-autoconfigure</artifactId>
     <name>${project.artifactId}</name>
+
+    <description>ThingsBrain 物联网平台数据持久化自动配置模块</description>
 
     <dependencies>
         <dependency>

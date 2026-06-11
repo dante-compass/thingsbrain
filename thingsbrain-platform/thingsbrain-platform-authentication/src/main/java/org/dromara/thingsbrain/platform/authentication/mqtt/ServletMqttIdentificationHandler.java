@@ -30,7 +30,6 @@ import org.dromara.thingsbrain.platform.authentication.domain.OAuth2ClientRegist
 import org.dromara.thingsbrain.platform.authentication.oauth2.ServletLocalOAuth2ClientRegistrationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.ObjectProvider;
 
 /**
  * <p>Description: 阻塞式环境基于 Mqtt 协议的设备动态注册 </p>
@@ -38,21 +37,21 @@ import org.springframework.beans.factory.ObjectProvider;
  * @author : gengwei.zheng
  * @date : 2025/7/5 17:09
  */
-public class ServletMqttRegistrationHandler extends AbstractMqttRegistrationHandler {
+public class ServletMqttIdentificationHandler extends AbstractMqttIdentificationHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(ServletMqttRegistrationHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(ServletMqttIdentificationHandler.class);
 
     private final ServletLocalOAuth2ClientRegistrationHandler servletLocalOAuth2ClientRegistrationHandler;
 
-    public ServletMqttRegistrationHandler(IdentifierManager identifierManager, ServletLocalOAuth2ClientRegistrationHandler servletLocalOAuth2ClientRegistrationHandler) {
+    public ServletMqttIdentificationHandler(IdentifierManager identifierManager, ServletLocalOAuth2ClientRegistrationHandler servletLocalOAuth2ClientRegistrationHandler) {
         super(identifierManager);
         this.servletLocalOAuth2ClientRegistrationHandler = servletLocalOAuth2ClientRegistrationHandler;
     }
 
     @Override
-    protected void registration(String clientId, String clientSecret, String productKey, String deviceName) {
+    protected void performOAuth2ClientRegistration(String clientId, String clientSecret, String productKey, String deviceName) {
         log.debug("[ThingsBrain] |- [MQTT-REGISTRATION] Registration device begin processing.");
         OAuth2ClientRegistration OAuth2ClientRegistration = servletLocalOAuth2ClientRegistrationHandler.register(clientId, clientSecret, productKey, deviceName);
-        onSuccess(OAuth2ClientRegistration);
+        onRegistrationSuccess(OAuth2ClientRegistration);
     }
 }

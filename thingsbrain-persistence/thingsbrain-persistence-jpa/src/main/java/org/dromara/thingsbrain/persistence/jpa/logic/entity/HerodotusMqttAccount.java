@@ -68,6 +68,9 @@ public class HerodotusMqttAccount extends AbstractSysEntity {
     @Column(name = "password", length = 256)
     private String password;
 
+    @Column(name = "is_superuser")
+    private Boolean superUser;
+
     /**
      * 用户 - 角色关系定义:
      * (1) 加上fetch=FetchType.LAZY  或 @Fetch(FetchMode.SELECT), 输出结果与上面相同，说明默认设置是fetch=FetchType.LAZY 和 @Fetch(FetchMode.SELECT) 下面四种配置等效，都是N+1条sql的懒加载
@@ -122,6 +125,14 @@ public class HerodotusMqttAccount extends AbstractSysEntity {
         this.password = password;
     }
 
+    public Boolean getSuperUser() {
+        return superUser;
+    }
+
+    public void setSuperUser(Boolean superUser) {
+        this.superUser = superUser;
+    }
+
     public Set<HerodotusMqttCategory> getCategories() {
         return categories;
     }
@@ -137,6 +148,7 @@ public class HerodotusMqttAccount extends AbstractSysEntity {
                 .add("clientId", clientId)
                 .add("username", username)
                 .add("password", password)
+                .add("superUser", superUser)
                 .addValue(super.toString())
                 .toString();
     }

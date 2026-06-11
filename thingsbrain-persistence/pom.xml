@@ -6,12 +6,15 @@
     <parent>
         <groupId>org.dromara.thingsbrain</groupId>
         <artifactId>thingsbrain</artifactId>
-        <version>4.0.6.5</version>
+        <version>4.0.7.1</version>
     </parent>
 
     <artifactId>thingsbrain-persistence</artifactId>
     <name>${project.artifactId}</name>
+
     <packaging>pom</packaging>
+
+    <description>ThingsBrain 物联网平台数据持久化相关模块分组</description>
 
     <modules>
         <module>thingsbrain-persistence-commons</module>

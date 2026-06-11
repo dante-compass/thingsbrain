@@ -6,22 +6,21 @@
     <parent>
         <groupId>org.dromara.thingsbrain</groupId>
         <artifactId>thingsbrain</artifactId>
-        <version>4.0.6.5</version>
+        <version>4.0.7.1</version>
     </parent>
 
     <artifactId>thingsbrain-link</artifactId>
+    <name>${project.artifactId}</name>
+
     <packaging>pom</packaging>
+
+    <description>ThingsBrain 物联网平台自定义 Link 协议相关模块分组</description>
+
     <modules>
         <module>thingsbrain-link-autoconfigure</module>
         <module>thingsbrain-link-commons</module>
         <module>thingsbrain-link-manager</module>
         <module>thingsbrain-link-storage</module>
     </modules>
-
-    <properties>
-        <maven.compiler.source>25</maven.compiler.source>
-        <maven.compiler.target>25</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
 </project>

@@ -25,8 +25,7 @@
 
 package org.dromara.thingsbrain.platform.authentication.emqx;
 
-import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
-import org.springframework.beans.factory.ObjectProvider;
+import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 
@@ -40,13 +39,13 @@ import java.time.LocalDateTime;
  */
 abstract class AbstractEmqxDisconnectedListener<E extends ApplicationEvent> implements ApplicationListener<E> {
 
-    private final ConnectionManager connectionManager;
+    private final IdentifierManager identifierManager;
 
-    protected AbstractEmqxDisconnectedListener(ConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
+    protected AbstractEmqxDisconnectedListener(IdentifierManager identifierManager) {
+        this.identifierManager = identifierManager;
     }
 
     protected void disconnected(String clientId, String reason, LocalDateTime disconnectedAt) {
-        connectionManager.disconnected(clientId, reason, disconnectedAt);
+        identifierManager.disconnected(clientId, reason, disconnectedAt);
     }
 }

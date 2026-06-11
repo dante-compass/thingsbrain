@@ -31,11 +31,10 @@ import org.dromara.thingsbrain.kernel.commons.domain.AddressTuple;
 import org.dromara.thingsbrain.kernel.commons.domain.Identifier;
 import org.dromara.thingsbrain.kernel.commons.utils.DataFormatUtils;
 import org.dromara.thingsbrain.persistence.commons.domain.DeviceConnection;
-import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
-import org.dromara.thingsbrain.platform.authentication.mqtt.MqttRegistrationHandler;
+import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
+import org.dromara.thingsbrain.platform.authentication.mqtt.MqttIdentificationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.core.convert.converter.Converter;
 
 import java.util.Optional;
@@ -50,8 +49,8 @@ public class EmqxWebhookClientConnectedListener extends AbstractEmqxConnectedLis
 
     private static final Logger log = LoggerFactory.getLogger(EmqxWebhookClientConnectedListener.class);
 
-    public EmqxWebhookClientConnectedListener(ConnectionManager connectionManager, MqttRegistrationHandler mqttRegistrationHandler) {
-        super(connectionManager, new WebhookConnectedToDeviceConnectionConverter(), mqttRegistrationHandler);
+    public EmqxWebhookClientConnectedListener(IdentifierManager identifierManager, MqttIdentificationHandler mqttIdentificationHandler) {
+        super(identifierManager, mqttIdentificationHandler, new WebhookConnectedToDeviceConnectionConverter());
     }
 
     @Override

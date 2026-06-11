@@ -38,7 +38,7 @@ import java.util.Set;
 import java.util.stream.IntStream;
 
 /**
- * <p>Description: 平台订阅主题添加器 </p>
+ * <p>Description: 平台订阅主题动态添加器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2025/10/13 23:46

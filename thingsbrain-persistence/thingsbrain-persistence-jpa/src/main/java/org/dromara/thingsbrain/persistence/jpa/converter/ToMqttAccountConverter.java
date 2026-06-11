@@ -63,6 +63,7 @@ public class ToMqttAccountConverter extends AbstractToSysEntityConverter<Herodot
         target.setClientId(source.getClientId());
         target.setUsername(source.getUsername());
         target.setPassword(source.getPassword());
+        target.setSuperUser(source.getSuperUser());
 
         Optional.of(source.getCategories()) // 实体中设置了默认空集合
                 .filter(CollectionUtils::isNotEmpty) // 主要判断数量是否为 0

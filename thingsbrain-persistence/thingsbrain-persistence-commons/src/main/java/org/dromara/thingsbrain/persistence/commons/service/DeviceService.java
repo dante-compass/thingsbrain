@@ -27,8 +27,10 @@ package org.dromara.thingsbrain.persistence.commons.service;
 
 import org.dromara.dante.data.commons.service.BaseWriteAndPageService;
 import org.dromara.thingsbrain.persistence.commons.domain.Device;
+import org.dromara.thingsbrain.persistence.commons.domain.DeviceConnection;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -66,25 +68,42 @@ public interface DeviceService extends BaseWriteAndPageService<Device, String> {
     Optional<Device> findByDeviceName(String deviceName);
 
     /**
-     * 根据 clientId 或者 deviceName 判断设备 {@link Device} 是否已经存在
+     * 设备上线
      *
-     * @param deviceName 物联网设备 DeviceName
-     * @param clientId   设备 ClientId
-     * @return true 设备已存在；false 设备不存在。
+     * @param clientId         设备 ClientId
+     * @param deviceConnection 上线信息 {@link DeviceConnection}
      */
-    boolean isDeviceExists(String deviceName, String clientId);
+    void connected(String clientId, DeviceConnection deviceConnection);
 
     /**
-     * 设备注册
+     * 设备下线
      *
-     * @param device 设备信息
+     * @param clientId       设备 ClientId
+     * @param reason         下线原因
+     * @param disconnectedAt 下线时间 {@link LocalDateTime}
      */
-    void registration(Device device);
+    void disconnected(String clientId, String reason, LocalDateTime disconnectedAt);
 
     /**
-     * 设备激活
+     * Mqtt 设备注册认证。
+     * <p>
+     * 一机一密、一型一密注册认证成功之后，为其配置 mqtt 账号信息，后续可以使用 mqtt 账号连接。
      *
-     * @param clientId 设备 ClientId
+     * @param clientId 物联网设备 ClientId
      */
-    void activation(String clientId);
+    void performMqttIdentification(String clientId);
+
+    /**
+     * 该方法为使用 OAuth2 客户端动态注册时，oauth2_registered_client 生成信息后，反向同步创建设备信息
+     *
+     * @param device 物联网设备 {@link Device}
+     */
+    void performOAuth2Synchronization(Device device);
+
+    /**
+     * 该方法为使用 OAuth2 设备码授权模式校验设备时，校验通过后激活设备信息。
+     *
+     * @param clientId 物联网设备 ClientId
+     */
+    void performOAuth2Verification(String clientId);
 }

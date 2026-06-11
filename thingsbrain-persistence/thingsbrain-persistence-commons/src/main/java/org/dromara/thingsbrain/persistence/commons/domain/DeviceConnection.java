@@ -91,11 +91,11 @@ public class DeviceConnection implements BaseEntity {
     private Boolean connected = Boolean.FALSE;
 
     @Schema(name = "连接时间")
-    @JsonFormat(pattern = SystemConstants.DATE_TIME_FORMAT, locale = "GMT+8", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern = SystemConstants.PATTERN__DATE_TIME, locale = "GMT+8", shape = JsonFormat.Shape.STRING)
     private LocalDateTime connectedAt;
 
     @Schema(name = "断开连接时间")
-    @JsonFormat(pattern = SystemConstants.DATE_TIME_FORMAT, locale = "GMT+8", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern = SystemConstants.PATTERN__DATE_TIME, locale = "GMT+8", shape = JsonFormat.Shape.STRING)
     private LocalDateTime disconnectedAt;
 
     public void setUsername(Identifier deviceIdentifier) {

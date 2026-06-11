@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.dromara.thingsbrain</groupId>
         <artifactId>thingsbrain</artifactId>
-        <version>4.0.6.5</version>
+        <version>4.0.7.1</version>
     </parent>
 
     <artifactId>thingsbrain-kernel</artifactId>
@@ -15,7 +15,7 @@
 
     <packaging>pom</packaging>
 
-    <description>ThingsBrain 物联网平台核心逻辑相关模块分组</description>
+    <description>ThingsBrain 物联网平台核心定义相关模块分组</description>
 
     <modules>
         <module>thingsbrain-kernel-commons</module>

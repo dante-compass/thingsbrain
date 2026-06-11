@@ -31,6 +31,7 @@ import org.dromara.thingsbrain.persistence.jpa.logic.entity.HerodotusDeviceConne
 import org.dromara.thingsbrain.persistence.jpa.logic.repository.HerodotusDeviceConnectionRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -55,5 +56,48 @@ public class HerodotusDeviceConnectionService extends AbstractJpaService<Herodot
 
     public Optional<HerodotusDeviceConnection> findByClientId(String clientId) {
         return herodotusDeviceConnectionRepository.findByClientId(clientId);
+    }
+
+    /**
+     * 客户端上线。
+     * <p>
+     * 如果客户端信息已经存在，则更新现有信息状态。如果客户端信息不存在，则新建连接信息。
+     *
+     * @param newConnection 新的上线信息 {@link HerodotusDeviceConnection}
+     */
+    public void connected(HerodotusDeviceConnection newConnection) {
+        save(newConnection);
+    }
+
+    /**
+     * 客户端重新上线。
+     * <p>
+     * 用于区分客户端是首次上线还是，正常的上线。主要避免出现重复调用 findByClientId 情况。
+     * <p>
+     * 传递原有上下线信息，是为了获取原有信息中的 id，以确保 save 变为更新操作而不是新建
+     *
+     * @param oldConnection 原有上线信息 {@link HerodotusDeviceConnection}
+     * @param newConnection 新的上线信息 {@link HerodotusDeviceConnection}
+     */
+    public void reconnected(HerodotusDeviceConnection oldConnection, HerodotusDeviceConnection newConnection) {
+        newConnection.setConnectId(oldConnection.getConnectId());
+        connected(newConnection);
+    }
+
+    /**
+     * 客户端下线。
+     *
+     * @param clientId       物联网设备 ClientId
+     * @param reason         下线理由。目前由 Mqtt Broker 传递。
+     * @param disconnectedAt 下线时间
+     */
+    public void disconnected(String clientId, String reason, LocalDateTime disconnectedAt) {
+        Optional<HerodotusDeviceConnection> optional = findByClientId(clientId);
+        optional.ifPresent(connection -> {
+            connection.setReason(reason);
+            connection.setDisconnectedAt(disconnectedAt);
+            connection.setConnected(false);
+            save(connection);
+        });
     }
 }

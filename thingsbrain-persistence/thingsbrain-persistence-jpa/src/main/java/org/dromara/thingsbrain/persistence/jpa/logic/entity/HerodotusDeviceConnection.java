@@ -98,11 +98,11 @@ public class HerodotusDeviceConnection implements BaseEntity {
     private Boolean connected = Boolean.FALSE;
 
     @Column(name = "connected_at")
-    @JsonFormat(pattern = SystemConstants.DATE_TIME_FORMAT, locale = "GMT+8", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern = SystemConstants.PATTERN__DATE_TIME, locale = "GMT+8", shape = JsonFormat.Shape.STRING)
     private LocalDateTime connectedAt;
 
     @Column(name = "disconnected_at")
-    @JsonFormat(pattern = SystemConstants.DATE_TIME_FORMAT, locale = "GMT+8", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern = SystemConstants.PATTERN__DATE_TIME, locale = "GMT+8", shape = JsonFormat.Shape.STRING)
     private LocalDateTime disconnectedAt;
 
     public String getConnectId() {

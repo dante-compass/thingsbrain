@@ -39,9 +39,9 @@ import org.dromara.dante.core.domain.Result;
 import org.dromara.dante.data.commons.service.BaseWriteAndPageService;
 import org.dromara.dante.data.rest.servlet.AbstractEntityWriteAndPageController;
 import org.dromara.dante.web.annotation.AccessLimited;
-import org.dromara.thingsbrain.platform.commons.definition.MqttSignatureGenerator;
 import org.dromara.thingsbrain.persistence.commons.domain.Device;
 import org.dromara.thingsbrain.persistence.commons.service.DeviceService;
+import org.dromara.thingsbrain.platform.commons.definition.MqttSignatureGenerator;
 import org.dromara.thingsbrain.platform.commons.domain.SignatureGenerationResult;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
@@ -62,8 +62,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/iot/device")
 @Tags({
-        @Tag(name = "物联网业务业务功能接口"),
-        @Tag(name = "ThingsBrain物联网接口"),
+        @Tag(name = "ThingsBrain物联网平台 REST 接口"),
+        @Tag(name = "物联网平台业务功能接口"),
         @Tag(name = "物联网产品管理接口"),
 })
 public class DeviceController extends AbstractEntityWriteAndPageController<Device, String, BaseWriteAndPageService<Device, String>> {

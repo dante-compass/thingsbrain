@@ -25,7 +25,7 @@
 
 package org.dromara.thingsbrain.platform.authentication.mqtt;
 
-import org.dromara.thingsbrain.platform.commons.domain.MqttClientIdFactory;
+import org.dromara.thingsbrain.kernel.commons.enums.AuthType;
 
 /**
  * <p>Description: Mqtt 自动注册服务 </p>
@@ -33,13 +33,21 @@ import org.dromara.thingsbrain.platform.commons.domain.MqttClientIdFactory;
  * @author : gengwei.zheng
  * @date : 2025/7/1 15:12
  */
-public interface MqttRegistrationHandler {
+public interface MqttIdentificationHandler {
 
     /**
-     * Mqtt 客户端动态注册
+     * Mqtt 一型一密注册认证
      *
-     * @param factory      mqtt 客户端ID {@link MqttClientIdFactory}
-     * @param mqttUsername mqtt 用户名
+     * @param clientId     物联网设备 ClientId
+     * @param mqttUsername Mqtt 用户名
+     * @param authType     一型一密注册认证方式 {@link AuthType}
      */
-    void process(MqttClientIdFactory factory, String mqttUsername);
+    void identifyPerProduct(String clientId, String mqttUsername, AuthType authType);
+
+    /**
+     * Mqtt 一机一密注册认证
+     *
+     * @param clientId 物联网设备 ClientId
+     */
+    void identifyPerDevice(String clientId);
 }

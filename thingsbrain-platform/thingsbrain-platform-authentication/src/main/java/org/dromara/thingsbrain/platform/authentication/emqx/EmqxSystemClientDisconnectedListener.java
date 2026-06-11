@@ -27,10 +27,9 @@ package org.dromara.thingsbrain.platform.authentication.emqx;
 
 import org.dromara.dante.message.emqx.domain.SystemClientDisconnected;
 import org.dromara.dante.message.emqx.event.SystemClientDisconnectedEvent;
-import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
+import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.ObjectProvider;
 
 /**
  * <p>Description: 物联网设备下线监听 </p>
@@ -42,8 +41,8 @@ public class EmqxSystemClientDisconnectedListener extends AbstractEmqxDisconnect
 
     private static final Logger log = LoggerFactory.getLogger(EmqxSystemClientDisconnectedListener.class);
 
-    public EmqxSystemClientDisconnectedListener(ConnectionManager connectionManager) {
-        super(connectionManager);
+    public EmqxSystemClientDisconnectedListener(IdentifierManager identifierManager) {
+        super(identifierManager);
     }
 
     @Override

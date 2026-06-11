@@ -27,7 +27,7 @@ package org.dromara.thingsbrain.platform.authentication.emqx;
 
 import org.dromara.dante.message.emqx.domain.WebhookClientDisconnected;
 import org.dromara.dante.message.emqx.event.WebhookClientDisconnectedEvent;
-import org.dromara.thingsbrain.persistence.commons.manager.ConnectionManager;
+import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,8 +41,8 @@ public class EmqxWebhookClientDisconnectedListener extends AbstractEmqxDisconnec
 
     private static final Logger log = LoggerFactory.getLogger(EmqxWebhookClientDisconnectedListener.class);
 
-    public EmqxWebhookClientDisconnectedListener(ConnectionManager connectionManager) {
-        super(connectionManager);
+    public EmqxWebhookClientDisconnectedListener(IdentifierManager identifierManager) {
+        super(identifierManager);
     }
 
     @Override

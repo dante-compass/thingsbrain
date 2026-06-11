@@ -1,29 +1,35 @@
 /*
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ * Copyright 2020-2030 码匠君<herodotus@aliyun.com>
  *
- * Copyright (c) 2020-2030 郑庚伟 ZHENGGENGWEI (码匠君), <herodotus@aliyun.com> Licensed under the AGPL License
+ * ThingsBrain licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This file is part of Herodotus ThingsBrain.
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
- * Herodotus ThingsBrain is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published
- * by the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
- * Herodotus ThingsBrain is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
+ * ThingsBrain 是 Dante Cloud 系统生态产品，采用 APACHE LICENSE 2.0 开源协议，您在使用过程中，需要注意以下几点：
  *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.herodotus.cn>.
+ * 1. 请不要删除和修改根目录下的LICENSE文件。
+ * 2. 请不要删除和修改 ThingsBrain 源码头部的版权声明。
+ * 3. 请保留源码和相关描述文件的项目出处，作者声明等。
+ * 4. 分发源码时候，请注明软件出处 <https://gitee.com/dromara/dante-cloud>
+ * 5. 在修改包名，模块名称，项目代码等时，请注明软件出处 <https://gitee.com/dromara/dante-cloud>
+ * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
 package org.dromara.thingsbrain.persistence.commons.manager;
 
 import org.dromara.thingsbrain.persistence.commons.domain.Device;
+import org.dromara.thingsbrain.persistence.commons.domain.DeviceConnection;
 import org.dromara.thingsbrain.persistence.commons.domain.Product;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -62,25 +68,42 @@ public interface IdentifierManager {
     Optional<Device> findDeviceByDeviceName(String deviceName);
 
     /**
-     * 根据 clientId 和 deviceName 判断设备 {@link Device} 是否已经存在
+     * 设备上线
      *
-     * @param deviceName 物联网设备 DeviceName
-     * @param clientId   设备 ClientId
-     * @return true 设备已存在；false 设备不存在。
+     * @param clientId         设备 ClientId
+     * @param deviceConnection 上线信息 {@link DeviceConnection}
      */
-    boolean isDeviceExists(String deviceName, String clientId);
+    void connected(String clientId, DeviceConnection deviceConnection);
 
     /**
-     * 物联网设备激活。设备首次上线，连接成功后设置激活状态。
+     * 设备下线
+     *
+     * @param clientId       设备 ClientId
+     * @param reason         下线原因
+     * @param disconnectedAt 下线时间 {@link LocalDateTime}
+     */
+    void disconnected(String clientId, String reason, LocalDateTime disconnectedAt);
+
+    /**
+     * Mqtt 设备注册认证。
+     * <p>
+     * 一机一密、一型一密注册认证成功之后，为其配置 mqtt 账号信息，后续可以使用 mqtt 账号连接。
      *
      * @param clientId 物联网设备 ClientId
      */
-    void activation(String clientId);
+    void performMqttIdentification(String clientId);
 
     /**
-     * 物联网设备注册
+     * 该方法为使用 OAuth2 客户端动态注册时，oauth2_registered_client 生成信息后，反向同步创建设备信息
      *
      * @param device 物联网设备 {@link Device}
      */
-    void registration(Device device);
+    void performOAuth2Synchronization(Device device);
+
+    /**
+     * 该方法为使用 OAuth2 设备码授权模式校验设备时，校验通过后激活设备信息。
+     *
+     * @param clientId 物联网设备 ClientId
+     */
+    void performOAuth2Verification(String clientId);
 }

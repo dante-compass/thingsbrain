@@ -53,6 +53,9 @@ public class MqttAccount extends AbstractSysEntity {
     @Schema(name = "Mqtt密码")
     private String password;
 
+    @Schema(name = "是否为超级用户", title = "目前主要为 Emqx 使用该字段")
+    private Boolean superUser = Boolean.FALSE;
+
     @Schema(name = "主题分类")
     private Set<MqttCategory> categories = new HashSet<>();
 
@@ -88,6 +91,14 @@ public class MqttAccount extends AbstractSysEntity {
         this.password = password;
     }
 
+    public Boolean getSuperUser() {
+        return superUser;
+    }
+
+    public void setSuperUser(Boolean superUser) {
+        this.superUser = superUser;
+    }
+
     public Set<MqttCategory> getCategories() {
         return categories;
     }
@@ -103,6 +114,7 @@ public class MqttAccount extends AbstractSysEntity {
                 .add("clientId", clientId)
                 .add("username", username)
                 .add("password", password)
+                .add("superUser", superUser)
                 .addValue(super.toString())
                 .toString();
     }

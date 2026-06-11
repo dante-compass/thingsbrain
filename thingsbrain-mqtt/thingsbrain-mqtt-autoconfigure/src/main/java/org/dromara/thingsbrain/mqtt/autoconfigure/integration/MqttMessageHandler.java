@@ -46,7 +46,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: ThingsBrain平台功能 Mqtt 入站消息统一处理器 </p>
  *
  * @author : gengwei_zheng
  * @date : 2026/5/3 17:55
