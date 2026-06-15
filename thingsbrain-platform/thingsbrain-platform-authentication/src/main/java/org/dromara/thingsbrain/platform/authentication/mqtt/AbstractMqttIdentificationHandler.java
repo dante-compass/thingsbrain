@@ -114,12 +114,12 @@ public abstract class AbstractMqttIdentificationHandler implements MqttIdentific
      * <p>
      * 定义为抽象方法，以便支持 Reactive 和 Servlet 不同环境的实现。
      *
-     * @param clientId      OAuth2 ClientId（“父”客户端 ID）
-     * @param productKey    物联网产品 ProductKey
+     * @param clientId      待注册设备 ClientId（对应 OAuth2 ClientID）
+     * @param deviceName    待注册设备 DeviceName（对应 OAuth2 ClientName）
+     * @param productKey    物联网产品 ProductKey（“父”客户端 Client Name）
      * @param productSecret 物联网产品 ProductSecret（“父”客户端密钥）
-     * @param deviceName    物联网设备 DeviceName
      */
-    protected abstract void performOAuth2ClientRegistration(String productKey, String productSecret, String deviceName, String clientId);
+    protected abstract void performOAuth2ClientRegistration(String clientId, String deviceName, String productKey, String productSecret);
 
     /**
      * 一型一密免注册认证方式。即 {@link AuthType} 为 "regnwl" 类型的方式

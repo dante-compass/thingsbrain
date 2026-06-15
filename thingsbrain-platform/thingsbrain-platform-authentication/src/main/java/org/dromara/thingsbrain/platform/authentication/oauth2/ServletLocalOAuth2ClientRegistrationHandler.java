@@ -76,6 +76,13 @@ public class ServletLocalOAuth2ClientRegistrationHandler {
                 .body(ClientCredentialsAuthenticationToken.class);
     }
 
+    /**
+     * OAuth2 客户端注册。
+     *
+     * @param token                    AccessToken 使用“父”客户端信息获取
+     * @param OAuth2ClientRegistration 客户端注册请求信息
+     * @return 客户端注册响应信息 {@link OAuth2ClientRegistration}
+     */
     private OAuth2ClientRegistration register(String token, OAuth2ClientRegistration OAuth2ClientRegistration) {
         return this.getRestClient()
                 .post()
@@ -88,8 +95,16 @@ public class ServletLocalOAuth2ClientRegistrationHandler {
                 .body(OAuth2ClientRegistration.class);
     }
 
-    public OAuth2ClientRegistration register(String clientId, String clientSecret, OAuth2ClientRegistration OAuth2ClientRegistration) {
-        return Optional.ofNullable(authenticate(clientId, clientSecret))
+    /**
+     * OAuth2 客户端注册。
+     *
+     * @param parentClientId           OAuth2 ClientId（“父”客户端 ID）
+     * @param parentClientSecret       OAuth2 ClientSecret（“父”客户端密钥）
+     * @param OAuth2ClientRegistration 客户端注册请求信息
+     * @return 客户端注册响应信息 {@link OAuth2ClientRegistration}
+     */
+    public OAuth2ClientRegistration register(String parentClientId, String parentClientSecret, OAuth2ClientRegistration OAuth2ClientRegistration) {
+        return Optional.ofNullable(authenticate(parentClientId, parentClientSecret))
                 .map(ClientCredentialsAuthenticationToken::accessToken)
                 .map(token -> register(token, OAuth2ClientRegistration)).orElse(null);
     }
@@ -97,14 +112,14 @@ public class ServletLocalOAuth2ClientRegistrationHandler {
     /**
      * 基于物联网的 OAuth2 客户端动态注册
      *
-     * @param clientId     OAuth2 ClientId（“父”客户端 ID）
-     * @param clientSecret OAuth2 ClientSecret（“父”客户端密钥）
-     * @param productKey   物联网产品 ProductKey
-     * @param deviceName   物联网设备 DeviceName
-     * @return 客户端注册结果 {@link OAuth2ClientRegistration}
+     * @param clientId      待注册客户端 ClientId
+     * @param deviceName    待注册客户端 ClientName
+     * @param productKey    物联网产品 ProductKey“父”客户端 ID）
+     * @param productSecret 物联网产品 ProductSecret（“父”客户端密钥）
+     * @return 客户端注册响应信息 {@link OAuth2ClientRegistration}
      */
-    public OAuth2ClientRegistration register(String clientId, String clientSecret, String productKey, String deviceName) {
-        return register(clientId, clientSecret, RegistrationUtils.create(productKey, deviceName));
+    public OAuth2ClientRegistration register(String clientId, String deviceName, String productKey, String productSecret) {
+        return register(productKey, productSecret, RegistrationUtils.create(clientId, productKey, deviceName));
     }
 
     public OAuth2ClientRegistration query(String registrationAccessToken, String registrationClientUri) {

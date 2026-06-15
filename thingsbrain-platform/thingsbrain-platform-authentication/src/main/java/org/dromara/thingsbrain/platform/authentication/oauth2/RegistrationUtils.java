@@ -39,12 +39,13 @@ import java.util.List;
  */
 public class RegistrationUtils {
 
-    public static OAuth2ClientRegistration create(String productKey, String deviceName) {
+    public static OAuth2ClientRegistration create(String clientId, String productKey, String deviceName) {
         OAuth2ClientRegistration registration = new OAuth2ClientRegistration();
         registration.setProductKey(productKey);
         registration.setGrantTypes(List.of(AuthorizationGrantType.CLIENT_CREDENTIALS.getValue()));
         registration.setScope("profile");
         registration.setClientName(deviceName);
+        registration.setClientId(clientId);
         registration.setTokenEndpointAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST.getValue());
         return registration;
     }
