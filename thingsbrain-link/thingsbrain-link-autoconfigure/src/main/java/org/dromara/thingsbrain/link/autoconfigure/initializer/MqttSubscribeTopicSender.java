@@ -27,7 +27,7 @@ package org.dromara.thingsbrain.link.autoconfigure.initializer;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.dromara.thingsbrain.link.commons.definition.MqttAuthorizationManager;
-import org.dromara.thingsbrain.persistence.commons.domain.MqttCategory;
+import cn.herodotus.thingsbrain.persistence.commons.domain.MqttCategory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;

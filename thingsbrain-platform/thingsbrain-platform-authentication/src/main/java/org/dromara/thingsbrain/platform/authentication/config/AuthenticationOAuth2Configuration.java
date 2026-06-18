@@ -28,7 +28,7 @@ package org.dromara.thingsbrain.platform.authentication.config;
 import jakarta.annotation.PostConstruct;
 import org.dromara.dante.spring.condition.ConditionalOnArchitecture;
 import org.dromara.dante.spring.enums.Architecture;
-import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
+import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.dromara.thingsbrain.platform.authentication.oauth2.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

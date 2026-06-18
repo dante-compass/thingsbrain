@@ -31,7 +31,7 @@ import cn.herodotus.thingsbrain.mqtt.commons.constant.MqttConstants;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
 import org.dromara.dante.core.jackson.JacksonUtils;
 import org.dromara.thingsbrain.link.commons.definition.DeviceShadowManager;
-import org.dromara.thingsbrain.persistence.commons.domain.DeviceShadow;
+import cn.herodotus.thingsbrain.persistence.commons.domain.DeviceShadow;
 
 import java.util.Map;
 import java.util.Optional;

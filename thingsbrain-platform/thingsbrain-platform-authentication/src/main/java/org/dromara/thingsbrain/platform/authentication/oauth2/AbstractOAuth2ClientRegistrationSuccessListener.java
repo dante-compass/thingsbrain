@@ -27,9 +27,9 @@ package org.dromara.thingsbrain.platform.authentication.oauth2;
 
 import org.apache.commons.lang3.StringUtils;
 import org.dromara.dante.security.domain.RegisteredClientTransmitter;
-import org.dromara.thingsbrain.persistence.commons.domain.Device;
-import org.dromara.thingsbrain.persistence.commons.domain.Product;
-import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
+import cn.herodotus.thingsbrain.persistence.commons.domain.Device;
+import cn.herodotus.thingsbrain.persistence.commons.domain.Product;
+import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;

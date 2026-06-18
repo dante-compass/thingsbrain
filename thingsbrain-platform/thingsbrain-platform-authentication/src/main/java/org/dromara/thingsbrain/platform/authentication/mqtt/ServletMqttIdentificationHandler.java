@@ -25,7 +25,7 @@
 
 package org.dromara.thingsbrain.platform.authentication.mqtt;
 
-import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
+import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.dromara.thingsbrain.platform.authentication.domain.OAuth2ClientRegistration;
 import org.dromara.thingsbrain.platform.authentication.oauth2.ServletLocalOAuth2ClientRegistrationHandler;
 import org.slf4j.Logger;

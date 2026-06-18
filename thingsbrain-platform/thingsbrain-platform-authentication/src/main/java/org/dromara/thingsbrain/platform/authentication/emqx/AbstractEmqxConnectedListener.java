@@ -27,8 +27,8 @@ package org.dromara.thingsbrain.platform.authentication.emqx;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.dromara.dante.message.emqx.definition.domain.AbstractEmqxDomain;
-import org.dromara.thingsbrain.persistence.commons.domain.DeviceConnection;
-import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
+import cn.herodotus.thingsbrain.persistence.commons.domain.DeviceConnection;
+import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.dromara.thingsbrain.platform.authentication.mqtt.MqttIdentificationHandler;
 import org.dromara.thingsbrain.platform.commons.domain.MqttClientIdFactory;
 import org.slf4j.Logger;

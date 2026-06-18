@@ -26,7 +26,7 @@
 package org.dromara.thingsbrain.link.manager.device;
 
 import org.dromara.thingsbrain.link.commons.definition.DeviceShadowManager;
-import org.dromara.thingsbrain.persistence.commons.service.DeviceShadowService;
+import cn.herodotus.thingsbrain.persistence.commons.service.DeviceShadowService;
 
 /**
  * <p>Description: 设备影子管理服务 </p>

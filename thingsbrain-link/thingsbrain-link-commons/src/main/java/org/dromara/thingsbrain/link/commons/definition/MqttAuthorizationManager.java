@@ -25,7 +25,7 @@
 
 package org.dromara.thingsbrain.link.commons.definition;
 
-import org.dromara.thingsbrain.persistence.commons.domain.MqttCategory;
+import cn.herodotus.thingsbrain.persistence.commons.domain.MqttCategory;
 
 import java.util.Optional;
 

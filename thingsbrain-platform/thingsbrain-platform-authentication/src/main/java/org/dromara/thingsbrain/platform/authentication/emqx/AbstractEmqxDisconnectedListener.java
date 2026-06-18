@@ -25,7 +25,7 @@
 
 package org.dromara.thingsbrain.platform.authentication.emqx;
 
-import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
+import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 

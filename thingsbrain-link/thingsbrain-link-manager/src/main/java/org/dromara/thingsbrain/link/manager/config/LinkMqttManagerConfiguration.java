@@ -28,7 +28,7 @@ package org.dromara.thingsbrain.link.manager.config;
 import jakarta.annotation.PostConstruct;
 import org.dromara.thingsbrain.link.commons.definition.MqttAuthorizationManager;
 import org.dromara.thingsbrain.link.manager.mqtt.DefaultMqttAuthorizationManager;
-import org.dromara.thingsbrain.persistence.commons.service.MqttCategoryService;
+import cn.herodotus.thingsbrain.persistence.commons.service.MqttCategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;

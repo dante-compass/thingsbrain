@@ -28,7 +28,7 @@ package org.dromara.thingsbrain.link.manager.config;
 import jakarta.annotation.PostConstruct;
 import org.dromara.thingsbrain.link.commons.definition.*;
 import org.dromara.thingsbrain.link.manager.device.*;
-import org.dromara.thingsbrain.persistence.commons.service.DeviceShadowService;
+import cn.herodotus.thingsbrain.persistence.commons.service.DeviceShadowService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

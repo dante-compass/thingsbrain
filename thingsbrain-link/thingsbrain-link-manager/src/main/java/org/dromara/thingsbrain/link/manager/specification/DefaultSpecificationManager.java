@@ -32,8 +32,8 @@ import cn.herodotus.thingsbrain.kernel.commons.exception.JsonSchemaValidateError
 import cn.herodotus.thingsbrain.kernel.tsl.domain.ServiceDimension;
 import cn.herodotus.thingsbrain.kernel.tsl.validator.ArgumentValidator;
 import org.dromara.thingsbrain.link.commons.definition.SpecificationManager;
-import org.dromara.thingsbrain.persistence.commons.domain.Product;
-import org.dromara.thingsbrain.persistence.commons.service.ProductService;
+import cn.herodotus.thingsbrain.persistence.commons.domain.Product;
+import cn.herodotus.thingsbrain.persistence.commons.service.ProductService;
 
 import java.util.Map;
 import java.util.Optional;

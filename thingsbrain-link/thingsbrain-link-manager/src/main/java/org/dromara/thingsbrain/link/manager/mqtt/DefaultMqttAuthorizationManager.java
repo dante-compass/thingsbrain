@@ -26,8 +26,8 @@
 package org.dromara.thingsbrain.link.manager.mqtt;
 
 import org.dromara.thingsbrain.link.commons.definition.MqttAuthorizationManager;
-import org.dromara.thingsbrain.persistence.commons.domain.MqttCategory;
-import org.dromara.thingsbrain.persistence.commons.service.MqttCategoryService;
+import cn.herodotus.thingsbrain.persistence.commons.domain.MqttCategory;
+import cn.herodotus.thingsbrain.persistence.commons.service.MqttCategoryService;
 
 import java.util.Optional;
 

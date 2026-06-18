@@ -27,7 +27,7 @@ package org.dromara.thingsbrain.platform.authentication.oauth2;
 
 import org.dromara.dante.oauth2.commons.event.OAuth2DeviceVerificationSuccessEvent;
 import org.dromara.dante.security.domain.DeviceVerificationTransmitter;
-import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
+import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;

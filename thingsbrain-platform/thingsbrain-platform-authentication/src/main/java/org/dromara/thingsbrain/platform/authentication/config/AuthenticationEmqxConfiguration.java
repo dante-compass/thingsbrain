@@ -29,7 +29,7 @@ import jakarta.annotation.PostConstruct;
 import org.dromara.dante.message.emqx.condition.ConditionalOnEventSource;
 import org.dromara.dante.message.emqx.condition.EventSource;
 import org.dromara.dante.web.definition.SignatureValidator;
-import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
+import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.dromara.thingsbrain.platform.authentication.emqx.*;
 import org.dromara.thingsbrain.platform.authentication.mqtt.MqttIdentificationHandler;
 import org.dromara.thingsbrain.platform.commons.definition.EmqxAuthenticationHandler;

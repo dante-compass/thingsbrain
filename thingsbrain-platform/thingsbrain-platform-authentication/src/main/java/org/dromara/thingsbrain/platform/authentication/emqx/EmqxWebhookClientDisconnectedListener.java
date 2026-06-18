@@ -27,7 +27,7 @@ package org.dromara.thingsbrain.platform.authentication.emqx;
 
 import org.dromara.dante.message.emqx.domain.WebhookClientDisconnected;
 import org.dromara.dante.message.emqx.event.WebhookClientDisconnectedEvent;
-import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
+import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

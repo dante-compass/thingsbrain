@@ -29,8 +29,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import org.dromara.dante.data.commons.service.BaseWriteAndPageService;
 import org.dromara.dante.data.rest.servlet.AbstractEntityWriteAndPageController;
-import org.dromara.thingsbrain.persistence.commons.domain.ProductCategory;
-import org.dromara.thingsbrain.persistence.commons.service.ProductCategoryService;
+import cn.herodotus.thingsbrain.persistence.commons.domain.ProductCategory;
+import cn.herodotus.thingsbrain.persistence.commons.service.ProductCategoryService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

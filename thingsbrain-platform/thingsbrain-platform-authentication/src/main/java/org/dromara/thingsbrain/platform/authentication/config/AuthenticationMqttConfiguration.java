@@ -26,7 +26,7 @@
 package org.dromara.thingsbrain.platform.authentication.config;
 
 import jakarta.annotation.PostConstruct;
-import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
+import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.dromara.thingsbrain.platform.authentication.mqtt.DefaultMqttSignatureGenerator;
 import org.dromara.thingsbrain.platform.authentication.mqtt.MqttIdentificationHandler;
 import org.dromara.thingsbrain.platform.authentication.mqtt.ServletMqttIdentificationHandler;

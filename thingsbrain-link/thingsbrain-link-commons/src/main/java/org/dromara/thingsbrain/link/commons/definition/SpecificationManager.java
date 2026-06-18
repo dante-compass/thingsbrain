@@ -25,7 +25,7 @@
 
 package org.dromara.thingsbrain.link.commons.definition;
 
-import org.dromara.thingsbrain.persistence.commons.service.ProductService;
+import cn.herodotus.thingsbrain.persistence.commons.service.ProductService;
 
 import java.util.Map;
 

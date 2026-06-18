@@ -33,7 +33,7 @@ import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.enums.AuthType;
 import cn.herodotus.thingsbrain.kernel.commons.event.MqttRegistrationResponseEvent;
 import cn.herodotus.thingsbrain.kernel.commons.utils.DataFormatUtils;
-import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
+import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.dromara.thingsbrain.platform.authentication.domain.MqttRegistrationResponse;
 import org.dromara.thingsbrain.platform.authentication.domain.OAuth2ClientRegistration;
 import org.slf4j.Logger;

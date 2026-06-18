@@ -26,7 +26,7 @@
 package org.dromara.thingsbrain.platform.autoconfigure;
 
 import jakarta.annotation.PostConstruct;
-import org.dromara.thingsbrain.persistence.commons.manager.IdentifierManager;
+import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.dromara.thingsbrain.platform.authentication.config.AuthenticationMqttConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
