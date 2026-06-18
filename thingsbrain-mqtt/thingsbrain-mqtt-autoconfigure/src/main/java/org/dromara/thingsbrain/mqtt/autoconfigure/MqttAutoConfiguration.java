@@ -34,10 +34,10 @@ import org.dromara.thingsbrain.mqtt.autoconfigure.integration.MqttMessageHandler
 import org.dromara.thingsbrain.mqtt.autoconfigure.integration.MqttSubscribeTopicAppenderListener;
 import org.dromara.thingsbrain.mqtt.autoconfigure.integration.MqttTopicProperties;
 import org.dromara.thingsbrain.mqtt.autoconfigure.publisher.DefaultMqttMessagePublisher;
-import org.dromara.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
-import org.dromara.thingsbrain.mqtt.inbound.config.MqttInboundConfiguration;
-import org.dromara.thingsbrain.mqtt.inbound.dispatcher.MqttInboundMessageDispatcher;
-import org.dromara.thingsbrain.mqtt.outbound.config.MqttOutboundConfiguration;
+import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.inbound.config.MqttInboundConfiguration;
+import cn.herodotus.thingsbrain.mqtt.inbound.dispatcher.MqttInboundMessageDispatcher;
+import cn.herodotus.thingsbrain.mqtt.outbound.config.MqttOutboundConfiguration;
 import org.eclipse.paho.mqttv5.client.IMqttAsyncClient;
 import org.eclipse.paho.mqttv5.client.MqttConnectionOptions;
 import org.slf4j.Logger;

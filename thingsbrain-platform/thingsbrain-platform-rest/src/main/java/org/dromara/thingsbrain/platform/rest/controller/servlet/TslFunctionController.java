@@ -42,7 +42,7 @@ import org.dromara.dante.security.domain.UserPrincipal;
 import org.dromara.dante.security.utils.ServletSecurityUtils;
 import org.dromara.dante.web.annotation.AccessLimited;
 import org.dromara.dante.web.annotation.Idempotent;
-import org.dromara.thingsbrain.mqtt.outbound.service.TslServiceService;
+import cn.herodotus.thingsbrain.mqtt.outbound.service.TslServiceService;
 import org.dromara.thingsbrain.persistence.commons.domain.TslFunction;
 import org.dromara.thingsbrain.persistence.commons.service.TslFunctionService;
 import org.dromara.thingsbrain.platform.rest.dto.TslInvokeServiceRequest;

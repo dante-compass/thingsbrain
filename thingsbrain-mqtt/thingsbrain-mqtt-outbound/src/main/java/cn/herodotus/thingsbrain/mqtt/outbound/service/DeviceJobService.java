@@ -23,53 +23,39 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.mqtt.autoconfigure.publisher;
+package cn.herodotus.thingsbrain.mqtt.outbound.service;
 
-import com.alicp.jetcache.Cache;
-import com.alicp.jetcache.anno.CacheType;
-import org.dromara.dante.cache.jetcache.utils.JetCacheUtils;
-import cn.herodotus.thingsbrain.mqtt.commons.constant.MqttConstants;
+import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
+import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
+import cn.herodotus.thingsbrain.kernel.link.domain.job.JobNotify;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
-import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttOperation;
-
-import java.time.Duration;
-import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: 默认 Mqtt 消息管理器 </p>
+ * <p>Description: 设备任务服务 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/10/17 14:11
+ * @date : 2025/6/19 16:37
  */
-public class DefaultMqttMessagePublisher implements MqttMessagePublisher {
+@Service
+public class DeviceJobService {
 
-    private final Cache<String, MqttOperation> cache;
+    private static final MqttTopic TOPIC_JOB_NOTIFY = new MqttTopic(MethodConstants.METHOD__THING_JOB_NOTIFY, false);
 
-    public DefaultMqttMessagePublisher() {
-        this.cache = JetCacheUtils.create(MqttConstants.CACHE_THINGSBRAIN_REQUEST, CacheType.BOTH, Duration.ofSeconds(1), true);
-    }
+    private final MqttMessagePublisher mqttMessagePublisher;
 
-    private MqttOperation get(String requestId) {
-        return cache.get(requestId);
-    }
-
-    private void put(String requestId, MqttOperation request) {
-        cache.put(requestId, request);
+    public DeviceJobService(MqttMessagePublisher mqttMessagePublisher) {
+        this.mqttMessagePublisher = mqttMessagePublisher;
     }
 
     /**
-     * {@inheritDoc}
+     * 设备接收订阅云端推送日志配置
+     *
+     * @param productKey 物联网 ProductKey
+     * @param deviceName 物联网 DeviceName
+     * @param data       配置信息 {@link JobNotify}
      */
-    @Override
-    public Optional<MqttOperation> exists(String requestId) {
-        return Optional.ofNullable(get(requestId));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void cache(String requestId, MqttOperation operation) {
-        put(requestId, operation);
+    public void notify(String productKey, String deviceName, JobNotify data) {
+        mqttMessagePublisher.request(TOPIC_JOB_NOTIFY, productKey, deviceName, data);
     }
 }

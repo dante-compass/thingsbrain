@@ -35,7 +35,7 @@ import org.dromara.dante.message.autoconfigure.mqtt.MqttProperties;
 import org.dromara.dante.message.commons.domain.MqttMessage;
 import org.dromara.dante.message.commons.event.MqttMessageSendingEvent;
 import org.dromara.dante.spring.context.ServiceContextHolder;
-import org.dromara.thingsbrain.mqtt.inbound.dispatcher.MqttInboundMessageDispatcher;
+import cn.herodotus.thingsbrain.mqtt.inbound.dispatcher.MqttInboundMessageDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.integration.handler.AbstractMessageHandler;

@@ -38,7 +38,7 @@ import org.dromara.dante.core.domain.Result;
 import org.dromara.dante.security.domain.UserPrincipal;
 import org.dromara.dante.security.utils.ServletSecurityUtils;
 import org.dromara.dante.web.annotation.Idempotent;
-import org.dromara.thingsbrain.mqtt.outbound.service.DeviceConfigService;
+import cn.herodotus.thingsbrain.mqtt.outbound.service.DeviceConfigService;
 import org.dromara.thingsbrain.platform.rest.dto.DeviceConfigLogPushRequest;
 import org.dromara.thingsbrain.platform.rest.dto.DeviceConfigPushRequest;
 import org.dromara.thingsbrain.platform.rest.dto.TslSetPropertyRequest;
