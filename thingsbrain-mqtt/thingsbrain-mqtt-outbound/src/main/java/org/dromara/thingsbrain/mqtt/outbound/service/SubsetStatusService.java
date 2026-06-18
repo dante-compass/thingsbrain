@@ -26,8 +26,8 @@
 package org.dromara.thingsbrain.mqtt.outbound.service;
 
 import org.dromara.dante.security.domain.UserPrincipal;
-import org.dromara.thingsbrain.kernel.commons.constant.MethodConstants;
-import org.dromara.thingsbrain.kernel.commons.domain.MqttTopic;
+import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
+import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import org.dromara.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
 import org.springframework.stereotype.Service;
 

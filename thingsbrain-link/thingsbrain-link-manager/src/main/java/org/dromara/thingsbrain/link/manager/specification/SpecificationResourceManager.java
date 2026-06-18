@@ -32,10 +32,10 @@ import org.dromara.dante.cache.jetcache.utils.JetCacheUtils;
 import org.dromara.dante.core.domain.FileAttributes;
 import org.dromara.dante.core.jackson.JacksonUtils;
 import org.dromara.dante.core.support.file.JsonSchemaFileManager;
-import org.dromara.thingsbrain.kernel.commons.constant.KernelConstants;
-import org.dromara.thingsbrain.kernel.tsl.Specification;
-import org.dromara.thingsbrain.kernel.tsl.domain.EventDimension;
-import org.dromara.thingsbrain.kernel.tsl.domain.ServiceDimension;
+import cn.herodotus.thingsbrain.kernel.commons.constant.KernelConstants;
+import cn.herodotus.thingsbrain.kernel.tsl.Specification;
+import cn.herodotus.thingsbrain.kernel.tsl.domain.EventDimension;
+import cn.herodotus.thingsbrain.kernel.tsl.domain.ServiceDimension;
 
 import java.io.IOException;
 import java.util.Optional;

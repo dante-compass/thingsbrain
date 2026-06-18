@@ -25,8 +25,8 @@
 
 package org.dromara.thingsbrain.link.manager.device;
 
-import org.dromara.thingsbrain.kernel.link.domain.tag.Attribute;
-import org.dromara.thingsbrain.kernel.link.domain.tag.AttributeKey;
+import cn.herodotus.thingsbrain.kernel.link.domain.tag.Attribute;
+import cn.herodotus.thingsbrain.kernel.link.domain.tag.AttributeKey;
 import org.dromara.thingsbrain.link.commons.definition.DeviceTagManager;
 
 import java.util.List;

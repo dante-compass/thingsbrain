@@ -25,7 +25,7 @@
 
 package org.dromara.thingsbrain.persistence.commons.constant;
 
-import org.dromara.thingsbrain.kernel.commons.constant.KernelConstants;
+import cn.herodotus.thingsbrain.kernel.commons.constant.KernelConstants;
 
 /**
  * <p>Description: 持久化相关模块通用常量定义 </p>

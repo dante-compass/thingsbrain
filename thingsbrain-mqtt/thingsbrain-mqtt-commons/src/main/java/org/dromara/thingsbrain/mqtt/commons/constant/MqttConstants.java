@@ -26,7 +26,7 @@
 package org.dromara.thingsbrain.mqtt.commons.constant;
 
 import org.dromara.dante.core.constant.BaseConstants;
-import org.dromara.thingsbrain.kernel.commons.domain.MqttTopic;
+import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 
 /**
  * <p>Description: TODO </p>

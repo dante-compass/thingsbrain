@@ -25,11 +25,11 @@
 
 package org.dromara.thingsbrain.mqtt.inbound.handler;
 
-import org.dromara.thingsbrain.kernel.commons.constant.MethodConstants;
-import org.dromara.thingsbrain.kernel.commons.domain.CompleteIdentifier;
-import org.dromara.thingsbrain.kernel.commons.domain.MqttTopic;
-import org.dromara.thingsbrain.kernel.link.definition.LinkRequest;
-import org.dromara.thingsbrain.kernel.link.domain.ota.DeviceInformParam;
+import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
+import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
+import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
+import cn.herodotus.thingsbrain.kernel.link.domain.ota.DeviceInformParam;
 import org.dromara.thingsbrain.link.commons.definition.OtaManager;
 import org.dromara.thingsbrain.mqtt.inbound.definition.handler.AbstractOtaInboundMessageHandler;
 import org.springframework.stereotype.Component;

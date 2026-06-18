@@ -26,8 +26,8 @@
 package org.dromara.thingsbrain.mqtt.outbound.service;
 
 import org.dromara.dante.core.jackson.JacksonUtils;
-import org.dromara.thingsbrain.kernel.link.domain.shadow.ShadowRequest;
-import org.dromara.thingsbrain.kernel.link.domain.shadow.ShadowResponse;
+import cn.herodotus.thingsbrain.kernel.link.domain.shadow.ShadowRequest;
+import cn.herodotus.thingsbrain.kernel.link.domain.shadow.ShadowResponse;
 import org.dromara.thingsbrain.link.commons.definition.DeviceShadowManager;
 import org.dromara.thingsbrain.mqtt.commons.constant.MqttConstants;
 import org.dromara.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;

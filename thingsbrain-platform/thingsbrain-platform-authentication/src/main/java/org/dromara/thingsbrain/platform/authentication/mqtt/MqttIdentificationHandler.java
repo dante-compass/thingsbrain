@@ -25,7 +25,7 @@
 
 package org.dromara.thingsbrain.platform.authentication.mqtt;
 
-import org.dromara.thingsbrain.kernel.commons.enums.AuthType;
+import cn.herodotus.thingsbrain.kernel.commons.enums.AuthType;
 
 /**
  * <p>Description: Mqtt 自动注册服务 </p>

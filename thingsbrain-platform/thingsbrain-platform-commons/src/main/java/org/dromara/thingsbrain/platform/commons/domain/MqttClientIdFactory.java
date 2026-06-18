@@ -30,10 +30,10 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dromara.dante.core.constant.SymbolConstants;
 import org.dromara.dante.core.enums.SignatureMethod;
-import org.dromara.thingsbrain.kernel.commons.constant.KernelConstants;
-import org.dromara.thingsbrain.kernel.commons.domain.MqttClientIdDetail;
-import org.dromara.thingsbrain.kernel.commons.enums.AuthType;
-import org.dromara.thingsbrain.kernel.commons.utils.DataFormatUtils;
+import cn.herodotus.thingsbrain.kernel.commons.constant.KernelConstants;
+import cn.herodotus.thingsbrain.kernel.commons.domain.MqttClientIdDetail;
+import cn.herodotus.thingsbrain.kernel.commons.enums.AuthType;
+import cn.herodotus.thingsbrain.kernel.commons.utils.DataFormatUtils;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

@@ -25,7 +25,7 @@
 
 package org.dromara.thingsbrain.persistence.jpa.converter;
 
-import org.dromara.thingsbrain.kernel.commons.utils.DataFormatUtils;
+import cn.herodotus.thingsbrain.kernel.commons.utils.DataFormatUtils;
 import org.dromara.thingsbrain.persistence.jpa.logic.entity.HerodotusDevice;
 import org.dromara.thingsbrain.persistence.jpa.logic.entity.HerodotusDeviceConnection;
 import org.springframework.core.convert.converter.Converter;

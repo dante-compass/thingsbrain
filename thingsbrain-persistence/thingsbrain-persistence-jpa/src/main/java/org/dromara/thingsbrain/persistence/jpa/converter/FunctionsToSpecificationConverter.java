@@ -26,13 +26,13 @@
 package org.dromara.thingsbrain.persistence.jpa.converter;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.dromara.thingsbrain.kernel.tsl.DimensionFactory;
-import org.dromara.thingsbrain.kernel.tsl.Specification;
-import org.dromara.thingsbrain.kernel.tsl.definition.AbstractToSpecificationConverter;
-import org.dromara.thingsbrain.kernel.tsl.domain.Argument;
-import org.dromara.thingsbrain.kernel.tsl.domain.EventDimension;
-import org.dromara.thingsbrain.kernel.tsl.domain.ServiceDimension;
-import org.dromara.thingsbrain.kernel.tsl.enums.Dimension;
+import cn.herodotus.thingsbrain.kernel.tsl.DimensionFactory;
+import cn.herodotus.thingsbrain.kernel.tsl.Specification;
+import cn.herodotus.thingsbrain.kernel.tsl.definition.AbstractToSpecificationConverter;
+import cn.herodotus.thingsbrain.kernel.tsl.domain.Argument;
+import cn.herodotus.thingsbrain.kernel.tsl.domain.EventDimension;
+import cn.herodotus.thingsbrain.kernel.tsl.domain.ServiceDimension;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
 import org.dromara.thingsbrain.persistence.jpa.logic.entity.HerodotusTslArgument;
 import org.dromara.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
 

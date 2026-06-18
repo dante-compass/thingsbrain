@@ -28,7 +28,7 @@ package org.dromara.thingsbrain.platform.autoconfigure.customizer;
 import org.dromara.dante.core.builder.ErrorCodeMapperBuilder;
 import org.dromara.dante.core.constant.BuilderCustomizerOrdered;
 import org.dromara.dante.core.function.ErrorCodeMapperBuilderCustomizer;
-import org.dromara.thingsbrain.kernel.commons.constant.KernelErrorCodes;
+import cn.herodotus.thingsbrain.kernel.commons.constant.KernelErrorCodes;
 import org.springframework.core.Ordered;
 
 /**

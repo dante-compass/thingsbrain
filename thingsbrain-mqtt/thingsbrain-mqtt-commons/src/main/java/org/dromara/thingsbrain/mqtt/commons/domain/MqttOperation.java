@@ -27,7 +27,7 @@ package org.dromara.thingsbrain.mqtt.commons.domain;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import org.dromara.thingsbrain.kernel.commons.domain.CompleteIdentifier;
+import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
 
 /**
  * <p>Description: Mqtt 请求相关数据实体 </p>

@@ -25,7 +25,7 @@
 
 package org.dromara.thingsbrain.persistence.jpa.specification;
 
-import org.dromara.thingsbrain.kernel.tsl.Specification;
+import cn.herodotus.thingsbrain.kernel.tsl.Specification;
 import org.dromara.thingsbrain.persistence.commons.domain.Product;
 import org.dromara.thingsbrain.persistence.commons.service.ProductService;
 import org.dromara.thingsbrain.persistence.jpa.converter.FromProductConverter;

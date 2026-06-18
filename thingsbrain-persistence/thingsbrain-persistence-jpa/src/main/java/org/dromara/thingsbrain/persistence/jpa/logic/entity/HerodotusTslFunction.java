@@ -27,11 +27,11 @@ package org.dromara.thingsbrain.persistence.jpa.logic.entity;
 
 import com.google.common.base.MoreObjects;
 import jakarta.persistence.*;
-import org.dromara.thingsbrain.kernel.tsl.definition.Metadata;
-import org.dromara.thingsbrain.kernel.tsl.enums.AccessMode;
-import org.dromara.thingsbrain.kernel.tsl.enums.CallType;
-import org.dromara.thingsbrain.kernel.tsl.enums.Dimension;
-import org.dromara.thingsbrain.kernel.tsl.enums.EventType;
+import cn.herodotus.thingsbrain.kernel.tsl.definition.Metadata;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.AccessMode;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.CallType;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.EventType;
 import org.dromara.thingsbrain.persistence.commons.constant.PersistenceConstants;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;

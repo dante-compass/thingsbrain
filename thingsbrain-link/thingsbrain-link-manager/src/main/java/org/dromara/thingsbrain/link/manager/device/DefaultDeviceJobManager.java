@@ -25,9 +25,9 @@
 
 package org.dromara.thingsbrain.link.manager.device;
 
-import org.dromara.thingsbrain.kernel.link.domain.job.Job;
-import org.dromara.thingsbrain.kernel.link.domain.job.JobUpdate;
-import org.dromara.thingsbrain.kernel.link.domain.job.TaskDetail;
+import cn.herodotus.thingsbrain.kernel.link.domain.job.Job;
+import cn.herodotus.thingsbrain.kernel.link.domain.job.JobUpdate;
+import cn.herodotus.thingsbrain.kernel.link.domain.job.TaskDetail;
 import org.dromara.thingsbrain.link.commons.definition.DeviceJobManager;
 
 /**

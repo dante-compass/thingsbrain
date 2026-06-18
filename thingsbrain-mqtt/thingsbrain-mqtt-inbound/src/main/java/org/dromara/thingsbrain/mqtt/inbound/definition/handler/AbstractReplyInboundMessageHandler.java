@@ -26,10 +26,10 @@
 package org.dromara.thingsbrain.mqtt.inbound.definition.handler;
 
 import org.dromara.dante.core.function.ThrowableBiFunction;
-import org.dromara.thingsbrain.kernel.commons.domain.CompleteIdentifier;
-import org.dromara.thingsbrain.kernel.commons.domain.MqttTopic;
-import org.dromara.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
-import org.dromara.thingsbrain.kernel.link.definition.LinkResponse;
+import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
+import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
+import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
 
 /**
  * <p>Description: 支持回复的入站消息处理器抽象定义 </p>

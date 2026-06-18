@@ -25,9 +25,9 @@
 
 package org.dromara.thingsbrain.platform.autoconfigure.customizer;
 
+import cn.herodotus.thingsbrain.kernel.tsl.enums.*;
 import org.dromara.dante.core.builder.EnumDictionaryBuilder;
 import org.dromara.dante.core.function.EnumDictionaryBuilderCustomizer;
-import org.dromara.thingsbrain.kernel.tsl.enums.*;
 import org.dromara.thingsbrain.persistence.commons.enums.*;
 
 /**

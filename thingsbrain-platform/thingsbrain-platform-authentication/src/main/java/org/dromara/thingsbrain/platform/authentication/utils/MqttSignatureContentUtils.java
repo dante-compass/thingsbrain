@@ -26,8 +26,8 @@
 package org.dromara.thingsbrain.platform.authentication.utils;
 
 import org.apache.commons.lang3.StringUtils;
-import org.dromara.thingsbrain.kernel.commons.constant.KernelConstants;
-import org.dromara.thingsbrain.kernel.commons.domain.Identifier;
+import cn.herodotus.thingsbrain.kernel.commons.constant.KernelConstants;
+import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import org.dromara.thingsbrain.platform.commons.domain.MqttClientIdFactory;
 
 import java.util.HashMap;

@@ -31,7 +31,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
 import org.dromara.dante.data.jpa.entity.AbstractAuditEntity;
-import org.dromara.thingsbrain.kernel.tsl.enums.ArgumentType;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.ArgumentType;
 
 /**
  * <p>Description: 物模型 Attribute 公共属性 </p>

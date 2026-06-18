@@ -26,7 +26,7 @@
 package org.dromara.thingsbrain.persistence.commons.service;
 
 import org.dromara.dante.data.commons.service.BaseWriteAndPageService;
-import org.dromara.thingsbrain.kernel.tsl.Specification;
+import cn.herodotus.thingsbrain.kernel.tsl.Specification;
 import org.dromara.thingsbrain.persistence.commons.domain.Product;
 import org.springframework.data.domain.Page;
 

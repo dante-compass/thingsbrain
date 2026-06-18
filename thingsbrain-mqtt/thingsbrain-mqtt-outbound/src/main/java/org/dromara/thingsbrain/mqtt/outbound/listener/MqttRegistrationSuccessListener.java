@@ -25,8 +25,8 @@
 
 package org.dromara.thingsbrain.mqtt.outbound.listener;
 
-import org.dromara.thingsbrain.kernel.commons.enums.AuthType;
-import org.dromara.thingsbrain.kernel.commons.event.MqttRegistrationResponseEvent;
+import cn.herodotus.thingsbrain.kernel.commons.enums.AuthType;
+import cn.herodotus.thingsbrain.kernel.commons.event.MqttRegistrationResponseEvent;
 import org.dromara.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

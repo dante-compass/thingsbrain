@@ -27,10 +27,10 @@ package org.dromara.thingsbrain.persistence.commons.domain;
 
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.dromara.thingsbrain.kernel.tsl.enums.AccessMode;
-import org.dromara.thingsbrain.kernel.tsl.enums.CallType;
-import org.dromara.thingsbrain.kernel.tsl.enums.Dimension;
-import org.dromara.thingsbrain.kernel.tsl.enums.EventType;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.AccessMode;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.CallType;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.EventType;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -25,9 +25,9 @@
 
 package org.dromara.thingsbrain.link.commons.definition;
 
-import org.dromara.thingsbrain.kernel.link.definition.config.ContentConfig;
-import org.dromara.thingsbrain.kernel.link.domain.config.LogConfigDomain;
-import org.dromara.thingsbrain.kernel.link.domain.config.LogParam;
+import cn.herodotus.thingsbrain.kernel.link.definition.config.ContentConfig;
+import cn.herodotus.thingsbrain.kernel.link.domain.config.LogConfigDomain;
+import cn.herodotus.thingsbrain.kernel.link.domain.config.LogParam;
 
 import java.util.List;
 import java.util.Map;

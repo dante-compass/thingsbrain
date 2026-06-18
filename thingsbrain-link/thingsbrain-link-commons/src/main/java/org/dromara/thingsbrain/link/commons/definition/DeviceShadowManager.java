@@ -26,8 +26,8 @@
 package org.dromara.thingsbrain.link.commons.definition;
 
 import org.dromara.dante.core.jackson.JacksonUtils;
-import org.dromara.thingsbrain.kernel.commons.definition.domain.shadow.State;
-import org.dromara.thingsbrain.kernel.commons.domain.Shadow;
+import cn.herodotus.thingsbrain.kernel.commons.definition.domain.shadow.State;
+import cn.herodotus.thingsbrain.kernel.commons.domain.Shadow;
 import org.dromara.thingsbrain.persistence.commons.domain.DeviceShadow;
 import org.dromara.thingsbrain.persistence.commons.service.DeviceShadowService;
 

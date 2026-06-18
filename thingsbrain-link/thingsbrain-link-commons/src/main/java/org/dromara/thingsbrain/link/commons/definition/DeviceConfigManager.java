@@ -25,8 +25,8 @@
 
 package org.dromara.thingsbrain.link.commons.definition;
 
-import org.dromara.thingsbrain.kernel.link.definition.config.FileConfig;
-import org.dromara.thingsbrain.kernel.link.domain.config.ConfigDomain;
+import cn.herodotus.thingsbrain.kernel.link.definition.config.FileConfig;
+import cn.herodotus.thingsbrain.kernel.link.domain.config.ConfigDomain;
 
 /**
  * <p>Description: 配置管理器定义 </p>

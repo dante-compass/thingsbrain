@@ -25,9 +25,9 @@
 
 package org.dromara.thingsbrain.link.commons.definition;
 
-import org.dromara.thingsbrain.kernel.commons.domain.Identifier;
-import org.dromara.thingsbrain.kernel.link.domain.session.BatchLogin;
-import org.dromara.thingsbrain.kernel.link.domain.session.Login;
+import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
+import cn.herodotus.thingsbrain.kernel.link.domain.session.BatchLogin;
+import cn.herodotus.thingsbrain.kernel.link.domain.session.Login;
 
 import java.util.List;
 

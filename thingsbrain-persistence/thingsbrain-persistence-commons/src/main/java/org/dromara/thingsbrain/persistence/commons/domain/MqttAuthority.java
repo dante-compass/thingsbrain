@@ -29,7 +29,7 @@ import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.apache.commons.lang3.ObjectUtils;
 import org.dromara.dante.data.commons.entity.AbstractSysEntity;
-import org.dromara.thingsbrain.kernel.commons.definition.domain.SubscribeTopic;
+import cn.herodotus.thingsbrain.kernel.commons.definition.domain.SubscribeTopic;
 import org.dromara.thingsbrain.persistence.commons.enums.Action;
 import org.dromara.thingsbrain.persistence.commons.enums.Permission;
 import org.dromara.thingsbrain.persistence.commons.enums.Qos;

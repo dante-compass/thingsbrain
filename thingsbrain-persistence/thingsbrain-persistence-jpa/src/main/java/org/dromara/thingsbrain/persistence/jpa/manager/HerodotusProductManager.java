@@ -28,7 +28,7 @@ package org.dromara.thingsbrain.persistence.jpa.manager;
 import org.apache.commons.collections4.CollectionUtils;
 import org.dromara.dante.security.definition.AuthenticationManager;
 import org.dromara.dante.security.domain.RegisteredClientTransmitter;
-import org.dromara.thingsbrain.kernel.tsl.Specification;
+import cn.herodotus.thingsbrain.kernel.tsl.Specification;
 import org.dromara.thingsbrain.persistence.jpa.converter.FunctionsToSpecificationConverter;
 import org.dromara.thingsbrain.persistence.jpa.converter.HerodotusProductToAuthenticationConverter;
 import org.dromara.thingsbrain.persistence.jpa.logic.entity.HerodotusProduct;

@@ -30,7 +30,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.dromara.dante.core.jackson.JacksonUtils;
 import org.dromara.dante.message.commons.definition.strategy.MessageSendingEventManager;
 import org.dromara.dante.message.commons.domain.UserMessage;
-import org.dromara.thingsbrain.kernel.link.definition.LinkResponse;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
 import org.dromara.thingsbrain.mqtt.commons.domain.MqttOperation;
 import tools.jackson.databind.JsonNode;
 

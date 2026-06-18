@@ -27,7 +27,7 @@ package org.dromara.thingsbrain.mqtt.inbound.dispatcher;
 
 import org.apache.commons.lang3.StringUtils;
 import org.dromara.dante.core.constant.SymbolConstants;
-import org.dromara.thingsbrain.kernel.commons.enums.TopicCategory;
+import cn.herodotus.thingsbrain.kernel.commons.enums.TopicCategory;
 import org.dromara.thingsbrain.mqtt.inbound.definition.MessageDetails;
 
 /**

@@ -28,7 +28,7 @@ package org.dromara.thingsbrain.mqtt.inbound.definition.dispatcher;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dromara.dante.core.jackson.JsonNodeUtils;
-import org.dromara.thingsbrain.kernel.link.definition.LinkResponse;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
 import org.dromara.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
 import org.dromara.thingsbrain.mqtt.commons.domain.MqttOperation;
 import org.dromara.thingsbrain.mqtt.inbound.definition.MessageDetails;

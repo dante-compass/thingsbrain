@@ -26,7 +26,7 @@
 package org.dromara.thingsbrain.platform.authentication.domain;
 
 import com.google.common.base.MoreObjects;
-import org.dromara.thingsbrain.kernel.commons.domain.Identifier;
+import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 
 /**
  * <p>Description: TODO </p>

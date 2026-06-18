@@ -25,10 +25,10 @@
 
 package org.dromara.thingsbrain.link.manager.ota;
 
-import org.dromara.thingsbrain.kernel.link.definition.DeviceModule;
-import org.dromara.thingsbrain.kernel.link.domain.ota.DeviceInformParam;
-import org.dromara.thingsbrain.kernel.link.domain.ota.DeviceProgressParam;
-import org.dromara.thingsbrain.kernel.link.domain.ota.HttpProtocolDomain;
+import cn.herodotus.thingsbrain.kernel.link.definition.DeviceModule;
+import cn.herodotus.thingsbrain.kernel.link.domain.ota.DeviceInformParam;
+import cn.herodotus.thingsbrain.kernel.link.domain.ota.DeviceProgressParam;
+import cn.herodotus.thingsbrain.kernel.link.domain.ota.HttpProtocolDomain;
 import org.dromara.thingsbrain.link.commons.definition.OtaManager;
 
 /**

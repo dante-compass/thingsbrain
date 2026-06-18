@@ -26,7 +26,7 @@
 package org.dromara.thingsbrain.persistence.jpa.manager;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.dromara.thingsbrain.kernel.tsl.enums.Dimension;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
 import org.dromara.thingsbrain.persistence.jpa.logic.entity.HerodotusTslArgument;
 import org.dromara.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
 import org.dromara.thingsbrain.persistence.jpa.logic.service.HerodotusTslArgumentService;

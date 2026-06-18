@@ -30,8 +30,8 @@ import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.dromara.dante.core.constant.SystemConstants;
 import org.dromara.dante.core.domain.BaseEntity;
-import org.dromara.thingsbrain.kernel.commons.domain.AddressTuple;
-import org.dromara.thingsbrain.kernel.commons.domain.Identifier;
+import cn.herodotus.thingsbrain.kernel.commons.domain.AddressTuple;
+import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 
 import java.time.LocalDateTime;
 

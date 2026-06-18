@@ -32,10 +32,10 @@ import org.dromara.dante.message.commons.domain.MqttMessage;
 import org.dromara.dante.message.commons.event.MqttMessageSendingEvent;
 import org.dromara.dante.security.domain.UserPrincipal;
 import org.dromara.dante.spring.context.ServiceContextHolder;
-import org.dromara.thingsbrain.kernel.commons.domain.MqttTopic;
-import org.dromara.thingsbrain.kernel.commons.enums.Qos;
-import org.dromara.thingsbrain.kernel.link.definition.LinkRequest;
-import org.dromara.thingsbrain.kernel.link.definition.LinkResponse;
+import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
+import cn.herodotus.thingsbrain.kernel.commons.enums.Qos;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
 import org.dromara.thingsbrain.mqtt.commons.domain.MqttOperation;
 
 import java.util.Optional;

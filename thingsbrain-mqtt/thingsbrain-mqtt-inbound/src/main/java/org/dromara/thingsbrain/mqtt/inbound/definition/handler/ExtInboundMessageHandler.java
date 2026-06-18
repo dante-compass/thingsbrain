@@ -25,7 +25,7 @@
 
 package org.dromara.thingsbrain.mqtt.inbound.definition.handler;
 
-import org.dromara.thingsbrain.kernel.link.definition.LinkResponse;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
 import tools.jackson.databind.JsonNode;
 
 /**

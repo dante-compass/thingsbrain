@@ -25,8 +25,8 @@
 
 package org.dromara.thingsbrain.link.commons.definition;
 
-import org.dromara.thingsbrain.kernel.link.domain.tag.Attribute;
-import org.dromara.thingsbrain.kernel.link.domain.tag.AttributeKey;
+import cn.herodotus.thingsbrain.kernel.link.domain.tag.Attribute;
+import cn.herodotus.thingsbrain.kernel.link.domain.tag.AttributeKey;
 
 import java.util.List;
 import java.util.Map;

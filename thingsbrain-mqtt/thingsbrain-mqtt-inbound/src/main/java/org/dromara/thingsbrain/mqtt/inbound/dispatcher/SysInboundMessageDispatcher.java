@@ -25,7 +25,7 @@
 
 package org.dromara.thingsbrain.mqtt.inbound.dispatcher;
 
-import org.dromara.thingsbrain.kernel.link.definition.LinkResponse;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
 import org.dromara.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
 import org.dromara.thingsbrain.mqtt.inbound.definition.dispatcher.AbstractReplyMessageDispatcher;
 import org.dromara.thingsbrain.mqtt.inbound.definition.handler.SysInboundMessageHandler;

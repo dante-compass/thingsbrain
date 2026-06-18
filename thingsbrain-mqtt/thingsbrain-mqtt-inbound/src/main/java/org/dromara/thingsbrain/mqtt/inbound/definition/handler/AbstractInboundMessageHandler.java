@@ -25,8 +25,8 @@
 
 package org.dromara.thingsbrain.mqtt.inbound.definition.handler;
 
-import org.dromara.thingsbrain.kernel.commons.domain.CompleteIdentifier;
-import org.dromara.thingsbrain.kernel.commons.domain.MqttTopic;
+import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
+import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import tools.jackson.core.type.TypeReference;
 
 /**
