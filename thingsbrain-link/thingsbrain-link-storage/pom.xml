@@ -46,7 +46,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.dromara.dante</groupId>
+            <groupId>cn.herodotus.drawloom</groupId>
             <artifactId>dante-nosql-influxdb3</artifactId>
         </dependency>
     </dependencies>

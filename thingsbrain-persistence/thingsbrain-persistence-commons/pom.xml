@@ -22,12 +22,12 @@
         </dependency>
 
         <dependency>
-            <groupId>org.dromara.dante</groupId>
+            <groupId>cn.herodotus.drawloom</groupId>
             <artifactId>dante-core</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.dromara.dante</groupId>
+            <groupId>cn.herodotus.drawloom</groupId>
             <artifactId>dante-data-commons</artifactId>
         </dependency>
 

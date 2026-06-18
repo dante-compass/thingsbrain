@@ -28,7 +28,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.dromara.dante</groupId>
+            <groupId>cn.herodotus.drawloom</groupId>
             <artifactId>dante-spring</artifactId>
         </dependency>
     </dependencies>
