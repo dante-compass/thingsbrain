@@ -30,7 +30,7 @@ import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
 import org.dromara.dante.security.domain.UserPrincipal;
-import org.dromara.thingsbrain.link.commons.definition.SpecificationManager;
+import cn.herodotus.thingsbrain.link.commons.definition.SpecificationManager;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;

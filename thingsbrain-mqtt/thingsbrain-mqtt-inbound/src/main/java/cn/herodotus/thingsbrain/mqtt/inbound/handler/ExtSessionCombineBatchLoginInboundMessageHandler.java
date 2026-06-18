@@ -35,7 +35,7 @@ import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.session.BatchLogin;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractExtInboundMessageHandler;
 import org.dromara.dante.core.function.ThrowableBiFunction;
-import org.dromara.thingsbrain.link.commons.definition.SubsetSessionManager;
+import cn.herodotus.thingsbrain.link.commons.definition.SubsetSessionManager;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 

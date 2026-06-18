@@ -33,7 +33,7 @@ import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.config.LogParam;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractSysInboundMessageHandler;
 import org.dromara.dante.core.function.ThrowableBiFunction;
-import org.dromara.thingsbrain.link.commons.definition.DeviceConfigLogManager;
+import cn.herodotus.thingsbrain.link.commons.definition.DeviceConfigLogManager;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 

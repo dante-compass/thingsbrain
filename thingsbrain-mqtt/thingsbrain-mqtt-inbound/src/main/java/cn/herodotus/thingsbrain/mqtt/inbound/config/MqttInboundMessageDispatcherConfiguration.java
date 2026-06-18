@@ -33,7 +33,7 @@ import cn.herodotus.thingsbrain.mqtt.inbound.factory.SysMessageHandlerFactory;
 import cn.herodotus.thingsbrain.mqtt.inbound.response.InboundMessageReplyProcessor;
 import jakarta.annotation.PostConstruct;
 import org.dromara.dante.message.commons.definition.strategy.MessageSendingEventManager;
-import org.dromara.thingsbrain.link.commons.definition.DeviceShadowManager;
+import cn.herodotus.thingsbrain.link.commons.definition.DeviceShadowManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;

@@ -39,7 +39,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
 import org.dromara.dante.core.jackson.JacksonUtils;
-import org.dromara.thingsbrain.link.commons.definition.DeviceShadowManager;
+import cn.herodotus.thingsbrain.link.commons.definition.DeviceShadowManager;
 import cn.herodotus.thingsbrain.persistence.commons.domain.DeviceShadow;
 import tools.jackson.databind.JsonNode;
 

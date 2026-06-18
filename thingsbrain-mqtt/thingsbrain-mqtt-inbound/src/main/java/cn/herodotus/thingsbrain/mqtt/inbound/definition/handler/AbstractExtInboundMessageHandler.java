@@ -31,7 +31,7 @@ import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessin
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
 import org.dromara.dante.core.jackson.JacksonUtils;
-import org.dromara.thingsbrain.link.commons.definition.SubsetSessionManager;
+import cn.herodotus.thingsbrain.link.commons.definition.SubsetSessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tools.jackson.databind.JsonNode;
