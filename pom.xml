@@ -61,7 +61,7 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.dromara.dantecloud</groupId>
+                <groupId>cn.herodotus.dante</groupId>
                 <artifactId>dante-cloud-dependencies</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
