@@ -23,7 +23,7 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.mqtt.autoconfigure.integration;
+package cn.herodotus.thingsbrain.mqtt.autoconfigure.integration;
 
 import cn.hutool.v7.core.text.StrUtil;
 import org.apache.commons.lang3.ArrayUtils;

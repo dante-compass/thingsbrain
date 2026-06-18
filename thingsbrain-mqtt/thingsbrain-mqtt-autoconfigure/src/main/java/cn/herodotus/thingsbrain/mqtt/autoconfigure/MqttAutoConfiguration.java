@@ -23,17 +23,17 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.mqtt.autoconfigure;
+package cn.herodotus.thingsbrain.mqtt.autoconfigure;
 
 import jakarta.annotation.PostConstruct;
 import org.dromara.dante.core.utils.ListUtils;
 import org.dromara.dante.message.autoconfigure.emqx.IntegrationEmqxAutoConfiguration;
 import org.dromara.dante.message.autoconfigure.mqtt.MqttProperties;
 import org.dromara.dante.message.commons.constant.Channels;
-import org.dromara.thingsbrain.mqtt.autoconfigure.integration.MqttMessageHandler;
-import org.dromara.thingsbrain.mqtt.autoconfigure.integration.MqttSubscribeTopicAppenderListener;
-import org.dromara.thingsbrain.mqtt.autoconfigure.integration.MqttTopicProperties;
-import org.dromara.thingsbrain.mqtt.autoconfigure.publisher.DefaultMqttMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttMessageHandler;
+import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttSubscribeTopicAppenderListener;
+import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttTopicProperties;
+import cn.herodotus.thingsbrain.mqtt.autoconfigure.publisher.DefaultMqttMessagePublisher;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
 import cn.herodotus.thingsbrain.mqtt.inbound.config.MqttInboundConfiguration;
 import cn.herodotus.thingsbrain.mqtt.inbound.dispatcher.MqttInboundMessageDispatcher;

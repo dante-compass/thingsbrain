@@ -23,7 +23,7 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package org.dromara.thingsbrain.mqtt.autoconfigure.publisher;
+package cn.herodotus.thingsbrain.mqtt.autoconfigure.publisher;
 
 import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.anno.CacheType;
