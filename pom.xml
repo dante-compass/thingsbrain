@@ -11,7 +11,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>org.dromara.thingsbrain</groupId>
+    <groupId>cn.herodotus.thingsbrain</groupId>
     <artifactId>thingsbrain</artifactId>
     <name>${project.artifactId}</name>
 
@@ -61,14 +61,14 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>cn.herodotus.dante</groupId>
+                <groupId>cn.herodotus.dantecloud</groupId>
                 <artifactId>dante-cloud-dependencies</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-dependencies</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
