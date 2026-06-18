@@ -21,7 +21,7 @@
         </dependency>
 
         <dependency>
-            <groupId>cn.herodotus.drawloom</groupId>
+            <groupId>cn.herodotus.dante</groupId>
             <artifactId>dante-data-rest</artifactId>
         </dependency>
 
