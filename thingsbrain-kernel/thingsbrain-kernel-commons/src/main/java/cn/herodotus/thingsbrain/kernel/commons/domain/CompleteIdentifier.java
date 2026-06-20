@@ -25,11 +25,11 @@
 
 package cn.herodotus.thingsbrain.kernel.commons.domain;
 
+import cn.herodotus.dante.core.jackson.JacksonUtils;
+import cn.herodotus.dante.core.utils.StringTemplateUtils;
 import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.google.common.base.MoreObjects;
-import cn.herodotus.dante.core.jackson.JacksonUtils;
-import cn.herodotus.dante.core.utils.StringTemplateUtils;
 
 import java.util.Map;
 

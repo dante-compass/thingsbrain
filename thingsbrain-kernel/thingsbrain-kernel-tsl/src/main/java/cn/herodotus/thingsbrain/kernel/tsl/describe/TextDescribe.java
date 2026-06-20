@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.describe;
 
-import com.google.common.base.MoreObjects;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.AbstractDescribe;
+import com.google.common.base.MoreObjects;
 
 /**
  * <p>Description: Text 类型 JSON Schema 描述 </p>

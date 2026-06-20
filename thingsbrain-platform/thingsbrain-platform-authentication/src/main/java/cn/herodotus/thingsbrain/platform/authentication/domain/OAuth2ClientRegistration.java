@@ -25,12 +25,12 @@
 
 package cn.herodotus.thingsbrain.platform.authentication.domain;
 
+import cn.herodotus.dante.core.constant.SystemConstants;
+import cn.herodotus.dante.spring.jackson.ArrayOrStringToListDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
-import cn.herodotus.dante.core.constant.SystemConstants;
-import cn.herodotus.dante.spring.jackson.ArrayOrStringToListDeserializer;
 import tools.jackson.databind.annotation.JsonDeserialize;
 
 import java.io.Serializable;

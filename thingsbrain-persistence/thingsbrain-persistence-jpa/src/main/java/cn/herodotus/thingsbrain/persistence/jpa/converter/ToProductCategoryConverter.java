@@ -25,9 +25,9 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.converter;
 
+import cn.herodotus.dante.data.jpa.converter.AbstractToSysEntityConverter;
 import cn.herodotus.thingsbrain.persistence.commons.domain.ProductCategory;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusProductCategory;
-import cn.herodotus.dante.data.jpa.converter.AbstractToSysEntityConverter;
 
 /**
  * <p>Description: {@link HerodotusProductCategory} 转 {@link ProductCategory} 转换器 </p>

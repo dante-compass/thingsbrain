@@ -25,9 +25,9 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.converter;
 
+import cn.herodotus.dante.data.jpa.converter.AbstractToSysEntityConverter;
 import cn.herodotus.thingsbrain.persistence.commons.domain.MqttAuthority;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttAuthority;
-import cn.herodotus.dante.data.jpa.converter.AbstractToSysEntityConverter;
 
 /**
  * <p>Description: {@link HerodotusMqttAuthority} 转 {@link MqttAuthority} 转换器 </p>

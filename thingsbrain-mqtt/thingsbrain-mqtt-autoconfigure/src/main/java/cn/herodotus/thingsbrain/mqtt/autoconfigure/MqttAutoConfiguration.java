@@ -25,7 +25,6 @@
 
 package cn.herodotus.thingsbrain.mqtt.autoconfigure;
 
-import jakarta.annotation.PostConstruct;
 import cn.herodotus.dante.core.utils.ListUtils;
 import cn.herodotus.dante.message.autoconfigure.emqx.IntegrationEmqxAutoConfiguration;
 import cn.herodotus.dante.message.autoconfigure.mqtt.MqttProperties;
@@ -38,6 +37,7 @@ import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
 import cn.herodotus.thingsbrain.mqtt.inbound.config.MqttInboundConfiguration;
 import cn.herodotus.thingsbrain.mqtt.inbound.dispatcher.MqttInboundMessageDispatcher;
 import cn.herodotus.thingsbrain.mqtt.outbound.config.MqttOutboundConfiguration;
+import jakarta.annotation.PostConstruct;
 import org.eclipse.paho.mqttv5.client.IMqttAsyncClient;
 import org.eclipse.paho.mqttv5.client.MqttConnectionOptions;
 import org.slf4j.Logger;

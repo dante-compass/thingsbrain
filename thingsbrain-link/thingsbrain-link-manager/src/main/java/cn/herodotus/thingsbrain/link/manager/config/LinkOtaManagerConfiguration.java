@@ -25,9 +25,9 @@
 
 package cn.herodotus.thingsbrain.link.manager.config;
 
-import jakarta.annotation.PostConstruct;
 import cn.herodotus.thingsbrain.link.commons.definition.OtaManager;
 import cn.herodotus.thingsbrain.link.manager.ota.DefaultOtaManager;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

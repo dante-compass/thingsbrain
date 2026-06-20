@@ -25,6 +25,7 @@
 
 package cn.herodotus.thingsbrain.persistence.commons.domain;
 
+import cn.herodotus.dante.data.commons.entity.AbstractSysEntity;
 import cn.herodotus.thingsbrain.persistence.commons.enums.AuthenticationMode;
 import cn.herodotus.thingsbrain.persistence.commons.enums.GatewayProtocol;
 import cn.herodotus.thingsbrain.persistence.commons.enums.NetworkingMethod;
@@ -32,7 +33,6 @@ import cn.herodotus.thingsbrain.persistence.commons.enums.NodeType;
 import cn.hutool.v7.core.data.id.IdUtil;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
-import cn.herodotus.dante.data.commons.entity.AbstractSysEntity;
 
 /**
  * <p>Description: 物联网产品统一实体定义 </p>

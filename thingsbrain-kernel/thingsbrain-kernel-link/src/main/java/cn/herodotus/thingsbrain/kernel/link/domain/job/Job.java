@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.kernel.link.domain.job;
 
-import com.google.common.base.MoreObjects;
 import cn.herodotus.dante.core.domain.BaseEntity;
+import com.google.common.base.MoreObjects;
 
 /**
  * <p>Description: 设备 Job 通用参数属性定义 </p>

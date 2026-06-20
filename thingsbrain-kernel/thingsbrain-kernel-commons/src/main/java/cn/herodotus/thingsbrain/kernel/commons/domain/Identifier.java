@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.kernel.commons.domain;
 
-import com.google.common.base.MoreObjects;
 import cn.herodotus.dante.core.domain.BaseModel;
+import com.google.common.base.MoreObjects;
 
 /**
  * <p>Description: 物联网核心标识符 </p>

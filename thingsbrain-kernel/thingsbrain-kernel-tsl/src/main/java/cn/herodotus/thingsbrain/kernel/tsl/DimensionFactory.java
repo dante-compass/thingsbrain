@@ -25,7 +25,6 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl;
 
-import cn.herodotus.thingsbrain.kernel.tsl.domain.*;
 import cn.herodotus.dante.core.jackson.JacksonUtils;
 import cn.herodotus.dante.core.utils.StringTemplateUtils;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;

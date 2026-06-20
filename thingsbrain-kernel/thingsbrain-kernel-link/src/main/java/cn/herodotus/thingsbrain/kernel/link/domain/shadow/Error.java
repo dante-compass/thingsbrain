@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.kernel.link.domain.shadow;
 
-import com.google.common.base.MoreObjects;
 import cn.herodotus.dante.core.domain.BaseEntity;
+import com.google.common.base.MoreObjects;
 
 /**
  * <p>Description: 设备影子错误信息定义 </p>

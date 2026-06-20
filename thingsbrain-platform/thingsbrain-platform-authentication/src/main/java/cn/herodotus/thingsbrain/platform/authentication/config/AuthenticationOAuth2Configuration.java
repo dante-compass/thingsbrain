@@ -25,12 +25,11 @@
 
 package cn.herodotus.thingsbrain.platform.authentication.config;
 
-import cn.herodotus.thingsbrain.platform.authentication.oauth2.*;
-import jakarta.annotation.PostConstruct;
 import cn.herodotus.dante.spring.condition.ConditionalOnArchitecture;
 import cn.herodotus.dante.spring.enums.Architecture;
 import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import cn.herodotus.thingsbrain.platform.authentication.oauth2.*;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;

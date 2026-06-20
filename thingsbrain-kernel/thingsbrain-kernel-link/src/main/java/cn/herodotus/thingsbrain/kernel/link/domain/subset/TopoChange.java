@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.kernel.link.domain.subset;
 
-import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.dante.core.domain.BaseEntity;
+import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 
 import java.util.List;
 

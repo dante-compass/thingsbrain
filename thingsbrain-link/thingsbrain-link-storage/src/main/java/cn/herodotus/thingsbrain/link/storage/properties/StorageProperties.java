@@ -25,9 +25,9 @@
 
 package cn.herodotus.thingsbrain.link.storage.properties;
 
-import com.google.common.base.MoreObjects;
 import cn.herodotus.thingsbrain.link.storage.constant.StorageConstants;
 import cn.herodotus.thingsbrain.link.storage.enums.StoragePolicy;
+import com.google.common.base.MoreObjects;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**

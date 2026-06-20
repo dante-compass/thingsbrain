@@ -25,10 +25,10 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.specs;
 
-import com.google.common.base.MoreObjects;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.Describe;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.Specs;
 import cn.herodotus.thingsbrain.kernel.tsl.domain.DataType;
+import com.google.common.base.MoreObjects;
 
 /**
  * <p>Description: TSL Array 数据类型说明 </p>

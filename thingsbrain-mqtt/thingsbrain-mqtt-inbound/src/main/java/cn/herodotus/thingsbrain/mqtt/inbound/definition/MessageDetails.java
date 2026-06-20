@@ -25,10 +25,10 @@
 
 package cn.herodotus.thingsbrain.mqtt.inbound.definition;
 
-import cn.hutool.v7.core.text.StrUtil;
-import org.apache.commons.lang3.ArrayUtils;
 import cn.herodotus.dante.core.domain.BaseModel;
 import cn.herodotus.dante.core.jackson.JacksonUtils;
+import cn.hutool.v7.core.text.StrUtil;
+import org.apache.commons.lang3.ArrayUtils;
 import tools.jackson.databind.JsonNode;
 
 import java.nio.charset.StandardCharsets;

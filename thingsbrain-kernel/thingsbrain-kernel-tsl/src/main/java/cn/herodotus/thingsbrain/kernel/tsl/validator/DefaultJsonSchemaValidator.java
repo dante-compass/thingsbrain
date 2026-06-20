@@ -25,6 +25,10 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.validator;
 
+import cn.herodotus.thingsbrain.kernel.commons.definition.JsonSchemaValidator;
+import cn.herodotus.thingsbrain.kernel.commons.domain.JsonSchemaError;
+import cn.herodotus.thingsbrain.kernel.commons.domain.ValidationResult;
+import cn.herodotus.thingsbrain.kernel.tsl.converter.ValidationMessageToErrorConverter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.networknt.schema.Error;
 import com.networknt.schema.Schema;
@@ -33,10 +37,6 @@ import com.networknt.schema.dialect.Dialect;
 import com.networknt.schema.dialect.Dialects;
 import com.networknt.schema.keyword.NonValidationKeyword;
 import org.apache.commons.collections4.CollectionUtils;
-import cn.herodotus.thingsbrain.kernel.commons.definition.JsonSchemaValidator;
-import cn.herodotus.thingsbrain.kernel.commons.domain.JsonSchemaError;
-import cn.herodotus.thingsbrain.kernel.commons.domain.ValidationResult;
-import cn.herodotus.thingsbrain.kernel.tsl.converter.ValidationMessageToErrorConverter;
 import org.springframework.core.convert.converter.Converter;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;

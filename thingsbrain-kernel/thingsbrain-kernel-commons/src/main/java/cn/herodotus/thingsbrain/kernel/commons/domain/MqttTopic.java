@@ -25,13 +25,13 @@
 
 package cn.herodotus.thingsbrain.kernel.commons.domain;
 
+import cn.herodotus.dante.core.constant.SymbolConstants;
+import cn.herodotus.dante.core.utils.StringTemplateUtils;
 import cn.herodotus.thingsbrain.kernel.commons.constant.KernelConstants;
 import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import cn.herodotus.thingsbrain.kernel.commons.enums.TopicCategory;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
-import cn.herodotus.dante.core.constant.SymbolConstants;
-import cn.herodotus.dante.core.utils.StringTemplateUtils;
 
 import java.util.Map;
 

@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.kernel.link.definition;
 
-import com.google.common.base.MoreObjects;
 import cn.herodotus.dante.core.domain.BaseEntity;
+import com.google.common.base.MoreObjects;
 
 /**
  * <p>Description: 模块属性定义 </p>

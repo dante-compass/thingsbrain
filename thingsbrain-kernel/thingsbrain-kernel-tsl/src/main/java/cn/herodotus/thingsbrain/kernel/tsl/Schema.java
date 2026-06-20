@@ -25,9 +25,9 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import cn.herodotus.thingsbrain.kernel.tsl.describe.ObjectDescribe;
 import cn.herodotus.thingsbrain.kernel.tsl.domain.Argument;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.stream.Stream;
 

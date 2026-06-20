@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.persistence.commons.service;
 
-import cn.herodotus.thingsbrain.persistence.commons.domain.ProductCategory;
 import cn.herodotus.dante.data.commons.service.BaseWriteAndPageService;
+import cn.herodotus.thingsbrain.persistence.commons.domain.ProductCategory;
 
 /**
  * <p>Description: 物联网产品分类服务定义 </p>

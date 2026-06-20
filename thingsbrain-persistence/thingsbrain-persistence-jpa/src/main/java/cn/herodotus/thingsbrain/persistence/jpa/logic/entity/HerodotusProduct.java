@@ -25,6 +25,8 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.logic.entity;
 
+import cn.herodotus.dante.data.jpa.entity.AbstractSysEntity;
+import cn.herodotus.dante.security.definition.RegisteredClientDetails;
 import cn.herodotus.thingsbrain.persistence.commons.constant.PersistenceConstants;
 import cn.herodotus.thingsbrain.persistence.commons.enums.AuthenticationMode;
 import cn.herodotus.thingsbrain.persistence.commons.enums.GatewayProtocol;
@@ -33,8 +35,6 @@ import cn.herodotus.thingsbrain.persistence.commons.enums.NodeType;
 import cn.hutool.v7.core.data.id.IdUtil;
 import com.google.common.base.MoreObjects;
 import jakarta.persistence.*;
-import cn.herodotus.dante.data.jpa.entity.AbstractSysEntity;
-import cn.herodotus.dante.security.definition.RegisteredClientDetails;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.UuidGenerator;
 

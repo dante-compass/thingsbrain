@@ -25,11 +25,11 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.domain;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.google.common.base.MoreObjects;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.AbstractDimension;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.CallType;
 import cn.herodotus.thingsbrain.kernel.tsl.jackson2.SpecificationViews;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.google.common.base.MoreObjects;
 
 import java.util.LinkedList;
 import java.util.List;

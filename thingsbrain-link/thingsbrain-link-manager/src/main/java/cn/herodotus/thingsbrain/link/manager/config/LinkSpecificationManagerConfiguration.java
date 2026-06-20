@@ -25,7 +25,6 @@
 
 package cn.herodotus.thingsbrain.link.manager.config;
 
-import jakarta.annotation.PostConstruct;
 import cn.herodotus.dante.core.support.factory.StrategyFactory;
 import cn.herodotus.dante.core.support.file.JsonSchemaFileManager;
 import cn.herodotus.thingsbrain.link.commons.definition.DataStorageHandler;
@@ -34,6 +33,7 @@ import cn.herodotus.thingsbrain.link.commons.definition.SpecificationPostManager
 import cn.herodotus.thingsbrain.link.manager.specification.DefaultSpecificationManager;
 import cn.herodotus.thingsbrain.link.manager.specification.DefaultSpecificationPostManager;
 import cn.herodotus.thingsbrain.persistence.commons.service.ProductService;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

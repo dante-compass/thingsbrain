@@ -25,10 +25,10 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.specs;
 
-import com.google.common.base.MoreObjects;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.Describe;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.Specs;
 import cn.herodotus.thingsbrain.kernel.tsl.describe.DateDescribe;
+import com.google.common.base.MoreObjects;
 
 import java.util.HashMap;
 

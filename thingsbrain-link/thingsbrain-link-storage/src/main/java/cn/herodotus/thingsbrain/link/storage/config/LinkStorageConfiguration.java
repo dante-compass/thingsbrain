@@ -25,7 +25,6 @@
 
 package cn.herodotus.thingsbrain.link.storage.config;
 
-import jakarta.annotation.PostConstruct;
 import cn.herodotus.dante.core.support.factory.StrategyFactory;
 import cn.herodotus.dante.nosql.influxdb3.condition.ConditionalOnInfluxDB3;
 import cn.herodotus.dante.nosql.influxdb3.pool.InfluxDB3ClientObjectPool;
@@ -35,6 +34,7 @@ import cn.herodotus.thingsbrain.link.storage.factory.DataStorageStrategyFactory;
 import cn.herodotus.thingsbrain.link.storage.handler.InfluxDBColumnStorageHandler;
 import cn.herodotus.thingsbrain.link.storage.handler.InfluxDBRowStorageHandler;
 import cn.herodotus.thingsbrain.link.storage.properties.StorageProperties;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

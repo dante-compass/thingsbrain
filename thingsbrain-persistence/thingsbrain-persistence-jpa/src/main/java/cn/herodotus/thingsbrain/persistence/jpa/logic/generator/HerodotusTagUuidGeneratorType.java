@@ -25,9 +25,9 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.logic.generator;
 
+import cn.herodotus.dante.hibernate.generator.AbstractIdGeneratorType;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTag;
 import org.apache.commons.lang3.StringUtils;
-import cn.herodotus.dante.hibernate.generator.AbstractIdGeneratorType;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.generator.GeneratorCreationContext;
 

@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.persistence.commons.condition;
 
-import cn.herodotus.thingsbrain.persistence.commons.constant.PersistenceConstants;
 import cn.herodotus.dante.spring.condition.ConditionEnum;
+import cn.herodotus.thingsbrain.persistence.commons.constant.PersistenceConstants;
 import org.springframework.core.env.Environment;
 
 /**

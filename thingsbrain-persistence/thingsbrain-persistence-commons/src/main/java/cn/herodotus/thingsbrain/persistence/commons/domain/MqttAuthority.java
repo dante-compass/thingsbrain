@@ -25,6 +25,7 @@
 
 package cn.herodotus.thingsbrain.persistence.commons.domain;
 
+import cn.herodotus.dante.data.commons.entity.AbstractSysEntity;
 import cn.herodotus.thingsbrain.kernel.commons.definition.domain.SubscribeTopic;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Action;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Permission;
@@ -33,7 +34,6 @@ import cn.herodotus.thingsbrain.persistence.commons.enums.Retain;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.apache.commons.lang3.ObjectUtils;
-import cn.herodotus.dante.data.commons.entity.AbstractSysEntity;
 
 /**
  * <p>Description: 物联网 Mqtt 权限信息统一实体定义 </p>

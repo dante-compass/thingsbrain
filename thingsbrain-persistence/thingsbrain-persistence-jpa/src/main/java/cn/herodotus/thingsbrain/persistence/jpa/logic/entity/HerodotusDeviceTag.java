@@ -25,10 +25,10 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.logic.entity;
 
+import cn.herodotus.dante.data.commons.entity.AbstractEntity;
 import cn.herodotus.thingsbrain.persistence.commons.constant.PersistenceConstants;
 import com.google.common.base.MoreObjects;
 import jakarta.persistence.*;
-import cn.herodotus.dante.data.commons.entity.AbstractEntity;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.UuidGenerator;
 

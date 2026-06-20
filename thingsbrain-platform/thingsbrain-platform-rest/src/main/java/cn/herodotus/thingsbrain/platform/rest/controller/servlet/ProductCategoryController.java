@@ -25,12 +25,12 @@
 
 package cn.herodotus.thingsbrain.platform.rest.controller.servlet;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.tags.Tags;
 import cn.herodotus.dante.data.commons.service.BaseWriteAndPageService;
 import cn.herodotus.dante.data.rest.servlet.AbstractEntityWriteAndPageController;
 import cn.herodotus.thingsbrain.persistence.commons.domain.ProductCategory;
 import cn.herodotus.thingsbrain.persistence.commons.service.ProductCategoryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -25,11 +25,11 @@
 
 package cn.herodotus.thingsbrain.link.autoconfigure;
 
-import jakarta.annotation.PostConstruct;
 import cn.herodotus.thingsbrain.link.autoconfigure.initializer.MqttSubscribeTopicSender;
 import cn.herodotus.thingsbrain.link.commons.definition.MqttAuthorizationManager;
 import cn.herodotus.thingsbrain.link.manager.config.LinkManagerConfiguration;
 import cn.herodotus.thingsbrain.link.storage.config.LinkStorageConfiguration;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;

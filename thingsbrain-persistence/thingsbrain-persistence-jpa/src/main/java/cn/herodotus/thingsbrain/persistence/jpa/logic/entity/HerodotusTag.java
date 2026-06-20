@@ -25,11 +25,11 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.logic.entity;
 
+import cn.herodotus.dante.data.commons.entity.AbstractAuditEntity;
 import cn.herodotus.thingsbrain.persistence.commons.constant.PersistenceConstants;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.generator.HerodotusTagUuidGenerator;
 import com.google.common.base.MoreObjects;
 import jakarta.persistence.*;
-import cn.herodotus.dante.data.commons.entity.AbstractAuditEntity;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.util.HashSet;

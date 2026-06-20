@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.kernel.link.domain.config;
 
-import com.google.common.base.MoreObjects;
 import cn.herodotus.dante.core.domain.BaseEntity;
+import com.google.common.base.MoreObjects;
 
 /**
  * <p>Description: 配置文本内容 </p>

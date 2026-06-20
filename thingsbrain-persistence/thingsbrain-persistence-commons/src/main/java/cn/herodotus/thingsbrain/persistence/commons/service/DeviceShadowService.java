@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.persistence.commons.service;
 
-import cn.herodotus.thingsbrain.persistence.commons.domain.DeviceShadow;
 import cn.herodotus.dante.data.commons.service.BaseWriteAndPageService;
+import cn.herodotus.thingsbrain.persistence.commons.domain.DeviceShadow;
 
 import java.util.Optional;
 

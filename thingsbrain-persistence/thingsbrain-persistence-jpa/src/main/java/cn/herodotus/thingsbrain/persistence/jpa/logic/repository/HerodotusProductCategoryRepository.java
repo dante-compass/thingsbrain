@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.logic.repository;
 
-import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusProductCategory;
 import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusProductCategory;
 
 /**
  * <p>Description: 物联网产品分类 Jpa 存储 Repository </p>

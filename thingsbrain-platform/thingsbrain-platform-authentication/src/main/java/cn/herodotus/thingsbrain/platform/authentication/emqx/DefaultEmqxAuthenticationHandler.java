@@ -25,7 +25,6 @@
 
 package cn.herodotus.thingsbrain.platform.authentication.emqx;
 
-import org.apache.commons.lang3.ObjectUtils;
 import cn.herodotus.dante.core.domain.SignatureValidationResult;
 import cn.herodotus.dante.web.definition.SignatureValidator;
 import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
@@ -38,6 +37,7 @@ import cn.herodotus.thingsbrain.platform.authentication.utils.MqttSignatureConte
 import cn.herodotus.thingsbrain.platform.commons.definition.EmqxAuthenticationHandler;
 import cn.herodotus.thingsbrain.platform.commons.domain.EmqxAuthenticationStatus;
 import cn.herodotus.thingsbrain.platform.commons.domain.MqttClientIdFactory;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

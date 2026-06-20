@@ -25,9 +25,9 @@
 
 package cn.herodotus.thingsbrain.persistence.commons.domain;
 
+import cn.herodotus.dante.data.commons.entity.AbstractSysEntity;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
-import cn.herodotus.dante.data.commons.entity.AbstractSysEntity;
 
 import java.util.HashSet;
 import java.util.Set;

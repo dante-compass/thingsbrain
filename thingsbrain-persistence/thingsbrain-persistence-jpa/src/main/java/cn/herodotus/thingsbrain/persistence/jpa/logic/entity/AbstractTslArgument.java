@@ -25,13 +25,13 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.logic.entity;
 
+import cn.herodotus.dante.data.jpa.entity.AbstractAuditEntity;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.ArgumentType;
 import com.google.common.base.MoreObjects;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
-import cn.herodotus.dante.data.jpa.entity.AbstractAuditEntity;
 
 /**
  * <p>Description: 物模型 Attribute 公共属性 </p>

@@ -25,13 +25,13 @@
 
 package cn.herodotus.thingsbrain.platform.autoconfigure;
 
-import jakarta.annotation.PostConstruct;
 import cn.herodotus.dante.core.function.EnumDictionaryBuilderCustomizer;
 import cn.herodotus.dante.core.function.ErrorCodeMapperBuilderCustomizer;
+import cn.herodotus.thingsbrain.platform.authentication.config.PlatformRegistrationConfiguration;
 import cn.herodotus.thingsbrain.platform.autoconfigure.customizer.PlatformEnumDictionaryBuilderCustomizer;
 import cn.herodotus.thingsbrain.platform.autoconfigure.customizer.PlatformErrorCodeMapperBuilderCustomizer;
-import cn.herodotus.thingsbrain.platform.authentication.config.PlatformRegistrationConfiguration;
 import cn.herodotus.thingsbrain.platform.rest.config.PlatformRestConfiguration;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;

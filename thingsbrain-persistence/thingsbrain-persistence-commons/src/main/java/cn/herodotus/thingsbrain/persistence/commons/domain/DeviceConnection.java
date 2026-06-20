@@ -25,13 +25,13 @@
 
 package cn.herodotus.thingsbrain.persistence.commons.domain;
 
+import cn.herodotus.dante.core.constant.SystemConstants;
+import cn.herodotus.dante.core.domain.BaseEntity;
 import cn.herodotus.thingsbrain.kernel.commons.domain.AddressTuple;
 import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
-import cn.herodotus.dante.core.constant.SystemConstants;
-import cn.herodotus.dante.core.domain.BaseEntity;
 
 import java.time.LocalDateTime;
 

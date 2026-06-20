@@ -25,10 +25,10 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.specs;
 
-import com.google.common.base.MoreObjects;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.AbstractDigitalDescribe;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.AbstractDigitalSpecs;
 import cn.herodotus.thingsbrain.kernel.tsl.describe.IntegerDescribe;
+import com.google.common.base.MoreObjects;
 
 /**
  * <p>Description: TSL Int 数据类型说明 </p>

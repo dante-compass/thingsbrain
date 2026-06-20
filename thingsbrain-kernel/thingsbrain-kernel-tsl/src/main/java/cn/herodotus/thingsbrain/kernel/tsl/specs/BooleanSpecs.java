@@ -25,11 +25,11 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.specs;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.MoreObjects;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.Describe;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.Specs;
 import cn.herodotus.thingsbrain.kernel.tsl.describe.BooleanDescribe;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.MoreObjects;
 
 /**
  * <p>Description: TSL Bool 数据类型说明 </p>

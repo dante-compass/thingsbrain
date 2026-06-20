@@ -25,12 +25,12 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.config;
 
+import cn.herodotus.dante.security.definition.AuthenticationManager;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.service.*;
 import cn.herodotus.thingsbrain.persistence.jpa.manager.HerodotusDeviceManager;
 import cn.herodotus.thingsbrain.persistence.jpa.manager.HerodotusProductManager;
 import cn.herodotus.thingsbrain.persistence.jpa.manager.HerodotusTslFunctionManager;
 import jakarta.annotation.PostConstruct;
-import cn.herodotus.dante.security.definition.AuthenticationManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.persistence.autoconfigure.EntityScan;

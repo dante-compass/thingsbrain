@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.converter;
 
-import com.networknt.schema.Error;
 import cn.herodotus.thingsbrain.kernel.commons.domain.JsonSchemaError;
+import com.networknt.schema.Error;
 import org.springframework.core.convert.converter.Converter;
 
 import java.util.List;

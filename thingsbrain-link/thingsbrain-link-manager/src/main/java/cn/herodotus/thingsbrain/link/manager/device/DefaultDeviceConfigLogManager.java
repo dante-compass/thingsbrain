@@ -25,11 +25,11 @@
 
 package cn.herodotus.thingsbrain.link.manager.device;
 
-import org.apache.commons.collections4.CollectionUtils;
 import cn.herodotus.thingsbrain.kernel.link.definition.config.ContentConfig;
 import cn.herodotus.thingsbrain.kernel.link.domain.config.LogConfigDomain;
 import cn.herodotus.thingsbrain.kernel.link.domain.config.LogParam;
 import cn.herodotus.thingsbrain.link.commons.definition.DeviceConfigLogManager;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;

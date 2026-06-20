@@ -25,12 +25,12 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.converter;
 
+import cn.herodotus.dante.data.jpa.converter.AbstractFromSysEntityConverter;
 import cn.herodotus.thingsbrain.persistence.commons.domain.MqttAccount;
 import cn.herodotus.thingsbrain.persistence.commons.domain.MqttCategory;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttAccount;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttCategory;
 import org.apache.commons.collections4.CollectionUtils;
-import cn.herodotus.dante.data.jpa.converter.AbstractFromSysEntityConverter;
 import org.springframework.core.convert.converter.Converter;
 
 import java.util.Optional;

@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.platform.authentication.domain;
 
-import com.google.common.base.MoreObjects;
 import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
+import com.google.common.base.MoreObjects;
 
 /**
  * <p>Description: TODO </p>

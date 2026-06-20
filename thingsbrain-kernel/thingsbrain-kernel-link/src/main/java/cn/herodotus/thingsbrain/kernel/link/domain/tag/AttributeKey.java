@@ -25,9 +25,9 @@
 
 package cn.herodotus.thingsbrain.kernel.link.domain.tag;
 
+import cn.herodotus.dante.core.domain.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
-import cn.herodotus.dante.core.domain.BaseEntity;
 
 /**
  * <p>Description: 标签 Key 通用参数实体 </p>

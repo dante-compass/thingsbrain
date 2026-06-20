@@ -25,6 +25,10 @@
 
 package cn.herodotus.thingsbrain.platform.rest.controller.servlet;
 
+import cn.herodotus.thingsbrain.platform.commons.definition.EmqxAuthenticationHandler;
+import cn.herodotus.thingsbrain.platform.commons.domain.EmqxAuthenticationStatus;
+import cn.herodotus.thingsbrain.platform.rest.dto.EmqxAuthenticationRequest;
+import cn.herodotus.thingsbrain.platform.rest.dto.EmqxAuthenticationResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -33,10 +37,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
-import cn.herodotus.thingsbrain.platform.commons.definition.EmqxAuthenticationHandler;
-import cn.herodotus.thingsbrain.platform.commons.domain.EmqxAuthenticationStatus;
-import cn.herodotus.thingsbrain.platform.rest.dto.EmqxAuthenticationRequest;
-import cn.herodotus.thingsbrain.platform.rest.dto.EmqxAuthenticationResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;

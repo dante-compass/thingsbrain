@@ -25,9 +25,9 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.logic.repository;
 
+import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusProduct;
 import jakarta.persistence.QueryHint;
-import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import org.hibernate.jpa.AvailableHints;
 import org.springframework.data.jpa.repository.QueryHints;
 

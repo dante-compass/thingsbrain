@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.mqtt.commons.constant;
 
-import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.dante.core.constant.BaseConstants;
+import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 
 /**
  * <p>Description: TODO </p>

@@ -25,12 +25,12 @@
 
 package cn.herodotus.thingsbrain.mqtt.outbound.service;
 
+import cn.herodotus.dante.security.domain.UserPrincipal;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
-import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
-import cn.herodotus.dante.security.domain.UserPrincipal;
 import cn.herodotus.thingsbrain.link.commons.definition.SpecificationManager;
+import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;

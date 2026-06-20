@@ -25,9 +25,9 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.describe;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import cn.herodotus.thingsbrain.kernel.commons.constant.SchemaConstants;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.AbstractDescribe;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Map;
 

@@ -25,10 +25,10 @@
 
 package cn.herodotus.thingsbrain.platform.rest.dto;
 
+import cn.herodotus.thingsbrain.kernel.link.domain.config.ConfigDomain;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import cn.herodotus.thingsbrain.kernel.link.domain.config.ConfigDomain;
 
 /**
  * <p>Description: 设备远程配置推送请求参数实体 </p>

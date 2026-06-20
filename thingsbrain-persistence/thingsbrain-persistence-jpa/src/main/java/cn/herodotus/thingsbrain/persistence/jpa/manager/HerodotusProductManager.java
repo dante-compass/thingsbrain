@@ -25,6 +25,8 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.manager;
 
+import cn.herodotus.dante.security.definition.AuthenticationManager;
+import cn.herodotus.dante.security.domain.RegisteredClientTransmitter;
 import cn.herodotus.thingsbrain.kernel.tsl.Specification;
 import cn.herodotus.thingsbrain.persistence.jpa.converter.FunctionsToSpecificationConverter;
 import cn.herodotus.thingsbrain.persistence.jpa.converter.HerodotusProductToAuthenticationConverter;
@@ -33,8 +35,6 @@ import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunctio
 import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusProductService;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusTslFunctionService;
 import org.apache.commons.collections4.CollectionUtils;
-import cn.herodotus.dante.security.definition.AuthenticationManager;
-import cn.herodotus.dante.security.domain.RegisteredClientTransmitter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;

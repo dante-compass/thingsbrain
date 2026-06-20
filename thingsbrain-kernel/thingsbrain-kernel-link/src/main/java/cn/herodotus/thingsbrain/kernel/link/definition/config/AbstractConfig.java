@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.kernel.link.definition.config;
 
-import com.google.common.base.MoreObjects;
 import cn.herodotus.dante.core.domain.BaseEntity;
+import com.google.common.base.MoreObjects;
 
 /**
  * <p>Description: 配置操作通用属性抽象定义 </p>

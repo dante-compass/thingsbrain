@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.kernel.link.domain.ota;
 
-import com.google.common.base.MoreObjects;
 import cn.herodotus.dante.core.domain.BaseEntity;
+import com.google.common.base.MoreObjects;
 
 /**
  * <p>Description: 多个文件的OTA升级包文件信息 </p>

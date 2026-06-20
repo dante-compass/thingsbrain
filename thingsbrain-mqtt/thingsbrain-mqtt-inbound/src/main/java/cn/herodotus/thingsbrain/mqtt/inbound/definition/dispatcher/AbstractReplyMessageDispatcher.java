@@ -25,6 +25,7 @@
 
 package cn.herodotus.thingsbrain.mqtt.inbound.definition.dispatcher;
 
+import cn.herodotus.dante.core.jackson.JsonNodeUtils;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttOperation;
@@ -32,7 +33,6 @@ import cn.herodotus.thingsbrain.mqtt.inbound.definition.MessageDetails;
 import cn.herodotus.thingsbrain.mqtt.inbound.response.InboundMessageReplyProcessor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import cn.herodotus.dante.core.jackson.JsonNodeUtils;
 import tools.jackson.databind.JsonNode;
 
 import java.util.Optional;

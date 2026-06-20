@@ -25,8 +25,6 @@
 
 package cn.herodotus.thingsbrain.platform.authentication.config;
 
-import cn.herodotus.thingsbrain.platform.authentication.emqx.*;
-import jakarta.annotation.PostConstruct;
 import cn.herodotus.dante.message.emqx.condition.ConditionalOnEventSource;
 import cn.herodotus.dante.message.emqx.condition.EventSource;
 import cn.herodotus.dante.web.definition.SignatureValidator;
@@ -34,6 +32,7 @@ import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import cn.herodotus.thingsbrain.platform.authentication.emqx.*;
 import cn.herodotus.thingsbrain.platform.authentication.mqtt.MqttIdentificationHandler;
 import cn.herodotus.thingsbrain.platform.commons.definition.EmqxAuthenticationHandler;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;

@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.mqtt.inbound.factory;
 
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.ExtInboundMessageHandler;
 import cn.herodotus.dante.core.support.factory.AbstractStrategyFactory;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.ExtInboundMessageHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

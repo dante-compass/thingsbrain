@@ -25,6 +25,8 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.logic.service;
 
+import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
+import cn.herodotus.dante.data.jpa.service.AbstractJpaService;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusProduct;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusProductCategory;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.repository.HerodotusProductRepository;
@@ -32,8 +34,6 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import org.apache.commons.lang3.ObjectUtils;
-import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
-import cn.herodotus.dante.data.jpa.service.AbstractJpaService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

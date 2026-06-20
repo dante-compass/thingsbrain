@@ -25,7 +25,6 @@
 
 package cn.herodotus.thingsbrain.platform.authentication.mqtt;
 
-import org.apache.commons.lang3.ObjectUtils;
 import cn.herodotus.dante.core.jackson.JacksonUtils;
 import cn.herodotus.dante.message.emqx.event.WebhookClientConnectedEvent;
 import cn.herodotus.dante.spring.context.ServiceContextHolder;
@@ -36,6 +35,7 @@ import cn.herodotus.thingsbrain.kernel.commons.utils.DataFormatUtils;
 import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import cn.herodotus.thingsbrain.platform.authentication.domain.MqttRegistrationResponse;
 import cn.herodotus.thingsbrain.platform.authentication.domain.OAuth2ClientRegistration;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

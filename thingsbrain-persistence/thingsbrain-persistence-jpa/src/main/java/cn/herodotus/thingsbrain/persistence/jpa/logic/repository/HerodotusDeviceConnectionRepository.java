@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.logic.repository;
 
-import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusDeviceConnection;
 import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusDeviceConnection;
 
 import java.util.Optional;
 

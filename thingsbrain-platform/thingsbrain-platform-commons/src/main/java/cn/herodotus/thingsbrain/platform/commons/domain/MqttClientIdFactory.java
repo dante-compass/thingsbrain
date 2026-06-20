@@ -25,15 +25,15 @@
 
 package cn.herodotus.thingsbrain.platform.commons.domain;
 
-import cn.hutool.v7.core.util.RandomUtil;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
 import cn.herodotus.dante.core.constant.SymbolConstants;
 import cn.herodotus.dante.core.enums.SignatureMethod;
 import cn.herodotus.thingsbrain.kernel.commons.constant.KernelConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttClientIdDetail;
 import cn.herodotus.thingsbrain.kernel.commons.enums.AuthType;
 import cn.herodotus.thingsbrain.kernel.commons.utils.DataFormatUtils;
+import cn.hutool.v7.core.util.RandomUtil;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

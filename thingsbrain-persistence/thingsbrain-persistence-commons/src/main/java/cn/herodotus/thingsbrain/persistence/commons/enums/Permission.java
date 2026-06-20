@@ -25,10 +25,10 @@
 
 package cn.herodotus.thingsbrain.persistence.commons.enums;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.v3.oas.annotations.media.Schema;
 import cn.herodotus.dante.core.domain.Dictionary;
 import cn.herodotus.dante.core.domain.DictionaryEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.ArrayList;
 import java.util.HashMap;

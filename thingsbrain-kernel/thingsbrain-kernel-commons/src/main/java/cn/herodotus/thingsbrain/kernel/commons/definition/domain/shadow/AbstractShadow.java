@@ -25,10 +25,10 @@
 
 package cn.herodotus.thingsbrain.kernel.commons.definition.domain.shadow;
 
-import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
-import org.apache.commons.lang3.Strings;
 import cn.herodotus.dante.core.constant.SymbolConstants;
 import cn.herodotus.dante.core.domain.BaseEntity;
+import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
+import org.apache.commons.lang3.Strings;
 
 import java.util.Map;
 import java.util.stream.Collectors;

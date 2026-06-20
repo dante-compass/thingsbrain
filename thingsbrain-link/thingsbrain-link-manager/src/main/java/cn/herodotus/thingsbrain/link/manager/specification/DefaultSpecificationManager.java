@@ -25,8 +25,6 @@
 
 package cn.herodotus.thingsbrain.link.manager.specification;
 
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import cn.herodotus.dante.core.support.file.JsonSchemaFileManager;
 import cn.herodotus.thingsbrain.kernel.commons.exception.JsonSchemaValidateErrorException;
 import cn.herodotus.thingsbrain.kernel.tsl.domain.ServiceDimension;
@@ -34,6 +32,8 @@ import cn.herodotus.thingsbrain.kernel.tsl.validator.ArgumentValidator;
 import cn.herodotus.thingsbrain.link.commons.definition.SpecificationManager;
 import cn.herodotus.thingsbrain.persistence.commons.domain.Product;
 import cn.herodotus.thingsbrain.persistence.commons.service.ProductService;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.Map;
 import java.util.Optional;

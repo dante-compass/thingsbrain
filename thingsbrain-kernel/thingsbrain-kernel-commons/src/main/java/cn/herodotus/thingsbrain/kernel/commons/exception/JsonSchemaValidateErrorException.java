@@ -25,9 +25,9 @@
 
 package cn.herodotus.thingsbrain.kernel.commons.exception;
 
-import cn.herodotus.thingsbrain.kernel.commons.constant.KernelErrorCodes;
 import cn.herodotus.dante.core.domain.Feedback;
 import cn.herodotus.dante.core.exception.PlatformRuntimeException;
+import cn.herodotus.thingsbrain.kernel.commons.constant.KernelErrorCodes;
 
 /**
  * <p>Description: Json Schema 校验错误 Exception </p>

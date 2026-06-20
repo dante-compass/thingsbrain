@@ -25,10 +25,10 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.logic.repository;
 
+import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Action;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Area;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttCategory;
-import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 
 import java.util.Optional;
 import java.util.Set;

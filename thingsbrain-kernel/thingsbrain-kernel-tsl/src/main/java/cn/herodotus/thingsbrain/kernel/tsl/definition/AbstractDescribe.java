@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.definition;
 
-import com.google.common.base.MoreObjects;
 import cn.herodotus.thingsbrain.kernel.commons.constant.SchemaConstants;
+import com.google.common.base.MoreObjects;
 
 /**
  * <p>Description: 通用 Schema 描述属性定义 </p>

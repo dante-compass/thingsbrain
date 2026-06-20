@@ -25,11 +25,11 @@
 
 package cn.herodotus.thingsbrain.mqtt.inbound.dispatcher;
 
+import cn.herodotus.dante.core.jackson.JsonNodeUtils;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.MessageDetails;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.dispatcher.InboundMessageDispatcher;
 import cn.herodotus.thingsbrain.mqtt.inbound.factory.OtaMessageHandlerFactory;
 import org.apache.commons.lang3.ObjectUtils;
-import cn.herodotus.dante.core.jackson.JsonNodeUtils;
 import tools.jackson.databind.JsonNode;
 
 /**

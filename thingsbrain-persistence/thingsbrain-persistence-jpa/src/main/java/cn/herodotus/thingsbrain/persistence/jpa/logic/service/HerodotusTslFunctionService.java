@@ -25,10 +25,10 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.logic.service;
 
-import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.repository.HerodotusTslFunctionRepository;
 import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.dante.data.jpa.service.AbstractJpaService;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.repository.HerodotusTslFunctionRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;

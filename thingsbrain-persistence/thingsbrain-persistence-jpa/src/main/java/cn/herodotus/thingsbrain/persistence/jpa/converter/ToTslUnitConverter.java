@@ -25,9 +25,9 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.converter;
 
+import cn.herodotus.dante.data.jpa.converter.AbstractToEntityConverter;
 import cn.herodotus.thingsbrain.persistence.commons.domain.TslUnit;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslUnit;
-import cn.herodotus.dante.data.jpa.converter.AbstractToEntityConverter;
 
 /**
  * <p>Description: {@link HerodotusTslUnit} 转 {@link TslUnit} 转换器 </p>

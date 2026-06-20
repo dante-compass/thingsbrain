@@ -25,11 +25,11 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.converter;
 
+import cn.herodotus.dante.data.jpa.converter.AbstractToSysEntityConverter;
 import cn.herodotus.thingsbrain.persistence.commons.domain.Device;
 import cn.herodotus.thingsbrain.persistence.commons.domain.Product;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusDevice;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusProduct;
-import cn.herodotus.dante.data.jpa.converter.AbstractToSysEntityConverter;
 import org.springframework.core.convert.converter.Converter;
 
 /**

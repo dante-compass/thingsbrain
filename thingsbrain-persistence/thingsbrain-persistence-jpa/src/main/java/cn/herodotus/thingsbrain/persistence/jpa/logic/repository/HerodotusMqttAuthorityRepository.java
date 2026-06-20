@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.logic.repository;
 
-import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttAuthority;
 import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttAuthority;
 
 /**
  * <p>Description: 物联网 Mqtt 权限 Jpa 存储 Repository </p>

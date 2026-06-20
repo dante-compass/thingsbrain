@@ -25,10 +25,10 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.definition;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.google.common.base.MoreObjects;
 import cn.herodotus.thingsbrain.kernel.tsl.domain.Argument;
 import cn.herodotus.thingsbrain.kernel.tsl.jackson2.SpecificationViews;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.google.common.base.MoreObjects;
 
 import java.util.LinkedList;
 import java.util.List;

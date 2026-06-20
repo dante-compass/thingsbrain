@@ -25,11 +25,11 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.logic.entity;
 
+import cn.herodotus.dante.data.jpa.entity.AbstractSysEntity;
 import cn.herodotus.thingsbrain.persistence.commons.constant.PersistenceConstants;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.generator.HerodotusMqttAccountUuidGenerator;
 import com.google.common.base.MoreObjects;
 import jakarta.persistence.*;
-import cn.herodotus.dante.data.jpa.entity.AbstractSysEntity;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;

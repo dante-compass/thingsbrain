@@ -25,9 +25,9 @@
 
 package cn.herodotus.thingsbrain.platform.autoconfigure;
 
-import jakarta.annotation.PostConstruct;
 import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import cn.herodotus.thingsbrain.platform.authentication.config.AuthenticationMqttConfiguration;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;

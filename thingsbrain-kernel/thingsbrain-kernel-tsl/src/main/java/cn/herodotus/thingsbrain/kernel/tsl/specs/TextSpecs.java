@@ -25,11 +25,11 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.specs;
 
-import com.google.common.base.MoreObjects;
-import org.apache.commons.lang3.ObjectUtils;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.Describe;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.Specs;
 import cn.herodotus.thingsbrain.kernel.tsl.describe.TextDescribe;
+import com.google.common.base.MoreObjects;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * <p>Description: TSL Text 数据类型说明 </p>

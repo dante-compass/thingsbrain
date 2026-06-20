@@ -30,8 +30,8 @@ import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.ota.DeviceInformParam;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractOtaInboundMessageHandler;
 import cn.herodotus.thingsbrain.link.commons.definition.OtaManager;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractOtaInboundMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 

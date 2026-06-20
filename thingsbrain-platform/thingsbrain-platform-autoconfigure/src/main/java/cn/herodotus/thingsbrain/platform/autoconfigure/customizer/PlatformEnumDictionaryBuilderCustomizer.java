@@ -25,10 +25,10 @@
 
 package cn.herodotus.thingsbrain.platform.autoconfigure.customizer;
 
-import cn.herodotus.thingsbrain.kernel.tsl.enums.*;
-import cn.herodotus.thingsbrain.persistence.commons.enums.*;
 import cn.herodotus.dante.core.builder.EnumDictionaryBuilder;
 import cn.herodotus.dante.core.function.EnumDictionaryBuilderCustomizer;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.*;
+import cn.herodotus.thingsbrain.persistence.commons.enums.*;
 
 /**
  * <p>Description: Things Brain Platform 相关模块枚举数据字典定义器 </p>

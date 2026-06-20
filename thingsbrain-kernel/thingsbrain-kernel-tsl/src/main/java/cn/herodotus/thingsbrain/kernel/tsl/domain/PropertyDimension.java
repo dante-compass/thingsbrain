@@ -25,10 +25,10 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.domain;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.google.common.base.MoreObjects;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.AccessMode;
 import cn.herodotus.thingsbrain.kernel.tsl.jackson2.SpecificationViews;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.google.common.base.MoreObjects;
 
 /**
  * <p>Description: 物模型 Property </p>

@@ -25,10 +25,10 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.converter;
 
+import cn.herodotus.dante.security.utils.SecurityUtils;
 import cn.herodotus.thingsbrain.kernel.commons.utils.DataFormatUtils;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusDevice;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttAccount;
-import cn.herodotus.dante.security.utils.SecurityUtils;
 import org.springframework.core.convert.converter.Converter;
 
 /**
