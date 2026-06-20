@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.platform.authentication.emqx;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.dromara.dante.message.emqx.definition.domain.AbstractEmqxDomain;
+import cn.herodotus.dante.message.emqx.definition.domain.AbstractEmqxDomain;
 import cn.herodotus.thingsbrain.persistence.commons.domain.DeviceConnection;
 import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import cn.herodotus.thingsbrain.platform.authentication.mqtt.MqttIdentificationHandler;

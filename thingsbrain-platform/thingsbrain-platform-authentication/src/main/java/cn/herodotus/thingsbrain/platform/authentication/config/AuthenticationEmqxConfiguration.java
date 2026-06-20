@@ -27,11 +27,11 @@ package cn.herodotus.thingsbrain.platform.authentication.config;
 
 import cn.herodotus.thingsbrain.platform.authentication.emqx.*;
 import jakarta.annotation.PostConstruct;
-import org.dromara.dante.message.emqx.condition.ConditionalOnEventSource;
-import org.dromara.dante.message.emqx.condition.EventSource;
-import org.dromara.dante.web.definition.SignatureValidator;
+import cn.herodotus.dante.message.emqx.condition.ConditionalOnEventSource;
+import cn.herodotus.dante.message.emqx.condition.EventSource;
+import cn.herodotus.dante.web.definition.SignatureValidator;
 import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
-import org.dromara.thingsbrain.platform.authentication.emqx.*;
+import cn.herodotus.thingsbrain.platform.authentication.emqx.*;
 import cn.herodotus.thingsbrain.platform.authentication.mqtt.MqttIdentificationHandler;
 import cn.herodotus.thingsbrain.platform.commons.definition.EmqxAuthenticationHandler;
 import org.slf4j.Logger;

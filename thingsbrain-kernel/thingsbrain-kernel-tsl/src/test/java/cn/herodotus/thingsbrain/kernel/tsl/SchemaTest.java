@@ -27,7 +27,7 @@ package cn.herodotus.thingsbrain.kernel.tsl;
 
 import cn.hutool.v7.core.bean.BeanUtil;
 import cn.hutool.v7.core.io.file.FileUtil;
-import org.dromara.dante.core.jackson.JacksonUtils;
+import cn.herodotus.dante.core.jackson.JacksonUtils;
 import cn.herodotus.thingsbrain.kernel.tsl.entity.TslEvents;
 import cn.herodotus.thingsbrain.kernel.tsl.entity.TslProperties;
 import cn.herodotus.thingsbrain.kernel.tsl.entity.TslServices;

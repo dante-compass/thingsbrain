@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.platform.authentication.emqx;
 
-import org.dromara.dante.message.emqx.domain.SystemClientDisconnected;
-import org.dromara.dante.message.emqx.event.SystemClientDisconnectedEvent;
+import cn.herodotus.dante.message.emqx.domain.SystemClientDisconnected;
+import cn.herodotus.dante.message.emqx.event.SystemClientDisconnectedEvent;
 import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

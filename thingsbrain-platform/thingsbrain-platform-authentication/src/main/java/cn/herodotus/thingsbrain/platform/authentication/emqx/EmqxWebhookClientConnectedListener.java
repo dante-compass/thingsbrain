@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.platform.authentication.emqx;
 
-import org.dromara.dante.message.emqx.domain.WebhookClientConnected;
-import org.dromara.dante.message.emqx.event.WebhookClientConnectedEvent;
+import cn.herodotus.dante.message.emqx.domain.WebhookClientConnected;
+import cn.herodotus.dante.message.emqx.event.WebhookClientConnectedEvent;
 import cn.herodotus.thingsbrain.kernel.commons.domain.AddressTuple;
 import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.utils.DataFormatUtils;

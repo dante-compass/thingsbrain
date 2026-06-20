@@ -29,9 +29,9 @@ import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttOperation;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.dromara.dante.core.jackson.JacksonUtils;
-import org.dromara.dante.message.commons.definition.strategy.MessageSendingEventManager;
-import org.dromara.dante.message.commons.domain.UserMessage;
+import cn.herodotus.dante.core.jackson.JacksonUtils;
+import cn.herodotus.dante.message.commons.definition.strategy.MessageSendingEventManager;
+import cn.herodotus.dante.message.commons.domain.UserMessage;
 import tools.jackson.databind.JsonNode;
 
 /**

@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.link.commons.exception;
 
-import org.dromara.dante.core.exception.PlatformException;
+import cn.herodotus.dante.core.exception.PlatformException;
 
 /**
  * <p>Description: 自定义 Link 协议数据存储异常 </p>

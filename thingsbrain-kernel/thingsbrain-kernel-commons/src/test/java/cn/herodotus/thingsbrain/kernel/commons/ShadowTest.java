@@ -27,7 +27,7 @@ package cn.herodotus.thingsbrain.kernel.commons;
 
 import cn.hutool.v7.core.io.file.FileUtil;
 import org.apache.commons.lang3.ObjectUtils;
-import org.dromara.dante.core.jackson.JacksonUtils;
+import cn.herodotus.dante.core.jackson.JacksonUtils;
 import cn.herodotus.thingsbrain.kernel.commons.domain.Shadow;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

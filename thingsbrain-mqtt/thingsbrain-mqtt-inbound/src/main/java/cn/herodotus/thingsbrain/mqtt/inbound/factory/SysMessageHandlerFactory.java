@@ -28,8 +28,8 @@ package cn.herodotus.thingsbrain.mqtt.inbound.factory;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.SysInboundMessageHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
-import org.dromara.dante.core.constant.SymbolConstants;
-import org.dromara.dante.core.support.factory.AbstractStrategyFactory;
+import cn.herodotus.dante.core.constant.SymbolConstants;
+import cn.herodotus.dante.core.support.factory.AbstractStrategyFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

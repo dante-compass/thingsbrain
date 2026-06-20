@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.commons.definition.domain;
 
-import org.dromara.dante.core.domain.BaseModel;
+import cn.herodotus.dante.core.domain.BaseModel;
 
 /**
  * <p>Description: 系统订阅主题实体 </p>

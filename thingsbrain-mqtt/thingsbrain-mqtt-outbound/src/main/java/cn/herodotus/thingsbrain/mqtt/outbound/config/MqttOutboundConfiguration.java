@@ -39,8 +39,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration(proxyBeanMethods = false)
 @ComponentScan(basePackages = {
-        "org.dromara.thingsbrain.mqtt.outbound.service",
-        "org.dromara.thingsbrain.mqtt.outbound.listener",
+        "cn.herodotus.thingsbrain.mqtt.outbound.service",
+        "cn.herodotus.thingsbrain.mqtt.outbound.listener",
 })
 public class MqttOutboundConfiguration {
 

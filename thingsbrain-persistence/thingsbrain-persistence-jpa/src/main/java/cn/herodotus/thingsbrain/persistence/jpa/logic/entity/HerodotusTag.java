@@ -29,7 +29,7 @@ import cn.herodotus.thingsbrain.persistence.commons.constant.PersistenceConstant
 import cn.herodotus.thingsbrain.persistence.jpa.logic.generator.HerodotusTagUuidGenerator;
 import com.google.common.base.MoreObjects;
 import jakarta.persistence.*;
-import org.dromara.dante.data.commons.entity.AbstractAuditEntity;
+import cn.herodotus.dante.data.commons.entity.AbstractAuditEntity;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.util.HashSet;

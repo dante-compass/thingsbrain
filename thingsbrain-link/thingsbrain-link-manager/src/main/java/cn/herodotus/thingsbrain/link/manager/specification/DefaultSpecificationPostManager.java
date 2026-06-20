@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.link.manager.specification;
 
-import org.dromara.dante.core.support.factory.StrategyFactory;
+import cn.herodotus.dante.core.support.factory.StrategyFactory;
 import cn.herodotus.thingsbrain.link.commons.definition.DataStorageHandler;
 import cn.herodotus.thingsbrain.link.commons.definition.SpecificationPostManager;
 

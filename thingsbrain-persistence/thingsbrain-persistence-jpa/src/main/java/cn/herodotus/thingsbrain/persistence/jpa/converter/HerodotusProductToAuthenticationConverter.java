@@ -26,8 +26,8 @@
 package cn.herodotus.thingsbrain.persistence.jpa.converter;
 
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusProduct;
-import org.dromara.dante.security.converter.AbstractRegisteredClientTransmitterConverter;
-import org.dromara.dante.security.domain.RegisteredClientTransmitter;
+import cn.herodotus.dante.security.converter.AbstractRegisteredClientTransmitterConverter;
+import cn.herodotus.dante.security.domain.RegisteredClientTransmitter;
 
 /**
  * <p>Description: {@link HerodotusProduct} 转 {@link RegisteredClientTransmitter }  转换器</p>

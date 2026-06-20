@@ -30,8 +30,8 @@ import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import cn.herodotus.thingsbrain.kernel.commons.enums.TopicCategory;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
-import org.dromara.dante.core.constant.SymbolConstants;
-import org.dromara.dante.core.utils.StringTemplateUtils;
+import cn.herodotus.dante.core.constant.SymbolConstants;
+import cn.herodotus.dante.core.utils.StringTemplateUtils;
 
 import java.util.Map;
 

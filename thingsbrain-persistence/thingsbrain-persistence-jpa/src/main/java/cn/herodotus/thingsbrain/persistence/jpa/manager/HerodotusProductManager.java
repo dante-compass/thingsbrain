@@ -33,8 +33,8 @@ import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunctio
 import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusProductService;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusTslFunctionService;
 import org.apache.commons.collections4.CollectionUtils;
-import org.dromara.dante.security.definition.AuthenticationManager;
-import org.dromara.dante.security.domain.RegisteredClientTransmitter;
+import cn.herodotus.dante.security.definition.AuthenticationManager;
+import cn.herodotus.dante.security.domain.RegisteredClientTransmitter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;

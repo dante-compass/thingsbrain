@@ -29,8 +29,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
-import org.dromara.dante.core.constant.SystemConstants;
-import org.dromara.dante.spring.jackson.ArrayOrStringToListDeserializer;
+import cn.herodotus.dante.core.constant.SystemConstants;
+import cn.herodotus.dante.spring.jackson.ArrayOrStringToListDeserializer;
 import tools.jackson.databind.annotation.JsonDeserialize;
 
 import java.io.Serializable;

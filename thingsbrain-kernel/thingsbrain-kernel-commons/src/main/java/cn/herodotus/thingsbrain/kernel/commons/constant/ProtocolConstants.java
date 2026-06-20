@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.kernel.commons.constant;
 
-import org.dromara.dante.core.constant.BaseConstants;
-import org.dromara.dante.core.constant.SymbolConstants;
+import cn.herodotus.dante.core.constant.BaseConstants;
+import cn.herodotus.dante.core.constant.SymbolConstants;
 
 /**
  * <p>Description: Herodotus Link 通用基础常量 </p>

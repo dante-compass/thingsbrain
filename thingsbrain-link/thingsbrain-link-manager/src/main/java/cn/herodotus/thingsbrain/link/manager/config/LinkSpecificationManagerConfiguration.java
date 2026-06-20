@@ -26,8 +26,8 @@
 package cn.herodotus.thingsbrain.link.manager.config;
 
 import jakarta.annotation.PostConstruct;
-import org.dromara.dante.core.support.factory.StrategyFactory;
-import org.dromara.dante.core.support.file.JsonSchemaFileManager;
+import cn.herodotus.dante.core.support.factory.StrategyFactory;
+import cn.herodotus.dante.core.support.file.JsonSchemaFileManager;
 import cn.herodotus.thingsbrain.link.commons.definition.DataStorageHandler;
 import cn.herodotus.thingsbrain.link.commons.definition.SpecificationManager;
 import cn.herodotus.thingsbrain.link.commons.definition.SpecificationPostManager;

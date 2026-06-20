@@ -26,8 +26,8 @@
 package cn.herodotus.thingsbrain.platform.authentication.emqx;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.dromara.dante.core.domain.SignatureValidationResult;
-import org.dromara.dante.web.definition.SignatureValidator;
+import cn.herodotus.dante.core.domain.SignatureValidationResult;
+import cn.herodotus.dante.web.definition.SignatureValidator;
 import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.enums.AuthType;
 import cn.herodotus.thingsbrain.kernel.commons.utils.DataFormatUtils;

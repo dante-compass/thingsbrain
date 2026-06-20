@@ -28,7 +28,7 @@ package cn.herodotus.thingsbrain.kernel.tsl.definition;
 import cn.herodotus.thingsbrain.kernel.tsl.DimensionFactory;
 import cn.herodotus.thingsbrain.kernel.tsl.Specification;
 import cn.herodotus.thingsbrain.kernel.tsl.domain.*;
-import org.dromara.thingsbrain.kernel.tsl.domain.*;
+import cn.herodotus.thingsbrain.kernel.tsl.domain.*;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.AccessMode;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
 import org.springframework.core.convert.converter.Converter;

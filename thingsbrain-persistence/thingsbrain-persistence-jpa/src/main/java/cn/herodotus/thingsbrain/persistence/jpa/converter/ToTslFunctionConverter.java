@@ -30,7 +30,7 @@ import cn.herodotus.thingsbrain.persistence.commons.domain.TslFunction;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslArgument;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
 import org.apache.commons.collections4.CollectionUtils;
-import org.dromara.dante.data.jpa.converter.AbstractToAuditEntityConverter;
+import cn.herodotus.dante.data.jpa.converter.AbstractToAuditEntityConverter;
 import org.springframework.core.convert.converter.Converter;
 
 import java.util.Set;

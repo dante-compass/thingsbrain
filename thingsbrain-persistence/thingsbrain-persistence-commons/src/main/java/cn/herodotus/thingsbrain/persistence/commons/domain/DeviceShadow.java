@@ -27,7 +27,7 @@ package cn.herodotus.thingsbrain.persistence.commons.domain;
 
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.dromara.dante.data.commons.entity.AbstractAuditEntity;
+import cn.herodotus.dante.data.commons.entity.AbstractAuditEntity;
 
 /**
  * <p>Description: 物联网设备影子统一实体定义 </p>

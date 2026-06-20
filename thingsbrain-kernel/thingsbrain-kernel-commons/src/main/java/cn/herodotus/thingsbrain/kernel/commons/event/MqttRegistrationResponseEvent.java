@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.kernel.commons.event;
 
 import cn.herodotus.thingsbrain.kernel.commons.enums.AuthType;
-import org.dromara.dante.message.commons.definition.event.AbstractApplicationEvent;
+import cn.herodotus.dante.message.commons.definition.event.AbstractApplicationEvent;
 
 import java.time.Clock;
 

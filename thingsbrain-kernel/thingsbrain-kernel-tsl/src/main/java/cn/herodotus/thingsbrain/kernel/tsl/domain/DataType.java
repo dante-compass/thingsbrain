@@ -33,7 +33,7 @@ import com.google.common.base.MoreObjects;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.Specs;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.ArgumentType;
 import cn.herodotus.thingsbrain.kernel.tsl.jackson2.SpecificationViews;
-import org.dromara.thingsbrain.kernel.tsl.specs.*;
+import cn.herodotus.thingsbrain.kernel.tsl.specs.*;
 
 /**
  * <p>Description: 物模型数据类型对象定义 </p>

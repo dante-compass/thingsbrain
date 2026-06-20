@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.kernel.commons.definition.domain;
 
 import com.google.common.base.MoreObjects;
-import org.dromara.dante.core.domain.BaseModel;
+import cn.herodotus.dante.core.domain.BaseModel;
 
 /**
  * <p>Description: Herodotus Link 协议数据交互数据实体基础定义 </p>

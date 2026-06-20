@@ -28,7 +28,7 @@ package cn.herodotus.thingsbrain.mqtt.inbound.dispatcher;
 import cn.herodotus.thingsbrain.kernel.commons.enums.TopicCategory;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.MessageDetails;
 import org.apache.commons.lang3.StringUtils;
-import org.dromara.dante.core.constant.SymbolConstants;
+import cn.herodotus.dante.core.constant.SymbolConstants;
 
 /**
  * <p>Description: TODO </p>

@@ -33,7 +33,7 @@ import cn.herodotus.thingsbrain.persistence.commons.enums.Retain;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.generator.HerodotusMqttAuthorityUuidGenerator;
 import com.google.common.base.MoreObjects;
 import jakarta.persistence.*;
-import org.dromara.dante.data.jpa.entity.AbstractSysEntity;
+import cn.herodotus.dante.data.jpa.entity.AbstractSysEntity;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**

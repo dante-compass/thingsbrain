@@ -33,7 +33,7 @@ import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.job.Job;
 import cn.herodotus.thingsbrain.kernel.link.domain.job.TaskDetail;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractSysInboundMessageHandler;
-import org.dromara.dante.core.function.ThrowableBiFunction;
+import cn.herodotus.dante.core.function.ThrowableBiFunction;
 import cn.herodotus.thingsbrain.link.commons.definition.DeviceJobManager;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;

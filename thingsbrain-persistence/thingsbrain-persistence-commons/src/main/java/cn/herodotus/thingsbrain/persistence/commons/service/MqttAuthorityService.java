@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.persistence.commons.service;
 
 import cn.herodotus.thingsbrain.persistence.commons.domain.MqttAuthority;
-import org.dromara.dante.data.commons.service.BaseWriteAndPageService;
+import cn.herodotus.dante.data.commons.service.BaseWriteAndPageService;
 
 /**
  * <p>Description: 物联网 Mqtt 权限管理统一定义 Service</p>

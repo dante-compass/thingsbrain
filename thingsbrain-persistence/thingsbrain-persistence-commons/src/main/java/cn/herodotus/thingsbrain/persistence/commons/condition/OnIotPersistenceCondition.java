@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.persistence.commons.condition;
 
-import org.dromara.dante.spring.condition.AbstractEnumSpringBootCondition;
+import cn.herodotus.dante.spring.condition.AbstractEnumSpringBootCondition;
 
 import java.lang.annotation.Annotation;
 

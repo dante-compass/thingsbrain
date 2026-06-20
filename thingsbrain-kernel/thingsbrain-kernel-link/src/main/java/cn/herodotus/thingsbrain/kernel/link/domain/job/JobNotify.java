@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.kernel.link.domain.job;
 
 import com.google.common.base.MoreObjects;
-import org.dromara.dante.core.domain.BaseEntity;
+import cn.herodotus.dante.core.domain.BaseEntity;
 
 /**
  * <p>Description: 设备任务状态更新通知请求参数实体 </p>

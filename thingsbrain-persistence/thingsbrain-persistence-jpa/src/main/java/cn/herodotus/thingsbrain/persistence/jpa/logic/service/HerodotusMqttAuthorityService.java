@@ -27,8 +27,8 @@ package cn.herodotus.thingsbrain.persistence.jpa.logic.service;
 
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttAuthority;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.repository.HerodotusMqttAuthorityRepository;
-import org.dromara.dante.data.jpa.repository.BaseJpaRepository;
-import org.dromara.dante.data.jpa.service.AbstractJpaService;
+import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
+import cn.herodotus.dante.data.jpa.service.AbstractJpaService;
 import org.springframework.stereotype.Service;
 
 /**

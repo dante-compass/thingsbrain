@@ -37,8 +37,8 @@ import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusDeviceSer
 import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusMqttAccountService;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusMqttCategoryService;
 import org.apache.commons.lang3.ObjectUtils;
-import org.dromara.dante.security.definition.AuthenticationManager;
-import org.dromara.dante.security.domain.RegisteredClientTransmitter;
+import cn.herodotus.dante.security.definition.AuthenticationManager;
+import cn.herodotus.dante.security.domain.RegisteredClientTransmitter;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.mqtt.inbound.factory;
 
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.OtaInboundMessageHandler;
-import org.dromara.dante.core.support.factory.AbstractStrategyFactory;
+import cn.herodotus.dante.core.support.factory.AbstractStrategyFactory;
 
 import java.util.Map;
 

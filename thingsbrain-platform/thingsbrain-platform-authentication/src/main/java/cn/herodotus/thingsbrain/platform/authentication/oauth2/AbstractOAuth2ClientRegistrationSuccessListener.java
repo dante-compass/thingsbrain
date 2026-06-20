@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.platform.authentication.oauth2;
 
 import org.apache.commons.lang3.StringUtils;
-import org.dromara.dante.security.domain.RegisteredClientTransmitter;
+import cn.herodotus.dante.security.domain.RegisteredClientTransmitter;
 import cn.herodotus.thingsbrain.persistence.commons.domain.Device;
 import cn.herodotus.thingsbrain.persistence.commons.domain.Product;
 import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;

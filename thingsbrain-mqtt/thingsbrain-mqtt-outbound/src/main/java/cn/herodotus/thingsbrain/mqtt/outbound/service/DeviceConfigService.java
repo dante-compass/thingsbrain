@@ -31,7 +31,7 @@ import cn.herodotus.thingsbrain.kernel.link.domain.config.ConfigDomain;
 import cn.herodotus.thingsbrain.kernel.link.domain.config.LogConfigDomain;
 import cn.herodotus.thingsbrain.kernel.link.domain.config.LogContentDomain;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
-import org.dromara.dante.security.domain.UserPrincipal;
+import cn.herodotus.dante.security.domain.UserPrincipal;
 import org.springframework.stereotype.Service;
 
 /**

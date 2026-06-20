@@ -26,9 +26,9 @@
 package cn.herodotus.thingsbrain.platform.authentication.mqtt;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.dromara.dante.core.jackson.JacksonUtils;
-import org.dromara.dante.message.emqx.event.WebhookClientConnectedEvent;
-import org.dromara.dante.spring.context.ServiceContextHolder;
+import cn.herodotus.dante.core.jackson.JacksonUtils;
+import cn.herodotus.dante.message.emqx.event.WebhookClientConnectedEvent;
+import cn.herodotus.dante.spring.context.ServiceContextHolder;
 import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.enums.AuthType;
 import cn.herodotus.thingsbrain.kernel.commons.event.MqttRegistrationResponseEvent;

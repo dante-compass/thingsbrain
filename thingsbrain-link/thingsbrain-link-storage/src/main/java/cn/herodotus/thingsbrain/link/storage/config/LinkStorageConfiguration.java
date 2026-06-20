@@ -26,9 +26,9 @@
 package cn.herodotus.thingsbrain.link.storage.config;
 
 import jakarta.annotation.PostConstruct;
-import org.dromara.dante.core.support.factory.StrategyFactory;
-import org.dromara.dante.nosql.influxdb3.condition.ConditionalOnInfluxDB3;
-import org.dromara.dante.nosql.influxdb3.pool.InfluxDB3ClientObjectPool;
+import cn.herodotus.dante.core.support.factory.StrategyFactory;
+import cn.herodotus.dante.nosql.influxdb3.condition.ConditionalOnInfluxDB3;
+import cn.herodotus.dante.nosql.influxdb3.pool.InfluxDB3ClientObjectPool;
 import cn.herodotus.thingsbrain.link.commons.definition.DataStorageHandler;
 import cn.herodotus.thingsbrain.link.storage.constant.StorageConstants;
 import cn.herodotus.thingsbrain.link.storage.factory.DataStorageStrategyFactory;

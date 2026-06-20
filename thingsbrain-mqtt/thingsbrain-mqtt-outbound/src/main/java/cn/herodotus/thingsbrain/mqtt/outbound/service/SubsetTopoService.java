@@ -30,7 +30,7 @@ import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.link.domain.subset.TopoChange;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
-import org.dromara.dante.security.domain.UserPrincipal;
+import cn.herodotus.dante.security.domain.UserPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

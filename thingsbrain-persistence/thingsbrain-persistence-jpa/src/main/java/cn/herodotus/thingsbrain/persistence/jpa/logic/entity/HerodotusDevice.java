@@ -30,8 +30,8 @@ import cn.herodotus.thingsbrain.persistence.jpa.logic.generator.HerodotusDeviceU
 import cn.hutool.v7.core.data.id.IdUtil;
 import com.google.common.base.MoreObjects;
 import jakarta.persistence.*;
-import org.dromara.dante.data.jpa.entity.AbstractSysEntity;
-import org.dromara.dante.security.definition.RegisteredClientDetails;
+import cn.herodotus.dante.data.jpa.entity.AbstractSysEntity;
+import cn.herodotus.dante.security.definition.RegisteredClientDetails;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.util.HashSet;

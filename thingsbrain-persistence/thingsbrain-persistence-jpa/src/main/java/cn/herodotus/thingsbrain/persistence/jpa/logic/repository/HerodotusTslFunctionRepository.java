@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.persistence.jpa.logic.repository;
 
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
-import org.dromara.dante.data.jpa.repository.BaseJpaRepository;
+import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

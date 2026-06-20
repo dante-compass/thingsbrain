@@ -29,7 +29,7 @@ import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import org.dromara.dante.core.domain.BaseDto;
+import cn.herodotus.dante.core.domain.BaseDto;
 
 import java.util.Map;
 

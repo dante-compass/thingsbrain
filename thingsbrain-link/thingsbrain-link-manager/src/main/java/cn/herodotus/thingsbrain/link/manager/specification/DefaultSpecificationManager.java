@@ -27,7 +27,7 @@ package cn.herodotus.thingsbrain.link.manager.specification;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
-import org.dromara.dante.core.support.file.JsonSchemaFileManager;
+import cn.herodotus.dante.core.support.file.JsonSchemaFileManager;
 import cn.herodotus.thingsbrain.kernel.commons.exception.JsonSchemaValidateErrorException;
 import cn.herodotus.thingsbrain.kernel.tsl.domain.ServiceDimension;
 import cn.herodotus.thingsbrain.kernel.tsl.validator.ArgumentValidator;

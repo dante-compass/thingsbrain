@@ -27,7 +27,7 @@ package cn.herodotus.thingsbrain.persistence.jpa.converter;
 
 import cn.herodotus.thingsbrain.persistence.commons.domain.TslArgument;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslArgument;
-import org.dromara.dante.data.jpa.converter.AbstractFromAuditEntityConverter;
+import cn.herodotus.dante.data.jpa.converter.AbstractFromAuditEntityConverter;
 
 /**
  * <p>Description: {@link TslArgument} 转 {@link HerodotusTslArgument} 转换器 </p>

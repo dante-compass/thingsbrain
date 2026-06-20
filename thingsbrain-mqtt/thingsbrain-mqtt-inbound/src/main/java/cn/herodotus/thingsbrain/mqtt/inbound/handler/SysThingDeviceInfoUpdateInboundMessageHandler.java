@@ -32,7 +32,7 @@ import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessin
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.tag.Attribute;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractSysInboundMessageHandler;
-import org.dromara.dante.core.function.ThrowableBiFunction;
+import cn.herodotus.dante.core.function.ThrowableBiFunction;
 import cn.herodotus.thingsbrain.link.commons.definition.DeviceTagManager;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;

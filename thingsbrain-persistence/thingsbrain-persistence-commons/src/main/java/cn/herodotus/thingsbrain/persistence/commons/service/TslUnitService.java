@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.persistence.commons.service;
 
 import cn.herodotus.thingsbrain.persistence.commons.domain.TslUnit;
-import org.dromara.dante.data.commons.service.BaseWriteAndPageService;
+import cn.herodotus.dante.data.commons.service.BaseWriteAndPageService;
 
 import java.util.List;
 

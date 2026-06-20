@@ -26,8 +26,8 @@
 package cn.herodotus.thingsbrain.platform.autoconfigure;
 
 import jakarta.annotation.PostConstruct;
-import org.dromara.dante.core.function.EnumDictionaryBuilderCustomizer;
-import org.dromara.dante.core.function.ErrorCodeMapperBuilderCustomizer;
+import cn.herodotus.dante.core.function.EnumDictionaryBuilderCustomizer;
+import cn.herodotus.dante.core.function.ErrorCodeMapperBuilderCustomizer;
 import cn.herodotus.thingsbrain.platform.autoconfigure.customizer.PlatformEnumDictionaryBuilderCustomizer;
 import cn.herodotus.thingsbrain.platform.autoconfigure.customizer.PlatformErrorCodeMapperBuilderCustomizer;
 import cn.herodotus.thingsbrain.platform.authentication.config.PlatformRegistrationConfiguration;

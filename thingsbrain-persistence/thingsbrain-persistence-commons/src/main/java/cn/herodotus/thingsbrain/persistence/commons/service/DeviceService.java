@@ -27,7 +27,7 @@ package cn.herodotus.thingsbrain.persistence.commons.service;
 
 import cn.herodotus.thingsbrain.persistence.commons.domain.Device;
 import cn.herodotus.thingsbrain.persistence.commons.domain.DeviceConnection;
-import org.dromara.dante.data.commons.service.BaseWriteAndPageService;
+import cn.herodotus.dante.data.commons.service.BaseWriteAndPageService;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;

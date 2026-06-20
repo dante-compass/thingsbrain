@@ -27,7 +27,7 @@ package cn.herodotus.thingsbrain.kernel.tsl.validator;
 
 import cn.hutool.v7.core.io.file.FileUtil;
 import org.apache.commons.lang3.Strings;
-import org.dromara.dante.core.jackson.JacksonUtils;
+import cn.herodotus.dante.core.jackson.JacksonUtils;
 import cn.herodotus.thingsbrain.kernel.commons.domain.ValidationResult;
 import cn.herodotus.thingsbrain.kernel.tsl.domain.Argument;
 import cn.herodotus.thingsbrain.kernel.tsl.domain.ServiceDimension;

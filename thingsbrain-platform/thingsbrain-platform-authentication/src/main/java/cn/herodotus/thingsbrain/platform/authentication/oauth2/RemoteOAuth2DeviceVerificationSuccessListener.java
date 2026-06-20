@@ -25,9 +25,9 @@
 
 package cn.herodotus.thingsbrain.platform.authentication.oauth2;
 
-import org.dromara.dante.core.jackson.JacksonUtils;
-import org.dromara.dante.oauth2.authorization.autoconfigure.bus.RemoteOAuth2DeviceVerificationSuccessEvent;
-import org.dromara.dante.security.domain.DeviceVerificationTransmitter;
+import cn.herodotus.dante.core.jackson.JacksonUtils;
+import cn.herodotus.dante.oauth2.authorization.autoconfigure.bus.RemoteOAuth2DeviceVerificationSuccessEvent;
+import cn.herodotus.dante.security.domain.DeviceVerificationTransmitter;
 import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

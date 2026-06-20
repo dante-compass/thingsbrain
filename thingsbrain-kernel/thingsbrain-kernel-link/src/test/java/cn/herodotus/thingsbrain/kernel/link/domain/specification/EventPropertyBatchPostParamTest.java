@@ -28,7 +28,7 @@ package cn.herodotus.thingsbrain.kernel.link.domain.specification;
 import cn.hutool.v7.core.io.file.FileUtil;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;
-import org.dromara.dante.core.jackson.JacksonUtils;
+import cn.herodotus.dante.core.jackson.JacksonUtils;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

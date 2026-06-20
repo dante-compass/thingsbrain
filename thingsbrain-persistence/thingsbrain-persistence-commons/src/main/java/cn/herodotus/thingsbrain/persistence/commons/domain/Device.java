@@ -28,7 +28,7 @@ package cn.herodotus.thingsbrain.persistence.commons.domain;
 import cn.hutool.v7.core.data.id.IdUtil;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.dromara.dante.data.commons.entity.AbstractSysEntity;
+import cn.herodotus.dante.data.commons.entity.AbstractSysEntity;
 
 /**
  * <p>Description: 物联网设备统一实体定义 </p>

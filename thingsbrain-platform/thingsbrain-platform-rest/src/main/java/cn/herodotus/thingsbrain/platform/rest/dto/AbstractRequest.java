@@ -28,7 +28,7 @@ package cn.herodotus.thingsbrain.platform.rest.dto;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import org.dromara.dante.core.domain.BaseDto;
+import cn.herodotus.dante.core.domain.BaseDto;
 
 /**
  * <p>Description: 请求通用参数抽象定义 </p>

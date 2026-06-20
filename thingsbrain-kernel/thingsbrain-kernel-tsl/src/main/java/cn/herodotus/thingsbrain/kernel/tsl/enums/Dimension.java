@@ -26,8 +26,8 @@
 package cn.herodotus.thingsbrain.kernel.tsl.enums;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.dromara.dante.core.domain.Dictionary;
-import org.dromara.dante.core.domain.DictionaryEnum;
+import cn.herodotus.dante.core.domain.Dictionary;
+import cn.herodotus.dante.core.domain.DictionaryEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;

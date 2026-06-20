@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.commons.constant;
 
-import org.dromara.dante.core.constant.SymbolConstants;
+import cn.herodotus.dante.core.constant.SymbolConstants;
 
 /**
  * <p>Description: 物联网 Link 协议主题常量 </p>

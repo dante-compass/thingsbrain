@@ -31,7 +31,7 @@ import cn.herodotus.thingsbrain.kernel.tsl.enums.ArgumentType;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
-import org.dromara.dante.data.commons.entity.AbstractAuditEntity;
+import cn.herodotus.dante.data.commons.entity.AbstractAuditEntity;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
 

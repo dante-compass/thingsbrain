@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.kernel.commons.constant;
 
-import org.dromara.dante.core.feedback.InternalServerErrorFeedback;
-import org.dromara.dante.core.feedback.PreconditionFailedFeedback;
+import cn.herodotus.dante.core.feedback.InternalServerErrorFeedback;
+import cn.herodotus.dante.core.feedback.PreconditionFailedFeedback;
 
 /**
  * <p>Description: 系统核心错误代码 </p>

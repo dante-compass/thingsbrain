@@ -30,8 +30,8 @@ import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.dromara.dante.core.constant.SystemConstants;
-import org.dromara.dante.core.domain.BaseEntity;
+import cn.herodotus.dante.core.constant.SystemConstants;
+import cn.herodotus.dante.core.domain.BaseEntity;
 
 import java.time.LocalDateTime;
 

@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.platform.commons.domain;
 
 import com.google.common.base.MoreObjects;
-import org.dromara.dante.core.domain.BaseModel;
+import cn.herodotus.dante.core.domain.BaseModel;
 
 /**
  * <p>Description: Emqx Http 认证返回结果 </p>

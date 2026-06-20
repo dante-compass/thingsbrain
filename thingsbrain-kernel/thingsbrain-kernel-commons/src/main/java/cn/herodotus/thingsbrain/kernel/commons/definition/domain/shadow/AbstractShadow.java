@@ -27,8 +27,8 @@ package cn.herodotus.thingsbrain.kernel.commons.definition.domain.shadow;
 
 import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import org.apache.commons.lang3.Strings;
-import org.dromara.dante.core.constant.SymbolConstants;
-import org.dromara.dante.core.domain.BaseEntity;
+import cn.herodotus.dante.core.constant.SymbolConstants;
+import cn.herodotus.dante.core.domain.BaseEntity;
 
 import java.util.Map;
 import java.util.stream.Collectors;

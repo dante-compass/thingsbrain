@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.platform.authentication.oauth2;
 
 import org.apache.commons.lang3.StringUtils;
-import org.dromara.dante.security.domain.DeviceVerificationTransmitter;
+import cn.herodotus.dante.security.domain.DeviceVerificationTransmitter;
 import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

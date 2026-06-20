@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.platform.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.dromara.dante.core.domain.BaseEntity;
+import cn.herodotus.dante.core.domain.BaseEntity;
 
 import java.util.HashMap;
 import java.util.Map;

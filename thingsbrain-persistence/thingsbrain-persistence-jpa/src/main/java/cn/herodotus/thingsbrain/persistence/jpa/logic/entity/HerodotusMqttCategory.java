@@ -30,7 +30,7 @@ import cn.herodotus.thingsbrain.persistence.commons.enums.Action;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Area;
 import com.google.common.base.MoreObjects;
 import jakarta.persistence.*;
-import org.dromara.dante.data.jpa.entity.AbstractSysEntity;
+import cn.herodotus.dante.data.jpa.entity.AbstractSysEntity;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;

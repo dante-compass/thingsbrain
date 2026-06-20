@@ -29,8 +29,8 @@ import cn.herodotus.thingsbrain.persistence.commons.constant.PersistenceConstant
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.base.MoreObjects;
 import jakarta.persistence.*;
-import org.dromara.dante.core.constant.SystemConstants;
-import org.dromara.dante.core.domain.BaseEntity;
+import cn.herodotus.dante.core.constant.SystemConstants;
+import cn.herodotus.dante.core.domain.BaseEntity;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.UuidGenerator;
 

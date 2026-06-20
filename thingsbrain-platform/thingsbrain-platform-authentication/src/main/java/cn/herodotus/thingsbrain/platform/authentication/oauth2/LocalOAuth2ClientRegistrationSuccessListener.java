@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.platform.authentication.oauth2;
 
-import org.dromara.dante.oauth2.commons.event.OAuth2ClientRegistrationSuccessEvent;
-import org.dromara.dante.security.domain.RegisteredClientTransmitter;
+import cn.herodotus.dante.oauth2.commons.event.OAuth2ClientRegistrationSuccessEvent;
+import cn.herodotus.dante.security.domain.RegisteredClientTransmitter;
 import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

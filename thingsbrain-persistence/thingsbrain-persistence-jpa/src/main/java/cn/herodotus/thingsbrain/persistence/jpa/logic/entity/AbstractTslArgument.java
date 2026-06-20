@@ -31,7 +31,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.MappedSuperclass;
-import org.dromara.dante.data.jpa.entity.AbstractAuditEntity;
+import cn.herodotus.dante.data.jpa.entity.AbstractAuditEntity;
 
 /**
  * <p>Description: 物模型 Attribute 公共属性 </p>

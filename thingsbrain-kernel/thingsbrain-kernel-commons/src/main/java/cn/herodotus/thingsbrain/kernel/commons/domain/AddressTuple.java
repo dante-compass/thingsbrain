@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.kernel.commons.domain;
 
 import com.google.common.base.MoreObjects;
-import org.dromara.dante.core.domain.BaseEntity;
+import cn.herodotus.dante.core.domain.BaseEntity;
 
 /**
  * <p>Description: Mqtt 地址信息 </p>

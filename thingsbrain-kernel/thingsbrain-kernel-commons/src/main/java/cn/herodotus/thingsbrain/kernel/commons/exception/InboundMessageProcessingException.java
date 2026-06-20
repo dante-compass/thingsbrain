@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.commons.exception;
 
-import org.dromara.dante.core.exception.PlatformException;
+import cn.herodotus.dante.core.exception.PlatformException;
 
 /**
  * <p>Description: 入站消息处理异常 </p>

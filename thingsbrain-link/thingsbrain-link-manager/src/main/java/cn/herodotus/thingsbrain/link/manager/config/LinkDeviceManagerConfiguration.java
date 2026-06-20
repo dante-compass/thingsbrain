@@ -28,7 +28,7 @@ package cn.herodotus.thingsbrain.link.manager.config;
 import cn.herodotus.thingsbrain.link.commons.definition.*;
 import cn.herodotus.thingsbrain.link.manager.device.*;
 import jakarta.annotation.PostConstruct;
-import org.dromara.thingsbrain.link.manager.device.*;
+import cn.herodotus.thingsbrain.link.manager.device.*;
 import cn.herodotus.thingsbrain.persistence.commons.service.DeviceShadowService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -28,8 +28,8 @@ package cn.herodotus.thingsbrain.kernel.commons.domain;
 import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.google.common.base.MoreObjects;
-import org.dromara.dante.core.jackson.JacksonUtils;
-import org.dromara.dante.core.utils.StringTemplateUtils;
+import cn.herodotus.dante.core.jackson.JacksonUtils;
+import cn.herodotus.dante.core.utils.StringTemplateUtils;
 
 import java.util.Map;
 

@@ -26,10 +26,10 @@
 package cn.herodotus.thingsbrain.mqtt.autoconfigure;
 
 import jakarta.annotation.PostConstruct;
-import org.dromara.dante.core.utils.ListUtils;
-import org.dromara.dante.message.autoconfigure.emqx.IntegrationEmqxAutoConfiguration;
-import org.dromara.dante.message.autoconfigure.mqtt.MqttProperties;
-import org.dromara.dante.message.commons.constant.Channels;
+import cn.herodotus.dante.core.utils.ListUtils;
+import cn.herodotus.dante.message.autoconfigure.emqx.IntegrationEmqxAutoConfiguration;
+import cn.herodotus.dante.message.autoconfigure.mqtt.MqttProperties;
+import cn.herodotus.dante.message.commons.constant.Channels;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttMessageHandler;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttSubscribeTopicAppenderListener;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttTopicProperties;

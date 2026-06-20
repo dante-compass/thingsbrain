@@ -30,7 +30,7 @@ import cn.herodotus.thingsbrain.persistence.jpa.manager.HerodotusDeviceManager;
 import cn.herodotus.thingsbrain.persistence.jpa.manager.HerodotusProductManager;
 import cn.herodotus.thingsbrain.persistence.jpa.manager.HerodotusTslFunctionManager;
 import jakarta.annotation.PostConstruct;
-import org.dromara.dante.security.definition.AuthenticationManager;
+import cn.herodotus.dante.security.definition.AuthenticationManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.persistence.autoconfigure.EntityScan;
@@ -47,13 +47,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  */
 @Configuration(proxyBeanMethods = false)
 @EntityScan(basePackages = {
-        "org.dromara.thingsbrain.persistence.jpa.logic.entity"
+        "cn.herodotus.thingsbrain.persistence.jpa.logic.entity"
 })
 @EnableJpaRepositories(basePackages = {
-        "org.dromara.thingsbrain.persistence.jpa.logic.repository",
+        "cn.herodotus.thingsbrain.persistence.jpa.logic.repository",
 })
 @ComponentScan(basePackages = {
-        "org.dromara.thingsbrain.persistence.jpa.logic.service",
+        "cn.herodotus.thingsbrain.persistence.jpa.logic.service",
 })
 class LogicConfiguration {
 

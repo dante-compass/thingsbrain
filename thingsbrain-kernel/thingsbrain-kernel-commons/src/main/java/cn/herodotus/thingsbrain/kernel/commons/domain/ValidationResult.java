@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.kernel.commons.domain;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.dromara.dante.core.constant.SymbolConstants;
+import cn.herodotus.dante.core.constant.SymbolConstants;
 
 import java.io.Serializable;
 import java.util.List;

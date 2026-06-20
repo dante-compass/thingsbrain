@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.platform.authentication.emqx;
 
-import org.dromara.dante.message.emqx.domain.SystemClientConnected;
-import org.dromara.dante.message.emqx.event.SystemClientConnectedEvent;
+import cn.herodotus.dante.message.emqx.domain.SystemClientConnected;
+import cn.herodotus.dante.message.emqx.event.SystemClientConnectedEvent;
 import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.utils.DataFormatUtils;
 import cn.herodotus.thingsbrain.persistence.commons.domain.DeviceConnection;

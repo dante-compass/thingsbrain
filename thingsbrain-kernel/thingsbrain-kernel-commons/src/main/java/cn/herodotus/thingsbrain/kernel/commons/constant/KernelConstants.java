@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.commons.constant;
 
-import org.dromara.dante.core.constant.BaseConstants;
+import cn.herodotus.dante.core.constant.BaseConstants;
 
 /**
  * <p>Description: Link 协议涉及常量 </p>

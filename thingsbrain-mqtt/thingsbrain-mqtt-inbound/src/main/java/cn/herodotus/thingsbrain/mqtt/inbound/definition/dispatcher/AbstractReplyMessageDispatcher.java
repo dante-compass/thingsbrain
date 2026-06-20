@@ -32,7 +32,7 @@ import cn.herodotus.thingsbrain.mqtt.inbound.definition.MessageDetails;
 import cn.herodotus.thingsbrain.mqtt.inbound.response.InboundMessageReplyProcessor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.dromara.dante.core.jackson.JsonNodeUtils;
+import cn.herodotus.dante.core.jackson.JsonNodeUtils;
 import tools.jackson.databind.JsonNode;
 
 import java.util.Optional;

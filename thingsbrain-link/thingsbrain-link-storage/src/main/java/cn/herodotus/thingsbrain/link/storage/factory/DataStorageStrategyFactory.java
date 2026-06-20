@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.link.storage.factory;
 
-import org.dromara.dante.core.support.factory.AbstractStrategyFactory;
+import cn.herodotus.dante.core.support.factory.AbstractStrategyFactory;
 import cn.herodotus.thingsbrain.link.commons.definition.DataStorageHandler;
 import cn.herodotus.thingsbrain.link.storage.constant.StorageConstants;
 

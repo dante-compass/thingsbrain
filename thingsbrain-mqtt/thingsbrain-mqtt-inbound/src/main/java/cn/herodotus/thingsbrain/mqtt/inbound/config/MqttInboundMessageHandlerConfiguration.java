@@ -48,7 +48,7 @@ import java.util.Map;
  */
 @Configuration(proxyBeanMethods = false)
 @ComponentScan(basePackages = {
-        "org.dromara.thingsbrain.mqtt.inbound.handler",
+        "cn.herodotus.thingsbrain.mqtt.inbound.handler",
 })
 class MqttInboundMessageHandlerConfiguration {
 

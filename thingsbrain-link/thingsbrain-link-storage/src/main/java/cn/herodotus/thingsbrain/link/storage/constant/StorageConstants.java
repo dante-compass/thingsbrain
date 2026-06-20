@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.link.storage.constant;
 
-import org.dromara.dante.core.constant.SymbolConstants;
+import cn.herodotus.dante.core.constant.SymbolConstants;
 import cn.herodotus.thingsbrain.link.commons.constant.LinkConstants;
 
 /**

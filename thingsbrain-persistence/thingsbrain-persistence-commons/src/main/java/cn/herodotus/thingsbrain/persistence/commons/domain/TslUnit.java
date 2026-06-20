@@ -27,7 +27,7 @@ package cn.herodotus.thingsbrain.persistence.commons.domain;
 
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.dromara.dante.data.commons.entity.AbstractEntity;
+import cn.herodotus.dante.data.commons.entity.AbstractEntity;
 
 /**
  * <p>Description: 物联网物模型单位统一定义 </p>

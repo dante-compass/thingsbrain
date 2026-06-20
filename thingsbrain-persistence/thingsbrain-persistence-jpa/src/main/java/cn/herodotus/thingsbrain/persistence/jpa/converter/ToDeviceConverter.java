@@ -29,7 +29,7 @@ import cn.herodotus.thingsbrain.persistence.commons.domain.Device;
 import cn.herodotus.thingsbrain.persistence.commons.domain.Product;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusDevice;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusProduct;
-import org.dromara.dante.data.jpa.converter.AbstractToSysEntityConverter;
+import cn.herodotus.dante.data.jpa.converter.AbstractToSysEntityConverter;
 import org.springframework.core.convert.converter.Converter;
 
 /**

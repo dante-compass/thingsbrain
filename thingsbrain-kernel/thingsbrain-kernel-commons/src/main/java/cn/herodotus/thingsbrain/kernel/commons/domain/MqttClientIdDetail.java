@@ -27,7 +27,7 @@ package cn.herodotus.thingsbrain.kernel.commons.domain;
 
 import com.google.common.base.MoreObjects;
 import org.apache.commons.lang3.StringUtils;
-import org.dromara.dante.core.domain.BaseEntity;
+import cn.herodotus.dante.core.domain.BaseEntity;
 
 /**
  * <p>Description: Mqtt 客户端 ID 详情 </p>

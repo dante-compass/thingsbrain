@@ -51,7 +51,7 @@ public class PlatformRestConfiguration {
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
     @ComponentScan(basePackages = {
-            "org.dromara.thingsbrain.platform.rest.controller.servlet",
+            "cn.herodotus.thingsbrain.platform.rest.controller.servlet",
     })
     static class ServletControllerConfiguration {
 
