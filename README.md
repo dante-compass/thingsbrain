@@ -36,13 +36,13 @@
 
 
 
-# [二]、开源协议
+## [二]、开源协议
 
-## 1. 协议声明
+### 1. 协议声明
 
 ThingsBrain 项目开源协议为 Apache License Version 2.0。可用于个人学习、毕设，允许商业使用，禁止二次开源。严禁搬运至 CSDN 下载等平台进行售卖。
 
-## 2. 补充条款
+### 2. 补充条款
 
 使用时务必遵守以下补充条款。
 
@@ -55,7 +55,7 @@ ThingsBrain 项目开源协议为 Apache License Version 2.0。可用于个人�
 
 如果您确实需要删除作者或版权信息，需要争得作者同意及授权。或者在 [【使用公司及组织】](https://gitee.com/dromara/dante-cloud/issues/ICAOHG) 下进行登记，经作者整理登记信息形成表格后，可视为正式授权。
 
-## 五、工程结构
+## [五]、工程结构
 
 ```shell
 herodotus-thingsbrain
@@ -87,9 +87,9 @@ herodotus-thingsbrain
 └──  └── thingsbrain-platform-rest -- 平台功能 REST 接口模块
 ```
 
-# [四]、版本分支
+## [四]、版本分支
 
-## 1. 版本号说明
+### 1. 版本号说明
 
 本系统版本号，分为四段。
 
@@ -99,7 +99,7 @@ herodotus-thingsbrain
 
 本系统未采用传统的、从 1.0.0 开始的版本号，主要基于以下两点考虑：一方面，方便了解对应的 Spring Boot 版本；另一方面，与 Dante Cloud 以及 Dante Engine 匹配对应，以减少不必要麻烦。
 
-## 2. 分支说明
+### 2. 分支说明
 
 |          分支名称          | 对应 Spring 生态版本                          | 对应 JDK 版本 | 用途             | 现状                                                          |
 |:----------------------:|-----------------------------------------|-----------|----------------|-------------------------------------------------------------|
@@ -107,7 +107,7 @@ herodotus-thingsbrain
 |        develop         | Spring Boot 4.1 和 Spring Cloud 2025.1.2 | JDK 25    | Development 分支 | 新功能、ISSUE 均以此分支作为开发，发布后会 PR 至 master 分支                     |
 
 
-# [十]、关注我
+## [十]、关注我
 
 <table align="center">
   <tr>
