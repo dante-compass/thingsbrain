@@ -31,7 +31,7 @@
     <parent>
         <groupId>cn.herodotus.thingsbrain</groupId>
         <artifactId>thingsbrain-link</artifactId>
-        <version>4.1.0.0</version>
+        <version>4.1.0.1</version>
     </parent>
 
     <artifactId>thingsbrain-link-storage</artifactId>
