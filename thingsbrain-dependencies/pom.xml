@@ -36,7 +36,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>org.dromara.thingsbrain</groupId>
+    <groupId>cn.herodotus.thingsbrain</groupId>
     <artifactId>thingsbrain-dependencies</artifactId>
     <name>${project.artifactId}</name>
 
@@ -80,92 +80,92 @@
         <dependencies>
 
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-kernel-commons</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-kernel-link</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-kernel-tsl</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-link-autoconfigure</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-link-commons</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-link-manager</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-link-storage</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-mqtt-autoconfigure</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-mqtt-commons</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-mqtt-inbound</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-mqtt-outbound</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-persistence-autoconfigure</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-persistence-commons</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-persistence-jpa</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-platform-authentication</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-platform-autoconfigure</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-platform-commons</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.dromara.thingsbrain</groupId>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-platform-rest</artifactId>
                 <version>${project.version}</version>
             </dependency>
