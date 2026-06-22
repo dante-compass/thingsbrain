@@ -32,8 +32,24 @@
         </dependency>
 
         <dependency>
-            <groupId>cn.herodotus.dante</groupId>
-            <artifactId>message-mqtt-spring-boot-starter</artifactId>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-mqtt</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+                    <groupId>org.eclipse.paho</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.paho</groupId>
+            <artifactId>org.eclipse.paho.mqttv5.client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-http</artifactId>
         </dependency>
 
     </dependencies>
