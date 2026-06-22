@@ -185,6 +185,7 @@
         <module>thingsbrain-mqtt</module>
         <module>thingsbrain-persistence</module>
         <module>thingsbrain-platform</module>
+        <module>thingsbrain-nosql</module>
     </modules>
 
 </project>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.herodotus.thingsbrain</groupId>
+        <artifactId>thingsbrain-nosql</artifactId>
+        <version>4.1.0.1</version>
+    </parent>
+
+    <artifactId>thingsbrain-nosql-autoconfigure</artifactId>
+    <name>${project.artifactId}</name>
+
+    <description>ThingsBrain 物联网平台时序数据非结构化数据存储自动配置模块</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.herodotus.thingsbrain</groupId>
+            <artifactId>thingsbrain-nosql-influxdb3</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

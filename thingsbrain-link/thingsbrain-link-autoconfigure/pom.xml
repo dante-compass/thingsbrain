@@ -26,8 +26,8 @@
         </dependency>
 
         <dependency>
-            <groupId>cn.herodotus.dante</groupId>
-            <artifactId>nosql-spring-boot-starter</artifactId>
+            <groupId>cn.herodotus.thingsbrain</groupId>
+            <artifactId>thingsbrain-nosql-autoconfigure</artifactId>
         </dependency>
 
 

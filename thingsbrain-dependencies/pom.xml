@@ -136,6 +136,16 @@
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.thingsbrain</groupId>
+                <artifactId>thingsbrain-nosql-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.thingsbrain</groupId>
+                <artifactId>thingsbrain-nosql-influxdb3</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-persistence-autoconfigure</artifactId>
                 <version>${project.version}</version>
             </dependency>

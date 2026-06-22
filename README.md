@@ -74,6 +74,9 @@ herodotus-thingsbrain
 ├    ├── thingsbrain-mqtt-commons -- Mqtt 业务逻辑通用代码模块
 ├    ├── thingsbrain-mqtt-inbound -- Mqtt 入站数据业务逻辑实现代码模块
 ├    └── thingsbrain-mqtt-outbound -- Mqtt 出站数据业务逻辑实现代码模块
+├── thingsbrain-nosql -- NoSQL 非结构化数据存储模块
+├    ├── thingsbrain-nosql-autoconfigure -- 非结构化数据存储自动配置模块
+├    └── thingsbrain-nosql-influxdb3 -- InfluxDB3 封装模块
 ├── thingsbrain-persistence -- 数据持久化相关模块
 ├    ├── thingsbrain-persistence-autoconfigure -- 数据持久化自动配置模块
 ├    ├── thingsbrain-persistence-commons -- 数据持久化通用代码模块
