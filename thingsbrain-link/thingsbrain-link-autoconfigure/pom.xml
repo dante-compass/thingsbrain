@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.herodotus.thingsbrain</groupId>
         <artifactId>thingsbrain-link</artifactId>
-        <version>4.1.0.1</version>
+        <version>4.1.0.2</version>
     </parent>
 
     <artifactId>thingsbrain-link-autoconfigure</artifactId>
@@ -26,8 +26,8 @@
         </dependency>
 
         <dependency>
-            <groupId>cn.herodotus.dante</groupId>
-            <artifactId>nosql-spring-boot-starter</artifactId>
+            <groupId>cn.herodotus.thingsbrain</groupId>
+            <artifactId>thingsbrain-nosql-autoconfigure</artifactId>
         </dependency>
 
 

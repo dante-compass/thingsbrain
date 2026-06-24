@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.link.manager.specification;
 
-import cn.herodotus.dante.cache.jetcache.utils.JetCacheUtils;
+import cn.herodotus.dante.cache.utils.JetCacheUtils;
 import cn.herodotus.dante.core.domain.FileAttributes;
 import cn.herodotus.dante.core.jackson.JacksonUtils;
 import cn.herodotus.dante.core.support.file.JsonSchemaFileManager;

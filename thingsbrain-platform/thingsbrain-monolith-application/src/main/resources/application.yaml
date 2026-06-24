@@ -396,7 +396,7 @@ spring:
           sharedCache:
             mode: ENABLE_SELECTIVE
       hibernate:
-        dialect: cn.herodotus.stirrup.hibernate.dialect.OpenGaussDialect
+        dialect: cn.herodotus.dante.hibernate.dialect.OpenGaussDialect
         format_sql: false
         show_sql: false
         generate_statistics: false
