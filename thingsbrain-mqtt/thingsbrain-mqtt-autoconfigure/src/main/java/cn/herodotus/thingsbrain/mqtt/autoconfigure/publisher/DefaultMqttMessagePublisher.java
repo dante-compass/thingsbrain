@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.mqtt.autoconfigure.publisher;
 
-import cn.herodotus.dante.cache.jetcache.utils.JetCacheUtils;
+import cn.herodotus.dante.cache.utils.JetCacheUtils;
 import cn.herodotus.thingsbrain.mqtt.commons.constant.MqttConstants;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttOperation;
