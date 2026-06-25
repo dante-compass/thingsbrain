@@ -26,7 +26,6 @@
 package cn.herodotus.thingsbrain.mqtt.commons.definition;
 
 import cn.herodotus.dante.core.jackson.JacksonUtils;
-import cn.herodotus.dante.message.commons.domain.MqttMessage;
 import cn.herodotus.dante.message.commons.event.MqttMessageSendingEvent;
 import cn.herodotus.dante.security.domain.UserPrincipal;
 import cn.herodotus.dante.spring.context.ServiceContextHolder;
@@ -36,7 +35,6 @@ import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttOperation;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Optional;
 
@@ -74,20 +72,7 @@ public interface MqttMessagePublisher {
      * @param correlationData 关联数据
      */
     private void publish(String topic, String payload, Integer qos, String responseTopic, String correlationData) {
-        MqttMessage message = new MqttMessage();
-        message.setTopic(topic);
-        message.setPayload(payload);
-        message.setQos(qos);
-
-        if (StringUtils.isNotBlank(responseTopic) && StringUtils.isNotBlank(correlationData)) {
-            message.setResponseTopic(responseTopic);
-        }
-
-        if (StringUtils.isNotBlank(correlationData)) {
-            message.setCorrelationData(responseTopic);
-        }
-
-        ServiceContextHolder.publishEvent(new MqttMessageSendingEvent(message));
+        ServiceContextHolder.publishEvent(new MqttMessageSendingEvent(topic, payload, qos, responseTopic, correlationData));
     }
 
     /**
