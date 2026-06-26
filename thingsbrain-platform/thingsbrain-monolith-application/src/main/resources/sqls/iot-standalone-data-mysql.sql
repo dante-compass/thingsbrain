@@ -379,6 +379,7 @@ INSERT INTO `iot_mqtt_authority` (`authority_id`, `create_time`, `update_time`, 
 INSERT INTO `iot_mqtt_authority` (`authority_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `action`, `permission`, `qos`, `retain`, `topic`) VALUES ('162', '2025-10-13 15:22:00', '2025-10-13 15:22:03', 'system', 0, 'system', NULL, 0, b'1', 0, 'publish', 'allow', 1, 0, 'sys/+/+/thing/job/update');
 INSERT INTO `iot_mqtt_authority` (`authority_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `action`, `permission`, `qos`, `retain`, `topic`) VALUES ('163', '2025-10-13 15:22:00', '2025-10-13 15:22:03', 'system', 0, 'system', NULL, 0, b'1', 0, 'publish', 'allow', 1, 0, 'sys/+/+/thing/file/upload/mqtt/init');
 INSERT INTO `iot_mqtt_authority` (`authority_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `action`, `permission`, `qos`, `retain`, `topic`) VALUES ('164', '2025-10-13 15:22:00', '2025-10-13 15:22:03', 'system', 0, 'system', NULL, 0, b'1', 0, 'publish', 'allow', 1, 0, 'sys/+/+/secure_tunnel/proxy/request');
+INSERT INTO `iot_mqtt_authority` (`authority_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `action`, `permission`, `qos`, `retain`, `topic`) VALUES ('165', '2025-10-13 15:22:00', '2025-10-13 15:22:03', 'system', 0, 'system', NULL, 0, b'1', 0, 'publish', 'allow', 1, 0, '$SYS/brokers/+/clients/#');
 
 -- ----------------------------
 -- Table data for iot_mqtt_category_authority
@@ -547,6 +548,8 @@ INSERT INTO `iot_mqtt_category_authority` (`category_id`, `authority_id`) VALUES
 INSERT INTO `iot_mqtt_category_authority` (`category_id`, `authority_id`) VALUES ('4', '162');
 INSERT INTO `iot_mqtt_category_authority` (`category_id`, `authority_id`) VALUES ('4', '163');
 INSERT INTO `iot_mqtt_category_authority` (`category_id`, `authority_id`) VALUES ('4', '164');
+INSERT INTO `iot_mqtt_category_authority` (`category_id`, `authority_id`) VALUES ('1', '165');
+
 
 -- ----------------------------
 -- Table data for sys_interface_authority
