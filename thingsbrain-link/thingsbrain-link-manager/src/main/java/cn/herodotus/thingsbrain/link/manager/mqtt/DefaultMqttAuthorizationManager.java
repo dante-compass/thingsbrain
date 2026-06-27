@@ -47,6 +47,6 @@ public class DefaultMqttAuthorizationManager implements MqttAuthorizationManager
 
     @Override
     public Optional<MqttCategory> findSubscribeCategoryForPlatform() {
-        return mqttCategoryService.findSubscribeCategoryForPlatform();
+        return mqttCategoryService.findSubscribeLinkCategoryForPlatform();
     }
 }

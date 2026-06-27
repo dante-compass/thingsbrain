@@ -79,8 +79,8 @@ public class JpaMqttCategoryService implements MqttCategoryService {
     }
 
     @Override
-    public Optional<MqttCategory> findSubscribeCategoryForPlatform() {
-        Optional<HerodotusMqttCategory> optional = delegate.findSubscribeCategoryForPlatform();
+    public Optional<MqttCategory> findSubscribeLinkCategoryForPlatform() {
+        Optional<HerodotusMqttCategory> optional = delegate.findSubscribeLinkCategoryForPlatform();
         return optional.map(toMqttCategory::convert);
     }
 }

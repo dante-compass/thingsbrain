@@ -114,7 +114,7 @@ public class HerodotusDeviceManager {
     private void enableMqttIdentify(HerodotusDevice domain) {
         HerodotusMqttAccount account = toMqttAccount.convert(domain);
 
-        Set<HerodotusMqttCategory> categories = herodotusMqttCategoryService.findStandardCategoryForDevice();
+        Set<HerodotusMqttCategory> categories = herodotusMqttCategoryService.findCategoryForDevice();
         account.setCategories(categories);
 
         herodotusMqttAccountService.save(account);

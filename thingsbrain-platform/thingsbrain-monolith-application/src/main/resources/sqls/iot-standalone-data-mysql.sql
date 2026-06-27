@@ -199,16 +199,18 @@ INSERT INTO `iot_mqtt_account` (`account_id`, `create_time`, `update_time`, `cre
 -- ----------------------------
 -- Table data for iot_mqtt_account_category
 -- ----------------------------
-INSERT INTO `iot_mqtt_category` (`category_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `action`, `area`, `category_name`, `is_standard`) VALUES ('1', '2025-10-07 22:44:22', '2025-10-07 22:44:24', 'system', 0, 'system', 'ThingsBrain平台端订阅主题分类', 0, b'1', 0, 'subscribe', 'PLATFORM', 'ThingsBrain平台端订阅主题分类', 'f');
-INSERT INTO `iot_mqtt_category` (`category_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `action`, `area`, `category_name`, `is_standard`) VALUES ('2', '2025-10-07 22:45:42', '2025-10-07 22:45:44', 'system', 0, 'system', 'ThingsBrain平台端发布主题分类', 0, b'1', 0, 'publish', 'PLATFORM', 'ThingsBrain平台端发布主题分类', 't');
-INSERT INTO `iot_mqtt_category` (`category_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `action`, `area`, `category_name`, `is_standard`) VALUES ('4', '2025-10-07 22:45:42', '2025-10-07 22:45:44', 'system', 0, 'system', '物联网设备端订阅主题分类', 0, b'1', 0, 'subscribe', 'DEVICE', '物联网设备端订阅主题分类', 't');
-INSERT INTO `iot_mqtt_category` (`category_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `action`, `area`, `category_name`, `is_standard`) VALUES ('3', '2025-10-07 22:45:42', '2025-10-07 22:45:44', 'system', 0, 'system', '物联网设备端发布主题分类', 0, b'1', 0, 'publish', 'DEVICE', '物联网设备端发布主题分类', 't');
+INSERT INTO `iot_mqtt_category` (`category_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `action`, `area`, `category_name`, `purpose`) VALUES ('1', '2025-10-07 22:44:22', '2025-10-07 22:44:24', 'system', 0, 'system', '自定义Link协议平台端订阅主题分类', 0, b'1', 0, 'subscribe', 'PLATFORM', '自定义Link协议平台端订阅主题分类', 'LINK');
+INSERT INTO `iot_mqtt_category` (`category_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `action`, `area`, `category_name`, `purpose`) VALUES ('2', '2025-10-07 22:45:42', '2025-10-07 22:45:44', 'system', 0, 'system', '自定义Link协议平台端发布主题分类', 0, b'1', 0, 'publish', 'PLATFORM', '自定义Link协议平台端发布主题分类', 'LINK');
+INSERT INTO `iot_mqtt_category` (`category_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `action`, `area`, `category_name`, `purpose`) VALUES ('4', '2025-10-07 22:45:42', '2025-10-07 22:45:44', 'system', 0, 'system', '自定义Link协议设备端订阅主题分类', 0, b'1', 0, 'subscribe', 'DEVICE', '自定义Link协议设备端订阅主题分类', 'LINK');
+INSERT INTO `iot_mqtt_category` (`category_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `action`, `area`, `category_name`, `purpose`) VALUES ('3', '2025-10-07 22:45:42', '2025-10-07 22:45:44', 'system', 0, 'system', '自定义Link协议设备端发布主题分类', 0, b'1', 0, 'publish', 'DEVICE', '自定义Link协议设备端发布主题分类', 'LINK');
+INSERT INTO `iot_mqtt_category` (`category_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `action`, `area`, `category_name`, `purpose`) VALUES ('5', '2025-10-07 22:45:42', '2025-10-07 22:45:44', 'system', 0, 'system', '物联网平台核心订阅主题分类', 0, b'1', 0, 'subscribe', 'PLATFORM', '物联网平台核心订阅主题分类', 'KERNEL');
 
 -- ----------------------------
 -- Table data for iot_mqtt_category
 -- ----------------------------
 INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('thingsbrain-platform', '1');
 INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('thingsbrain-platform', '2');
+INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('thingsbrain-platform', '5');
 -- INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('83a59414-04b9-4e83-af8a-a756a2e8f01f', '4');
 -- INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('83a59414-04b9-4e83-af8a-a756a2e8f01f', '3');
 
@@ -379,7 +381,7 @@ INSERT INTO `iot_mqtt_authority` (`authority_id`, `create_time`, `update_time`, 
 INSERT INTO `iot_mqtt_authority` (`authority_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `action`, `permission`, `qos`, `retain`, `topic`) VALUES ('162', '2025-10-13 15:22:00', '2025-10-13 15:22:03', 'system', 0, 'system', NULL, 0, b'1', 0, 'publish', 'allow', 1, 0, 'sys/+/+/thing/job/update');
 INSERT INTO `iot_mqtt_authority` (`authority_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `action`, `permission`, `qos`, `retain`, `topic`) VALUES ('163', '2025-10-13 15:22:00', '2025-10-13 15:22:03', 'system', 0, 'system', NULL, 0, b'1', 0, 'publish', 'allow', 1, 0, 'sys/+/+/thing/file/upload/mqtt/init');
 INSERT INTO `iot_mqtt_authority` (`authority_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `action`, `permission`, `qos`, `retain`, `topic`) VALUES ('164', '2025-10-13 15:22:00', '2025-10-13 15:22:03', 'system', 0, 'system', NULL, 0, b'1', 0, 'publish', 'allow', 1, 0, 'sys/+/+/secure_tunnel/proxy/request');
-INSERT INTO `iot_mqtt_authority` (`authority_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `action`, `permission`, `qos`, `retain`, `topic`) VALUES ('165', '2025-10-13 15:22:00', '2025-10-13 15:22:03', 'system', 0, 'system', NULL, 0, b'1', 0, 'publish', 'allow', 1, 0, '$SYS/brokers/+/clients/#');
+INSERT INTO `iot_mqtt_authority` (`authority_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `action`, `permission`, `qos`, `retain`, `topic`) VALUES ('165', '2025-10-13 15:22:00', '2025-10-13 15:22:03', 'system', 0, 'system', NULL, 0, b'1', 0, 'subscribe', 'allow', 1, 0, '$SYS/brokers/+/clients/#');
 
 -- ----------------------------
 -- Table data for iot_mqtt_category_authority
@@ -548,7 +550,7 @@ INSERT INTO `iot_mqtt_category_authority` (`category_id`, `authority_id`) VALUES
 INSERT INTO `iot_mqtt_category_authority` (`category_id`, `authority_id`) VALUES ('4', '162');
 INSERT INTO `iot_mqtt_category_authority` (`category_id`, `authority_id`) VALUES ('4', '163');
 INSERT INTO `iot_mqtt_category_authority` (`category_id`, `authority_id`) VALUES ('4', '164');
-INSERT INTO `iot_mqtt_category_authority` (`category_id`, `authority_id`) VALUES ('1', '165');
+INSERT INTO `iot_mqtt_category_authority` (`category_id`, `authority_id`) VALUES ('5', '165');
 
 
 -- ----------------------------

@@ -43,5 +43,5 @@ public interface MqttCategoryService extends BaseWriteAndPageService<MqttCategor
      *
      * @return 主题分类 {@link MqttCategory}
      */
-    Optional<MqttCategory> findSubscribeCategoryForPlatform();
+    Optional<MqttCategory> findSubscribeLinkCategoryForPlatform();
 }
