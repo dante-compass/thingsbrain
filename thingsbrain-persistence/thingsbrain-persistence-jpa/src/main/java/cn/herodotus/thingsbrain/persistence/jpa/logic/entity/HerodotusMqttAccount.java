@@ -69,7 +69,7 @@ public class HerodotusMqttAccount extends AbstractSysEntity {
     private String password;
 
     @Column(name = "is_superuser")
-    private Boolean superUser;
+    private Boolean superUser = Boolean.FALSE;
 
     /**
      * 用户 - 角色关系定义:
