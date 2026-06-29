@@ -93,7 +93,6 @@ public class MqttAutoConfiguration {
             @Qualifier(Channels.MQTT__THINGSMESH_INBOUND_CHANNEL) MessageChannel mqttThingsMeshInboundChannel) {
         Mqttv5PahoMessageDrivenChannelAdapter adapter = new Mqttv5PahoMessageDrivenChannelAdapter(clientManager, ListUtils.toStringArray(mqttTopicProperties.getDefaultSubscribes()));
         adapter.setManualAcks(false);
-        adapter.setQos(0);
         adapter.setOutputChannel(mqttThingsMeshInboundChannel);
         adapter.setErrorChannelName(IntegrationContextUtils.ERROR_CHANNEL_BEAN_NAME);
         log.trace("[ThingsMesh] |- Bean [Things Mesh Mqtt Message Driven Channel Adapter] Configure.");
