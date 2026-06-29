@@ -47,11 +47,13 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.context.IntegrationContextUtils;
-import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.MessageChannels;
 import org.springframework.integration.mqtt.core.ClientManager;
 import org.springframework.integration.mqtt.inbound.Mqttv5PahoMessageDrivenChannelAdapter;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.MessageHandler;
 
 /**
  * <p>Description: ThingsBrain 平台 Mqtt 相关功能自动配置 </p>
@@ -74,39 +76,49 @@ public class MqttAutoConfiguration {
         log.info("[ThingsBrain] |- Auto [Mqtt] Configure.");
     }
 
-    @Bean(name = "mqttThingsBrainInbound")
-    public Mqttv5PahoMessageDrivenChannelAdapter mqttThingsBrainInbound(
+    /**
+     * Mqtt 默认消息入站消息转 Event 通道。通过该种方式保证通道的唯一性。
+     *
+     * @return Mqtt 默认消息入站消息转 Event 通道 {@link MessageChannel}
+     */
+    @Bean(name = Channels.MQTT__THINGSMESH_INBOUND_CHANNEL)
+    public MessageChannel mqttThingsMeshInboundChannel() {
+        return MessageChannels.direct().getObject();
+    }
+
+    @Bean(name = "mqttThingsMeshInbound")
+    public Mqttv5PahoMessageDrivenChannelAdapter mqttThingsMeshInbound(
             ClientManager<IMqttAsyncClient, MqttConnectionOptions> clientManager,
-            MqttTopicProperties mqttTopicProperties) {
+            MqttTopicProperties mqttTopicProperties,
+            @Qualifier(Channels.MQTT__THINGSMESH_INBOUND_CHANNEL) MessageChannel mqttThingsMeshInboundChannel) {
         Mqttv5PahoMessageDrivenChannelAdapter adapter = new Mqttv5PahoMessageDrivenChannelAdapter(clientManager, ListUtils.toStringArray(mqttTopicProperties.getDefaultSubscribes()));
         adapter.setManualAcks(false);
-        adapter.setOutputChannel(MessageChannels.publishSubscribe(Channels.MQTT__THINGS_BRAIN_INBOUND_CHANNEL).getObject());
+        adapter.setQos(0);
+        adapter.setOutputChannel(mqttThingsMeshInboundChannel);
         adapter.setErrorChannelName(IntegrationContextUtils.ERROR_CHANNEL_BEAN_NAME);
-        log.trace("[ThingsBrain] |- Bean [Things Brain Mqtt Message Driven Channel Adapter] Configure.");
+        log.trace("[ThingsMesh] |- Bean [Things Mesh Mqtt Message Driven Channel Adapter] Configure.");
         return adapter;
     }
 
     @Bean
-    public IntegrationFlow mqttThingsBrainInboundFlow(
-            @Qualifier("mqttThingsBrainInbound") Mqttv5PahoMessageDrivenChannelAdapter mqttThingsBrainInbound,
+    @ServiceActivator(inputChannel = Channels.MQTT__THINGSMESH_INBOUND_CHANNEL)
+    public MessageHandler mqttThingsMeshInboundHandler(
             MqttProperties mqttProperties,
             MqttInboundMessageDispatcher mqttInboundMessageDispatcher) {
-        return IntegrationFlow.from(mqttThingsBrainInbound)
-                .handle(new MqttInboundMessageHandler(mqttProperties, mqttInboundMessageDispatcher))
-                .get();
+        return new MqttInboundMessageHandler(mqttProperties, mqttInboundMessageDispatcher);
     }
 
     @Bean
-    public MqttSubscribeTopicAppenderListener mqttSubscribeTopicAppenderListener(@Qualifier("mqttThingsBrainInbound") Mqttv5PahoMessageDrivenChannelAdapter mqttThingsBrainInbound) {
-        MqttSubscribeTopicAppenderListener listener = new MqttSubscribeTopicAppenderListener(mqttThingsBrainInbound);
-        log.trace("[ThingsBrain] |- Bean [Mqtt Subscribe Topic Appender] Configure.");
+    public MqttSubscribeTopicAppenderListener mqttSubscribeTopicAppenderListener(@Qualifier("mqttThingsMeshInbound") Mqttv5PahoMessageDrivenChannelAdapter mqttThingsMeshInbound) {
+        MqttSubscribeTopicAppenderListener listener = new MqttSubscribeTopicAppenderListener(mqttThingsMeshInbound);
+        log.trace("[ThingsMesh] |- Bean [Mqtt Subscribe Topic Appender] Configure.");
         return listener;
     }
 
     @Bean
     public MqttMessagePublisher mqttMessagePublisher() {
         DefaultMqttMessagePublisher mqttMessageManager = new DefaultMqttMessagePublisher();
-        log.trace("[ThingsBrain] |- Bean [Default Mqtt Message Manager] Configure.");
+        log.trace("[ThingsMesh] |- Bean [Default Mqtt Message Manager] Configure.");
         return mqttMessageManager;
     }
 }
