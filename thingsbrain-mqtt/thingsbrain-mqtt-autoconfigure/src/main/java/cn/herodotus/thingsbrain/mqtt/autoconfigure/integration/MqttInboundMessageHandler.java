@@ -51,14 +51,14 @@ import java.util.Map;
  * @author : gengwei_zheng
  * @date : 2026/5/3 17:55
  */
-public class MqttMessageHandler extends AbstractMessageHandler {
+public class MqttInboundMessageHandler extends AbstractMessageHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(MqttMessageHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(MqttInboundMessageHandler.class);
 
     private final MqttProperties mqttProperties;
     private final MqttInboundMessageDispatcher mqttInboundMessageDispatcher;
 
-    public MqttMessageHandler(MqttProperties mqttProperties, MqttInboundMessageDispatcher mqttInboundMessageDispatcher) {
+    public MqttInboundMessageHandler(MqttProperties mqttProperties, MqttInboundMessageDispatcher mqttInboundMessageDispatcher) {
         this.mqttProperties = mqttProperties;
         this.mqttInboundMessageDispatcher = mqttInboundMessageDispatcher;
     }

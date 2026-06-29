@@ -25,6 +25,7 @@
 
 package cn.herodotus.thingsbrain.link.storage.handler;
 
+import cn.herodotus.dante.core.utils.StringTemplateUtils;
 import cn.herodotus.thingsbrain.kernel.commons.constant.KernelConstants;
 import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import cn.herodotus.thingsbrain.kernel.link.domain.specification.*;
@@ -38,7 +39,6 @@ import com.influxdb.v3.client.Point;
 import com.influxdb.v3.client.write.WritePrecision;
 import org.apache.commons.lang3.ObjectUtils;
 
-import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +61,7 @@ public class InfluxDBColumnStorageHandler extends AbstractInfluxDB3Service imple
 
         InfluxDBClient client = this.getClient();
 
-        String measurement = MessageFormat.format(StorageConstants.INFLUXDB_MEASUREMENT_PROPERTY, productKey);
+        String measurement = StringTemplateUtils.replace(StorageConstants.INFLUXDB_MEASUREMENT_PROPERTY, Map.of(KernelConstants.KEY__PRODUCT_KEY, productKey));
 
         List<Point> points = request
                 .entrySet()
@@ -78,7 +78,7 @@ public class InfluxDBColumnStorageHandler extends AbstractInfluxDB3Service imple
         try {
             client.writePoints(points);
         } catch (Exception e) {
-            throw new DataStorageException("Post property data as column store catch error", e);
+            throw new DataStorageException("Post property data as row store catch error", e);
         } finally {
             this.close(client);
         }
@@ -88,9 +88,10 @@ public class InfluxDBColumnStorageHandler extends AbstractInfluxDB3Service imple
 
     @Override
     public Map<String, Object> event(String productKey, String deviceName, String identifier, EventIdentifierPost request) throws DataStorageException {
+
         InfluxDBClient client = this.getClient();
 
-        String measurement = MessageFormat.format(StorageConstants.INFLUXDB_MEASUREMENT_EVENT, productKey, identifier);
+        String measurement = StringTemplateUtils.replace(StorageConstants.INFLUXDB_MEASUREMENT_EVENT, Map.of(ProtocolConstants.VARIABLE__IDENTIFIER, identifier));
 
         List<Point> points = request.getValue()
                 .entrySet()
@@ -108,10 +109,11 @@ public class InfluxDBColumnStorageHandler extends AbstractInfluxDB3Service imple
         try {
             client.writePoints(points);
         } catch (Exception e) {
-            throw new DataStorageException("Post event data as column store catch error", e);
+            throw new DataStorageException("Post property data as row store catch error", e);
         } finally {
             this.close(client);
         }
+
         return Map.of();
     }
 

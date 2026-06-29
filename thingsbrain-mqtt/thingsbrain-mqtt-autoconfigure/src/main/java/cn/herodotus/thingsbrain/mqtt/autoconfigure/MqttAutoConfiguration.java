@@ -29,7 +29,7 @@ import cn.herodotus.dante.core.utils.ListUtils;
 import cn.herodotus.dante.message.autoconfigure.emqx.IntegrationEmqxAutoConfiguration;
 import cn.herodotus.dante.message.autoconfigure.mqtt.MqttProperties;
 import cn.herodotus.dante.message.commons.constant.Channels;
-import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttMessageHandler;
+import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttInboundMessageHandler;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttSubscribeTopicAppenderListener;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttTopicProperties;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.publisher.DefaultMqttMessagePublisher;
@@ -92,7 +92,7 @@ public class MqttAutoConfiguration {
             MqttProperties mqttProperties,
             MqttInboundMessageDispatcher mqttInboundMessageDispatcher) {
         return IntegrationFlow.from(mqttThingsBrainInbound)
-                .handle(new MqttMessageHandler(mqttProperties, mqttInboundMessageDispatcher))
+                .handle(new MqttInboundMessageHandler(mqttProperties, mqttInboundMessageDispatcher))
                 .get();
     }
 

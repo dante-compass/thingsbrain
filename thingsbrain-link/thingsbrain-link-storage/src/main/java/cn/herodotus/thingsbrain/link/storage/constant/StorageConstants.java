@@ -55,6 +55,6 @@ public interface StorageConstants extends LinkConstants {
     String CASSANDRA_ROW_STORAGE = STORAGE_CASSANDRA + SymbolConstants.UNDERLINE + STORAGE_MODE_ROW;
     String CASSANDRA_COLUMN_STORAGE = STORAGE_CASSANDRA + SymbolConstants.UNDERLINE + STORAGE_MODE_COLUMN;
 
-    String INFLUXDB_MEASUREMENT_PROPERTY = "properties_{productKey}";
-    String INFLUXDB_MEASUREMENT_EVENT = "event_{identifier}";
+    String INFLUXDB_MEASUREMENT_PROPERTY = "properties_${productKey}";
+    String INFLUXDB_MEASUREMENT_EVENT = "event_${identifier}";
 }
