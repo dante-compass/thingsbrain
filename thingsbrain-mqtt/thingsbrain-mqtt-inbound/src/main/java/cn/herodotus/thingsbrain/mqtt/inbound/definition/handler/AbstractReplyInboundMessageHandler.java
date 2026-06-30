@@ -59,14 +59,13 @@ public abstract class AbstractReplyInboundMessageHandler<I, O, M, R> extends Abs
      * 操作成功响应
      *
      * @param id          消息 ID
-     * @param method      处理方法
      * @param data        错误数据
      * @param isNeedReply 是否需要回复
      * @return 响应对象 {@link LinkResponse}。可以为 null，null 表示不需要发送响应信息
      */
-    protected LinkResponse<?> success(String id, String method, O data, boolean isNeedReply) {
+    protected LinkResponse<?> success(String id, O data, boolean isNeedReply) {
         if (isNeedReply) {
-            return LinkResponse.success(id, method, data);
+            return LinkResponse.success(id, data);
         }
 
         return null;
@@ -75,26 +74,24 @@ public abstract class AbstractReplyInboundMessageHandler<I, O, M, R> extends Abs
     /**
      * 操作成功响应
      *
-     * @param id     消息 ID
-     * @param method 处理方法
-     * @param data   错误数据
+     * @param id   消息 ID
+     * @param data 错误数据
      * @return 响应对象 {@link LinkResponse}。可以为 null，null 表示不需要发送响应信息
      */
-    protected LinkResponse<?> success(String id, String method, O data) {
-        return success(id, method, data, true);
+    protected LinkResponse<?> success(String id, O data) {
+        return success(id, data, true);
     }
 
     /**
      * 操作失败响应
      *
      * @param id          消息 ID
-     * @param method      处理方法
      * @param isNeedReply 是否需要回复
      * @return 响应对象 {@link LinkResponse}。可以为 null，null 表示不需要发送响应信息
      */
-    protected LinkResponse<?> internalServerError(String id, String method, boolean isNeedReply) {
+    protected LinkResponse<?> internalServerError(String id, boolean isNeedReply) {
         if (isNeedReply) {
-            return LinkResponse.internalServerError(id, method, null);
+            return LinkResponse.internalServerError(id, null);
         }
         return null;
     }
@@ -102,11 +99,10 @@ public abstract class AbstractReplyInboundMessageHandler<I, O, M, R> extends Abs
     /**
      * 操作失败响应
      *
-     * @param id     消息 ID
-     * @param method 处理方法
+     * @param id 消息 ID
      * @return 响应对象 {@link LinkResponse}。可以为 null，null 表示不需要发送响应信息
      */
-    protected LinkResponse<?> internalServerError(String id, String method) {
-        return internalServerError(id, method, true);
+    protected LinkResponse<?> internalServerError(String id) {
+        return internalServerError(id, true);
     }
 }

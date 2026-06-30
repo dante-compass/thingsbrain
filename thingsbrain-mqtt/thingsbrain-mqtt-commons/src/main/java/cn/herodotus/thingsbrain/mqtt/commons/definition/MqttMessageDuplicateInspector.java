@@ -23,38 +23,32 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.kernel.commons.definition.domain;
+package cn.herodotus.thingsbrain.mqtt.commons.definition;
 
-import com.google.common.base.MoreObjects;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 
 /**
- * <p>Description: Herodotus Link 协议通用属性定义 </p>
+ * <p>Description: 重复消息保护器 </p>
  *
- * @author : gengwei.zheng
- * @date : 2025/5/28 21:49
+ * @author : gengwei_zheng
+ * @date : 2026/6/30 14:57
  */
-public abstract class AbstractProtocolEntity<T> extends AbstractEntity {
+public interface MqttMessageDuplicateInspector {
 
     /**
-     * 版本号。对应关系
-     * 对于"设备属性、事件、服务": 为 String 类型，表示为协议版本号，目前协议版本号唯一取值为1.0
-     * 对于"设备影子数据流": 为 Long 类型，如果version设置为-1时，表示清空设备影子数据，设备影子会接收设备端的请求，并将设备影子版本更新为0
+     * 判断 Mqtt 入站消息是否重复。
+     * <p>
+     * 如果缓存中存在 messageId 或者 Message 头中 mqtt_duplicate 值为 true
+     *
+     * @param details Mqtt 消息详情 {@link MqttMessageDetails}
+     * @return false 不重复；true 重复。
      */
-    private T version;
+    boolean isDuplicate(MqttMessageDetails details);
 
-    public T getVersion() {
-        return version;
-    }
-
-    public void setVersion(T version) {
-        this.version = version;
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("version", version)
-                .addValue(super.toString())
-                .toString();
-    }
+    /**
+     * 缓存 Message 信息
+     *
+     * @param details Mqtt 消息详情 {@link MqttMessageDetails}
+     */
+    void record(MqttMessageDetails details);
 }

@@ -38,67 +38,66 @@ import java.util.Map;
  */
 public class LinkResponse<T> extends AbstractResponse<T> {
 
-    private static <T> LinkResponse<T> response(String id, String method, Integer code, String message, T data) {
+    private static <T> LinkResponse<T> response(String id, Integer code, String message, T data) {
         LinkResponse<T> response = new LinkResponse<>();
         response.setId(id);
-        response.setMethod(method);
         response.setCode(code);
         response.setMessage(message);
         response.setData(data);
         return response;
     }
 
-    public static <T> LinkResponse<?> success(String id, String method, T data) {
+    public static <T> LinkResponse<?> success(String id, T data) {
         if (ObjectUtils.isNotEmpty(data)) {
-            return response(id, method, 200, "success", data);
+            return response(id, 200, "success", data);
         } else {
             Map<String, Object> empty = new HashMap<>();
-            return response(id, method, 200, "success", empty);
+            return response(id, 200, "success", empty);
         }
     }
 
-    public static <T> LinkResponse<?> failure(String id, String method, Integer code, String message, T data) {
+    public static <T> LinkResponse<?> failure(String id, Integer code, String message, T data) {
         if (ObjectUtils.isNotEmpty(data)) {
-            return response(id, method, code, message, data);
+            return response(id, code, message, data);
         } else {
             Map<String, Object> empty = new HashMap<>();
-            return response(id, method, code, message, empty);
+            return response(id, code, message, empty);
         }
     }
 
-    public static <T> LinkResponse<?> requestError(String id, String method, T data) {
-        return failure(id, method, 400, "request error", data);
+    public static <T> LinkResponse<?> requestError(String id, T data) {
+        return failure(id, 400, "request error", data);
     }
 
-    public static LinkResponse<?> requestError(String id, String method) {
-        return requestError(id, method, null);
+    public static LinkResponse<?> requestError(String id) {
+        return requestError(id, null);
     }
 
-    public static <T> LinkResponse<?> requestParameterError(String id, String method, T data) {
-        return failure(id, method, 406, "request parameter error", data);
+    public static <T> LinkResponse<?> requestParameterError(String id, T data) {
+        return failure(id, 406, "request parameter error", data);
     }
 
-    public static LinkResponse<?> requestParameterError(String id, String method) {
-        return requestParameterError(id, method, null);
+    public static LinkResponse<?> requestParameterError(String id) {
+        return requestParameterError(id, null);
     }
 
-    public static <T> LinkResponse<?> tooManyRequests(String id, String method, T data) {
-        return failure(id, method, 429, "too many requests", data);
+    public static <T> LinkResponse<?> tooManyRequests(String id, T data) {
+        return failure(id, 429, "too many requests", data);
     }
 
-    public static LinkResponse<?> tooManyRequests(String id, String method) {
-        return tooManyRequests(id, method, null);
+    public static LinkResponse<?> tooManyRequests(String id) {
+        return tooManyRequests(id, null);
     }
 
-    public static <T> LinkResponse<?> internalServerError(String id, String method, T data) {
-        return failure(id, method, 500, "internal server error", data);
+    public static <T> LinkResponse<?> internalServerError(String id, T data) {
+        return failure(id, 500, "internal server error", data);
     }
 
-    public static LinkResponse<?> internalServerError(String id, String method) {
-        return internalServerError(id, method, null);
+    public static LinkResponse<?> internalServerError(String id) {
+        return internalServerError(id, null);
     }
 
-    public static LinkResponse<?> failure(String id, String method, Integer code, String message) {
-        return failure(id, method, code, message, null);
+    public static LinkResponse<?> failure(String id, Integer code, String message) {
+        return failure(id, code, message, null);
     }
 }

@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.kernel.link.domain.shadow;
 
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
-import cn.herodotus.thingsbrain.kernel.commons.definition.domain.AbstractProtocolEntity;
+import cn.herodotus.thingsbrain.kernel.commons.definition.domain.AbstractEntity;
 import cn.herodotus.thingsbrain.kernel.commons.definition.domain.shadow.State;
 import cn.hutool.v7.core.lang.Assert;
 import com.google.common.base.MoreObjects;
@@ -39,9 +39,10 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2025/5/31 23:00
  */
-public class ShadowRequest extends AbstractProtocolEntity<Long> {
+public class ShadowRequest extends AbstractEntity<Long> {
 
     private State state;
+    private String method;
 
     public ShadowRequest() {
     }
@@ -54,6 +55,13 @@ public class ShadowRequest extends AbstractProtocolEntity<Long> {
         this.state = state;
     }
 
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
 
     public static Builder update(Long version) {
         return new Builder(version);

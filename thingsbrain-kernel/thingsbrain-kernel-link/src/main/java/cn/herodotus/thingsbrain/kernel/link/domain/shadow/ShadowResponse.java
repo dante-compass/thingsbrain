@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.link.domain.shadow;
 
-import cn.herodotus.thingsbrain.kernel.commons.definition.domain.AbstractProtocolEntity;
+import cn.herodotus.thingsbrain.kernel.commons.definition.domain.AbstractEntity;
 import cn.herodotus.thingsbrain.kernel.commons.definition.domain.shadow.Metadata;
 import cn.herodotus.thingsbrain.kernel.commons.definition.domain.shadow.State;
 import cn.herodotus.thingsbrain.kernel.commons.domain.Shadow;
@@ -40,7 +40,7 @@ import org.apache.commons.lang3.Strings;
  * @author : gengwei.zheng
  * @date : 2025/5/31 23:00
  */
-public class ShadowResponse extends AbstractProtocolEntity<Long> {
+public class ShadowResponse extends AbstractEntity<Long> {
 
     private Payload payload;
 
@@ -145,7 +145,6 @@ public class ShadowResponse extends AbstractProtocolEntity<Long> {
         public ShadowResponse build() {
 
             ShadowResponse response = new ShadowResponse();
-            response.setMethod(method);
             response.setTimestamp(ObjectUtils.isNotEmpty(timestamp) ? timestamp : System.currentTimeMillis());
 
             Payload payload = new Payload();

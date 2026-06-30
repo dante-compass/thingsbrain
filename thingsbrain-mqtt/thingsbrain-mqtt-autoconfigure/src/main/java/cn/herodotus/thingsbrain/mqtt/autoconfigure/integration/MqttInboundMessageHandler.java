@@ -31,18 +31,19 @@ import cn.herodotus.dante.message.autoconfigure.mqtt.MqttProperties;
 import cn.herodotus.dante.message.commons.domain.MqttMessage;
 import cn.herodotus.dante.message.commons.event.MqttMessageSendingEvent;
 import cn.herodotus.dante.spring.context.ServiceContextHolder;
+import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessageDuplicateInspector;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 import cn.herodotus.thingsbrain.mqtt.inbound.dispatcher.MqttInboundMessageDispatcher;
-import cn.hutool.v7.core.text.StrUtil;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.integration.handler.AbstractMessageHandler;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.integration.mqtt.support.MqttHeaders;
 import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHandler;
+import org.springframework.messaging.MessagingException;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -51,57 +52,81 @@ import java.util.Map;
  * @author : gengwei_zheng
  * @date : 2026/5/3 17:55
  */
-public class MqttInboundMessageHandler extends AbstractMessageHandler {
+public class MqttInboundMessageHandler implements MessageHandler {
 
     private static final Logger log = LoggerFactory.getLogger(MqttInboundMessageHandler.class);
 
-    private final MqttProperties mqttProperties;
+    private final MqttMessageDuplicateInspector mqttMessageDuplicateInspector;
     private final MqttInboundMessageDispatcher mqttInboundMessageDispatcher;
+    private final Converter<Message<?>, MqttMessageDetails> toDetailsConverter;
 
-    public MqttInboundMessageHandler(MqttProperties mqttProperties, MqttInboundMessageDispatcher mqttInboundMessageDispatcher) {
-        this.mqttProperties = mqttProperties;
+    public MqttInboundMessageHandler(MqttProperties mqttProperties, MqttMessageDuplicateInspector mqttMessageDuplicateInspector, MqttInboundMessageDispatcher mqttInboundMessageDispatcher) {
+        this.mqttMessageDuplicateInspector = mqttMessageDuplicateInspector;
         this.mqttInboundMessageDispatcher = mqttInboundMessageDispatcher;
+        this.toDetailsConverter = new MessageToMqttMessageDetailsConverter(mqttProperties);
     }
 
     @Override
-    protected void handleMessageInternal(Message<?> message) {
-        String topic = message.getHeaders().get(mqttProperties.getTopicHeader(), String.class);
-        byte[] correlationData = message.getHeaders().get(MqttHeaders.CORRELATION_DATA, byte[].class);
-        String responseTopic = message.getHeaders().get(MqttHeaders.RESPONSE_TOPIC, String.class);
+    public void handleMessage(Message<?> message) throws MessagingException {
 
-        if (StringUtils.isBlank(topic)) {
-            log.warn("[ThingsBrain] |- Cannot find topic in message header, use expression {}", mqttProperties.getTopicExpression());
-            topic = mqttProperties.getTopicHeader();
-        }
+        MqttMessageDetails details = toDetailsConverter.convert(message);
 
-        log.debug("[ThingsBrain] |- LINK - [1] Receive the message from topic [{}]", topic);
-
-        byte[] payload = getPayload(message.getPayload());
-
-        if (ArrayUtils.isNotEmpty(payload)) {
-            log.debug("[ThingsBrain] |- LINK - [2] Dispatch the message.");
-            mqttInboundMessageDispatcher.process(topic, payload, responseTopic, correlationData);
+        if (!details.isEmpty()) {
+            log.debug("[ThingsMesh] |- LINK - [1] Receive the message from topic [{}]", details.getTopic());
+            if (!mqttMessageDuplicateInspector.isDuplicate(details)) {
+                mqttInboundMessageDispatcher.process(details);
+                mqttMessageDuplicateInspector.record(details);
+            } else {
+                log.warn("[ThingsMesh] |- LINK - Ignore message [{}], because messageId in cache or message duplicate!", message);
+            }
         } else {
-            log.error("[ThingsBrain] |- LINK - [2] Received empty payload from topic [{}]", topic);
-            error(responseTopic, correlationData);
+            log.warn("[ThingsMesh] |- LINK - Message [{}] payload is incorrect!", message);
+            error(details);
         }
     }
 
-    private byte[] getPayload(Object payload) {
-        if (ObjectUtils.isNotEmpty(payload) && payload instanceof byte[]) {
-            return (byte[]) payload;
+    private record MessageToMqttMessageDetailsConverter(
+            MqttProperties mqttProperties) implements Converter<Message<?>, MqttMessageDetails> {
+
+        @Override
+        public MqttMessageDetails convert(Message<?> source) {
+
+            String topic = source.getHeaders().get(mqttProperties.getTopicHeader(), String.class);
+            String payload = getPayload(source.getPayload());
+            Integer qos = source.getHeaders().get(MqttHeaders.QOS, Integer.class);
+            byte[] correlationData = source.getHeaders().get(MqttHeaders.CORRELATION_DATA, byte[].class);
+            String responseTopic = source.getHeaders().get(MqttHeaders.RESPONSE_TOPIC, String.class);
+            String id = source.getHeaders().get(MqttHeaders.ID, String.class);
+            Boolean duplicate = source.getHeaders().get(MqttHeaders.DUPLICATE, Boolean.class);
+
+            return MqttMessageDetails.with(topic, payload)
+                    .qos(qos)
+                    .responseTopic(responseTopic)
+                    .correlationData(correlationData)
+                    .messageId(id)
+                    .duplicate(duplicate)
+                    .build();
         }
-        return null;
+
+        private String getPayload(Object payload) {
+            if (ObjectUtils.isNotEmpty(payload) && payload instanceof String) {
+                return (String) payload;
+            }
+            return null;
+        }
     }
 
-    private void error(String responseTopic, byte[] correlationData) {
-        MqttMessage mqttMessage = new MqttMessage();
-        mqttMessage.setTopic(responseTopic);
-        if (ArrayUtils.isNotEmpty(correlationData)) {
-            mqttMessage.setCorrelationData(StrUtil.str(correlationData, StandardCharsets.UTF_8));
+
+    private void error(MqttMessageDetails details) {
+        if (StringUtils.isNotBlank(details.getResponseTopic())) {
+            String payload = JacksonUtils.toJson(Result.failure("The payload cannot be empty", 406, Map.of()));
+
+            MqttMessage mqttMessage = MqttMessage.with(details.getResponseTopic(), payload)
+                    .qos(details.getQos())
+                    .correlationData(details.getCorrelationData())
+                    .build();
+
+            ServiceContextHolder.publishEvent(new MqttMessageSendingEvent(mqttMessage));
         }
-        mqttMessage.setPayload(JacksonUtils.toJson(Result.failure("The payload cannot be empty", 406, Map.of())));
-        mqttMessage.setQos(1);
-        ServiceContextHolder.publishEvent(new MqttMessageSendingEvent(mqttMessage));
     }
 }

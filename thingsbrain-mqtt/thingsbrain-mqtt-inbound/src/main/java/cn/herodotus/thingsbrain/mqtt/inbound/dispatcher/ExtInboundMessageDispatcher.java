@@ -27,11 +27,11 @@ package cn.herodotus.thingsbrain.mqtt.inbound.dispatcher;
 
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.dispatcher.AbstractReplyMessageDispatcher;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.ExtInboundMessageHandler;
 import cn.herodotus.thingsbrain.mqtt.inbound.factory.ExtMessageHandlerFactory;
 import cn.herodotus.thingsbrain.mqtt.inbound.response.InboundMessageReplyProcessor;
-import tools.jackson.databind.JsonNode;
 
 import java.util.Optional;
 
@@ -59,13 +59,13 @@ public class ExtInboundMessageDispatcher extends AbstractReplyMessageDispatcher 
     }
 
     @Override
-    protected void requestProcess(String id, String method, String topic, JsonNode payload, String responseTopic, String correlationData) {
-        Optional<ExtInboundMessageHandler> optional = extMessageHandlerFactory.getHandler(method);
+    protected void requestProcess(MqttMessageDetails details) {
+        Optional<ExtInboundMessageHandler> optional = extMessageHandlerFactory.getHandler(details.getMethod());
         optional.ifPresentOrElse(handler -> {
-            LinkResponse<?> response = handler.receive(topic, payload, responseTopic, correlationData);
-            publish(responseTopic, response, correlationData);
+            LinkResponse<?> response = handler.receive(details);
+            response(details, response);
         }, () -> {
-            publish(responseTopic, LinkResponse.requestParameterError(id, method), correlationData);
+            response(details, LinkResponse.requestParameterError(details.getRequestId()));
         });
     }
 }

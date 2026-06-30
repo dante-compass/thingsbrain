@@ -34,14 +34,13 @@ import cn.herodotus.thingsbrain.kernel.link.domain.shadow.ShadowRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.shadow.ShadowResponse;
 import cn.herodotus.thingsbrain.link.commons.definition.DeviceShadowManager;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.MessageDetails;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.dispatcher.InboundMessageDispatcher;
 import cn.herodotus.thingsbrain.persistence.commons.domain.DeviceShadow;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
-import tools.jackson.databind.JsonNode;
 
 import java.util.List;
 import java.util.Optional;
@@ -70,15 +69,12 @@ public class ShadowInboundMessageDispatcher implements InboundMessageDispatcher 
     }
 
     @Override
-    public void process(MessageDetails event) {
+    public void process(MqttMessageDetails details) {
 
-        String topic = event.getTopic();
-        JsonNode payload = event.getPayload();
-
-        ShadowRequest request = JacksonUtils.toObject(payload, ShadowRequest.class);
+        ShadowRequest request = JacksonUtils.toObject(details.getPayload(), ShadowRequest.class);
         ShadowResponse response = verification(request);
 
-        CompleteIdentifier completeIdentifier = CompleteIdentifier.of(SHADOW_MQTT_TOPIC.getTemplate(), topic).build();
+        CompleteIdentifier completeIdentifier = CompleteIdentifier.of(SHADOW_MQTT_TOPIC.getTemplate(), details.getTopic()).build();
 
         if (ObjectUtils.isEmpty(response)) {
             response = process(request.getMethod(), completeIdentifier.getProductKey(), completeIdentifier.getDeviceName(), request);

@@ -32,7 +32,9 @@ import cn.herodotus.dante.message.commons.constant.Channels;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttInboundMessageHandler;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttSubscribeTopicAppenderListener;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttTopicProperties;
-import cn.herodotus.thingsbrain.mqtt.autoconfigure.publisher.DefaultMqttMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.autoconfigure.processor.DefaultMqttMessageDuplicateInspector;
+import cn.herodotus.thingsbrain.mqtt.autoconfigure.processor.DefaultMqttMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessageDuplicateInspector;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
 import cn.herodotus.thingsbrain.mqtt.inbound.config.MqttInboundConfiguration;
 import cn.herodotus.thingsbrain.mqtt.inbound.dispatcher.MqttInboundMessageDispatcher;
@@ -76,6 +78,13 @@ public class MqttAutoConfiguration {
         log.info("[ThingsBrain] |- Auto [Mqtt] Configure.");
     }
 
+    @Bean
+    public MqttMessageDuplicateInspector mqttMessageDuplicateInspector() {
+        DefaultMqttMessageDuplicateInspector protector = new DefaultMqttMessageDuplicateInspector();
+        log.trace("[ThingsMesh] |- Bean [Mqtt Message Duplicate Inspector] Configure.");
+        return protector;
+    }
+
     /**
      * Mqtt 默认消息入站消息转 Event 通道。通过该种方式保证通道的唯一性。
      *
@@ -92,6 +101,7 @@ public class MqttAutoConfiguration {
             MqttTopicProperties mqttTopicProperties,
             @Qualifier(Channels.MQTT__THINGSMESH_INBOUND_CHANNEL) MessageChannel mqttThingsMeshInboundChannel) {
         Mqttv5PahoMessageDrivenChannelAdapter adapter = new Mqttv5PahoMessageDrivenChannelAdapter(clientManager, ListUtils.toStringArray(mqttTopicProperties.getDefaultSubscribes()));
+        adapter.setPayloadType(String.class);
         adapter.setManualAcks(false);
         adapter.setOutputChannel(mqttThingsMeshInboundChannel);
         adapter.setErrorChannelName(IntegrationContextUtils.ERROR_CHANNEL_BEAN_NAME);
@@ -103,8 +113,9 @@ public class MqttAutoConfiguration {
     @ServiceActivator(inputChannel = Channels.MQTT__THINGSMESH_INBOUND_CHANNEL)
     public MessageHandler mqttThingsMeshInboundHandler(
             MqttProperties mqttProperties,
+            MqttMessageDuplicateInspector mqttMessageDuplicateInspector,
             MqttInboundMessageDispatcher mqttInboundMessageDispatcher) {
-        return new MqttInboundMessageHandler(mqttProperties, mqttInboundMessageDispatcher);
+        return new MqttInboundMessageHandler(mqttProperties, mqttMessageDuplicateInspector, mqttInboundMessageDispatcher);
     }
 
     @Bean

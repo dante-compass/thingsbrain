@@ -29,7 +29,7 @@ import cn.herodotus.dante.core.constant.BaseConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Mqtt 常量 </p>
  *
  * @author : gengwei_zheng
  * @date : 2026/5/3 17:03
@@ -42,5 +42,6 @@ public interface MqttConstants extends BaseConstants {
     MqttTopic MQTT_TOPIC__SHADOW = new MqttTopic(SHADOW_TOPIC_TEMPLATE__UPDATE, SHADOW_TOPIC_TEMPLATE__GET);
 
     String CACHE_THINGSBRAIN_PREFIX = CACHE_PREFIX + "thingsbrain:";
-    String CACHE_THINGSBRAIN_REQUEST = CACHE_THINGSBRAIN_PREFIX + "request:";
+    String CACHE_THINGSBRAIN_MESSAGE_ID = CACHE_THINGSBRAIN_PREFIX + "message:";
+    String CACHE_THINGSBRAIN_REQUEST_ID = CACHE_THINGSBRAIN_PREFIX + "request:";
 }
