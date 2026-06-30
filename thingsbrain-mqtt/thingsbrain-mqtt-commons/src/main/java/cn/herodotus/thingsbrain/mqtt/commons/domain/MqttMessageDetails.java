@@ -30,6 +30,7 @@ import cn.herodotus.dante.core.domain.BaseModel;
 import cn.herodotus.dante.core.jackson.JacksonUtils;
 import cn.herodotus.dante.core.jackson.JsonNodeUtils;
 import cn.herodotus.thingsbrain.kernel.commons.enums.TopicCategory;
+import cn.hutool.v7.crypto.SecureUtil;
 import com.google.common.base.MoreObjects;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -48,7 +49,13 @@ public class MqttMessageDetails implements BaseModel {
     private Integer qos;
     private String responseTopic;
     private byte[] correlationData;
+    /**
+     * 是否为重复数据。对应 Mqtt Header mqtt_duplicate
+     */
     private boolean duplicate;
+    /**
+     * Payload 为空。额外字段方便使用。
+     */
     private boolean empty;
     private String messageId;
     private String requestId;
@@ -164,8 +171,12 @@ public class MqttMessageDetails implements BaseModel {
                 .add("qos", qos)
                 .add("responseTopic", responseTopic)
                 .add("duplicate", duplicate)
+                .add("notEmpty", empty)
                 .add("messageId", messageId)
+                .add("requestId", requestId)
+                .add("method", method)
                 .add("topicCategory", topicCategory)
+                .add("supportResponse", supportResponse)
                 .toString();
     }
 
@@ -176,7 +187,7 @@ public class MqttMessageDetails implements BaseModel {
         private String responseTopic;
         private byte[] correlationData;
         private Boolean duplicate;
-        private String messageId;
+        private Integer messageId;
 
         protected Builder(String topic, String payload) {
             this.topic = topic;
@@ -203,7 +214,7 @@ public class MqttMessageDetails implements BaseModel {
             return this;
         }
 
-        public Builder messageId(String messageId) {
+        public Builder messageId(Integer messageId) {
             this.messageId = messageId;
             return this;
         }
@@ -217,6 +228,11 @@ public class MqttMessageDetails implements BaseModel {
             }
         }
 
+        private String createMessageId(String topic, Integer messageId) {
+            String value = topic + SymbolConstants.DASH + messageId;
+            return SecureUtil.md5(value);
+        }
+
         public MqttMessageDetails build() {
             MqttMessageDetails details = new MqttMessageDetails();
             details.setTopic(this.topic);
@@ -224,12 +240,12 @@ public class MqttMessageDetails implements BaseModel {
             details.setQos(this.qos);
             details.setResponseTopic(this.responseTopic);
             details.setCorrelationData(this.correlationData);
-            details.setMessageId(this.messageId);
+            details.setMessageId(createMessageId(this.topic, this.messageId));
             details.setRequestId(JsonNodeUtils.findStringValue(payload, "id"));
             details.setMethod(JsonNodeUtils.findStringValue(payload, "method"));
             details.setDuplicate(this.duplicate);
             details.setTopicCategory(getTopicCategory(this.topic));
-            details.setEmpty(ObjectUtils.isNotEmpty(this.payload));
+            details.setEmpty(ObjectUtils.isEmpty(this.payload));
             details.setSupportResponse(StringUtils.isNotBlank(this.responseTopic));
 
             return details;

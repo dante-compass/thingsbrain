@@ -96,7 +96,7 @@ public class MqttInboundMessageHandler implements MessageHandler {
             Integer qos = source.getHeaders().get(MqttHeaders.QOS, Integer.class);
             byte[] correlationData = source.getHeaders().get(MqttHeaders.CORRELATION_DATA, byte[].class);
             String responseTopic = source.getHeaders().get(MqttHeaders.RESPONSE_TOPIC, String.class);
-            String id = source.getHeaders().get(MqttHeaders.ID, String.class);
+            Integer id = source.getHeaders().get(MqttHeaders.ID, Integer.class);
             Boolean duplicate = source.getHeaders().get(MqttHeaders.DUPLICATE, Boolean.class);
 
             return MqttMessageDetails.with(topic, payload)
