@@ -88,7 +88,7 @@ public abstract class AbstractSysInboundMessageHandler<I, O, M> extends Abstract
             O result = getFunction(messageManager).apply(identity, domain.getParams());
             return success(domain.getId(), result, isNeedReply);
         } catch (InboundMessageProcessingException e) {
-            log.error("[ThingsMesh] |- Ext session topic data process catch error!", e);
+            log.error("[ThingsBrain] |- Ext session topic data process catch error!", e);
             return internalServerError(domain.getId(), isNeedReply);
         }
     }

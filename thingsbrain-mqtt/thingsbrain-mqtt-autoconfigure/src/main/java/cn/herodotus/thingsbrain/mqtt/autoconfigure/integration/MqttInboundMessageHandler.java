@@ -72,15 +72,15 @@ public class MqttInboundMessageHandler implements MessageHandler {
         MqttMessageDetails details = toDetailsConverter.convert(message);
 
         if (!details.isEmpty()) {
-            log.debug("[ThingsMesh] |- LINK - [1] Receive the message from topic [{}]", details.getTopic());
+            log.debug("[ThingsBrain] |- LINK - [1] Receive the message from topic [{}]", details.getTopic());
             if (!mqttMessageDuplicateInspector.isDuplicate(details)) {
                 mqttInboundMessageDispatcher.process(details);
                 mqttMessageDuplicateInspector.record(details);
             } else {
-                log.warn("[ThingsMesh] |- LINK - Ignore message [{}], because messageId in cache or message duplicate!", message);
+                log.warn("[ThingsBrain] |- LINK - Ignore message [{}], because messageId in cache or message duplicate!", message);
             }
         } else {
-            log.warn("[ThingsMesh] |- LINK - Message [{}] payload is incorrect!", message);
+            log.warn("[ThingsBrain] |- LINK - Message [{}] payload is incorrect!", message);
             error(details);
         }
     }

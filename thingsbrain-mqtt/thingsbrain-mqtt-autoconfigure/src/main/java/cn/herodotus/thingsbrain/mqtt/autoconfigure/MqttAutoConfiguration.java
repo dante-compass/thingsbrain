@@ -81,7 +81,7 @@ public class MqttAutoConfiguration {
     @Bean
     public MqttMessageDuplicateInspector mqttMessageDuplicateInspector() {
         DefaultMqttMessageDuplicateInspector protector = new DefaultMqttMessageDuplicateInspector();
-        log.trace("[ThingsMesh] |- Bean [Mqtt Message Duplicate Inspector] Configure.");
+        log.trace("[ThingsBrain] |- Bean [Mqtt Message Duplicate Inspector] Configure.");
         return protector;
     }
 
@@ -90,28 +90,28 @@ public class MqttAutoConfiguration {
      *
      * @return Mqtt 默认消息入站消息转 Event 通道 {@link MessageChannel}
      */
-    @Bean(name = Channels.MQTT__THINGSMESH_INBOUND_CHANNEL)
-    public MessageChannel mqttThingsMeshInboundChannel() {
+    @Bean(name = Channels.MQTT__THINGSBRAIN_INBOUND_CHANNEL)
+    public MessageChannel mqttThingsBrainInboundChannel() {
         return MessageChannels.direct().getObject();
     }
 
-    @Bean(name = "mqttThingsMeshInbound")
-    public Mqttv5PahoMessageDrivenChannelAdapter mqttThingsMeshInbound(
+    @Bean(name = "mqttThingsBrainInbound")
+    public Mqttv5PahoMessageDrivenChannelAdapter mqttThingsBrainInbound(
             ClientManager<IMqttAsyncClient, MqttConnectionOptions> clientManager,
             MqttTopicProperties mqttTopicProperties,
-            @Qualifier(Channels.MQTT__THINGSMESH_INBOUND_CHANNEL) MessageChannel mqttThingsMeshInboundChannel) {
+            @Qualifier(Channels.MQTT__THINGSBRAIN_INBOUND_CHANNEL) MessageChannel mqttThingsBrainInboundChannel) {
         Mqttv5PahoMessageDrivenChannelAdapter adapter = new Mqttv5PahoMessageDrivenChannelAdapter(clientManager, ListUtils.toStringArray(mqttTopicProperties.getDefaultSubscribes()));
         adapter.setPayloadType(String.class);
         adapter.setManualAcks(false);
-        adapter.setOutputChannel(mqttThingsMeshInboundChannel);
+        adapter.setOutputChannel(mqttThingsBrainInboundChannel);
         adapter.setErrorChannelName(IntegrationContextUtils.ERROR_CHANNEL_BEAN_NAME);
-        log.trace("[ThingsMesh] |- Bean [Things Mesh Mqtt Message Driven Channel Adapter] Configure.");
+        log.trace("[ThingsBrain] |- Bean [Things Mesh Mqtt Message Driven Channel Adapter] Configure.");
         return adapter;
     }
 
     @Bean
-    @ServiceActivator(inputChannel = Channels.MQTT__THINGSMESH_INBOUND_CHANNEL)
-    public MessageHandler mqttThingsMeshInboundHandler(
+    @ServiceActivator(inputChannel = Channels.MQTT__THINGSBRAIN_INBOUND_CHANNEL)
+    public MessageHandler mqttThingsBrainInboundHandler(
             MqttProperties mqttProperties,
             MqttMessageDuplicateInspector mqttMessageDuplicateInspector,
             MqttInboundMessageDispatcher mqttInboundMessageDispatcher) {
@@ -119,16 +119,16 @@ public class MqttAutoConfiguration {
     }
 
     @Bean
-    public MqttSubscribeTopicAppenderListener mqttSubscribeTopicAppenderListener(@Qualifier("mqttThingsMeshInbound") Mqttv5PahoMessageDrivenChannelAdapter mqttThingsMeshInbound) {
-        MqttSubscribeTopicAppenderListener listener = new MqttSubscribeTopicAppenderListener(mqttThingsMeshInbound);
-        log.trace("[ThingsMesh] |- Bean [Mqtt Subscribe Topic Appender] Configure.");
+    public MqttSubscribeTopicAppenderListener mqttSubscribeTopicAppenderListener(@Qualifier("mqttThingsBrainInbound") Mqttv5PahoMessageDrivenChannelAdapter mqttThingsBrainInbound) {
+        MqttSubscribeTopicAppenderListener listener = new MqttSubscribeTopicAppenderListener(mqttThingsBrainInbound);
+        log.trace("[ThingsBrain] |- Bean [Mqtt Subscribe Topic Appender] Configure.");
         return listener;
     }
 
     @Bean
     public MqttMessagePublisher mqttMessagePublisher() {
         DefaultMqttMessagePublisher mqttMessageManager = new DefaultMqttMessagePublisher();
-        log.trace("[ThingsMesh] |- Bean [Default Mqtt Message Manager] Configure.");
+        log.trace("[ThingsBrain] |- Bean [Default Mqtt Message Manager] Configure.");
         return mqttMessageManager;
     }
 }
