@@ -34,7 +34,7 @@ import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.job.Job;
 import cn.herodotus.thingsbrain.kernel.link.domain.job.JobUpdate;
 import cn.herodotus.thingsbrain.link.commons.definition.DeviceJobManager;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractSysInboundMessageHandler;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
@@ -45,7 +45,7 @@ import tools.jackson.core.type.TypeReference;
  * @date : 2025/6/16 12:22
  */
 @Component(MethodConstants.METHOD__THING_JOB_UPDATE)
-public class SysThingJobUpdateInboundMessageHandler extends AbstractSysInboundMessageHandler<JobUpdate, Job, DeviceJobManager> {
+public class SysThingJobUpdateInboundMessageHandler extends AbstractInboundSysMessageHandler<JobUpdate, Job, DeviceJobManager> {
 
     private final TypeReference<LinkSysRequest<JobUpdate>> typeReference = new TypeReference<>() {
     };

@@ -52,7 +52,7 @@ import java.util.function.Function;
  * @author : gengwei.zheng
  * @date : 2025/5/14 12:54
  */
-public class ShadowInboundMessageDispatcher implements InboundMessageDispatcher {
+public class InboundShadowMessageDispatcher implements InboundMessageDispatcher {
 
     private static final List<String> SUPPORTED_METHOD = List.of(MethodConstants.METHOD__SHADOW__UPDATE, MethodConstants.METHOD__SHADOW__DELETE, MethodConstants.METHOD__SHADOW__GET);
     private static final String SHADOW_UPDATE_TOPIC_TEMPLATE = "shadow/update/${productKey}/${deviceName}";
@@ -63,7 +63,7 @@ public class ShadowInboundMessageDispatcher implements InboundMessageDispatcher 
     private final DeviceShadowManager deviceShadowManager;
     private final MqttOutboundMessagePublisher mqttOutboundMessagePublisher;
 
-    public ShadowInboundMessageDispatcher(DeviceShadowManager deviceShadowManager, MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
+    public InboundShadowMessageDispatcher(DeviceShadowManager deviceShadowManager, MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
         this.deviceShadowManager = deviceShadowManager;
         this.mqttOutboundMessagePublisher = mqttOutboundMessagePublisher;
     }

@@ -25,47 +25,23 @@
 
 package cn.herodotus.thingsbrain.mqtt.inbound.definition.handler;
 
-import cn.herodotus.dante.core.jackson.JacksonUtils;
-import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
-import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
-import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
-import cn.herodotus.thingsbrain.link.commons.definition.OtaManager;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 
-import java.util.function.BiConsumer;
-
 /**
- * <p>Description: Ota主题北向数据处理器抽象定义 </p>
+ * <p>Description: Sys 类型主题消息处理器定义 </p>
  *
- * @param <I> 入站请求业务数据类型
  * @author : gengwei.zheng
- * @date : 2025/6/15 21:52
+ * @date : 2025/5/14 12:28
  */
-public abstract class AbstractOtaInboundMessageHandler<I> extends AbstractInboundMessageHandler<LinkRequest<I>> implements OtaInboundMessageHandler {
-
-    private final OtaManager otaManager;
-
-    protected AbstractOtaInboundMessageHandler(MqttTopic mqttTopic, OtaManager otaManager) {
-        super(mqttTopic);
-        this.otaManager = otaManager;
-    }
+public interface InboundSysMessageHandler {
 
     /**
-     * 获取处理器业务逻辑处理定义
+     * 接收信息
      *
-     * @param otaManager 逻辑处理管理器
-     * @return 业务逻辑处理定义
+     * @param details Mqtt 消息详情 {@link MqttMessageDetails}
+     * @return 响应 {@link LinkResponse}
      */
-    protected abstract BiConsumer<CompleteIdentifier, I> getConsumer(OtaManager otaManager);
+    LinkResponse<?> receive(MqttMessageDetails details);
 
-    /**
-     * {@inheritDoc}
-     *
-     */
-    @Override
-    public void receive(MqttMessageDetails details) {
-        CompleteIdentifier identity = getCompleteIdentifier(details.getTopic());
-        LinkRequest<I> domain = JacksonUtils.toObject(details.getPayload(), getTypeReference());
-        getConsumer(otaManager).accept(identity, domain.getParams());
-    }
 }

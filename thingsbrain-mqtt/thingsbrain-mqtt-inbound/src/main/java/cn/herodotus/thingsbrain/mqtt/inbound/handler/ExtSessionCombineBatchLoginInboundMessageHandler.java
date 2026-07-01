@@ -35,7 +35,7 @@ import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessin
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.session.BatchLogin;
 import cn.herodotus.thingsbrain.link.commons.definition.SubsetSessionManager;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractExtInboundMessageHandler;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundExtMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
@@ -50,7 +50,7 @@ import java.util.List;
  * @date : 2025/6/16 12:34
  */
 @Component(MethodConstants.METHOD__COMBINE_BATCH_LOGIN)
-public class ExtSessionCombineBatchLoginInboundMessageHandler extends AbstractExtInboundMessageHandler<BatchLogin, List<Identifier>> {
+public class ExtSessionCombineBatchLoginInboundMessageHandler extends AbstractInboundExtMessageHandler<BatchLogin, List<Identifier>> {
 
     private final TypeReference<LinkRequest<BatchLogin>> typeReference = new TypeReference<>() {
     };

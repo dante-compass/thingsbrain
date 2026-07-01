@@ -34,7 +34,7 @@ import cn.herodotus.thingsbrain.kernel.commons.enums.TopicCategory;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
 import cn.herodotus.thingsbrain.link.commons.definition.SubsetSessionManager;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractExtInboundMessageHandler;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundExtMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
@@ -47,7 +47,7 @@ import tools.jackson.core.type.TypeReference;
  * @date : 2025/6/16 12:33
  */
 @Component(MethodConstants.METHOD__COMBINE_LOGOUT)
-public class ExtSessionCombineLogoutInboundMessageHandler extends AbstractExtInboundMessageHandler<Identifier, Identifier> {
+public class ExtSessionCombineLogoutInboundMessageHandler extends AbstractInboundExtMessageHandler<Identifier, Identifier> {
 
     private final TypeReference<LinkRequest<Identifier>> typeReference = new TypeReference<>() {
     };

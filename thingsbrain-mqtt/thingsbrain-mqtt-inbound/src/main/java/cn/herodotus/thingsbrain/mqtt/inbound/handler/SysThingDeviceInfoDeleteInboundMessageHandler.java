@@ -33,7 +33,7 @@ import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessin
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.tag.AttributeKey;
 import cn.herodotus.thingsbrain.link.commons.definition.DeviceTagManager;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractSysInboundMessageHandler;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
@@ -47,7 +47,7 @@ import java.util.Map;
  * @date : 2025/6/15 16:06
  */
 @Component(MethodConstants.METHOD__THING_DEVICEINFO_DELETE)
-public class SysThingDeviceInfoDeleteInboundMessageHandler extends AbstractSysInboundMessageHandler<List<AttributeKey>, Map<String, String>, DeviceTagManager> {
+public class SysThingDeviceInfoDeleteInboundMessageHandler extends AbstractInboundSysMessageHandler<List<AttributeKey>, Map<String, String>, DeviceTagManager> {
 
     private final TypeReference<LinkSysRequest<List<AttributeKey>>> typeReference = new TypeReference<>() {
     };

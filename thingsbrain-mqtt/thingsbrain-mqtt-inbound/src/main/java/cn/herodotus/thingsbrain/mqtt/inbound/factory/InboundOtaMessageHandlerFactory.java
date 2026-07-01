@@ -25,32 +25,20 @@
 
 package cn.herodotus.thingsbrain.mqtt.inbound.factory;
 
-import cn.herodotus.dante.core.constant.SymbolConstants;
 import cn.herodotus.dante.core.support.factory.AbstractStrategyFactory;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.SysInboundMessageHandler;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Strings;
-import org.springframework.stereotype.Component;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.InboundOtaMessageHandler;
 
 import java.util.Map;
 
 /**
- * <p>Description: Sys 主题消息处理器工厂 </p>
+ * <p>Description: Ota 主题消息处理器工厂 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/5/14 16:41
+ * @date : 2025/6/22 0:17
  */
-@Component
-public class SysMessageHandlerFactory extends AbstractStrategyFactory<SysInboundMessageHandler> {
+public class InboundOtaMessageHandlerFactory extends AbstractStrategyFactory<InboundOtaMessageHandler> {
 
-    public SysMessageHandlerFactory(Map<String, SysInboundMessageHandler> handlers) {
+    public InboundOtaMessageHandlerFactory(Map<String, InboundOtaMessageHandler> handlers) {
         super(handlers);
-    }
-
-    @Override
-    public String convert(String name) {
-        // 去掉末尾 .XXX 段
-        String[] items = StringUtils.split(name, SymbolConstants.COMMA);
-        return Strings.CS.removeEnd(name, SymbolConstants.COMMA + items[items.length - 1]);
     }
 }

@@ -41,9 +41,9 @@ import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
  * @author : gengwei.zheng
  * @date : 2025/10/20 21:45
  */
-public abstract class AbstractReplyInboundMessageHandler<I, O, M, R> extends AbstractInboundMessageHandler<R> {
+public abstract class AbstractInboundResponseMessageHandler<I, O, M, R> extends AbstractInboundMessageHandler<R> {
 
-    protected AbstractReplyInboundMessageHandler(MqttTopic mqttTopic) {
+    protected AbstractInboundResponseMessageHandler(MqttTopic mqttTopic) {
         super(mqttTopic);
     }
 

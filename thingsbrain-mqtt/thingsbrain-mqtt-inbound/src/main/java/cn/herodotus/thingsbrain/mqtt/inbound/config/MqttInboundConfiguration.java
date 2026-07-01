@@ -28,13 +28,13 @@ package cn.herodotus.thingsbrain.mqtt.inbound.config;
 import cn.herodotus.dante.message.commons.definition.strategy.MessageSendingEventManager;
 import cn.herodotus.thingsbrain.link.commons.definition.DeviceShadowManager;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.ExtInboundMessageHandler;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.OtaInboundMessageHandler;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.SysInboundMessageHandler;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.InboundExtMessageHandler;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.InboundOtaMessageHandler;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.InboundSysMessageHandler;
 import cn.herodotus.thingsbrain.mqtt.inbound.dispatcher.*;
-import cn.herodotus.thingsbrain.mqtt.inbound.factory.ExtMessageHandlerFactory;
-import cn.herodotus.thingsbrain.mqtt.inbound.factory.OtaMessageHandlerFactory;
-import cn.herodotus.thingsbrain.mqtt.inbound.factory.SysMessageHandlerFactory;
+import cn.herodotus.thingsbrain.mqtt.inbound.factory.InboundExtMessageHandlerFactory;
+import cn.herodotus.thingsbrain.mqtt.inbound.factory.InboundOtaMessageHandlerFactory;
+import cn.herodotus.thingsbrain.mqtt.inbound.factory.InboundSysMessageHandlerFactory;
 import cn.herodotus.thingsbrain.mqtt.inbound.processor.InboundResponseMessageProcessor;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -42,7 +42,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 import java.util.Map;
 
@@ -66,23 +65,23 @@ public class MqttInboundConfiguration {
     }
 
     @Bean
-    public SysMessageHandlerFactory sysMessageHandlerFactory(Map<String, SysInboundMessageHandler> handlers) {
-        SysMessageHandlerFactory factory = new SysMessageHandlerFactory(handlers);
-        log.trace("[ThingsBrain] |- Bean [Sys Message Handler Factory] Configure.");
+    public InboundSysMessageHandlerFactory inboundSysMessageHandlerFactory(Map<String, InboundSysMessageHandler> handlers) {
+        InboundSysMessageHandlerFactory factory = new InboundSysMessageHandlerFactory(handlers);
+        log.trace("[ThingsBrain] |- Bean [Inbound Sys Message Handler Factory] Configure.");
         return factory;
     }
 
     @Bean
-    public ExtMessageHandlerFactory extMessageHandlerFactory(Map<String, ExtInboundMessageHandler> handlers) {
-        ExtMessageHandlerFactory factory = new ExtMessageHandlerFactory(handlers);
-        log.trace("[ThingsBrain] |- Bean [Ext Message Handler Factory] Configure.");
+    public InboundExtMessageHandlerFactory inboundExtMessageHandlerFactory(Map<String, InboundExtMessageHandler> handlers) {
+        InboundExtMessageHandlerFactory factory = new InboundExtMessageHandlerFactory(handlers);
+        log.trace("[ThingsBrain] |- Bean [Inbound Ext Message Handler Factory] Configure.");
         return factory;
     }
 
     @Bean
-    public OtaMessageHandlerFactory otaMessageHandlerFactory(Map<String, OtaInboundMessageHandler> handlers) {
-        OtaMessageHandlerFactory factory = new OtaMessageHandlerFactory(handlers);
-        log.trace("[ThingsBrain] |- Bean [Ota Message Handler Factory] Configure.");
+    public InboundOtaMessageHandlerFactory inboundOtaMessageHandlerFactory(Map<String, InboundOtaMessageHandler> handlers) {
+        InboundOtaMessageHandlerFactory factory = new InboundOtaMessageHandlerFactory(handlers);
+        log.trace("[ThingsBrain] |- Bean [Inbound Ota Message Handler Factory] Configure.");
         return factory;
     }
 
@@ -95,19 +94,19 @@ public class MqttInboundConfiguration {
 
     @Bean
     public MqttInboundMessageDispatcher mqttInboundMessageDispatcher(
-            SysMessageHandlerFactory sysMessageHandlerFactory,
-            ExtMessageHandlerFactory extMessageHandlerFactory,
-            OtaMessageHandlerFactory otaMessageHandlerFactory,
+            InboundSysMessageHandlerFactory inboundSysMessageHandlerFactory,
+            InboundExtMessageHandlerFactory inboundExtMessageHandlerFactory,
+            InboundOtaMessageHandlerFactory inboundOtaMessageHandlerFactory,
             DeviceShadowManager deviceShadowManager,
             InboundResponseMessageProcessor inboundResponseMessageProcessor,
             MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
 
-        SysInboundMessageDispatcher sysInboundMessageDispatcher = new SysInboundMessageDispatcher(sysMessageHandlerFactory, inboundResponseMessageProcessor, mqttOutboundMessagePublisher);
-        ExtInboundMessageDispatcher extInboundMessageDispatcher = new ExtInboundMessageDispatcher(extMessageHandlerFactory, inboundResponseMessageProcessor, mqttOutboundMessagePublisher);
-        OtaInboundMessageDispatcher otaInboundMessageDispatcher = new OtaInboundMessageDispatcher(otaMessageHandlerFactory);
-        ShadowInboundMessageDispatcher shadowInboundMessageDispatcher = new ShadowInboundMessageDispatcher(deviceShadowManager, mqttOutboundMessagePublisher);
-        MqttInboundMessageDispatcher dispatcher = new MqttInboundMessageDispatcher(extInboundMessageDispatcher, otaInboundMessageDispatcher, shadowInboundMessageDispatcher, sysInboundMessageDispatcher);
-        log.trace("[ThingsBrain] |- Bean [Shadow Inbound Message Listener] Configure.");
+        InboundSysMessageDispatcher inboundSysMessageDispatcher = new InboundSysMessageDispatcher(inboundSysMessageHandlerFactory, inboundResponseMessageProcessor, mqttOutboundMessagePublisher);
+        InboundExtMessageDispatcher inboundExtMessageDispatcher = new InboundExtMessageDispatcher(inboundExtMessageHandlerFactory, inboundResponseMessageProcessor, mqttOutboundMessagePublisher);
+        InboundOtaMessageDispatcher inboundOtaMessageDispatcher = new InboundOtaMessageDispatcher(inboundOtaMessageHandlerFactory);
+        InboundShadowMessageDispatcher inboundShadowMessageDispatcher = new InboundShadowMessageDispatcher(deviceShadowManager, mqttOutboundMessagePublisher);
+        MqttInboundMessageDispatcher dispatcher = new MqttInboundMessageDispatcher(inboundExtMessageDispatcher, inboundOtaMessageDispatcher, inboundShadowMessageDispatcher, inboundSysMessageDispatcher);
+        log.trace("[ThingsBrain] |- Bean [Mqtt Inbound Message Dispatcher] Configure.");
         return dispatcher;
     }
 }

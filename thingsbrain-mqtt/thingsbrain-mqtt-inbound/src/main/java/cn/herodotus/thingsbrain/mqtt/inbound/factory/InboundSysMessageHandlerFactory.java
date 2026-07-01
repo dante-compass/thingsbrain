@@ -23,28 +23,34 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.mqtt.inbound.definition.handler;
+package cn.herodotus.thingsbrain.mqtt.inbound.factory;
 
-import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
-import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
+import cn.herodotus.dante.core.constant.SymbolConstants;
+import cn.herodotus.dante.core.support.factory.AbstractStrategyFactory;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.InboundSysMessageHandler;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
+import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 /**
- * <p>Description: Ext 主题 Mqtt 消息处理器定义 </p>
- * <p>
- * 以 Ext 开头的 设备上下线专属 Mqtt 消息。
- * <p>
- * 定义此接口是为了便于工厂类定义具体的处理器。
+ * <p>Description: Sys 主题消息处理器工厂 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/5/14 12:28
+ * @date : 2025/5/14 16:41
  */
-public interface ExtInboundMessageHandler {
+@Component
+public class InboundSysMessageHandlerFactory extends AbstractStrategyFactory<InboundSysMessageHandler> {
 
-    /**
-     * 接收信息
-     *
-     * @param details Mqtt 消息详情 {@link MqttMessageDetails}
-     * @return 响应 {@link LinkResponse}
-     */
-    LinkResponse<?> receive(MqttMessageDetails details);
+    public InboundSysMessageHandlerFactory(Map<String, InboundSysMessageHandler> handlers) {
+        super(handlers);
+    }
+
+    @Override
+    public String convert(String name) {
+        // 去掉末尾 .XXX 段
+        String[] items = StringUtils.split(name, SymbolConstants.COMMA);
+        return Strings.CS.removeEnd(name, SymbolConstants.COMMA + items[items.length - 1]);
+    }
 }

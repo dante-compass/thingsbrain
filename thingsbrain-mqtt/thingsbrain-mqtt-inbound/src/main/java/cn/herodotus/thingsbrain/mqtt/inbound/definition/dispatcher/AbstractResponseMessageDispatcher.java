@@ -39,12 +39,12 @@ import org.apache.commons.lang3.StringUtils;
  * @author : gengwei.zheng
  * @date : 2025/10/20 14:38
  */
-public abstract class AbstractReplyMessageDispatcher implements InboundMessageDispatcher {
+public abstract class AbstractResponseMessageDispatcher implements InboundMessageDispatcher {
 
     private final InboundResponseMessageProcessor inboundResponseMessageProcessor;
     private final MqttOutboundMessagePublisher mqttOutboundMessagePublisher;
 
-    protected AbstractReplyMessageDispatcher(InboundResponseMessageProcessor inboundResponseMessageProcessor, MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
+    protected AbstractResponseMessageDispatcher(InboundResponseMessageProcessor inboundResponseMessageProcessor, MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
         this.inboundResponseMessageProcessor = inboundResponseMessageProcessor;
         this.mqttOutboundMessagePublisher = mqttOutboundMessagePublisher;
     }

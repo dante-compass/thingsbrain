@@ -31,7 +31,7 @@ import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.ota.DeviceProgressParam;
 import cn.herodotus.thingsbrain.link.commons.definition.OtaManager;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractOtaInboundMessageHandler;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundOtaMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
@@ -44,7 +44,7 @@ import java.util.function.BiConsumer;
  * @date : 2025/6/16 12:18
  */
 @Component(MethodConstants.METHOD__OTA_DEVICE_UPGRADE)
-public class OtaDeviceProgressInboundMessageHandler extends AbstractOtaInboundMessageHandler<DeviceProgressParam> {
+public class OtaDeviceProgressInboundMessageHandler extends AbstractInboundOtaMessageHandler<DeviceProgressParam> {
 
     private final TypeReference<LinkRequest<DeviceProgressParam>> typeReference = new TypeReference<>() {
     };

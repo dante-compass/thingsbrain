@@ -29,43 +29,67 @@ import cn.herodotus.dante.core.jackson.JacksonUtils;
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
-import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
-import cn.herodotus.thingsbrain.link.commons.definition.SubsetSessionManager;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
+import cn.herodotus.thingsbrain.kernel.link.definition.SysDomain;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <p>Description: Ext 主题北向数据处理器抽象定义 </p>
+ * <p>Description: 系统主题北向数据处理器抽象定义 </p>
  *
  * @param <I> 入站请求业务数据类型
  * @param <O> 出站响应结果数据类型
+ * @param <M> 对应业务处理 Manager
  * @author : gengwei.zheng
  * @date : 2025/6/15 21:52
  */
-public abstract class AbstractExtInboundMessageHandler<I, O> extends AbstractReplyInboundMessageHandler<I, O, SubsetSessionManager, LinkRequest<I>> implements ExtInboundMessageHandler {
+public abstract class AbstractInboundSysMessageHandler<I, O, M> extends AbstractInboundResponseMessageHandler<I, O, M, LinkSysRequest<I>> implements InboundSysMessageHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(AbstractExtInboundMessageHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(AbstractInboundSysMessageHandler.class);
 
-    private final SubsetSessionManager subsetSessionManager;
+    private final M messageManager;
 
-    protected AbstractExtInboundMessageHandler(MqttTopic mqttTopic, SubsetSessionManager subsetSessionManager) {
+    protected AbstractInboundSysMessageHandler(MqttTopic mqttTopic, M messageManager) {
         super(mqttTopic);
-        this.subsetSessionManager = subsetSessionManager;
+        this.messageManager = messageManager;
     }
 
+    /**
+     * 判断是否需要响应
+     *
+     * @param request 请求数据 {@link LinkSysRequest}
+     * @return true 需要回复
+     */
+    private boolean isNeedReply(MqttMessageDetails details, LinkSysRequest<I> request) {
+        // 当前主题定义是否支持 Reply
+        if (getMqttTopic().isSupportReply() && details.isSupportResponse()) {
+            SysDomain sys = request.getSys();
+            // 判断上报数据是否指定需要 Replay
+            return ObjectUtils.isNotEmpty(sys) && sys.getAck() == 1;
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public LinkResponse<?> receive(MqttMessageDetails details) {
-        CompleteIdentifier completeIdentifier = getCompleteIdentifier(details.getTopic());
-        LinkRequest<I> domain = JacksonUtils.toObject(details.getPayload(), getTypeReference());
+        CompleteIdentifier identity = getCompleteIdentifier(details.getTopic());
+        LinkSysRequest<I> domain = JacksonUtils.toObject(details.getPayload(), getTypeReference());
+
+        boolean isNeedReply = isNeedReply(details, domain);
 
         try {
-            O result = getFunction(subsetSessionManager).apply(completeIdentifier, domain.getParams());
-            return success(domain.getId(), result);
+            O result = getFunction(messageManager).apply(identity, domain.getParams());
+            return success(domain.getId(), result, isNeedReply);
         } catch (InboundMessageProcessingException e) {
             log.error("[ThingsBrain] |- Ext session topic data process catch error!", e);
-            return internalServerError(domain.getId());
+            return internalServerError(domain.getId(), isNeedReply);
         }
     }
 }

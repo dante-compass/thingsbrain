@@ -34,7 +34,7 @@ import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
 import cn.herodotus.thingsbrain.kernel.link.definition.config.FileConfig;
 import cn.herodotus.thingsbrain.kernel.link.domain.config.ConfigDomain;
 import cn.herodotus.thingsbrain.link.commons.definition.DeviceConfigManager;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractSysInboundMessageHandler;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
@@ -45,7 +45,7 @@ import tools.jackson.core.type.TypeReference;
  * @date : 2025/6/16 12:19
  */
 @Component(MethodConstants.METHOD__THING_CONFIG_GET)
-public class SysThingConfigGetInboundMessageHandler extends AbstractSysInboundMessageHandler<FileConfig, ConfigDomain, DeviceConfigManager> {
+public class SysThingConfigGetInboundMessageHandler extends AbstractInboundSysMessageHandler<FileConfig, ConfigDomain, DeviceConfigManager> {
 
     private final TypeReference<LinkSysRequest<FileConfig>> typeReference = new TypeReference<>() {
     };

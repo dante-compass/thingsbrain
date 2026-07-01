@@ -26,19 +26,21 @@
 package cn.herodotus.thingsbrain.mqtt.inbound.factory;
 
 import cn.herodotus.dante.core.support.factory.AbstractStrategyFactory;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.OtaInboundMessageHandler;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.InboundExtMessageHandler;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
 /**
- * <p>Description: Ota 主题消息处理器工厂 </p>
+ * <p>Description: Ext 主题消息处理器工厂 </p>
  *
  * @author : gengwei.zheng
  * @date : 2025/6/22 0:17
  */
-public class OtaMessageHandlerFactory extends AbstractStrategyFactory<OtaInboundMessageHandler> {
+@Component
+public class InboundExtMessageHandlerFactory extends AbstractStrategyFactory<InboundExtMessageHandler> {
 
-    public OtaMessageHandlerFactory(Map<String, OtaInboundMessageHandler> handlers) {
+    public InboundExtMessageHandlerFactory(Map<String, InboundExtMessageHandler> handlers) {
         super(handlers);
     }
 }

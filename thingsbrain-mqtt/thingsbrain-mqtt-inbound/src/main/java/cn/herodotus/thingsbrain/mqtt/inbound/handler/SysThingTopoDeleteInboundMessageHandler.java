@@ -33,7 +33,7 @@ import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
 import cn.herodotus.thingsbrain.link.commons.definition.SubsetTopoManager;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractSysInboundMessageHandler;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
@@ -46,7 +46,7 @@ import java.util.List;
  * @date : 2025/6/16 12:35
  */
 @Component(MethodConstants.METHOD__THING_TOPO_DELETE)
-public class SysThingTopoDeleteInboundMessageHandler extends AbstractSysInboundMessageHandler<List<Identifier>, List<Identifier>, SubsetTopoManager> {
+public class SysThingTopoDeleteInboundMessageHandler extends AbstractInboundSysMessageHandler<List<Identifier>, List<Identifier>, SubsetTopoManager> {
 
     private final TypeReference<LinkSysRequest<List<Identifier>>> typeReference = new TypeReference<>() {
     };

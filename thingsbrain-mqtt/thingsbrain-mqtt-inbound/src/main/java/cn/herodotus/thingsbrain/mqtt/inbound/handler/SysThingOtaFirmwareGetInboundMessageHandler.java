@@ -34,7 +34,7 @@ import cn.herodotus.thingsbrain.kernel.link.definition.DeviceModule;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.ota.HttpProtocolDomain;
 import cn.herodotus.thingsbrain.link.commons.definition.OtaManager;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractSysInboundMessageHandler;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
@@ -45,7 +45,7 @@ import tools.jackson.core.type.TypeReference;
  * @date : 2025/6/16 12:14
  */
 @Component(MethodConstants.METHOD__OTA_FIRMWARE_GET)
-public class SysThingOtaFirmwareGetInboundMessageHandler extends AbstractSysInboundMessageHandler<DeviceModule, HttpProtocolDomain, OtaManager> {
+public class SysThingOtaFirmwareGetInboundMessageHandler extends AbstractInboundSysMessageHandler<DeviceModule, HttpProtocolDomain, OtaManager> {
 
     private final TypeReference<LinkSysRequest<DeviceModule>> typeReference = new TypeReference<>() {
     };

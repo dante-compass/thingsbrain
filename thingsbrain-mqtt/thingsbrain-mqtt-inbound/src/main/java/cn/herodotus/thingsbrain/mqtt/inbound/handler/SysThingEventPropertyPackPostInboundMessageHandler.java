@@ -33,7 +33,7 @@ import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessin
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.specification.EventPropertyPackPost;
 import cn.herodotus.thingsbrain.link.commons.definition.SpecificationPostManager;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractSysInboundMessageHandler;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
@@ -46,7 +46,7 @@ import java.util.Map;
  * @date : 2025/5/14 12:30
  */
 @Component(MethodConstants.METHOD__THING_EVENT_PROPERTY_PACK_POST)
-public class SysThingEventPropertyPackPostInboundMessageHandler extends AbstractSysInboundMessageHandler<EventPropertyPackPost, Map<String, Object>, SpecificationPostManager> {
+public class SysThingEventPropertyPackPostInboundMessageHandler extends AbstractInboundSysMessageHandler<EventPropertyPackPost, Map<String, Object>, SpecificationPostManager> {
 
     private final TypeReference<LinkSysRequest<EventPropertyPackPost>> typeReference = new TypeReference<>() {
     };

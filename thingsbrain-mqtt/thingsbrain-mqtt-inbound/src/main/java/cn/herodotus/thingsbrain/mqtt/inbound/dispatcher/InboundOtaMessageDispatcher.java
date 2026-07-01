@@ -25,15 +25,10 @@
 
 package cn.herodotus.thingsbrain.mqtt.inbound.dispatcher;
 
-import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
-import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.dispatcher.AbstractReplyMessageDispatcher;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.SysInboundMessageHandler;
-import cn.herodotus.thingsbrain.mqtt.inbound.factory.SysMessageHandlerFactory;
-import cn.herodotus.thingsbrain.mqtt.inbound.processor.InboundResponseMessageProcessor;
-
-import java.util.Optional;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.dispatcher.InboundMessageDispatcher;
+import cn.herodotus.thingsbrain.mqtt.inbound.factory.InboundOtaMessageHandlerFactory;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>Description: Mqtt 上报消息监听器 </p>
@@ -41,23 +36,25 @@ import java.util.Optional;
  * @author : gengwei.zheng
  * @date : 2025/5/14 12:54
  */
-public class SysInboundMessageDispatcher extends AbstractReplyMessageDispatcher {
+public class InboundOtaMessageDispatcher implements InboundMessageDispatcher {
 
-    private final SysMessageHandlerFactory sysMessageHandlerFactory;
+    private final InboundOtaMessageHandlerFactory inboundOtaMessageHandlerFactory;
 
-    public SysInboundMessageDispatcher(SysMessageHandlerFactory sysMessageHandlerFactory, InboundResponseMessageProcessor inboundResponseMessageProcessor, MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
-        super(inboundResponseMessageProcessor, mqttOutboundMessagePublisher);
-        this.sysMessageHandlerFactory = sysMessageHandlerFactory;
+
+    public InboundOtaMessageDispatcher(InboundOtaMessageHandlerFactory inboundOtaMessageHandlerFactory) {
+        this.inboundOtaMessageHandlerFactory = inboundOtaMessageHandlerFactory;
     }
 
     @Override
-    public void requestProcess(MqttMessageDetails details) {
-        Optional<SysInboundMessageHandler> optional = sysMessageHandlerFactory.getHandler(details.getMethod());
-        optional.ifPresentOrElse(
-                handler -> {
-                    LinkResponse<?> response = handler.receive(details);
-                    response(details, response);
-                },
-                () -> response(details, LinkResponse.requestParameterError(details.getRequestId())));
+    public void process(MqttMessageDetails details) {
+
+        // 使用 JsonNode 类型，是为了提升一定的转换效率
+        // 如果直接 JacksonUtils 转换成对象，这里不知道该转换成什么类型，只能定义包含 id 和 method 的对象，先转换一次，后面进入到 handler 再转换成具体的类型，这就出现了两次转换
+        // 使用 JsonNode，先行将 JSON 进行解析。这里就可以直接获取必要属性，后面进入到 handler 再转换成具体对象。相当于只转换了一次
+
+        if (StringUtils.isNotBlank(details.getMethod())) {
+            inboundOtaMessageHandlerFactory.getHandler(details.getMethod())
+                    .ifPresent(handler -> handler.receive(details));
+        }
     }
 }

@@ -38,7 +38,7 @@ import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
  * @author : gengwei.zheng
  * @date : 2025/5/14 12:28
  */
-public interface OtaInboundMessageHandler {
+public interface InboundOtaMessageHandler {
 
     /**
      * 接收信息

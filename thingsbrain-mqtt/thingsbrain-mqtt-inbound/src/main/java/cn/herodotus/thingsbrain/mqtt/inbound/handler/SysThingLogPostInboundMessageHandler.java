@@ -33,7 +33,7 @@ import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessin
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.config.LogParam;
 import cn.herodotus.thingsbrain.link.commons.definition.DeviceConfigLogManager;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractSysInboundMessageHandler;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
@@ -47,7 +47,7 @@ import java.util.Map;
  * @date : 2025/6/16 12:31
  */
 @Component(MethodConstants.METHOD__THING_LOG_POST)
-public class SysThingLogPostInboundMessageHandler extends AbstractSysInboundMessageHandler<List<LogParam>, Map<String, Object>, DeviceConfigLogManager> {
+public class SysThingLogPostInboundMessageHandler extends AbstractInboundSysMessageHandler<List<LogParam>, Map<String, Object>, DeviceConfigLogManager> {
 
     private final TypeReference<LinkSysRequest<List<LogParam>>> typeReference = new TypeReference<>() {
     };
