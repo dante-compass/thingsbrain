@@ -25,6 +25,7 @@
 
 package cn.herodotus.thingsbrain.link.storage.handler;
 
+import cn.herodotus.dante.core.utils.StringTemplateUtils;
 import cn.herodotus.thingsbrain.kernel.commons.constant.KernelConstants;
 import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import cn.herodotus.thingsbrain.kernel.link.definition.specification.PropertyParamEntry;
@@ -39,7 +40,6 @@ import com.influxdb.v3.client.Point;
 import com.influxdb.v3.client.write.WritePrecision;
 import org.apache.commons.lang3.ObjectUtils;
 
-import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +61,7 @@ public class InfluxDBRowStorageHandler extends AbstractInfluxDB3Service implemen
 
         InfluxDBClient client = this.getClient();
 
-        String measurement = MessageFormat.format(StorageConstants.INFLUXDB_MEASUREMENT_PROPERTY, productKey);
+        String measurement = StringTemplateUtils.replace(StorageConstants.INFLUXDB_MEASUREMENT_PROPERTY, Map.of(KernelConstants.KEY__PRODUCT_KEY, productKey));
 
         ParamWrapper paramWrapper = new ParamWrapper(request);
 
@@ -78,6 +78,7 @@ public class InfluxDBRowStorageHandler extends AbstractInfluxDB3Service implemen
         } finally {
             this.close(client);
         }
+
         return Map.of();
     }
 
@@ -118,7 +119,7 @@ public class InfluxDBRowStorageHandler extends AbstractInfluxDB3Service implemen
 
         InfluxDBClient client = this.getClient();
 
-        String measurement = MessageFormat.format(StorageConstants.INFLUXDB_MEASUREMENT_EVENT, productKey, identifier);
+        String measurement = StringTemplateUtils.replace(StorageConstants.INFLUXDB_MEASUREMENT_EVENT, Map.of(ProtocolConstants.VARIABLE__IDENTIFIER, identifier));
 
         Point point = Point.measurement(measurement)
                 .setTag(KernelConstants.KEY__PRODUCT_KEY, productKey)
@@ -130,10 +131,11 @@ public class InfluxDBRowStorageHandler extends AbstractInfluxDB3Service implemen
         try {
             client.writePoint(point);
         } catch (Exception e) {
-            throw new DataStorageException("Post event data as row store catch error", e);
+            throw new DataStorageException("Post property data as row store catch error", e);
         } finally {
             this.close(client);
         }
+
         return Map.of();
     }
 

@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.mqtt.inbound.definition.dispatcher;
 
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.MessageDetails;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 
 /**
  * <p>Description: 入站消息分发器 </p>
@@ -35,5 +35,10 @@ import cn.herodotus.thingsbrain.mqtt.inbound.definition.MessageDetails;
  */
 public interface InboundMessageDispatcher {
 
-    void process(MessageDetails details);
+    /**
+     * 入站消息分发处理
+     *
+     * @param details 消息详情 {@link MqttMessageDetails}
+     */
+    void process(MqttMessageDetails details);
 }

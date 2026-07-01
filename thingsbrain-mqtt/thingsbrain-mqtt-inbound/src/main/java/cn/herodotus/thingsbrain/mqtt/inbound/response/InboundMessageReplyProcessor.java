@@ -29,13 +29,13 @@ import cn.herodotus.dante.core.jackson.JacksonUtils;
 import cn.herodotus.dante.message.commons.definition.strategy.MessageSendingEventManager;
 import cn.herodotus.dante.message.commons.domain.UserMessage;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttOperation;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import tools.jackson.databind.JsonNode;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 入站 Reply 消息处理器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2025/10/18 23:19
@@ -48,10 +48,10 @@ public class InboundMessageReplyProcessor {
         this.messageSendingEventManager = messageSendingEventManager;
     }
 
-    public void process(MqttOperation mqttOperation, JsonNode payload) {
+    public void process(MqttOperation mqttOperation, MqttMessageDetails details) {
         if (StringUtils.isNotEmpty(mqttOperation.getUserId())) {
 
-            LinkResponse<?> response = JacksonUtils.toObject(payload, LinkResponse.class);
+            LinkResponse<?> response = JacksonUtils.toObject(details.getPayload(), LinkResponse.class);
 
             UserMessage userMessage = new UserMessage();
             userMessage.setUserId(mqttOperation.getUserId());

@@ -25,13 +25,10 @@
 
 package cn.herodotus.thingsbrain.mqtt.inbound.dispatcher;
 
-import cn.herodotus.dante.core.constant.SymbolConstants;
-import cn.herodotus.thingsbrain.kernel.commons.enums.TopicCategory;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.MessageDetails;
-import org.apache.commons.lang3.StringUtils;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Mqtt 入站消息分发器 </p>
  *
  * @author : gengwei_zheng
  * @date : 2026/5/3 15:21
@@ -50,27 +47,13 @@ public class MqttInboundMessageDispatcher {
         this.sysInboundMessageDispatcher = sysInboundMessageDispatcher;
     }
 
-    public void process(String topic, byte[] payload, String responseTopic, byte[] correlationData) {
+    public void process(MqttMessageDetails details) {
 
-        TopicCategory topicCategory = getTopicCategory(topic);
-
-        switch (topicCategory) {
-            case OTA -> otaInboundMessageDispatcher.process(new MessageDetails(topic, payload));
-            case EXT ->
-                    extInboundMessageDispatcher.process(new MessageDetails(topic, payload, responseTopic, correlationData));
-            case SHADOW -> shadowInboundMessageDispatcher.process(new MessageDetails(topic, payload));
-            default ->
-                    sysInboundMessageDispatcher.process(new MessageDetails(topic, payload, responseTopic, correlationData));
-        }
-        ;
-    }
-
-    private TopicCategory getTopicCategory(String topic) {
-        String prefix = StringUtils.substringBefore(topic, SymbolConstants.FORWARD_SLASH);
-        if (StringUtils.isNotBlank(prefix)) {
-            return TopicCategory.get(prefix);
-        } else {
-            return TopicCategory.SYS;
+        switch (details.getTopicCategory()) {
+            case OTA -> otaInboundMessageDispatcher.process(details);
+            case EXT -> extInboundMessageDispatcher.process(details);
+            case SHADOW -> shadowInboundMessageDispatcher.process(details);
+            default -> sysInboundMessageDispatcher.process(details);
         }
     }
 }

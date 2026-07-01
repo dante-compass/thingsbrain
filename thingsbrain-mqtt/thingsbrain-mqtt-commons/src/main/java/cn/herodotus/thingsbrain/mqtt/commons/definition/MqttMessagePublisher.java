@@ -26,7 +26,6 @@
 package cn.herodotus.thingsbrain.mqtt.commons.definition;
 
 import cn.herodotus.dante.core.jackson.JacksonUtils;
-import cn.herodotus.dante.message.commons.domain.MqttMessage;
 import cn.herodotus.dante.message.commons.event.MqttMessageSendingEvent;
 import cn.herodotus.dante.security.domain.UserPrincipal;
 import cn.herodotus.dante.spring.context.ServiceContextHolder;
@@ -34,10 +33,12 @@ import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.enums.Qos;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttOperation;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 /**
@@ -51,10 +52,10 @@ public interface MqttMessagePublisher {
     /**
      * 判断缓存中，对应的请求ID是否已经存在。
      *
-     * @param requestId 请求ID
+     * @param details Mqtt 消息详情 {@link MqttMessageDetails}
      * @return mqtt 请求数据 {@link MqttOperation}
      */
-    Optional<MqttOperation> exists(String requestId);
+    Optional<MqttOperation> get(MqttMessageDetails details);
 
     /**
      * 将操作数据进行缓存，方便响应时读取使用
@@ -62,7 +63,7 @@ public interface MqttMessagePublisher {
      * @param requestId 请求 ID
      * @param operation 操作数据 {@link MqttOperation}
      */
-    void cache(String requestId, MqttOperation operation);
+    void record(String requestId, MqttOperation operation);
 
     /**
      * 发布 Mqtt 消息
@@ -73,21 +74,43 @@ public interface MqttMessagePublisher {
      * @param responseTopic   响应主题
      * @param correlationData 关联数据
      */
-    private void publish(String topic, String payload, Integer qos, String responseTopic, String correlationData) {
-        MqttMessage message = new MqttMessage();
-        message.setTopic(topic);
-        message.setPayload(payload);
-        message.setQos(qos);
+    private void publish(String topic, String payload, Integer qos, String responseTopic, byte[] correlationData) {
+        ServiceContextHolder.publishEvent(new MqttMessageSendingEvent(topic, payload, qos, responseTopic, correlationData));
+    }
 
-        if (StringUtils.isNotBlank(responseTopic) && StringUtils.isNotBlank(correlationData)) {
-            message.setResponseTopic(responseTopic);
+    /**
+     * 发布 Mqtt 消息
+     *
+     * @param topic   主题
+     * @param payload 内容
+     * @param qos     Qos
+     */
+    default void publish(String topic, String payload, Integer qos) {
+        publish(topic, payload, qos, null, null);
+    }
+
+    /**
+     * 发布 Mqtt 消息
+     *
+     * @param topic   主题
+     * @param payload 内容
+     */
+    default void publish(String topic, String payload) {
+        publish(topic, payload, Qos.QOS_0.ordinal());
+    }
+
+    /**
+     * 发布 Mqtt 消息。主要用于向响应主题发送信息。
+     * <p>
+     * Mqtt 请求响应模式，响应时需要回传 correlationData，此时的 topic 实际为响应主题
+     *
+     * @param details Mqtt 消息详情 {@link MqttMessageDetails}
+     * @param payload 数据 {@link LinkResponse}
+     */
+    default void response(MqttMessageDetails details, LinkResponse<?> payload) {
+        if (StringUtils.isNotBlank(details.getResponseTopic())) {
+            publish(details.getResponseTopic(), JacksonUtils.toJson(payload), details.getQos(), null, details.getCorrelationData());
         }
-
-        if (StringUtils.isNotBlank(correlationData)) {
-            message.setCorrelationData(responseTopic);
-        }
-
-        ServiceContextHolder.publishEvent(new MqttMessageSendingEvent(message));
     }
 
     /**
@@ -106,19 +129,19 @@ public interface MqttMessagePublisher {
 
         LinkRequest<?> request = ObjectUtils.isNotEmpty(data) ? LinkRequest.with(mqttTopic.getMethod(), data) : LinkRequest.with(mqttTopic.getMethod());
 
-        if (ObjectUtils.isNotEmpty(userPrincipal)) {
+        if (ObjectUtils.isNotEmpty(userPrincipal) && StringUtils.isNotBlank(request.getId())) {
             MqttOperation mqttOperation = MqttOperation.with(productKey, deviceName, identifier)
                     .requestId(request.getId())
                     .userId(userPrincipal.getId())
                     .build();
 
-            cache(request.getId(), mqttOperation);
+            record(request.getId(), mqttOperation);
 
             publish(mqttTopic.getTopic(productKey, deviceName, identifier),
                     JacksonUtils.toJson(request),
                     qos,
                     mqttTopic.getReplyTopic(productKey, deviceName, identifier),
-                    request.getId());
+                    request.getId().getBytes(StandardCharsets.UTF_8));
         } else {
             publish(mqttTopic.getTopic(productKey, deviceName, identifier), JacksonUtils.toJson(request), qos);
         }
@@ -245,53 +268,5 @@ public interface MqttMessagePublisher {
      */
     default void request(MqttTopic mqttTopic, String productKey, String deviceName) {
         request(mqttTopic, productKey, deviceName, null, null, Qos.QOS_1.ordinal());
-    }
-
-    /**
-     * 发布 Mqtt 消息。主要用于向响应主题发送信息。
-     * <p>
-     * Mqtt 请求响应模式，响应时需要回传 correlationData，此时的 topic 实际为响应主题
-     *
-     * @param responseTopic   主题
-     * @param payload         数据 {@link LinkResponse}
-     * @param qos             Qos
-     * @param correlationData 关联数据
-     */
-    default void response(String responseTopic, LinkResponse<?> payload, Integer qos, String correlationData) {
-        publish(responseTopic, JacksonUtils.toJson(payload), qos, null, correlationData);
-    }
-
-    /**
-     * 发布 Mqtt 消息。主要用于向响应主题发送信息。
-     * <p>
-     * Mqtt 请求响应模式，响应时需要回传 correlationData。
-     *
-     * @param responseTopic   主题，此时的 topic 实际为响应主题
-     * @param payload         数据 {@link LinkResponse}
-     * @param correlationData 关联数据
-     */
-    default void response(String responseTopic, LinkResponse<?> payload, String correlationData) {
-        response(responseTopic, payload, Qos.QOS_1.ordinal(), correlationData);
-    }
-
-    /**
-     * 发布 Mqtt 消息
-     *
-     * @param topic   主题
-     * @param payload 内容
-     * @param qos     Qos
-     */
-    default void publish(String topic, String payload, Integer qos) {
-        publish(topic, payload, qos, null, null);
-    }
-
-    /**
-     * 发布 Mqtt 消息
-     *
-     * @param topic   主题
-     * @param payload 内容
-     */
-    default void publish(String topic, String payload) {
-        publish(topic, payload, Qos.QOS_1.ordinal());
     }
 }

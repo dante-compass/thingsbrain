@@ -36,25 +36,26 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>Description: Mqtt 主题使用区域 </p>
+ * <p>Description: Mqtt 主题用途 </p>
  *
- * @author : gengwei.zheng
- * @date : 2025/5/8 15:30
+ * @author : gengwei_zheng
+ * @date : 2026/6/27 12:25
  */
-@Schema(name = "Mqtt 主题使用区域")
+@Schema(name = "Mqtt 主题用途")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum Area implements DictionaryEnum {
+public enum Purpose implements DictionaryEnum {
 
-    PLATFORM("0", "物联网平台端"),
-    DEVICE("1", "设备端");
+    KERNEL("0", "物联网平台核心主题"),
+    CUSTOMIZE("1", "用户自定义主题"),
+    LINK("2", "自定义 Link 协议主题");
 
-    private static final Map<Integer, Area> INDEX_MAP = new HashMap<>();
+    private static final Map<Integer, Purpose> INDEX_MAP = new HashMap<>();
     private static final List<Dictionary> DICTIONARIES = new ArrayList<>();
 
     static {
-        for (Area area : Area.values()) {
-            INDEX_MAP.put(area.ordinal(), area);
-            DICTIONARIES.add(area.getDictionary(area.name(), area.ordinal()));
+        for (Purpose purpose : Purpose.values()) {
+            INDEX_MAP.put(purpose.ordinal(), purpose);
+            DICTIONARIES.add(purpose.getDictionary(purpose.name(), purpose.ordinal()));
         }
     }
 
@@ -63,12 +64,12 @@ public enum Area implements DictionaryEnum {
     @Schema(name = "说明")
     private final String label;
 
-    Area(String value, String label) {
+    Purpose(String value, String label) {
         this.value = value;
         this.label = label;
     }
 
-    public static Area get(Integer index) {
+    public static Purpose get(Integer index) {
         return INDEX_MAP.get(index);
     }
 

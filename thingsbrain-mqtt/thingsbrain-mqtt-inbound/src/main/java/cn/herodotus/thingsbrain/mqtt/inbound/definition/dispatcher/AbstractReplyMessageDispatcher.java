@@ -25,17 +25,13 @@
 
 package cn.herodotus.thingsbrain.mqtt.inbound.definition.dispatcher;
 
-import cn.herodotus.dante.core.jackson.JsonNodeUtils;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttOperation;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.MessageDetails;
 import cn.herodotus.thingsbrain.mqtt.inbound.response.InboundMessageReplyProcessor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import tools.jackson.databind.JsonNode;
-
-import java.util.Optional;
 
 /**
  * <p>Description: 需要 Reply 的 Mqtt 消息监听器抽象定义 </p>
@@ -54,38 +50,49 @@ public abstract class AbstractReplyMessageDispatcher implements InboundMessageDi
     }
 
     @Override
-    public void process(MessageDetails details) {
+    public void process(MqttMessageDetails details) {
 
         // 使用 JsonNode 类型，是为了提升一定的转换效率
         // 如果直接 JacksonUtils 转换成对象，这里不知道该转换成什么类型，只能定义包含 id 和 method 的对象，先转换一次，后面进入到 handler 再转换成具体的类型，这就出现了两次转换
         // 使用 JsonNode，先行将 JSON 进行解析。这里就可以直接获取必要属性，后面进入到 handler 再转换成具体对象。相当于只转换了一次
-        JsonNode payload = details.getPayload();
 
-        String id = JsonNodeUtils.findStringValue(payload, "id");
-        String method = JsonNodeUtils.findStringValue(payload, "method");
-
-        // event.getCorrelationData() 是将 byte[] 转成 string，提前取出来，减少转换
-        String correlationData = details.getCorrelationData();
-
-        if (StringUtils.isNoneBlank(id, method, details.getCorrelationData())) {
-            Optional<MqttOperation> optional = mqttMessagePublisher.exists(id);
-            optional.ifPresentOrElse(
-                    mqttOperation -> responseProcess(mqttOperation, payload),
-                    () -> requestProcess(id, method, details.getTopic(), payload, details.getResponseTopic(), correlationData));
+        // 主要处理 “请求/响应” 类 Mqtt 消息。当前设计中，请求数据需要包含 method，响应数据中不包含 method。可以以此判断是上行数据还是下行数据的响应。
+        if (StringUtils.isNotBlank(details.getMethod())) {
+            // 上行数据请求
+            requestProcess(details);
         } else {
-            publish(details.getResponseTopic(), LinkResponse.requestParameterError(id, method), correlationData);
+            // 下行数据的反馈响应
+            mqttMessagePublisher.get(details)
+                    .ifPresent(operation -> responseProcess(operation, details));
         }
     }
 
-    private void responseProcess(MqttOperation mqttOperation, JsonNode jsonNode) {
-        inboundMessageReplyProcessor.process(mqttOperation, jsonNode);
+    /**
+     * 设备端发送到平台的 “请求” 数据处理。
+     *
+     * @param details Mqtt 消息详情 {@link MqttMessageDetails}
+     */
+    abstract protected void requestProcess(MqttMessageDetails details);
+
+    /**
+     * 设备端发送到平台的 “响应” 数据处理。
+     *
+     * @param operation Mqtt 操作信息 {@link MqttOperation}
+     * @param details   details Mqtt 消息详情 {@link MqttMessageDetails}
+     */
+    private void responseProcess(MqttOperation operation, MqttMessageDetails details) {
+        inboundMessageReplyProcessor.process(operation, details);
     }
 
-    abstract protected void requestProcess(String id, String method, String topic, JsonNode payload, String responseTopic, String correlationData);
-
-    protected void publish(String topic, LinkResponse<?> response, String correlationData) {
+    /**
+     * 平台发送 Mqtt 数据方法
+     *
+     * @param details  details Mqtt 消息详情 {@link MqttMessageDetails}
+     * @param response 发送数据
+     */
+    protected void response(MqttMessageDetails details, LinkResponse<?> response) {
         if (ObjectUtils.isNotEmpty(response)) {
-            mqttMessagePublisher.response(topic, response, correlationData);
+            mqttMessagePublisher.response(details, response);
         }
     }
 }

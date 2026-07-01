@@ -29,6 +29,7 @@ import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.dante.data.jpa.service.AbstractJpaService;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Action;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Area;
+import cn.herodotus.thingsbrain.persistence.commons.enums.Purpose;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttCategory;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.repository.HerodotusMqttCategoryRepository;
 import org.springframework.stereotype.Service;
@@ -56,15 +57,15 @@ public class HerodotusMqttCategoryService extends AbstractJpaService<HerodotusMq
         return herodotusMqttCategoryRepository;
     }
 
-    public Set<HerodotusMqttCategory> findByStandardAndArea(Boolean standard, Area area) {
-        return herodotusMqttCategoryRepository.findByStandardAndArea(standard, area);
+    public Set<HerodotusMqttCategory> findByArea(Area area) {
+        return herodotusMqttCategoryRepository.findByArea(area);
     }
 
-    public Set<HerodotusMqttCategory> findStandardCategoryForDevice() {
-        return findByStandardAndArea(true, Area.DEVICE);
+    public Set<HerodotusMqttCategory> findCategoryForDevice() {
+        return findByArea(Area.DEVICE);
     }
 
-    public Optional<HerodotusMqttCategory> findSubscribeCategoryForPlatform() {
-        return herodotusMqttCategoryRepository.findOneByActionAndArea(Action.subscribe, Area.PLATFORM);
+    public Optional<HerodotusMqttCategory> findSubscribeLinkCategoryForPlatform() {
+        return herodotusMqttCategoryRepository.findOneByActionAndAreaAndPurpose(Action.subscribe, Area.PLATFORM, Purpose.LINK);
     }
 }

@@ -32,9 +32,9 @@ import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessin
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
 import cn.herodotus.thingsbrain.link.commons.definition.SubsetSessionManager;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tools.jackson.databind.JsonNode;
 
 /**
  * <p>Description: Ext 主题北向数据处理器抽象定义 </p>
@@ -56,16 +56,16 @@ public abstract class AbstractExtInboundMessageHandler<I, O> extends AbstractRep
     }
 
     @Override
-    public LinkResponse<?> receive(String topic, JsonNode payload, String responseTopic, String correlationData) {
-        CompleteIdentifier completeIdentifier = getCompleteIdentifier(topic);
-        LinkRequest<I> domain = JacksonUtils.toObject(payload, getTypeReference());
+    public LinkResponse<?> receive(MqttMessageDetails details) {
+        CompleteIdentifier completeIdentifier = getCompleteIdentifier(details.getTopic());
+        LinkRequest<I> domain = JacksonUtils.toObject(details.getPayload(), getTypeReference());
 
         try {
             O result = getFunction(subsetSessionManager).apply(completeIdentifier, domain.getParams());
-            return success(domain.getId(), domain.getMethod(), result);
+            return success(domain.getId(), result);
         } catch (InboundMessageProcessingException e) {
-            log.error("[ThingsBrain] |- Ext session topic data process catch error!", e);
-            return internalServerError(domain.getId(), domain.getMethod());
+            log.error("[ThingsMesh] |- Ext session topic data process catch error!", e);
+            return internalServerError(domain.getId());
         }
     }
 }

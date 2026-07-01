@@ -30,7 +30,7 @@ import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
 import cn.herodotus.thingsbrain.link.commons.definition.OtaManager;
-import tools.jackson.databind.JsonNode;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 
 import java.util.function.BiConsumer;
 
@@ -59,15 +59,13 @@ public abstract class AbstractOtaInboundMessageHandler<I> extends AbstractInboun
     protected abstract BiConsumer<CompleteIdentifier, I> getConsumer(OtaManager otaManager);
 
     /**
-     * 接收信息
+     * {@inheritDoc}
      *
-     * @param topic   主题
-     * @param payload 内容
      */
     @Override
-    public void receive(String topic, JsonNode payload) {
-        CompleteIdentifier identity = getCompleteIdentifier(topic);
-        LinkRequest<I> domain = JacksonUtils.toObject(payload, getTypeReference());
+    public void receive(MqttMessageDetails details) {
+        CompleteIdentifier identity = getCompleteIdentifier(details.getTopic());
+        LinkRequest<I> domain = JacksonUtils.toObject(details.getPayload(), getTypeReference());
         getConsumer(otaManager).accept(identity, domain.getParams());
     }
 }

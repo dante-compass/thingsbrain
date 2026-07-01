@@ -25,12 +25,10 @@
 
 package cn.herodotus.thingsbrain.mqtt.inbound.dispatcher;
 
-import cn.herodotus.dante.core.jackson.JsonNodeUtils;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.MessageDetails;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.dispatcher.InboundMessageDispatcher;
 import cn.herodotus.thingsbrain.mqtt.inbound.factory.OtaMessageHandlerFactory;
-import org.apache.commons.lang3.ObjectUtils;
-import tools.jackson.databind.JsonNode;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>Description: Mqtt 上报消息监听器 </p>
@@ -42,23 +40,21 @@ public class OtaInboundMessageDispatcher implements InboundMessageDispatcher {
 
     private final OtaMessageHandlerFactory otaMessageHandlerFactory;
 
+
     public OtaInboundMessageDispatcher(OtaMessageHandlerFactory otaMessageHandlerFactory) {
         this.otaMessageHandlerFactory = otaMessageHandlerFactory;
     }
 
     @Override
-    public void process(MessageDetails event) {
+    public void process(MqttMessageDetails details) {
 
         // 使用 JsonNode 类型，是为了提升一定的转换效率
         // 如果直接 JacksonUtils 转换成对象，这里不知道该转换成什么类型，只能定义包含 id 和 method 的对象，先转换一次，后面进入到 handler 再转换成具体的类型，这就出现了两次转换
         // 使用 JsonNode，先行将 JSON 进行解析。这里就可以直接获取必要属性，后面进入到 handler 再转换成具体对象。相当于只转换了一次
-        JsonNode payload = event.getPayload();
 
-        if (ObjectUtils.isNotEmpty(payload)) {
-            String method = JsonNodeUtils.findStringValue(payload, "method");
-
-            otaMessageHandlerFactory.getHandler(method)
-                    .ifPresent(handler -> handler.receive(event.getTopic(), payload));
+        if (StringUtils.isNotBlank(details.getMethod())) {
+            otaMessageHandlerFactory.getHandler(details.getMethod())
+                    .ifPresent(handler -> handler.receive(details));
         }
     }
 }

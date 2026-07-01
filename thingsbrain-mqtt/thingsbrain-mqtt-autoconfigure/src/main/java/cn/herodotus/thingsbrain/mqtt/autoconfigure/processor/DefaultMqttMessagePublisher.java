@@ -23,15 +23,19 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.mqtt.autoconfigure.publisher;
+package cn.herodotus.thingsbrain.mqtt.autoconfigure.processor;
 
 import cn.herodotus.dante.cache.utils.JetCacheUtils;
 import cn.herodotus.thingsbrain.mqtt.commons.constant.MqttConstants;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttOperation;
+import cn.hutool.v7.core.text.StrUtil;
 import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.anno.CacheType;
+import org.apache.commons.lang3.ArrayUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Optional;
 
@@ -46,30 +50,31 @@ public class DefaultMqttMessagePublisher implements MqttMessagePublisher {
     private final Cache<String, MqttOperation> cache;
 
     public DefaultMqttMessagePublisher() {
-        this.cache = JetCacheUtils.create(MqttConstants.CACHE_THINGSBRAIN_REQUEST, CacheType.BOTH, Duration.ofSeconds(1), true);
+        this.cache = JetCacheUtils.create(MqttConstants.CACHE_THINGSBRAIN_REQUEST_ID, CacheType.BOTH, Duration.ofSeconds(1), true);
     }
 
-    private MqttOperation get(String requestId) {
-        return cache.get(requestId);
-    }
-
-    private void put(String requestId, MqttOperation request) {
-        cache.put(requestId, request);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Optional<MqttOperation> exists(String requestId) {
-        return Optional.ofNullable(get(requestId));
+    private String getRequestId(MqttMessageDetails details) {
+        if (ArrayUtils.isNotEmpty(details.getCorrelationData())) {
+            return StrUtil.str(details.getCorrelationData(), StandardCharsets.UTF_8);
+        } else {
+            return details.getRequestId();
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void cache(String requestId, MqttOperation operation) {
-        put(requestId, operation);
+    public Optional<MqttOperation> get(MqttMessageDetails details) {
+        String requestId = getRequestId(details);
+        return Optional.ofNullable(cache.get(requestId));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void record(String requestId, MqttOperation operation) {
+        cache.put(requestId, operation);
     }
 }

@@ -38,6 +38,7 @@ public class LinkSysRequest<T> extends AbstractRequest<T> {
     private SysDomain sys;
 
     public LinkSysRequest() {
+        super();
     }
 
     public SysDomain getSys() {
@@ -52,6 +53,7 @@ public class LinkSysRequest<T> extends AbstractRequest<T> {
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("sys", sys)
+                .addValue(super.toString())
                 .toString();
     }
 }

@@ -34,24 +34,27 @@ import com.google.common.base.MoreObjects;
  * @author : gengwei.zheng
  * @date : 2025/5/28 23:42
  */
-public abstract class AbstractEntity implements BaseModel {
+public abstract class AbstractEntity<T> implements BaseModel {
     /**
-     * 操作类型
+     * 版本号。对应关系
+     * 对于"设备属性、事件、服务": 为 String 类型，表示为协议版本号，目前协议版本号唯一取值为1.0
+     * 对于"设备影子数据流": 为 Long 类型，如果version设置为-1时，表示清空设备影子数据，设备影子会接收设备端的请求，并将设备影子版本更新为0
      */
-    private String method;
+    private T version;
 
-    public String getMethod() {
-        return method;
+    public T getVersion() {
+        return version;
     }
 
-    public void setMethod(String method) {
-        this.method = method;
+    public void setVersion(T version) {
+        this.version = version;
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("method", method)
+                .add("version", version)
+                .addValue(super.toString())
                 .toString();
     }
 }

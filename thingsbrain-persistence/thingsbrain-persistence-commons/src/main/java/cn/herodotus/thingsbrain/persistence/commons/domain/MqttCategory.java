@@ -28,6 +28,7 @@ package cn.herodotus.thingsbrain.persistence.commons.domain;
 import cn.herodotus.dante.data.commons.entity.AbstractSysEntity;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Action;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Area;
+import cn.herodotus.thingsbrain.persistence.commons.enums.Purpose;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -62,6 +63,9 @@ public class MqttCategory extends AbstractSysEntity {
      */
     @Schema(name = "主题操作类型")
     private Action action;
+
+    @Schema(name = "主题用途")
+    private Purpose purpose;
 
     @Schema(name = "分类权限")
     private Set<MqttAuthority> authorities = new HashSet<>();
@@ -106,6 +110,14 @@ public class MqttCategory extends AbstractSysEntity {
         this.action = action;
     }
 
+    public Purpose getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(Purpose purpose) {
+        this.purpose = purpose;
+    }
+
     public Set<MqttAuthority> getAuthorities() {
         return authorities;
     }
@@ -122,6 +134,7 @@ public class MqttCategory extends AbstractSysEntity {
                 .add("standard", standard)
                 .add("area", area)
                 .add("action", action)
+                .add("purpose", purpose)
                 .addValue(super.toString())
                 .toString();
     }

@@ -52,5 +52,6 @@ public class PlatformEnumDictionaryBuilderCustomizer implements EnumDictionaryBu
         builder.append(GatewayProtocol.getDictionaries());
         builder.append(AuthenticationMode.getDictionaries());
         builder.append(Area.getDictionaries());
+        builder.append(Purpose.getDictionaries());
     }
 }

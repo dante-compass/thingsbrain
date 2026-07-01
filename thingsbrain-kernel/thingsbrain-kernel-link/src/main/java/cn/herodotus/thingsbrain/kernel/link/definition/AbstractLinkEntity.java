@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.link.definition;
 
-import cn.herodotus.thingsbrain.kernel.commons.definition.domain.AbstractProtocolEntity;
+import cn.herodotus.thingsbrain.kernel.commons.definition.domain.AbstractEntity;
 import com.google.common.base.MoreObjects;
 
 /**
@@ -34,7 +34,7 @@ import com.google.common.base.MoreObjects;
  * @author : gengwei.zheng
  * @date : 2024/11/2 0:12
  */
-public abstract class AbstractLinkEntity extends AbstractProtocolEntity<String> {
+public abstract class AbstractLinkEntity extends AbstractEntity<String> {
 
     protected AbstractLinkEntity() {
         this.setVersion("1.0");

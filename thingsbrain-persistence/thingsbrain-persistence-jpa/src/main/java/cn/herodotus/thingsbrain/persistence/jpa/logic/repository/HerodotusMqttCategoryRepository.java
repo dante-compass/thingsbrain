@@ -28,6 +28,7 @@ package cn.herodotus.thingsbrain.persistence.jpa.logic.repository;
 import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Action;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Area;
+import cn.herodotus.thingsbrain.persistence.commons.enums.Purpose;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttCategory;
 
 import java.util.Optional;
@@ -41,7 +42,21 @@ import java.util.Set;
  */
 public interface HerodotusMqttCategoryRepository extends BaseJpaRepository<HerodotusMqttCategory, String> {
 
-    Set<HerodotusMqttCategory> findByStandardAndArea(Boolean standard, Area area);
+    /**
+     * 根据主题使用区域，查询指定区域中的主题
+     *
+     * @param area 主题使用区域 {@link Area}
+     * @return 指定使用区域对应的主题分类
+     */
+    Set<HerodotusMqttCategory> findByArea(Area area);
 
-    Optional<HerodotusMqttCategory> findOneByActionAndArea(Action action, Area area);
+    /**
+     * 查询一个指定条件的主题分类
+     *
+     * @param action  主题操作 {@link Action}
+     * @param area    主题使用区域 {@link Area}
+     * @param purpose 主题用途  {@link Purpose}
+     * @return 主题分类
+     */
+    Optional<HerodotusMqttCategory> findOneByActionAndAreaAndPurpose(Action action, Area area, Purpose purpose);
 }

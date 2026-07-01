@@ -32,11 +32,10 @@ import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessin
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
 import cn.herodotus.thingsbrain.kernel.link.definition.SysDomain;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tools.jackson.databind.JsonNode;
 
 /**
  * <p>Description: 系统主题北向数据处理器抽象定义 </p>
@@ -64,9 +63,9 @@ public abstract class AbstractSysInboundMessageHandler<I, O, M> extends Abstract
      * @param request 请求数据 {@link LinkSysRequest}
      * @return true 需要回复
      */
-    private boolean isNeedReply(LinkSysRequest<I> request, String responseTopic, String correlationData) {
+    private boolean isNeedReply(MqttMessageDetails details, LinkSysRequest<I> request) {
         // 当前主题定义是否支持 Reply
-        if (getMqttTopic().isSupportReply() && StringUtils.isNoneBlank(responseTopic, correlationData)) {
+        if (getMqttTopic().isSupportReply() && details.isSupportResponse()) {
             SysDomain sys = request.getSys();
             // 判断上报数据是否指定需要 Replay
             return ObjectUtils.isNotEmpty(sys) && sys.getAck() == 1;
@@ -76,34 +75,21 @@ public abstract class AbstractSysInboundMessageHandler<I, O, M> extends Abstract
     }
 
     /**
-     * 接收信息
-     *
-     * @param topic           主题
-     * @param payload         内容
-     * @param responseTopic   响应主题
-     * @param correlationData 关联数据
-     * @return 响应 {@link LinkResponse}
+     * {@inheritDoc}
      */
     @Override
-    public LinkResponse<?> receive(String topic, JsonNode payload, String responseTopic, String correlationData) {
-        CompleteIdentifier completeIdentifier = getCompleteIdentifier(topic);
-        LinkSysRequest<I> domain = JacksonUtils.toObject(payload, getTypeReference());
-        return process(completeIdentifier, domain, isNeedReply(domain, responseTopic, correlationData));
-    }
+    public LinkResponse<?> receive(MqttMessageDetails details) {
+        CompleteIdentifier identity = getCompleteIdentifier(details.getTopic());
+        LinkSysRequest<I> domain = JacksonUtils.toObject(details.getPayload(), getTypeReference());
 
-    /**
-     * @param identity    题身份 {@link CompleteIdentifier}
-     * @param payload     内容实体 {@link LinkSysRequest}
-     * @param isNeedReply 是否需要回复
-     * @return 响应 {@link LinkResponse}
-     */
-    private LinkResponse<?> process(CompleteIdentifier identity, LinkSysRequest<I> payload, boolean isNeedReply) {
+        boolean isNeedReply = isNeedReply(details, domain);
+
         try {
-            O result = getFunction(messageManager).apply(identity, payload.getParams());
-            return success(payload.getId(), payload.getMethod(), result, isNeedReply);
+            O result = getFunction(messageManager).apply(identity, domain.getParams());
+            return success(domain.getId(), result, isNeedReply);
         } catch (InboundMessageProcessingException e) {
-            log.error("[ThingsBrain] |- Ext session topic data process catch error!", e);
-            return internalServerError(payload.getId(), payload.getMethod(), isNeedReply);
+            log.error("[ThingsMesh] |- Ext session topic data process catch error!", e);
+            return internalServerError(domain.getId(), isNeedReply);
         }
     }
 }

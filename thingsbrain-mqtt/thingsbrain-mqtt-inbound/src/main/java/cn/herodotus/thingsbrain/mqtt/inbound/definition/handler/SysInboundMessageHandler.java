@@ -26,14 +26,7 @@
 package cn.herodotus.thingsbrain.mqtt.inbound.definition.handler;
 
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
-import tools.jackson.databind.JsonNode;
-
-/**
- * <p>Description: Mqtt 消息处理器定义 </p>
- *
- * @author : gengwei.zheng
- * @date : 2025/5/14 12:28
- */
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 
 /**
  * <p>Description: Sys 类型主题消息处理器定义 </p>
@@ -46,12 +39,9 @@ public interface SysInboundMessageHandler {
     /**
      * 接收信息
      *
-     * @param topic           主题
-     * @param payload         数据 {@link JsonNode} 使用 JsonNode 避免二次解析
-     * @param responseTopic   响应主题
-     * @param correlationData 关联数据
+     * @param details Mqtt 消息详情 {@link MqttMessageDetails}
      * @return 响应 {@link LinkResponse}
      */
-    LinkResponse<?> receive(String topic, JsonNode payload, String responseTopic, String correlationData);
+    LinkResponse<?> receive(MqttMessageDetails details);
 
 }

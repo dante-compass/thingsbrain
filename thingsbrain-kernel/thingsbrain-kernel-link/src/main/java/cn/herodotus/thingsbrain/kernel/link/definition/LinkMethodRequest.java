@@ -25,7 +25,8 @@
 
 package cn.herodotus.thingsbrain.kernel.link.definition;
 
-import cn.herodotus.thingsbrain.kernel.commons.definition.domain.AbstractEntity;
+import cn.herodotus.dante.core.domain.BaseModel;
+import com.google.common.base.MoreObjects;
 
 /**
  * <p>Description: 仅用于解析 Method 数据 </p>
@@ -33,5 +34,25 @@ import cn.herodotus.thingsbrain.kernel.commons.definition.domain.AbstractEntity;
  * @author : gengwei.zheng
  * @date : 2025/6/15 16:57
  */
-public class LinkMethodRequest extends AbstractEntity {
+public class LinkMethodRequest implements BaseModel {
+
+    /**
+     * 操作类型
+     */
+    private String method;
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("method", method)
+                .toString();
+    }
 }

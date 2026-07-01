@@ -29,6 +29,7 @@ import cn.herodotus.dante.data.jpa.entity.AbstractSysEntity;
 import cn.herodotus.thingsbrain.persistence.commons.constant.PersistenceConstants;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Action;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Area;
+import cn.herodotus.thingsbrain.persistence.commons.enums.Purpose;
 import com.google.common.base.MoreObjects;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -63,9 +64,6 @@ public class HerodotusMqttCategory extends AbstractSysEntity {
     @Column(name = "category_name", length = 128)
     private String categoryName;
 
-    @Column(name = "is_standard")
-    private Boolean standard;
-
     @Column(name = "area", length = 50)
     @Enumerated(EnumType.STRING)
     private Area area = Area.DEVICE;
@@ -73,6 +71,10 @@ public class HerodotusMqttCategory extends AbstractSysEntity {
     @Column(name = "action", length = 50)
     @Enumerated(EnumType.STRING)
     private Action action;
+
+    @Column(name = "purpose", length = 50)
+    @Enumerated(EnumType.STRING)
+    private Purpose purpose = Purpose.LINK;
 
     /**
      * 用户 - 角色关系定义:
@@ -112,14 +114,6 @@ public class HerodotusMqttCategory extends AbstractSysEntity {
         this.categoryName = categoryName;
     }
 
-    public Boolean getStandard() {
-        return standard;
-    }
-
-    public void setStandard(Boolean standard) {
-        this.standard = standard;
-    }
-
     public Area getArea() {
         return area;
     }
@@ -136,6 +130,14 @@ public class HerodotusMqttCategory extends AbstractSysEntity {
         this.action = action;
     }
 
+    public Purpose getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(Purpose purpose) {
+        this.purpose = purpose;
+    }
+
     public Set<HerodotusMqttAuthority> getAuthorities() {
         return authorities;
     }
@@ -149,9 +151,10 @@ public class HerodotusMqttCategory extends AbstractSysEntity {
         return MoreObjects.toStringHelper(this)
                 .add("categoryId", categoryId)
                 .add("categoryName", categoryName)
-                .add("standard", standard)
                 .add("area", area)
                 .add("action", action)
+                .add("purpose", purpose)
+                .addValue(super.toString())
                 .toString();
     }
 }

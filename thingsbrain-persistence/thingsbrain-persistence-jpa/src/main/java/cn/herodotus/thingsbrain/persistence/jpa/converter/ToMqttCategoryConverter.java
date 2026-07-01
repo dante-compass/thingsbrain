@@ -61,9 +61,9 @@ public class ToMqttCategoryConverter extends AbstractToSysEntityConverter<Herodo
 
         target.setId(source.getCategoryId());
         target.setName(source.getCategoryName());
-        target.setStandard(source.getStandard());
         target.setArea(source.getArea());
         target.setAction(source.getAction());
+        target.setPurpose(source.getPurpose());
 
         Optional.of(source.getAuthorities()) // 实体中设置了默认空集合
                 .filter(CollectionUtils::isNotEmpty) // 主要判断数量是否为 0

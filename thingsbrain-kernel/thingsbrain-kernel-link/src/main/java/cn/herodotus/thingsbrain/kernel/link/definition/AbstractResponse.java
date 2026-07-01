@@ -82,6 +82,7 @@ public abstract class AbstractResponse<T> extends AbstractLinkEntity {
                 .add("message", message)
                 .add("code", code)
                 .add("data", data)
+                .addValue(super.toString())
                 .toString();
     }
 }

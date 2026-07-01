@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.mqtt.inbound.definition.handler;
 
-import tools.jackson.databind.JsonNode;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 
 /**
  * <p>Description: Ota 专属 Mqtt 消息处理器定义 </p>
@@ -43,8 +43,7 @@ public interface OtaInboundMessageHandler {
     /**
      * 接收信息
      *
-     * @param topic   主题
-     * @param payload 数据 {@link JsonNode} 使用 JsonNode 避免二次解析
+     * @param details Mqtt 消息详情 {@link MqttMessageDetails}
      */
-    void receive(String topic, JsonNode payload);
+    void receive(MqttMessageDetails details);
 }
