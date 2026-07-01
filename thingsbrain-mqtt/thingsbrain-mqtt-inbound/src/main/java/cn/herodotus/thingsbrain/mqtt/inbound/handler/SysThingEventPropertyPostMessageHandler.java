@@ -31,7 +31,7 @@ import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
-import cn.herodotus.thingsbrain.kernel.link.domain.specification.EventPropertyBatchPost;
+import cn.herodotus.thingsbrain.kernel.link.domain.specification.EventPropertyPost;
 import cn.herodotus.thingsbrain.link.commons.definition.SpecificationPostManager;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
@@ -40,28 +40,28 @@ import tools.jackson.core.type.TypeReference;
 import java.util.Map;
 
 /**
- * <p>Description: 设备批量上报属性、事件消息处理器 </p>
+ * <p>Description: 设备上报属性消息处理 </p>
  *
  * @author : gengwei.zheng
  * @date : 2025/5/14 12:30
  */
-@Component(MethodConstants.METHOD__THING_EVENT_PROPERTY_BATCH_POST)
-public class SysThingEventPropertyBatchPostInboundMessageHandler extends AbstractInboundSysMessageHandler<EventPropertyBatchPost, Map<String, Object>, SpecificationPostManager> {
+@Component(MethodConstants.METHOD__THING_EVENT_PROPERTY_POST)
+public class SysThingEventPropertyPostMessageHandler extends AbstractInboundSysMessageHandler<EventPropertyPost, Map<String, Object>, SpecificationPostManager> {
 
-    private final TypeReference<LinkSysRequest<EventPropertyBatchPost>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkSysRequest<EventPropertyPost>> typeReference = new TypeReference<>() {
     };
 
-    public SysThingEventPropertyBatchPostInboundMessageHandler(SpecificationPostManager specificationPostManager) {
-        super(new MqttTopic(MethodConstants.METHOD__THING_EVENT_PROPERTY_BATCH_POST), specificationPostManager);
+    public SysThingEventPropertyPostMessageHandler(SpecificationPostManager specificationPostManager) {
+        super(new MqttTopic(MethodConstants.METHOD__THING_EVENT_PROPERTY_POST), specificationPostManager);
     }
 
     @Override
-    protected TypeReference<LinkSysRequest<EventPropertyBatchPost>> getTypeReference() {
+    protected TypeReference<LinkSysRequest<EventPropertyPost>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected ThrowableBiFunction<CompleteIdentifier, EventPropertyBatchPost, Map<String, Object>, InboundMessageProcessingException> getFunction(SpecificationPostManager specificationPostManager) {
-        return (identity, param) -> specificationPostManager.batch(identity.getProductKey(), identity.getDeviceName(), param);
+    protected ThrowableBiFunction<CompleteIdentifier, EventPropertyPost, Map<String, Object>, InboundMessageProcessingException> getFunction(SpecificationPostManager specificationPostManager) {
+        return (identity, param) -> specificationPostManager.property(identity.getProductKey(), identity.getDeviceName(), param);
     }
 }

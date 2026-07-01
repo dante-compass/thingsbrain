@@ -31,36 +31,38 @@ import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
-import cn.herodotus.thingsbrain.kernel.link.definition.config.ContentConfig;
-import cn.herodotus.thingsbrain.kernel.link.domain.config.LogConfigDomain;
-import cn.herodotus.thingsbrain.link.commons.definition.DeviceConfigLogManager;
+import cn.herodotus.thingsbrain.kernel.link.domain.tag.Attribute;
+import cn.herodotus.thingsbrain.link.commons.definition.DeviceTagManager;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
+import java.util.List;
+import java.util.Map;
+
 /**
- * <p>Description: 设备获取日志配置 </p>
+ * <p>Description: 上报标签信息 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/6/16 12:30
+ * @date : 2025/6/15 16:05
  */
-@Component(MethodConstants.METHOD__THING_CONFIG_LOG_GET)
-public class SysThingConfigLogGetInboundMessageHandler extends AbstractInboundSysMessageHandler<ContentConfig, LogConfigDomain, DeviceConfigLogManager> {
+@Component(MethodConstants.METHOD__THING_DEVICEINFO_UPDATE)
+public class SysThingDeviceInfoUpdateMessageHandler extends AbstractInboundSysMessageHandler<List<Attribute>, Map<String, String>, DeviceTagManager> {
 
-    private final TypeReference<LinkSysRequest<ContentConfig>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkSysRequest<List<Attribute>>> typeReference = new TypeReference<>() {
     };
 
-    public SysThingConfigLogGetInboundMessageHandler(DeviceConfigLogManager deviceConfigLogManager) {
-        super(new MqttTopic(MethodConstants.METHOD__THING_CONFIG_LOG_GET), deviceConfigLogManager);
+    public SysThingDeviceInfoUpdateMessageHandler(DeviceTagManager deviceTagManager) {
+        super(new MqttTopic(MethodConstants.METHOD__THING_DEVICEINFO_UPDATE), deviceTagManager);
     }
 
     @Override
-    protected TypeReference<LinkSysRequest<ContentConfig>> getTypeReference() {
+    protected TypeReference<LinkSysRequest<List<Attribute>>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected ThrowableBiFunction<CompleteIdentifier, ContentConfig, LogConfigDomain, InboundMessageProcessingException> getFunction(DeviceConfigLogManager deviceConfigLogManager) {
-        return (identity, param) -> deviceConfigLogManager.get(identity.getProductKey(), identity.getDeviceName(), param);
+    protected ThrowableBiFunction<CompleteIdentifier, List<Attribute>, Map<String, String>, InboundMessageProcessingException> getFunction(DeviceTagManager deviceTagManager) {
+        return (identity, param) -> deviceTagManager.update(identity.getProductKey(), identity.getDeviceName(), param);
     }
 }

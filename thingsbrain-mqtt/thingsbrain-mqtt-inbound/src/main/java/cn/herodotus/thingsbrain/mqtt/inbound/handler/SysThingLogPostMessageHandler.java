@@ -31,8 +31,8 @@ import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
-import cn.herodotus.thingsbrain.kernel.link.domain.tag.AttributeKey;
-import cn.herodotus.thingsbrain.link.commons.definition.DeviceTagManager;
+import cn.herodotus.thingsbrain.kernel.link.domain.config.LogParam;
+import cn.herodotus.thingsbrain.link.commons.definition.DeviceConfigLogManager;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
@@ -41,28 +41,28 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>Description: 删除标签信息 </p>
+ * <p>Description: 设备上报日志内容 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/6/15 16:06
+ * @date : 2025/6/16 12:31
  */
-@Component(MethodConstants.METHOD__THING_DEVICEINFO_DELETE)
-public class SysThingDeviceInfoDeleteInboundMessageHandler extends AbstractInboundSysMessageHandler<List<AttributeKey>, Map<String, String>, DeviceTagManager> {
+@Component(MethodConstants.METHOD__THING_LOG_POST)
+public class SysThingLogPostMessageHandler extends AbstractInboundSysMessageHandler<List<LogParam>, Map<String, Object>, DeviceConfigLogManager> {
 
-    private final TypeReference<LinkSysRequest<List<AttributeKey>>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkSysRequest<List<LogParam>>> typeReference = new TypeReference<>() {
     };
 
-    public SysThingDeviceInfoDeleteInboundMessageHandler(DeviceTagManager deviceTagManager) {
-        super(new MqttTopic(MethodConstants.METHOD__THING_DEVICEINFO_DELETE), deviceTagManager);
+    public SysThingLogPostMessageHandler(DeviceConfigLogManager deviceConfigLogManager) {
+        super(new MqttTopic(MethodConstants.METHOD__THING_LOG_POST), deviceConfigLogManager);
     }
 
     @Override
-    protected TypeReference<LinkSysRequest<List<AttributeKey>>> getTypeReference() {
+    protected TypeReference<LinkSysRequest<List<LogParam>>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected ThrowableBiFunction<CompleteIdentifier, List<AttributeKey>, Map<String, String>, InboundMessageProcessingException> getFunction(DeviceTagManager deviceTagManager) {
-        return (identity, param) -> deviceTagManager.delete(identity.getProductKey(), identity.getDeviceName(), param);
+    protected ThrowableBiFunction<CompleteIdentifier, List<LogParam>, Map<String, Object>, InboundMessageProcessingException> getFunction(DeviceConfigLogManager deviceConfigLogManager) {
+        return (identity, param) -> deviceConfigLogManager.post(identity.getProductKey(), identity.getDeviceName(), param);
     }
 }

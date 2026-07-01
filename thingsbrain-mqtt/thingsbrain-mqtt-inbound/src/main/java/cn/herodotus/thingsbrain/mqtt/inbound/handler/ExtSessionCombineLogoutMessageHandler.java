@@ -28,42 +28,41 @@ package cn.herodotus.thingsbrain.mqtt.inbound.handler;
 import cn.herodotus.dante.core.function.ThrowableBiFunction;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
+import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
+import cn.herodotus.thingsbrain.kernel.commons.enums.TopicCategory;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
-import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
-import cn.herodotus.thingsbrain.kernel.link.domain.tag.TagGet;
-import cn.herodotus.thingsbrain.link.commons.definition.DeviceTagManager;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
+import cn.herodotus.thingsbrain.link.commons.definition.SubsetSessionManager;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundExtMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * <p>Description: 查询标签信息 </p>
+ * <p>Description: 子设备下线消息处理器 </p>
+ * <p>
+ * 因为子设备通过网关通道与物联网平台通信，以上Topic为网关设备的Topic。Topic中变量${productKey}和${deviceName}需替换为网关设备的对应信息
  *
  * @author : gengwei.zheng
- * @date : 2025/6/15 16:06
+ * @date : 2025/6/16 12:33
  */
-@Component(MethodConstants.METHOD__THING_DEVICEINFO_GET)
-public class SysThingDeviceInfoGetInboundMessageHandler extends AbstractInboundSysMessageHandler<TagGet, List<Map<String, String>>, DeviceTagManager> {
+@Component(MethodConstants.METHOD__COMBINE_LOGOUT)
+public class ExtSessionCombineLogoutMessageHandler extends AbstractInboundExtMessageHandler<Identifier, Identifier> {
 
-    private final TypeReference<LinkSysRequest<TagGet>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkRequest<Identifier>> typeReference = new TypeReference<>() {
     };
 
-    public SysThingDeviceInfoGetInboundMessageHandler(DeviceTagManager deviceTagManager) {
-        super(new MqttTopic(MethodConstants.METHOD__THING_DEVICEINFO_GET), deviceTagManager);
+    public ExtSessionCombineLogoutMessageHandler(SubsetSessionManager subsetSessionManager) {
+        super(new MqttTopic(TopicCategory.EXT, MethodConstants.METHOD__COMBINE_LOGOUT), subsetSessionManager);
     }
 
     @Override
-    protected TypeReference<LinkSysRequest<TagGet>> getTypeReference() {
+    protected TypeReference<LinkRequest<Identifier>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected ThrowableBiFunction<CompleteIdentifier, TagGet, List<Map<String, String>>, InboundMessageProcessingException> getFunction(DeviceTagManager deviceTagManager) {
-        return (identity, param) -> deviceTagManager.get(identity.getProductKey(), identity.getDeviceName(), param.getKeys());
+    protected ThrowableBiFunction<CompleteIdentifier, Identifier, Identifier, InboundMessageProcessingException> getFunction(SubsetSessionManager subsetSessionManager) {
+        return (identity, param) -> subsetSessionManager.logout(identity.getProductKey(), identity.getDeviceName(), param);
     }
-
 }

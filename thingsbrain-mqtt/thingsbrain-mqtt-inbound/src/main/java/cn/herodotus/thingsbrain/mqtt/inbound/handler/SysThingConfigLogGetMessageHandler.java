@@ -28,42 +28,39 @@ package cn.herodotus.thingsbrain.mqtt.inbound.handler;
 import cn.herodotus.dante.core.function.ThrowableBiFunction;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
-import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
-import cn.herodotus.thingsbrain.kernel.commons.enums.TopicCategory;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
-import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
-import cn.herodotus.thingsbrain.kernel.link.domain.session.Login;
-import cn.herodotus.thingsbrain.link.commons.definition.SubsetSessionManager;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundExtMessageHandler;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
+import cn.herodotus.thingsbrain.kernel.link.definition.config.ContentConfig;
+import cn.herodotus.thingsbrain.kernel.link.domain.config.LogConfigDomain;
+import cn.herodotus.thingsbrain.link.commons.definition.DeviceConfigLogManager;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
 /**
- * <p>Description: 子设备上线消息处理器 </p>
- * <p>
- * 因为子设备通过网关通道与物联网平台通信，以上Topic为网关设备的Topic。Topic中变量${productKey}和${deviceName}需替换为网关设备的对应信息
+ * <p>Description: 设备获取日志配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/6/16 12:33
+ * @date : 2025/6/16 12:30
  */
-@Component(MethodConstants.METHOD__COMBINE_LOGIN)
-public class ExtSessionCombineLoginInboundMessageHandler extends AbstractInboundExtMessageHandler<Login, Identifier> {
+@Component(MethodConstants.METHOD__THING_CONFIG_LOG_GET)
+public class SysThingConfigLogGetMessageHandler extends AbstractInboundSysMessageHandler<ContentConfig, LogConfigDomain, DeviceConfigLogManager> {
 
-    private final TypeReference<LinkRequest<Login>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkSysRequest<ContentConfig>> typeReference = new TypeReference<>() {
     };
 
-    public ExtSessionCombineLoginInboundMessageHandler(SubsetSessionManager subsetSessionManager) {
-        super(new MqttTopic(TopicCategory.EXT, MethodConstants.METHOD__COMBINE_LOGIN), subsetSessionManager);
+    public SysThingConfigLogGetMessageHandler(DeviceConfigLogManager deviceConfigLogManager) {
+        super(new MqttTopic(MethodConstants.METHOD__THING_CONFIG_LOG_GET), deviceConfigLogManager);
     }
 
     @Override
-    protected TypeReference<LinkRequest<Login>> getTypeReference() {
+    protected TypeReference<LinkSysRequest<ContentConfig>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected ThrowableBiFunction<CompleteIdentifier, Login, Identifier, InboundMessageProcessingException> getFunction(SubsetSessionManager subsetSessionManager) {
-        return (identity, param) -> subsetSessionManager.login(identity.getProductKey(), identity.getDeviceName(), param);
+    protected ThrowableBiFunction<CompleteIdentifier, ContentConfig, LogConfigDomain, InboundMessageProcessingException> getFunction(DeviceConfigLogManager deviceConfigLogManager) {
+        return (identity, param) -> deviceConfigLogManager.get(identity.getProductKey(), identity.getDeviceName(), param);
     }
 }

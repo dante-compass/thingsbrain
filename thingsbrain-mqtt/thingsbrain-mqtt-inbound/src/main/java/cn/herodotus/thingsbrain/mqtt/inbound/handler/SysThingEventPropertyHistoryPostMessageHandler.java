@@ -31,38 +31,37 @@ import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
-import cn.herodotus.thingsbrain.kernel.link.domain.tag.Attribute;
-import cn.herodotus.thingsbrain.link.commons.definition.DeviceTagManager;
+import cn.herodotus.thingsbrain.kernel.link.domain.specification.EventPropertyHistoryPost;
+import cn.herodotus.thingsbrain.link.commons.definition.SpecificationPostManager;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
-import java.util.List;
 import java.util.Map;
 
 /**
- * <p>Description: 上报标签信息 </p>
+ * <p>Description: 物模型历史数据消息处理器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/6/15 16:05
+ * @date : 2025/5/14 12:30
  */
-@Component(MethodConstants.METHOD__THING_DEVICEINFO_UPDATE)
-public class SysThingDeviceInfoUpdateInboundMessageHandler extends AbstractInboundSysMessageHandler<List<Attribute>, Map<String, String>, DeviceTagManager> {
+@Component(MethodConstants.METHOD__THING_EVENT_PROPERTY_HISTORY_POST)
+public class SysThingEventPropertyHistoryPostMessageHandler extends AbstractInboundSysMessageHandler<EventPropertyHistoryPost, Map<String, Object>, SpecificationPostManager> {
 
-    private final TypeReference<LinkSysRequest<List<Attribute>>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkSysRequest<EventPropertyHistoryPost>> typeReference = new TypeReference<>() {
     };
 
-    public SysThingDeviceInfoUpdateInboundMessageHandler(DeviceTagManager deviceTagManager) {
-        super(new MqttTopic(MethodConstants.METHOD__THING_DEVICEINFO_UPDATE), deviceTagManager);
+    public SysThingEventPropertyHistoryPostMessageHandler(SpecificationPostManager specificationPostManager) {
+        super(new MqttTopic(MethodConstants.METHOD__THING_EVENT_PROPERTY_HISTORY_POST), specificationPostManager);
     }
 
     @Override
-    protected TypeReference<LinkSysRequest<List<Attribute>>> getTypeReference() {
+    protected TypeReference<LinkSysRequest<EventPropertyHistoryPost>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected ThrowableBiFunction<CompleteIdentifier, List<Attribute>, Map<String, String>, InboundMessageProcessingException> getFunction(DeviceTagManager deviceTagManager) {
-        return (identity, param) -> deviceTagManager.update(identity.getProductKey(), identity.getDeviceName(), param);
+    protected ThrowableBiFunction<CompleteIdentifier, EventPropertyHistoryPost, Map<String, Object>, InboundMessageProcessingException> getFunction(SpecificationPostManager specificationPostManager) {
+        return (identity, param) -> specificationPostManager.history(identity.getProductKey(), identity.getDeviceName(), param);
     }
 }

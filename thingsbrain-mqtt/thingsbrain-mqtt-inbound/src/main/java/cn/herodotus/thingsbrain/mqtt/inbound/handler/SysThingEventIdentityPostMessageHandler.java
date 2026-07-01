@@ -28,43 +28,40 @@ package cn.herodotus.thingsbrain.mqtt.inbound.handler;
 import cn.herodotus.dante.core.function.ThrowableBiFunction;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
-import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
-import cn.herodotus.thingsbrain.kernel.commons.enums.TopicCategory;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
-import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
-import cn.herodotus.thingsbrain.link.commons.definition.SubsetSessionManager;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundExtMessageHandler;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
+import cn.herodotus.thingsbrain.kernel.link.domain.specification.EventIdentifierPost;
+import cn.herodotus.thingsbrain.link.commons.definition.SpecificationPostManager;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
-import java.util.List;
+import java.util.Map;
 
 /**
- * <p>Description: 子设备批量下线消息管理器 </p>
- * <p>
- * 因为子设备通过网关通道与物联网平台通信，以上Topic为网关设备的Topic。Topic中变量${productKey}和${deviceName}需替换为网关设备的对应信息
+ * <p>Description: 设备上报事件消息处理 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/6/16 12:34
+ * @date : 2025/5/14 12:30
  */
-@Component(MethodConstants.METHOD__COMBINE_BATCH_LOGOUT)
-public class ExtSessionCombineBatchLogoutInboundMessageHandler extends AbstractInboundExtMessageHandler<List<Identifier>, List<Identifier>> {
+@Component(MethodConstants.METHOD__THING_EVENT_IDENTIFIER)
+public class SysThingEventIdentityPostMessageHandler extends AbstractInboundSysMessageHandler<EventIdentifierPost, Map<String, Object>, SpecificationPostManager> {
 
-    private final TypeReference<LinkRequest<List<Identifier>>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkSysRequest<EventIdentifierPost>> typeReference = new TypeReference<>() {
     };
 
-    public ExtSessionCombineBatchLogoutInboundMessageHandler(SubsetSessionManager subsetSessionManager) {
-        super(new MqttTopic(TopicCategory.EXT, MethodConstants.METHOD__COMBINE_BATCH_LOGOUT), subsetSessionManager);
+    public SysThingEventIdentityPostMessageHandler(SpecificationPostManager specificationPostManager) {
+        super(new MqttTopic(MethodConstants.METHOD__THING_EVENT_IDENTIFIER, true, MqttTopic.Parameter.EVENT), specificationPostManager);
     }
 
     @Override
-    protected TypeReference<LinkRequest<List<Identifier>>> getTypeReference() {
+    protected TypeReference<LinkSysRequest<EventIdentifierPost>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected ThrowableBiFunction<CompleteIdentifier, List<Identifier>, List<Identifier>, InboundMessageProcessingException> getFunction(SubsetSessionManager subsetSessionManager) {
-        return (identity, param) -> subsetSessionManager.batchLogout(identity.getProductKey(), identity.getDeviceName(), param);
+    protected ThrowableBiFunction<CompleteIdentifier, EventIdentifierPost, Map<String, Object>, InboundMessageProcessingException> getFunction(SpecificationPostManager handler) {
+        return (identity, param) -> handler.event(identity.getProductKey(), identity.getDeviceName(), identity.getIdentifier(), param);
     }
 }

@@ -30,37 +30,37 @@ import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
+import cn.herodotus.thingsbrain.kernel.link.definition.DeviceModule;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
-import cn.herodotus.thingsbrain.kernel.link.domain.job.Job;
-import cn.herodotus.thingsbrain.kernel.link.domain.job.JobUpdate;
-import cn.herodotus.thingsbrain.link.commons.definition.DeviceJobManager;
+import cn.herodotus.thingsbrain.kernel.link.domain.ota.HttpProtocolDomain;
+import cn.herodotus.thingsbrain.link.commons.definition.OtaManager;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
 /**
- * <p>Description: 更新任务下作业状态消息处理器 </p>
+ * <p>Description: 设备请求OTA升级包信息消息处理器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/6/16 12:22
+ * @date : 2025/6/16 12:14
  */
-@Component(MethodConstants.METHOD__THING_JOB_UPDATE)
-public class SysThingJobUpdateInboundMessageHandler extends AbstractInboundSysMessageHandler<JobUpdate, Job, DeviceJobManager> {
+@Component(MethodConstants.METHOD__OTA_FIRMWARE_GET)
+public class SysThingOtaFirmwareGetMessageHandler extends AbstractInboundSysMessageHandler<DeviceModule, HttpProtocolDomain, OtaManager> {
 
-    private final TypeReference<LinkSysRequest<JobUpdate>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkSysRequest<DeviceModule>> typeReference = new TypeReference<>() {
     };
 
-    public SysThingJobUpdateInboundMessageHandler(DeviceJobManager messageManager) {
-        super(new MqttTopic(MethodConstants.METHOD__THING_JOB_UPDATE), messageManager);
+    public SysThingOtaFirmwareGetMessageHandler(OtaManager messageManager) {
+        super(new MqttTopic(MethodConstants.METHOD__OTA_FIRMWARE_GET), messageManager);
     }
 
     @Override
-    protected TypeReference<LinkSysRequest<JobUpdate>> getTypeReference() {
+    protected TypeReference<LinkSysRequest<DeviceModule>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected ThrowableBiFunction<CompleteIdentifier, JobUpdate, Job, InboundMessageProcessingException> getFunction(DeviceJobManager deviceJobManager) {
-        return (identity, param) -> deviceJobManager.update(identity.getProductKey(), identity.getDeviceName(), param);
+    protected ThrowableBiFunction<CompleteIdentifier, DeviceModule, HttpProtocolDomain, InboundMessageProcessingException> getFunction(OtaManager otaManager) {
+        return (identity, param) -> otaManager.getFirmware(identity.getProductKey(), identity.getDeviceName(), param);
     }
 }

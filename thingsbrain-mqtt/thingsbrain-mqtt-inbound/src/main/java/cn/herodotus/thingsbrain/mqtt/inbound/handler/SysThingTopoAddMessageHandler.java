@@ -49,13 +49,13 @@ import java.util.List;
  * @date : 2025/6/16 12:35
  */
 @Component(MethodConstants.METHOD__THING_TOPO_ADD)
-public class SysThingTopoAddInboundMessageHandler extends AbstractInboundSysMessageHandler<List<Signature>, List<Identifier>, SubsetTopoManager> {
+public class SysThingTopoAddMessageHandler extends AbstractInboundSysMessageHandler<List<Signature>, List<Identifier>, SubsetTopoManager> {
 
     private final TypeReference<LinkSysRequest<List<Signature>>> typeReference = new TypeReference<>() {
     };
 
 
-    public SysThingTopoAddInboundMessageHandler(SubsetTopoManager subsetTopoManager) {
+    public SysThingTopoAddMessageHandler(SubsetTopoManager subsetTopoManager) {
         super(new MqttTopic(MethodConstants.METHOD__THING_TOPO_ADD), subsetTopoManager);
     }
 

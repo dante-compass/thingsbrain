@@ -28,39 +28,40 @@ package cn.herodotus.thingsbrain.mqtt.inbound.handler;
 import cn.herodotus.dante.core.function.ThrowableBiFunction;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
+import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
-import cn.herodotus.thingsbrain.kernel.link.definition.config.FileConfig;
-import cn.herodotus.thingsbrain.kernel.link.domain.config.ConfigDomain;
-import cn.herodotus.thingsbrain.link.commons.definition.DeviceConfigManager;
+import cn.herodotus.thingsbrain.link.commons.definition.SubsetTopoManager;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
+import java.util.List;
+
 /**
- * <p>Description: 设备主动请求配置信息 </p>
+ * <p>Description: 删除设备的拓扑关系 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/6/16 12:19
+ * @date : 2025/6/16 12:35
  */
-@Component(MethodConstants.METHOD__THING_CONFIG_GET)
-public class SysThingConfigGetInboundMessageHandler extends AbstractInboundSysMessageHandler<FileConfig, ConfigDomain, DeviceConfigManager> {
+@Component(MethodConstants.METHOD__THING_TOPO_DELETE)
+public class SysThingTopoDeleteMessageHandler extends AbstractInboundSysMessageHandler<List<Identifier>, List<Identifier>, SubsetTopoManager> {
 
-    private final TypeReference<LinkSysRequest<FileConfig>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkSysRequest<List<Identifier>>> typeReference = new TypeReference<>() {
     };
 
-    public SysThingConfigGetInboundMessageHandler(DeviceConfigManager deviceConfigManager) {
-        super(new MqttTopic(MethodConstants.METHOD__THING_CONFIG_GET), deviceConfigManager);
+    public SysThingTopoDeleteMessageHandler(SubsetTopoManager subsetTopoManager) {
+        super(new MqttTopic(MethodConstants.METHOD__THING_TOPO_DELETE), subsetTopoManager);
     }
 
     @Override
-    protected TypeReference<LinkSysRequest<FileConfig>> getTypeReference() {
+    protected TypeReference<LinkSysRequest<List<Identifier>>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected ThrowableBiFunction<CompleteIdentifier, FileConfig, ConfigDomain, InboundMessageProcessingException> getFunction(DeviceConfigManager deviceConfigManager) {
-        return (identity, param) -> deviceConfigManager.get(identity.getProductKey(), identity.getDeviceName(), param);
+    protected ThrowableBiFunction<CompleteIdentifier, List<Identifier>, List<Identifier>, InboundMessageProcessingException> getFunction(SubsetTopoManager subsetTopoManager) {
+        return (identity, param) -> subsetTopoManager.delete(identity.getProductKey(), identity.getDeviceName(), param);
     }
 }

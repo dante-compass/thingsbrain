@@ -28,40 +28,44 @@ package cn.herodotus.thingsbrain.mqtt.inbound.handler;
 import cn.herodotus.dante.core.function.ThrowableBiFunction;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
+import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
-import cn.herodotus.thingsbrain.kernel.link.domain.specification.EventPropertyPost;
-import cn.herodotus.thingsbrain.link.commons.definition.SpecificationPostManager;
+import cn.herodotus.thingsbrain.link.commons.definition.SubsetTopoManager;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
+import java.util.List;
 import java.util.Map;
 
 /**
- * <p>Description: 设备上报属性消息处理 </p>
+ * <p>Description: 获取设备的拓扑关系 </p>
+ * <p>
+ * 网关类型的设备，可以通过该Topic获取该设备和子设备的拓扑关系
  *
  * @author : gengwei.zheng
- * @date : 2025/5/14 12:30
+ * @date : 2025/6/16 12:35
  */
-@Component(MethodConstants.METHOD__THING_EVENT_PROPERTY_POST)
-public class SysThingEventPropertyPostInboundMessageHandler extends AbstractInboundSysMessageHandler<EventPropertyPost, Map<String, Object>, SpecificationPostManager> {
+@Component(MethodConstants.METHOD__THING_TOPO_GET)
+public class SysThingTopoGetMessageHandler extends AbstractInboundSysMessageHandler<Map<String, Object>, List<Identifier>, SubsetTopoManager> {
 
-    private final TypeReference<LinkSysRequest<EventPropertyPost>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkSysRequest<Map<String, Object>>> typeReference = new TypeReference<>() {
     };
 
-    public SysThingEventPropertyPostInboundMessageHandler(SpecificationPostManager specificationPostManager) {
-        super(new MqttTopic(MethodConstants.METHOD__THING_EVENT_PROPERTY_POST), specificationPostManager);
+
+    public SysThingTopoGetMessageHandler(SubsetTopoManager subsetTopoManager) {
+        super(new MqttTopic(MethodConstants.METHOD__THING_TOPO_GET), subsetTopoManager);
     }
 
     @Override
-    protected TypeReference<LinkSysRequest<EventPropertyPost>> getTypeReference() {
+    protected TypeReference<LinkSysRequest<Map<String, Object>>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected ThrowableBiFunction<CompleteIdentifier, EventPropertyPost, Map<String, Object>, InboundMessageProcessingException> getFunction(SpecificationPostManager specificationPostManager) {
-        return (identity, param) -> specificationPostManager.property(identity.getProductKey(), identity.getDeviceName(), param);
+    protected ThrowableBiFunction<CompleteIdentifier, Map<String, Object>, List<Identifier>, InboundMessageProcessingException> getFunction(SubsetTopoManager subsetTopoManager) {
+        return (identity, param) -> subsetTopoManager.get(identity.getProductKey(), identity.getDeviceName());
     }
 }

@@ -28,11 +28,11 @@ package cn.herodotus.thingsbrain.mqtt.inbound.handler;
 import cn.herodotus.dante.core.function.ThrowableBiFunction;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
-import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
-import cn.herodotus.thingsbrain.link.commons.definition.SubsetTopoManager;
+import cn.herodotus.thingsbrain.kernel.link.domain.tag.TagGet;
+import cn.herodotus.thingsbrain.link.commons.definition.DeviceTagManager;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
@@ -41,31 +41,29 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>Description: 获取设备的拓扑关系 </p>
- * <p>
- * 网关类型的设备，可以通过该Topic获取该设备和子设备的拓扑关系
+ * <p>Description: 查询标签信息 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/6/16 12:35
+ * @date : 2025/6/15 16:06
  */
-@Component(MethodConstants.METHOD__THING_TOPO_GET)
-public class SysThingTopoGetInboundMessageHandler extends AbstractInboundSysMessageHandler<Map<String, Object>, List<Identifier>, SubsetTopoManager> {
+@Component(MethodConstants.METHOD__THING_DEVICEINFO_GET)
+public class SysThingDeviceInfoGetMessageHandler extends AbstractInboundSysMessageHandler<TagGet, List<Map<String, String>>, DeviceTagManager> {
 
-    private final TypeReference<LinkSysRequest<Map<String, Object>>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkSysRequest<TagGet>> typeReference = new TypeReference<>() {
     };
 
-
-    public SysThingTopoGetInboundMessageHandler(SubsetTopoManager subsetTopoManager) {
-        super(new MqttTopic(MethodConstants.METHOD__THING_TOPO_GET), subsetTopoManager);
+    public SysThingDeviceInfoGetMessageHandler(DeviceTagManager deviceTagManager) {
+        super(new MqttTopic(MethodConstants.METHOD__THING_DEVICEINFO_GET), deviceTagManager);
     }
 
     @Override
-    protected TypeReference<LinkSysRequest<Map<String, Object>>> getTypeReference() {
+    protected TypeReference<LinkSysRequest<TagGet>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected ThrowableBiFunction<CompleteIdentifier, Map<String, Object>, List<Identifier>, InboundMessageProcessingException> getFunction(SubsetTopoManager subsetTopoManager) {
-        return (identity, param) -> subsetTopoManager.get(identity.getProductKey(), identity.getDeviceName());
+    protected ThrowableBiFunction<CompleteIdentifier, TagGet, List<Map<String, String>>, InboundMessageProcessingException> getFunction(DeviceTagManager deviceTagManager) {
+        return (identity, param) -> deviceTagManager.get(identity.getProductKey(), identity.getDeviceName(), param.getKeys());
     }
+
 }

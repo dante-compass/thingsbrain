@@ -28,44 +28,40 @@ package cn.herodotus.thingsbrain.mqtt.inbound.handler;
 import cn.herodotus.dante.core.function.ThrowableBiFunction;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
-import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
-import cn.herodotus.thingsbrain.kernel.commons.enums.TopicCategory;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
-import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
-import cn.herodotus.thingsbrain.kernel.link.domain.session.BatchLogin;
-import cn.herodotus.thingsbrain.link.commons.definition.SubsetSessionManager;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundExtMessageHandler;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
+import cn.herodotus.thingsbrain.kernel.link.domain.specification.EventPropertyPackPost;
+import cn.herodotus.thingsbrain.link.commons.definition.SpecificationPostManager;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
-import java.util.List;
+import java.util.Map;
 
 /**
- * <p>Description: 子设备批量上线 </p>
- * <p>
- * 因为子设备通过网关通道与物联网平台通信，以上Topic为网关设备的Topic。Topic中变量${productKey}和${deviceName}需替换为网关设备的对应信息
+ * <p>Description: 网关批量上报数据消息处理 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/6/16 12:34
+ * @date : 2025/5/14 12:30
  */
-@Component(MethodConstants.METHOD__COMBINE_BATCH_LOGIN)
-public class ExtSessionCombineBatchLoginInboundMessageHandler extends AbstractInboundExtMessageHandler<BatchLogin, List<Identifier>> {
+@Component(MethodConstants.METHOD__THING_EVENT_PROPERTY_PACK_POST)
+public class SysThingEventPropertyPackPostMessageHandler extends AbstractInboundSysMessageHandler<EventPropertyPackPost, Map<String, Object>, SpecificationPostManager> {
 
-    private final TypeReference<LinkRequest<BatchLogin>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkSysRequest<EventPropertyPackPost>> typeReference = new TypeReference<>() {
     };
 
-    public ExtSessionCombineBatchLoginInboundMessageHandler(SubsetSessionManager subsetSessionManager) {
-        super(new MqttTopic(TopicCategory.EXT, MethodConstants.METHOD__COMBINE_BATCH_LOGIN), subsetSessionManager);
+    public SysThingEventPropertyPackPostMessageHandler(SpecificationPostManager specificationPostManager) {
+        super(new MqttTopic(MethodConstants.METHOD__THING_EVENT_PROPERTY_PACK_POST), specificationPostManager);
     }
 
     @Override
-    protected TypeReference<LinkRequest<BatchLogin>> getTypeReference() {
+    protected TypeReference<LinkSysRequest<EventPropertyPackPost>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected ThrowableBiFunction<CompleteIdentifier, BatchLogin, List<Identifier>, InboundMessageProcessingException> getFunction(SubsetSessionManager subsetSessionManager) {
-        return (identity, param) -> subsetSessionManager.batchLogin(identity.getProductKey(), identity.getDeviceName(), param);
+    protected ThrowableBiFunction<CompleteIdentifier, EventPropertyPackPost, Map<String, Object>, InboundMessageProcessingException> getFunction(SpecificationPostManager specificationPostManager) {
+        return (identity, param) -> specificationPostManager.pack(identity.getProductKey(), identity.getDeviceName(), param);
     }
 }

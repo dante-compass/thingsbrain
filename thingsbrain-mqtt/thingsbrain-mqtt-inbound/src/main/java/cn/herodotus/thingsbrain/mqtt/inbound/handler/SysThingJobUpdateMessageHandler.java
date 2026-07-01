@@ -31,37 +31,36 @@ import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
-import cn.herodotus.thingsbrain.kernel.link.domain.specification.EventPropertyHistoryPost;
-import cn.herodotus.thingsbrain.link.commons.definition.SpecificationPostManager;
+import cn.herodotus.thingsbrain.kernel.link.domain.job.Job;
+import cn.herodotus.thingsbrain.kernel.link.domain.job.JobUpdate;
+import cn.herodotus.thingsbrain.link.commons.definition.DeviceJobManager;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
-import java.util.Map;
-
 /**
- * <p>Description: 物模型历史数据消息处理器 </p>
+ * <p>Description: 更新任务下作业状态消息处理器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/5/14 12:30
+ * @date : 2025/6/16 12:22
  */
-@Component(MethodConstants.METHOD__THING_EVENT_PROPERTY_HISTORY_POST)
-public class SysThingEventPropertyHistoryPostInboundMessageHandler extends AbstractInboundSysMessageHandler<EventPropertyHistoryPost, Map<String, Object>, SpecificationPostManager> {
+@Component(MethodConstants.METHOD__THING_JOB_UPDATE)
+public class SysThingJobUpdateMessageHandler extends AbstractInboundSysMessageHandler<JobUpdate, Job, DeviceJobManager> {
 
-    private final TypeReference<LinkSysRequest<EventPropertyHistoryPost>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkSysRequest<JobUpdate>> typeReference = new TypeReference<>() {
     };
 
-    public SysThingEventPropertyHistoryPostInboundMessageHandler(SpecificationPostManager specificationPostManager) {
-        super(new MqttTopic(MethodConstants.METHOD__THING_EVENT_PROPERTY_HISTORY_POST), specificationPostManager);
+    public SysThingJobUpdateMessageHandler(DeviceJobManager messageManager) {
+        super(new MqttTopic(MethodConstants.METHOD__THING_JOB_UPDATE), messageManager);
     }
 
     @Override
-    protected TypeReference<LinkSysRequest<EventPropertyHistoryPost>> getTypeReference() {
+    protected TypeReference<LinkSysRequest<JobUpdate>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected ThrowableBiFunction<CompleteIdentifier, EventPropertyHistoryPost, Map<String, Object>, InboundMessageProcessingException> getFunction(SpecificationPostManager specificationPostManager) {
-        return (identity, param) -> specificationPostManager.history(identity.getProductKey(), identity.getDeviceName(), param);
+    protected ThrowableBiFunction<CompleteIdentifier, JobUpdate, Job, InboundMessageProcessingException> getFunction(DeviceJobManager deviceJobManager) {
+        return (identity, param) -> deviceJobManager.update(identity.getProductKey(), identity.getDeviceName(), param);
     }
 }

@@ -25,44 +25,41 @@
 
 package cn.herodotus.thingsbrain.mqtt.inbound.handler;
 
-import cn.herodotus.dante.core.function.ThrowableBiFunction;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
-import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
-import cn.herodotus.thingsbrain.kernel.commons.enums.TopicCategory;
-import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
-import cn.herodotus.thingsbrain.link.commons.definition.SubsetSessionManager;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundExtMessageHandler;
+import cn.herodotus.thingsbrain.kernel.link.domain.ota.DeviceProgressParam;
+import cn.herodotus.thingsbrain.link.commons.definition.OtaManager;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundOtaMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
+import java.util.function.BiConsumer;
+
 /**
- * <p>Description: 子设备下线消息处理器 </p>
- * <p>
- * 因为子设备通过网关通道与物联网平台通信，以上Topic为网关设备的Topic。Topic中变量${productKey}和${deviceName}需替换为网关设备的对应信息
+ * <p>Description: 设备上报升级进度 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/6/16 12:33
+ * @date : 2025/6/16 12:18
  */
-@Component(MethodConstants.METHOD__COMBINE_LOGOUT)
-public class ExtSessionCombineLogoutInboundMessageHandler extends AbstractInboundExtMessageHandler<Identifier, Identifier> {
+@Component(MethodConstants.METHOD__OTA_DEVICE_UPGRADE)
+public class OtaDeviceProgressMessageHandler extends AbstractInboundOtaMessageHandler<DeviceProgressParam> {
 
-    private final TypeReference<LinkRequest<Identifier>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkRequest<DeviceProgressParam>> typeReference = new TypeReference<>() {
     };
 
-    public ExtSessionCombineLogoutInboundMessageHandler(SubsetSessionManager subsetSessionManager) {
-        super(new MqttTopic(TopicCategory.EXT, MethodConstants.METHOD__COMBINE_LOGOUT), subsetSessionManager);
+    public OtaDeviceProgressMessageHandler(OtaManager otaManager) {
+        super(new MqttTopic(MethodConstants.METHOD__OTA_DEVICE_UPGRADE, false), otaManager);
     }
 
     @Override
-    protected TypeReference<LinkRequest<Identifier>> getTypeReference() {
+    protected TypeReference<LinkRequest<DeviceProgressParam>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected ThrowableBiFunction<CompleteIdentifier, Identifier, Identifier, InboundMessageProcessingException> getFunction(SubsetSessionManager subsetSessionManager) {
-        return (identity, param) -> subsetSessionManager.logout(identity.getProductKey(), identity.getDeviceName(), param);
+    protected BiConsumer<CompleteIdentifier, DeviceProgressParam> getConsumer(OtaManager otaManager) {
+        return (identity, param) -> otaManager.progress(identity.getProductKey(), identity.getDeviceName(), param);
     }
 }

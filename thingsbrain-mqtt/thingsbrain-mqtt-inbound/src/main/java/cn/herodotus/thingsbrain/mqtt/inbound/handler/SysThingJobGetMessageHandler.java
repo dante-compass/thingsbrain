@@ -28,40 +28,39 @@ package cn.herodotus.thingsbrain.mqtt.inbound.handler;
 import cn.herodotus.dante.core.function.ThrowableBiFunction;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
-import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
-import cn.herodotus.thingsbrain.link.commons.definition.SubsetTopoManager;
+import cn.herodotus.thingsbrain.kernel.link.domain.job.Job;
+import cn.herodotus.thingsbrain.kernel.link.domain.job.TaskDetail;
+import cn.herodotus.thingsbrain.link.commons.definition.DeviceJobManager;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
-import java.util.List;
-
 /**
- * <p>Description: 删除设备的拓扑关系 </p>
+ * <p>Description: 获取设备任务详情 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/6/16 12:35
+ * @date : 2025/6/16 12:22
  */
-@Component(MethodConstants.METHOD__THING_TOPO_DELETE)
-public class SysThingTopoDeleteInboundMessageHandler extends AbstractInboundSysMessageHandler<List<Identifier>, List<Identifier>, SubsetTopoManager> {
+@Component(MethodConstants.METHOD__THING_JOB_GET)
+public class SysThingJobGetMessageHandler extends AbstractInboundSysMessageHandler<Job, TaskDetail, DeviceJobManager> {
 
-    private final TypeReference<LinkSysRequest<List<Identifier>>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkSysRequest<Job>> typeReference = new TypeReference<>() {
     };
 
-    public SysThingTopoDeleteInboundMessageHandler(SubsetTopoManager subsetTopoManager) {
-        super(new MqttTopic(MethodConstants.METHOD__THING_TOPO_DELETE), subsetTopoManager);
+    public SysThingJobGetMessageHandler(DeviceJobManager messageManager) {
+        super(new MqttTopic(MethodConstants.METHOD__THING_JOB_GET), messageManager);
     }
 
     @Override
-    protected TypeReference<LinkSysRequest<List<Identifier>>> getTypeReference() {
+    protected TypeReference<LinkSysRequest<Job>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected ThrowableBiFunction<CompleteIdentifier, List<Identifier>, List<Identifier>, InboundMessageProcessingException> getFunction(SubsetTopoManager subsetTopoManager) {
-        return (identity, param) -> subsetTopoManager.delete(identity.getProductKey(), identity.getDeviceName(), param);
+    protected ThrowableBiFunction<CompleteIdentifier, Job, TaskDetail, InboundMessageProcessingException> getFunction(DeviceJobManager deviceJobManager) {
+        return (identity, param) -> deviceJobManager.get(identity.getProductKey(), identity.getDeviceName(), param);
     }
 }

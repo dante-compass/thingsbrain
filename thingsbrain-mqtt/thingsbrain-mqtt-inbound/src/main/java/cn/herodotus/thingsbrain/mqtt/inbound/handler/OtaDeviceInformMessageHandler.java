@@ -25,43 +25,42 @@
 
 package cn.herodotus.thingsbrain.mqtt.inbound.handler;
 
-import cn.herodotus.dante.core.function.ThrowableBiFunction;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
-import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
-import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
-import cn.herodotus.thingsbrain.kernel.link.domain.specification.EventIdentifierPost;
-import cn.herodotus.thingsbrain.link.commons.definition.SpecificationPostManager;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
+import cn.herodotus.thingsbrain.kernel.link.domain.ota.DeviceInformParam;
+import cn.herodotus.thingsbrain.link.commons.definition.OtaManager;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundOtaMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
-import java.util.Map;
+import java.util.function.BiConsumer;
 
 /**
- * <p>Description: 设备上报事件消息处理 </p>
+ * <p>Description: 设备上报OTA模块版本消息处理器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/5/14 12:30
+ * @date : 2025/6/16 12:16
  */
-@Component(MethodConstants.METHOD__THING_EVENT_IDENTIFIER)
-public class SysThingEventIdentityPostInboundMessageHandler extends AbstractInboundSysMessageHandler<EventIdentifierPost, Map<String, Object>, SpecificationPostManager> {
+@Component(MethodConstants.METHOD__OTA_DEVICE_INFORM)
+public class OtaDeviceInformMessageHandler extends AbstractInboundOtaMessageHandler<DeviceInformParam> {
 
-    private final TypeReference<LinkSysRequest<EventIdentifierPost>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkRequest<DeviceInformParam>> typeReference = new TypeReference<>() {
     };
 
-    public SysThingEventIdentityPostInboundMessageHandler(SpecificationPostManager specificationPostManager) {
-        super(new MqttTopic(MethodConstants.METHOD__THING_EVENT_IDENTIFIER, true, MqttTopic.Parameter.EVENT), specificationPostManager);
+
+    public OtaDeviceInformMessageHandler(OtaManager otaManager) {
+        super(new MqttTopic(MethodConstants.METHOD__OTA_DEVICE_INFORM, false), otaManager);
     }
 
     @Override
-    protected TypeReference<LinkSysRequest<EventIdentifierPost>> getTypeReference() {
+    protected TypeReference<LinkRequest<DeviceInformParam>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected ThrowableBiFunction<CompleteIdentifier, EventIdentifierPost, Map<String, Object>, InboundMessageProcessingException> getFunction(SpecificationPostManager handler) {
-        return (identity, param) -> handler.event(identity.getProductKey(), identity.getDeviceName(), identity.getIdentifier(), param);
+    protected BiConsumer<CompleteIdentifier, DeviceInformParam> getConsumer(OtaManager otaManager) {
+        return (identity, param) -> otaManager.inform(identity.getProductKey(), identity.getDeviceName(), param);
     }
 }

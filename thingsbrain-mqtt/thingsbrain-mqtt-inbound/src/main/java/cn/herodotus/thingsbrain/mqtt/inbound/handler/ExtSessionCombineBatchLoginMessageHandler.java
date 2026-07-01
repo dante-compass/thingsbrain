@@ -25,41 +25,47 @@
 
 package cn.herodotus.thingsbrain.mqtt.inbound.handler;
 
+import cn.herodotus.dante.core.function.ThrowableBiFunction;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
+import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
+import cn.herodotus.thingsbrain.kernel.commons.enums.TopicCategory;
+import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
-import cn.herodotus.thingsbrain.kernel.link.domain.ota.DeviceProgressParam;
-import cn.herodotus.thingsbrain.link.commons.definition.OtaManager;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundOtaMessageHandler;
+import cn.herodotus.thingsbrain.kernel.link.domain.session.BatchLogin;
+import cn.herodotus.thingsbrain.link.commons.definition.SubsetSessionManager;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundExtMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
-import java.util.function.BiConsumer;
+import java.util.List;
 
 /**
- * <p>Description: 设备上报升级进度 </p>
+ * <p>Description: 子设备批量上线 </p>
+ * <p>
+ * 因为子设备通过网关通道与物联网平台通信，以上Topic为网关设备的Topic。Topic中变量${productKey}和${deviceName}需替换为网关设备的对应信息
  *
  * @author : gengwei.zheng
- * @date : 2025/6/16 12:18
+ * @date : 2025/6/16 12:34
  */
-@Component(MethodConstants.METHOD__OTA_DEVICE_UPGRADE)
-public class OtaDeviceProgressInboundMessageHandler extends AbstractInboundOtaMessageHandler<DeviceProgressParam> {
+@Component(MethodConstants.METHOD__COMBINE_BATCH_LOGIN)
+public class ExtSessionCombineBatchLoginMessageHandler extends AbstractInboundExtMessageHandler<BatchLogin, List<Identifier>> {
 
-    private final TypeReference<LinkRequest<DeviceProgressParam>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkRequest<BatchLogin>> typeReference = new TypeReference<>() {
     };
 
-    public OtaDeviceProgressInboundMessageHandler(OtaManager otaManager) {
-        super(new MqttTopic(MethodConstants.METHOD__OTA_DEVICE_UPGRADE, false), otaManager);
+    public ExtSessionCombineBatchLoginMessageHandler(SubsetSessionManager subsetSessionManager) {
+        super(new MqttTopic(TopicCategory.EXT, MethodConstants.METHOD__COMBINE_BATCH_LOGIN), subsetSessionManager);
     }
 
     @Override
-    protected TypeReference<LinkRequest<DeviceProgressParam>> getTypeReference() {
+    protected TypeReference<LinkRequest<BatchLogin>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected BiConsumer<CompleteIdentifier, DeviceProgressParam> getConsumer(OtaManager otaManager) {
-        return (identity, param) -> otaManager.progress(identity.getProductKey(), identity.getDeviceName(), param);
+    protected ThrowableBiFunction<CompleteIdentifier, BatchLogin, List<Identifier>, InboundMessageProcessingException> getFunction(SubsetSessionManager subsetSessionManager) {
+        return (identity, param) -> subsetSessionManager.batchLogin(identity.getProductKey(), identity.getDeviceName(), param);
     }
 }

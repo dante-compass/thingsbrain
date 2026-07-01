@@ -30,37 +30,39 @@ import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
-import cn.herodotus.thingsbrain.kernel.link.definition.DeviceModule;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
-import cn.herodotus.thingsbrain.kernel.link.domain.ota.HttpProtocolDomain;
-import cn.herodotus.thingsbrain.link.commons.definition.OtaManager;
+import cn.herodotus.thingsbrain.kernel.link.domain.tag.AttributeKey;
+import cn.herodotus.thingsbrain.link.commons.definition.DeviceTagManager;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
+import java.util.List;
+import java.util.Map;
+
 /**
- * <p>Description: 设备请求OTA升级包信息消息处理器 </p>
+ * <p>Description: 删除标签信息 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/6/16 12:14
+ * @date : 2025/6/15 16:06
  */
-@Component(MethodConstants.METHOD__OTA_FIRMWARE_GET)
-public class SysThingOtaFirmwareGetInboundMessageHandler extends AbstractInboundSysMessageHandler<DeviceModule, HttpProtocolDomain, OtaManager> {
+@Component(MethodConstants.METHOD__THING_DEVICEINFO_DELETE)
+public class SysThingDeviceInfoDeleteMessageHandler extends AbstractInboundSysMessageHandler<List<AttributeKey>, Map<String, String>, DeviceTagManager> {
 
-    private final TypeReference<LinkSysRequest<DeviceModule>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkSysRequest<List<AttributeKey>>> typeReference = new TypeReference<>() {
     };
 
-    public SysThingOtaFirmwareGetInboundMessageHandler(OtaManager messageManager) {
-        super(new MqttTopic(MethodConstants.METHOD__OTA_FIRMWARE_GET), messageManager);
+    public SysThingDeviceInfoDeleteMessageHandler(DeviceTagManager deviceTagManager) {
+        super(new MqttTopic(MethodConstants.METHOD__THING_DEVICEINFO_DELETE), deviceTagManager);
     }
 
     @Override
-    protected TypeReference<LinkSysRequest<DeviceModule>> getTypeReference() {
+    protected TypeReference<LinkSysRequest<List<AttributeKey>>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected ThrowableBiFunction<CompleteIdentifier, DeviceModule, HttpProtocolDomain, InboundMessageProcessingException> getFunction(OtaManager otaManager) {
-        return (identity, param) -> otaManager.getFirmware(identity.getProductKey(), identity.getDeviceName(), param);
+    protected ThrowableBiFunction<CompleteIdentifier, List<AttributeKey>, Map<String, String>, InboundMessageProcessingException> getFunction(DeviceTagManager deviceTagManager) {
+        return (identity, param) -> deviceTagManager.delete(identity.getProductKey(), identity.getDeviceName(), param);
     }
 }

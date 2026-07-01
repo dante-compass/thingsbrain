@@ -25,42 +25,42 @@
 
 package cn.herodotus.thingsbrain.mqtt.inbound.handler;
 
+import cn.herodotus.dante.core.function.ThrowableBiFunction;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
-import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
-import cn.herodotus.thingsbrain.kernel.link.domain.ota.DeviceInformParam;
-import cn.herodotus.thingsbrain.link.commons.definition.OtaManager;
-import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundOtaMessageHandler;
+import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
+import cn.herodotus.thingsbrain.kernel.link.definition.config.FileConfig;
+import cn.herodotus.thingsbrain.kernel.link.domain.config.ConfigDomain;
+import cn.herodotus.thingsbrain.link.commons.definition.DeviceConfigManager;
+import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundSysMessageHandler;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
 
-import java.util.function.BiConsumer;
-
 /**
- * <p>Description: 设备上报OTA模块版本消息处理器 </p>
+ * <p>Description: 设备主动请求配置信息 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/6/16 12:16
+ * @date : 2025/6/16 12:19
  */
-@Component(MethodConstants.METHOD__OTA_DEVICE_INFORM)
-public class OtaDeviceInformInboundMessageHandler extends AbstractInboundOtaMessageHandler<DeviceInformParam> {
+@Component(MethodConstants.METHOD__THING_CONFIG_GET)
+public class SysThingConfigGetMessageHandler extends AbstractInboundSysMessageHandler<FileConfig, ConfigDomain, DeviceConfigManager> {
 
-    private final TypeReference<LinkRequest<DeviceInformParam>> typeReference = new TypeReference<>() {
+    private final TypeReference<LinkSysRequest<FileConfig>> typeReference = new TypeReference<>() {
     };
 
-
-    public OtaDeviceInformInboundMessageHandler(OtaManager otaManager) {
-        super(new MqttTopic(MethodConstants.METHOD__OTA_DEVICE_INFORM, false), otaManager);
+    public SysThingConfigGetMessageHandler(DeviceConfigManager deviceConfigManager) {
+        super(new MqttTopic(MethodConstants.METHOD__THING_CONFIG_GET), deviceConfigManager);
     }
 
     @Override
-    protected TypeReference<LinkRequest<DeviceInformParam>> getTypeReference() {
+    protected TypeReference<LinkSysRequest<FileConfig>> getTypeReference() {
         return typeReference;
     }
 
     @Override
-    protected BiConsumer<CompleteIdentifier, DeviceInformParam> getConsumer(OtaManager otaManager) {
-        return (identity, param) -> otaManager.inform(identity.getProductKey(), identity.getDeviceName(), param);
+    protected ThrowableBiFunction<CompleteIdentifier, FileConfig, ConfigDomain, InboundMessageProcessingException> getFunction(DeviceConfigManager deviceConfigManager) {
+        return (identity, param) -> deviceConfigManager.get(identity.getProductKey(), identity.getDeviceName(), param);
     }
 }
