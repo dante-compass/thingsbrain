@@ -47,7 +47,7 @@ import java.util.Optional;
  * @author : gengwei.zheng
  * @date : 2025/10/17 14:10
  */
-public interface MqttMessagePublisher {
+public interface MqttOutboundMessagePublisher {
 
     /**
      * 判断缓存中，对应的请求ID是否已经存在。

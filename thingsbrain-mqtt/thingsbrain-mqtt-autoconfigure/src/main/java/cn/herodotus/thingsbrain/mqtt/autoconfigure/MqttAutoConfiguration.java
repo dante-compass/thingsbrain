@@ -32,10 +32,10 @@ import cn.herodotus.dante.message.commons.constant.Channels;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttInboundMessageHandler;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttSubscribeTopicAppenderListener;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttTopicProperties;
-import cn.herodotus.thingsbrain.mqtt.autoconfigure.processor.DefaultMqttMessageDuplicateInspector;
-import cn.herodotus.thingsbrain.mqtt.autoconfigure.processor.DefaultMqttMessagePublisher;
-import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessageDuplicateInspector;
-import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.autoconfigure.processor.DefaultMqttInboundMessageDuplicateInspector;
+import cn.herodotus.thingsbrain.mqtt.autoconfigure.processor.DefaultMqttOutboundMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttInboundMessageDuplicateInspector;
+import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import cn.herodotus.thingsbrain.mqtt.inbound.config.MqttInboundConfiguration;
 import cn.herodotus.thingsbrain.mqtt.inbound.dispatcher.MqttInboundMessageDispatcher;
 import cn.herodotus.thingsbrain.mqtt.outbound.config.MqttOutboundConfiguration;
@@ -79,9 +79,9 @@ public class MqttAutoConfiguration {
     }
 
     @Bean
-    public MqttMessageDuplicateInspector mqttMessageDuplicateInspector() {
-        DefaultMqttMessageDuplicateInspector protector = new DefaultMqttMessageDuplicateInspector();
-        log.trace("[ThingsBrain] |- Bean [Mqtt Message Duplicate Inspector] Configure.");
+    public MqttInboundMessageDuplicateInspector mqttInboundMessageDuplicateInspector() {
+        DefaultMqttInboundMessageDuplicateInspector protector = new DefaultMqttInboundMessageDuplicateInspector();
+        log.trace("[ThingsBrain] |- Bean [Mqtt Inbound Message Duplicate Inspector] Configure.");
         return protector;
     }
 
@@ -113,9 +113,9 @@ public class MqttAutoConfiguration {
     @ServiceActivator(inputChannel = Channels.MQTT__THINGSBRAIN_INBOUND_CHANNEL)
     public MessageHandler mqttThingsBrainInboundHandler(
             MqttProperties mqttProperties,
-            MqttMessageDuplicateInspector mqttMessageDuplicateInspector,
+            MqttInboundMessageDuplicateInspector mqttInboundMessageDuplicateInspector,
             MqttInboundMessageDispatcher mqttInboundMessageDispatcher) {
-        return new MqttInboundMessageHandler(mqttProperties, mqttMessageDuplicateInspector, mqttInboundMessageDispatcher);
+        return new MqttInboundMessageHandler(mqttProperties, mqttInboundMessageDuplicateInspector, mqttInboundMessageDispatcher);
     }
 
     @Bean
@@ -126,9 +126,9 @@ public class MqttAutoConfiguration {
     }
 
     @Bean
-    public MqttMessagePublisher mqttMessagePublisher() {
-        DefaultMqttMessagePublisher mqttMessageManager = new DefaultMqttMessagePublisher();
-        log.trace("[ThingsBrain] |- Bean [Default Mqtt Message Manager] Configure.");
+    public MqttOutboundMessagePublisher mqttOutboundMessagePublisher() {
+        DefaultMqttOutboundMessagePublisher mqttMessageManager = new DefaultMqttOutboundMessagePublisher();
+        log.trace("[ThingsBrain] |- Bean [Mqtt Outbound Message Manager] Configure.");
         return mqttMessageManager;
     }
 }

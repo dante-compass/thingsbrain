@@ -30,7 +30,7 @@ import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.link.commons.definition.SpecificationManager;
-import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -48,22 +48,22 @@ public class TslServiceService {
     private static final MqttTopic TOPIC_INVOKE = new MqttTopic(MethodConstants.METHOD__THING_SERVICE_IDENTIFIER, MqttTopic.Parameter.SERVICE);
 
     private final SpecificationManager specificationManager;
-    private final MqttMessagePublisher mqttMessagePublisher;
+    private final MqttOutboundMessagePublisher mqttOutboundMessagePublisher;
 
-    public TslServiceService(SpecificationManager specificationManager, MqttMessagePublisher mqttMessagePublisher) {
+    public TslServiceService(SpecificationManager specificationManager, MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
         this.specificationManager = specificationManager;
-        this.mqttMessagePublisher = mqttMessagePublisher;
+        this.mqttOutboundMessagePublisher = mqttOutboundMessagePublisher;
     }
 
     public void set(String productKey, String deviceName, Map<String, Object> params, UserPrincipal userPrincipal) {
         specificationManager.verification(productKey, ProtocolConstants.ACTION__SET, params);
 
-        mqttMessagePublisher.request(TOPIC_SET, productKey, deviceName, params, userPrincipal);
+        mqttOutboundMessagePublisher.request(TOPIC_SET, productKey, deviceName, params, userPrincipal);
     }
 
     public void invoke(String productKey, String deviceName, String identifier, Map<String, Object> params, UserPrincipal userPrincipal) {
         specificationManager.verification(productKey, identifier, params);
 
-        mqttMessagePublisher.request(TOPIC_INVOKE, productKey, deviceName, identifier, params, userPrincipal);
+        mqttOutboundMessagePublisher.request(TOPIC_INVOKE, productKey, deviceName, identifier, params, userPrincipal);
     }
 }

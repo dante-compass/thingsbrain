@@ -23,7 +23,7 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.mqtt.inbound.response;
+package cn.herodotus.thingsbrain.mqtt.inbound.processor;
 
 import cn.herodotus.dante.core.jackson.JacksonUtils;
 import cn.herodotus.dante.message.commons.definition.strategy.MessageSendingEventManager;
@@ -40,11 +40,11 @@ import org.apache.commons.lang3.StringUtils;
  * @author : gengwei.zheng
  * @date : 2025/10/18 23:19
  */
-public class InboundMessageReplyProcessor {
+public class InboundResponseMessageProcessor {
 
     private final MessageSendingEventManager messageSendingEventManager;
 
-    public InboundMessageReplyProcessor(MessageSendingEventManager messageSendingEventManager) {
+    public InboundResponseMessageProcessor(MessageSendingEventManager messageSendingEventManager) {
         this.messageSendingEventManager = messageSendingEventManager;
     }
 

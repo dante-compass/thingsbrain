@@ -26,12 +26,12 @@
 package cn.herodotus.thingsbrain.mqtt.inbound.dispatcher;
 
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
-import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.dispatcher.AbstractReplyMessageDispatcher;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.SysInboundMessageHandler;
 import cn.herodotus.thingsbrain.mqtt.inbound.factory.SysMessageHandlerFactory;
-import cn.herodotus.thingsbrain.mqtt.inbound.response.InboundMessageReplyProcessor;
+import cn.herodotus.thingsbrain.mqtt.inbound.processor.InboundResponseMessageProcessor;
 
 import java.util.Optional;
 
@@ -45,8 +45,8 @@ public class SysInboundMessageDispatcher extends AbstractReplyMessageDispatcher 
 
     private final SysMessageHandlerFactory sysMessageHandlerFactory;
 
-    public SysInboundMessageDispatcher(SysMessageHandlerFactory sysMessageHandlerFactory, InboundMessageReplyProcessor inboundMessageReplyProcessor, MqttMessagePublisher mqttMessagePublisher) {
-        super(inboundMessageReplyProcessor, mqttMessagePublisher);
+    public SysInboundMessageDispatcher(SysMessageHandlerFactory sysMessageHandlerFactory, InboundResponseMessageProcessor inboundResponseMessageProcessor, MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
+        super(inboundResponseMessageProcessor, mqttOutboundMessagePublisher);
         this.sysMessageHandlerFactory = sysMessageHandlerFactory;
     }
 

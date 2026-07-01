@@ -30,7 +30,7 @@ import cn.herodotus.thingsbrain.kernel.link.domain.shadow.ShadowRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.shadow.ShadowResponse;
 import cn.herodotus.thingsbrain.link.commons.definition.DeviceShadowManager;
 import cn.herodotus.thingsbrain.mqtt.commons.constant.MqttConstants;
-import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import cn.herodotus.thingsbrain.persistence.commons.domain.DeviceShadow;
 
 import java.util.Map;
@@ -45,11 +45,11 @@ import java.util.Optional;
 public class DeviceShadowService {
 
     private final DeviceShadowManager deviceShadowManager;
-    private final MqttMessagePublisher mqttMessagePublisher;
+    private final MqttOutboundMessagePublisher mqttOutboundMessagePublisher;
 
-    public DeviceShadowService(DeviceShadowManager deviceShadowManager, MqttMessagePublisher mqttMessagePublisher) {
+    public DeviceShadowService(DeviceShadowManager deviceShadowManager, MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
         this.deviceShadowManager = deviceShadowManager;
-        this.mqttMessagePublisher = mqttMessagePublisher;
+        this.mqttOutboundMessagePublisher = mqttOutboundMessagePublisher;
     }
 
     /**
@@ -68,6 +68,6 @@ public class DeviceShadowService {
                 .map(ShadowResponse::control)
                 .orElse(ShadowResponse.failure());
 
-        mqttMessagePublisher.publish(MqttConstants.MQTT_TOPIC__SHADOW.getReplyTopic(productKey, deviceName), JacksonUtils.toJson(response));
+        mqttOutboundMessagePublisher.publish(MqttConstants.MQTT_TOPIC__SHADOW.getReplyTopic(productKey, deviceName), JacksonUtils.toJson(response));
     }
 }

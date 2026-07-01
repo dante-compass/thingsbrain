@@ -27,61 +27,54 @@ package cn.herodotus.thingsbrain.mqtt.autoconfigure.processor;
 
 import cn.herodotus.dante.cache.utils.JetCacheUtils;
 import cn.herodotus.thingsbrain.mqtt.commons.constant.MqttConstants;
-import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessageDuplicateInspector;
+import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttOperation;
+import cn.hutool.v7.core.text.StrUtil;
 import com.alicp.jetcache.Cache;
 import com.alicp.jetcache.anno.CacheType;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.Optional;
 
 /**
- * <p>Description: Mqtt 重复消息保护器 </p>
+ * <p>Description: 默认 Mqtt 消息管理器 </p>
  *
- * @author : gengwei_zheng
- * @date : 2026/6/30 14:45
+ * @author : gengwei.zheng
+ * @date : 2025/10/17 14:11
  */
-public class DefaultMqttMessageDuplicateInspector implements MqttMessageDuplicateInspector {
+public class DefaultMqttOutboundMessagePublisher implements MqttOutboundMessagePublisher {
 
-    /**
-     * 当前缓存值使用 topic，只是为了防止缓存空值。后续可结合业务调整为需要的数据。
-     */
-    private final Cache<String, String> cache;
+    private final Cache<String, MqttOperation> cache;
 
-    public DefaultMqttMessageDuplicateInspector() {
-        this.cache = JetCacheUtils.create(MqttConstants.CACHE_THINGSBRAIN_MESSAGE_ID, CacheType.BOTH, Duration.ofHours(1), true);
+    public DefaultMqttOutboundMessagePublisher() {
+        this.cache = JetCacheUtils.create(MqttConstants.CACHE_THINGSBRAIN_REQUEST_ID, CacheType.BOTH, Duration.ofSeconds(1), true);
     }
 
-    /**
-     * 判断缓存中是否已经存在指定的 MessageId
-     *
-     * @param messageId 消息 ID
-     * @return true 包含，false 不包含或者 messageId 为空
-     */
-    private boolean containMessageId(String messageId) {
-        if (StringUtils.isNotBlank(messageId)) {
-            String value = cache.get(messageId);
-            return StringUtils.isNotBlank(value);
+    private String getRequestId(MqttMessageDetails details) {
+        if (ArrayUtils.isNotEmpty(details.getCorrelationData())) {
+            return StrUtil.str(details.getCorrelationData(), StandardCharsets.UTF_8);
+        } else {
+            return details.getRequestId();
         }
-
-        return false;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean isDuplicate(MqttMessageDetails details) {
-        return containMessageId(details.getMessageId()) || details.isDuplicate();
+    public Optional<MqttOperation> get(MqttMessageDetails details) {
+        String requestId = getRequestId(details);
+        return Optional.ofNullable(cache.get(requestId));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void record(MqttMessageDetails details) {
-        if (StringUtils.isNotBlank(details.getMessageId())) {
-            cache.put(details.getMessageId(), details.getTopic());
-        }
+    public void record(String requestId, MqttOperation operation) {
+        cache.put(requestId, operation);
     }
 }

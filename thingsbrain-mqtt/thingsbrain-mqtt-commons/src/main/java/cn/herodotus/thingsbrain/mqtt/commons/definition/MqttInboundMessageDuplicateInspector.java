@@ -28,12 +28,12 @@ package cn.herodotus.thingsbrain.mqtt.commons.definition;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 
 /**
- * <p>Description: 重复消息保护器 </p>
+ * <p>Description: 入站重复消息检查器 </p>
  *
  * @author : gengwei_zheng
  * @date : 2026/6/30 14:57
  */
-public interface MqttMessageDuplicateInspector {
+public interface MqttInboundMessageDuplicateInspector {
 
     /**
      * 判断 Mqtt 入站消息是否重复。

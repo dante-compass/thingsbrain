@@ -31,7 +31,7 @@ import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.link.domain.config.ConfigDomain;
 import cn.herodotus.thingsbrain.kernel.link.domain.config.LogConfigDomain;
 import cn.herodotus.thingsbrain.kernel.link.domain.config.LogContentDomain;
-import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import org.springframework.stereotype.Service;
 
 /**
@@ -47,10 +47,10 @@ public class DeviceConfigService {
 
     private static final MqttTopic TOPIC_PUSH = new MqttTopic(MethodConstants.METHOD__THING_CONFIG_PUSH);
 
-    private final MqttMessagePublisher mqttMessagePublisher;
+    private final MqttOutboundMessagePublisher mqttOutboundMessagePublisher;
 
-    public DeviceConfigService(MqttMessagePublisher mqttMessagePublisher) {
-        this.mqttMessagePublisher = mqttMessagePublisher;
+    public DeviceConfigService(MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
+        this.mqttOutboundMessagePublisher = mqttOutboundMessagePublisher;
     }
 
     /**
@@ -67,7 +67,7 @@ public class DeviceConfigService {
         LogConfigDomain config = new LogConfigDomain();
         config.setContent(content);
 
-        mqttMessagePublisher.request(TOPIC_LOG_PUSH, productKey, deviceName, config);
+        mqttOutboundMessagePublisher.request(TOPIC_LOG_PUSH, productKey, deviceName, config);
     }
 
     /**
@@ -78,6 +78,6 @@ public class DeviceConfigService {
      * @param data       配置信息 {@link ConfigDomain}
      */
     public void push(String productKey, String deviceName, ConfigDomain data, UserPrincipal userPrincipal) {
-        mqttMessagePublisher.request(TOPIC_PUSH, productKey, deviceName, data, userPrincipal);
+        mqttOutboundMessagePublisher.request(TOPIC_PUSH, productKey, deviceName, data, userPrincipal);
     }
 }

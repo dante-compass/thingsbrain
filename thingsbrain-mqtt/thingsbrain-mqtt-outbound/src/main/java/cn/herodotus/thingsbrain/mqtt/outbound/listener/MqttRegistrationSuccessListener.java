@@ -27,7 +27,7 @@ package cn.herodotus.thingsbrain.mqtt.outbound.listener;
 
 import cn.herodotus.thingsbrain.kernel.commons.enums.AuthType;
 import cn.herodotus.thingsbrain.kernel.commons.event.MqttRegistrationResponseEvent;
-import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
@@ -44,10 +44,10 @@ public class MqttRegistrationSuccessListener implements ApplicationListener<Mqtt
 
     private static final Logger log = LoggerFactory.getLogger(MqttRegistrationSuccessListener.class);
 
-    private final MqttMessagePublisher mqttMessagePublisher;
+    private final MqttOutboundMessagePublisher mqttOutboundMessagePublisher;
 
-    public MqttRegistrationSuccessListener(MqttMessagePublisher mqttMessagePublisher) {
-        this.mqttMessagePublisher = mqttMessagePublisher;
+    public MqttRegistrationSuccessListener(MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
+        this.mqttOutboundMessagePublisher = mqttOutboundMessagePublisher;
     }
 
     @Override
@@ -58,6 +58,6 @@ public class MqttRegistrationSuccessListener implements ApplicationListener<Mqtt
         AuthType authType = AuthType.get(type);
 
         log.debug("[ThingsBrain] |- Sending certificate to device.");
-        mqttMessagePublisher.publish("ext/" + authType.getValue(), data);
+        mqttOutboundMessagePublisher.publish("ext/" + authType.getValue(), data);
     }
 }

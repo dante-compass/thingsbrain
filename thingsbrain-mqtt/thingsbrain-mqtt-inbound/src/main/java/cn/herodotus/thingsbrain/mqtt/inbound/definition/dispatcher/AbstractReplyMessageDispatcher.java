@@ -26,10 +26,10 @@
 package cn.herodotus.thingsbrain.mqtt.inbound.definition.dispatcher;
 
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
-import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttOperation;
-import cn.herodotus.thingsbrain.mqtt.inbound.response.InboundMessageReplyProcessor;
+import cn.herodotus.thingsbrain.mqtt.inbound.processor.InboundResponseMessageProcessor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -41,12 +41,12 @@ import org.apache.commons.lang3.StringUtils;
  */
 public abstract class AbstractReplyMessageDispatcher implements InboundMessageDispatcher {
 
-    private final InboundMessageReplyProcessor inboundMessageReplyProcessor;
-    private final MqttMessagePublisher mqttMessagePublisher;
+    private final InboundResponseMessageProcessor inboundResponseMessageProcessor;
+    private final MqttOutboundMessagePublisher mqttOutboundMessagePublisher;
 
-    protected AbstractReplyMessageDispatcher(InboundMessageReplyProcessor inboundMessageReplyProcessor, MqttMessagePublisher mqttMessagePublisher) {
-        this.inboundMessageReplyProcessor = inboundMessageReplyProcessor;
-        this.mqttMessagePublisher = mqttMessagePublisher;
+    protected AbstractReplyMessageDispatcher(InboundResponseMessageProcessor inboundResponseMessageProcessor, MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
+        this.inboundResponseMessageProcessor = inboundResponseMessageProcessor;
+        this.mqttOutboundMessagePublisher = mqttOutboundMessagePublisher;
     }
 
     @Override
@@ -62,7 +62,7 @@ public abstract class AbstractReplyMessageDispatcher implements InboundMessageDi
             requestProcess(details);
         } else {
             // 下行数据的反馈响应
-            mqttMessagePublisher.get(details)
+            mqttOutboundMessagePublisher.get(details)
                     .ifPresent(operation -> responseProcess(operation, details));
         }
     }
@@ -81,7 +81,7 @@ public abstract class AbstractReplyMessageDispatcher implements InboundMessageDi
      * @param details   details Mqtt 消息详情 {@link MqttMessageDetails}
      */
     private void responseProcess(MqttOperation operation, MqttMessageDetails details) {
-        inboundMessageReplyProcessor.process(operation, details);
+        inboundResponseMessageProcessor.process(operation, details);
     }
 
     /**
@@ -92,7 +92,7 @@ public abstract class AbstractReplyMessageDispatcher implements InboundMessageDi
      */
     protected void response(MqttMessageDetails details, LinkResponse<?> response) {
         if (ObjectUtils.isNotEmpty(response)) {
-            mqttMessagePublisher.response(details, response);
+            mqttOutboundMessagePublisher.response(details, response);
         }
     }
 }

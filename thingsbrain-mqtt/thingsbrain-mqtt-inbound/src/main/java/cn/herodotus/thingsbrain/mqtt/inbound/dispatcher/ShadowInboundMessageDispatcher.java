@@ -33,7 +33,7 @@ import cn.herodotus.thingsbrain.kernel.commons.domain.Shadow;
 import cn.herodotus.thingsbrain.kernel.link.domain.shadow.ShadowRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.shadow.ShadowResponse;
 import cn.herodotus.thingsbrain.link.commons.definition.DeviceShadowManager;
-import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.dispatcher.InboundMessageDispatcher;
 import cn.herodotus.thingsbrain.persistence.commons.domain.DeviceShadow;
@@ -61,11 +61,11 @@ public class ShadowInboundMessageDispatcher implements InboundMessageDispatcher 
     public static final MqttTopic SHADOW_MQTT_TOPIC = new MqttTopic(SHADOW_UPDATE_TOPIC_TEMPLATE, SHADOW_GET_TOPIC_TEMPLATE);
 
     private final DeviceShadowManager deviceShadowManager;
-    private final MqttMessagePublisher mqttMessagePublisher;
+    private final MqttOutboundMessagePublisher mqttOutboundMessagePublisher;
 
-    public ShadowInboundMessageDispatcher(DeviceShadowManager deviceShadowManager, MqttMessagePublisher mqttMessagePublisher) {
+    public ShadowInboundMessageDispatcher(DeviceShadowManager deviceShadowManager, MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
         this.deviceShadowManager = deviceShadowManager;
-        this.mqttMessagePublisher = mqttMessagePublisher;
+        this.mqttOutboundMessagePublisher = mqttOutboundMessagePublisher;
     }
 
     @Override
@@ -80,7 +80,7 @@ public class ShadowInboundMessageDispatcher implements InboundMessageDispatcher 
             response = process(request.getMethod(), completeIdentifier.getProductKey(), completeIdentifier.getDeviceName(), request);
         }
 
-        mqttMessagePublisher.publish(SHADOW_MQTT_TOPIC.getReplyTopic(completeIdentifier.getProductKey(), completeIdentifier.getDeviceName()), JacksonUtils.toJson(response));
+        mqttOutboundMessagePublisher.publish(SHADOW_MQTT_TOPIC.getReplyTopic(completeIdentifier.getProductKey(), completeIdentifier.getDeviceName()), JacksonUtils.toJson(response));
     }
 
     private ShadowResponse process(String method, String productKey, String deviceName, ShadowRequest request) {
