@@ -25,7 +25,11 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.specification;
 
+import cn.herodotus.thingsbrain.kernel.commons.enums.Qos;
 import cn.herodotus.thingsbrain.persistence.commons.domain.MqttAuthority;
+import cn.herodotus.thingsbrain.persistence.commons.enums.Action;
+import cn.herodotus.thingsbrain.persistence.commons.enums.Permission;
+import cn.herodotus.thingsbrain.persistence.commons.enums.Retain;
 import cn.herodotus.thingsbrain.persistence.commons.service.MqttAuthorityService;
 import cn.herodotus.thingsbrain.persistence.jpa.converter.FromMqttAuthorityConverter;
 import cn.herodotus.thingsbrain.persistence.jpa.converter.ToMqttAuthorityConverter;
@@ -34,6 +38,10 @@ import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusMqttAutho
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>Description: 物联网 Mqtt 权限 Service Jpa 实现 </p>
@@ -74,5 +82,23 @@ public class JpaMqttAuthorityService implements MqttAuthorityService {
     @Override
     public void deleteById(String id) {
         delegate.deleteById(id);
+    }
+
+    @Override
+    public Page<MqttAuthority> findByCondition(int pageNumber, int pageSize, String topic, Action action, Permission permission, Qos qos, Retain retain) {
+        Page<HerodotusMqttAuthority> pages = delegate.findByCondition(pageNumber, pageSize, topic, action, permission, qos, retain);
+        return pages.map(toMqttAuthority::convert);
+    }
+
+    @Override
+    public MqttAuthority assign(String id, String[] categories) {
+        HerodotusMqttAuthority entity = delegate.assign(id, categories);
+        return toMqttAuthority.convert(entity);
+    }
+
+    @Override
+    public Set<MqttAuthority> findSubscribeTopicsForPlatform() {
+        List<HerodotusMqttAuthority> entities = delegate.findSubscribeTopicsForPlatform();
+        return entities.stream().map(toMqttAuthority::convert).collect(Collectors.toSet());
     }
 }

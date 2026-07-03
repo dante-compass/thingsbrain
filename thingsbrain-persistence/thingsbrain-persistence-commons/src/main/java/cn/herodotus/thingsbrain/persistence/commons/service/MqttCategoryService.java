@@ -27,11 +27,13 @@ package cn.herodotus.thingsbrain.persistence.commons.service;
 
 import cn.herodotus.dante.data.commons.service.BaseWriteAndPageService;
 import cn.herodotus.thingsbrain.persistence.commons.domain.MqttCategory;
-
-import java.util.Optional;
+import cn.herodotus.thingsbrain.persistence.commons.enums.Action;
+import cn.herodotus.thingsbrain.persistence.commons.enums.Area;
+import cn.herodotus.thingsbrain.persistence.commons.enums.Purpose;
+import org.springframework.data.domain.Page;
 
 /**
- * <p>Description: 物联网 Mqtt 主题分类管理统一定义 Service</p>
+ * <p>Description: 物联网 Mqtt 主题类别管理统一定义 Service</p>
  *
  * @author : gengwei.zheng
  * @date : 2025/10/14 15:51
@@ -39,9 +41,15 @@ import java.util.Optional;
 public interface MqttCategoryService extends BaseWriteAndPageService<MqttCategory, String> {
 
     /**
-     * 查询包含所有平台可以订阅主题的主题分类
+     * 分页条件查询 {@link MqttCategory}
      *
-     * @return 主题分类 {@link MqttCategory}
+     * @param pageNumber 当前页码
+     * @param pageSize   每页显示数量
+     * @param area       Mqtt 主题使用区域 {@link Area}
+     * @param action     Mqtt 主题操作 {@link Action}
+     * @param purpose    Mqtt 主题用途 {@link Purpose}
+     * @return 分页数据 {@link Page}
      */
-    Optional<MqttCategory> findSubscribeLinkCategoryForPlatform();
+    Page<MqttCategory> findByCondition(int pageNumber, int pageSize, Area area, Action action, Purpose purpose);
+
 }

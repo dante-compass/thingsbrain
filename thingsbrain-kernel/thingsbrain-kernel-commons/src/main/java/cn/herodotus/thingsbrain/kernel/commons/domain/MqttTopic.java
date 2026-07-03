@@ -122,7 +122,7 @@ public class MqttTopic {
     /**
      * 构造方法。
      *
-     * @param classify 主题分类 {@link TopicCategory}
+     * @param classify 主题类别 {@link TopicCategory}
      * @param method   对应方法。Shadow 相关主题没有该参数。
      */
     public MqttTopic(TopicCategory classify, String method) {
@@ -132,7 +132,7 @@ public class MqttTopic {
     /**
      * 构造方法。
      *
-     * @param classify     主题分类 {@link TopicCategory}
+     * @param classify     主题类别 {@link TopicCategory}
      * @param method       对应方法。Shadow 相关主题没有该参数。
      * @param supportReply 值为 true 在响应主题结尾添加 _reply。响应主题不是以 _reply 结尾，那么设置为 false。
      */
@@ -143,7 +143,7 @@ public class MqttTopic {
     /**
      * 构造方法。
      *
-     * @param category      主题分类 {@link TopicCategory}
+     * @param category      主题类别 {@link TopicCategory}
      * @param method        对应方法。Shadow 相关主题没有该参数。
      * @param supportReply  值为 true 在响应主题结尾添加 _reply。响应主题不是以 _reply 结尾，那么设置为 false。
      * @param parameter     用于物模型相关主题的区分。
@@ -205,7 +205,7 @@ public class MqttTopic {
     /**
      * 生成主题模板
      *
-     * @param category 主题分类 {@link TopicCategory}
+     * @param category 主题类别 {@link TopicCategory}
      * @return 主题模板
      */
     private String createTopicTemplate(TopicCategory category) {
@@ -221,7 +221,7 @@ public class MqttTopic {
      * 生成主题模板
      *
      * @param template 指定模板
-     * @param category 主题分类 {@link TopicCategory}
+     * @param category 主题类别 {@link TopicCategory}
      * @return 主题模板
      */
     private String createTemplate(String template, TopicCategory category) {

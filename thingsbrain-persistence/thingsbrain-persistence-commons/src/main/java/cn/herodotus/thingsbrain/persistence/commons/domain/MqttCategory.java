@@ -32,22 +32,19 @@ import cn.herodotus.thingsbrain.persistence.commons.enums.Purpose;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
- * <p>Description: 物联网 Mqtt 主题分类信息统一实体定义 </p>
+ * <p>Description: 物联网 Mqtt 主题类别信息统一实体定义 </p>
  *
  * @author : gengwei.zheng
  * @date : 2025/10/14 15:52
  */
-@Schema(name = "物联网 Mqtt 主题分类信息统一实体定义")
+@Schema(name = "物联网 Mqtt 主题类别信息统一实体定义")
 public class MqttCategory extends AbstractSysEntity {
 
-    @Schema(name = "Mqtt主题分类ID")
+    @Schema(name = "Mqtt主题类别ID")
     private String id;
 
-    @Schema(name = "Mqtt主题分类名称")
+    @Schema(name = "Mqtt主题类别名称")
     private String name;
 
     @Schema(name = "是否为默认分类")
@@ -66,9 +63,6 @@ public class MqttCategory extends AbstractSysEntity {
 
     @Schema(name = "主题用途")
     private Purpose purpose;
-
-    @Schema(name = "分类权限")
-    private Set<MqttAuthority> authorities = new HashSet<>();
 
     public String getId() {
         return id;
@@ -116,14 +110,6 @@ public class MqttCategory extends AbstractSysEntity {
 
     public void setPurpose(Purpose purpose) {
         this.purpose = purpose;
-    }
-
-    public Set<MqttAuthority> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(Set<MqttAuthority> authorities) {
-        this.authorities = authorities;
     }
 
     @Override

@@ -27,10 +27,19 @@ package cn.herodotus.thingsbrain.persistence.jpa.logic.service;
 
 import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.dante.data.jpa.service.AbstractJpaService;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusDevice;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttAccount;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttCategory;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.repository.HerodotusMqttAccountRepository;
+import jakarta.persistence.criteria.Predicate;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>Description: 物联网 Mqtt 客户端注册 Jpa 存储 Service </p>
@@ -52,22 +61,44 @@ public class HerodotusMqttAccountService extends AbstractJpaService<HerodotusMqt
         return herodotusMqttAccountRepository;
     }
 
-    /**
-     * 根据设备信息生成 Mqtt 用户信息
-     *
-     * @param herodotusDevice 设备 {@link HerodotusDevice}
-     * @return Mqtt 用户信息 {@link HerodotusMqttAccount}
-     */
-//    public HerodotusMqttRegistration saveByIotDevice(HerodotusDevice herodotusDevice) {
-//        HerodotusMqttRegistration herodotusMqttRegistration = new HerodotusMqttRegistration();
-//        herodotusMqttRegistration.setAccountId(herodotusDevice.getDeviceId());
-//        herodotusMqttRegistration.setUsername(IdentifierStrategy.getUsername(herodotusDevice.getProduct().getProductKey(), herodotusDevice.getDeviceName()));
-//
-//        String salt = IdUtil.nanoId();
-//        String password = SecureUtil.sha256(herodotusDevice + salt);
-//
-//        herodotusMqttRegistration.setPassword(password);
-//        herodotusMqttRegistration.setSalt(salt);
-//        return herodotusMqttRegistrationRepository.save(herodotusMqttRegistration);
-//    }
+    public Page<HerodotusMqttAccount> findByCondition(int pageNumber, int pageSize, String clientId, String username) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+        Specification<HerodotusMqttAccount> specification = (root, criteriaQuery, criteriaBuilder) -> {
+
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (StringUtils.isNotBlank(clientId)) {
+                predicates.add(criteriaBuilder.like(root.get("clientId"), like(clientId)));
+            }
+
+            if (StringUtils.isNotBlank(username)) {
+                predicates.add(criteriaBuilder.like(root.get("mobilePhoneNumber"), like(username)));
+            }
+
+            Predicate[] predicateArray = new Predicate[predicates.size()];
+            criteriaQuery.where(criteriaBuilder.and(predicates.toArray(predicateArray)));
+            return criteriaQuery.getRestriction();
+        };
+
+        return this.findByPage(specification, pageable);
+    }
+
+    public HerodotusMqttAccount assign(String accountId, String[] categories) {
+
+        Set<HerodotusMqttCategory> mqttCategories = Arrays.stream(categories).map(categoryId -> {
+            HerodotusMqttCategory category = new HerodotusMqttCategory();
+            category.setCategoryId(categoryId);
+            return category;
+        }).collect(Collectors.toSet());
+
+        Optional<HerodotusMqttAccount> mqttAccount = findById(accountId);
+
+        return mqttAccount.map(data -> {
+                    data.setCategories(mqttCategories);
+                    return data;
+                })
+                .map(this::save)
+                .orElse(null);
+    }
 }

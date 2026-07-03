@@ -26,10 +26,10 @@
 package cn.herodotus.thingsbrain.link.manager.mqtt;
 
 import cn.herodotus.thingsbrain.link.commons.definition.MqttAuthorizationManager;
-import cn.herodotus.thingsbrain.persistence.commons.domain.MqttCategory;
-import cn.herodotus.thingsbrain.persistence.commons.service.MqttCategoryService;
+import cn.herodotus.thingsbrain.persistence.commons.domain.MqttAuthority;
+import cn.herodotus.thingsbrain.persistence.commons.service.MqttAuthorityService;
 
-import java.util.Optional;
+import java.util.Set;
 
 /**
  * <p>Description: 系统默认 Mqtt 授权相关操作管理器 </p>
@@ -39,14 +39,14 @@ import java.util.Optional;
  */
 public class DefaultMqttAuthorizationManager implements MqttAuthorizationManager {
 
-    private final MqttCategoryService mqttCategoryService;
+    private final MqttAuthorityService mqttAuthorityService;
 
-    public DefaultMqttAuthorizationManager(MqttCategoryService mqttCategoryService) {
-        this.mqttCategoryService = mqttCategoryService;
+    public DefaultMqttAuthorizationManager(MqttAuthorityService mqttAuthorityService) {
+        this.mqttAuthorityService = mqttAuthorityService;
     }
 
     @Override
-    public Optional<MqttCategory> findSubscribeCategoryForPlatform() {
-        return mqttCategoryService.findSubscribeLinkCategoryForPlatform();
+    public Set<MqttAuthority> findSubscribeTopicsForPlatform() {
+        return mqttAuthorityService.findSubscribeTopicsForPlatform();
     }
 }

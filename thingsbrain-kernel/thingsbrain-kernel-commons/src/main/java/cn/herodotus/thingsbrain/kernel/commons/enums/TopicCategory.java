@@ -29,9 +29,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <p>Description: 主题分类 </p>
+ * <p>Description: 主题类别 </p>
  * <p>
- * 主题第一段内容，作为主题分类。不同的类别结构、用法都会不同。
+ * 主题第一段内容，作为主题类别。不同的类别结构、用法都会不同。
  *
  * @author : gengwei.zheng
  * @date : 2025/6/4 23:08

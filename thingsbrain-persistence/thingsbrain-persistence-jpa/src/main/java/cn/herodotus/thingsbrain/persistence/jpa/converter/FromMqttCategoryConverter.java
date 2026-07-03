@@ -26,16 +26,8 @@
 package cn.herodotus.thingsbrain.persistence.jpa.converter;
 
 import cn.herodotus.dante.data.jpa.converter.AbstractFromSysEntityConverter;
-import cn.herodotus.thingsbrain.persistence.commons.domain.MqttAuthority;
 import cn.herodotus.thingsbrain.persistence.commons.domain.MqttCategory;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttAuthority;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttCategory;
-import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.core.convert.converter.Converter;
-
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>Description: {@link MqttCategory} 转 {@link HerodotusMqttCategory} 转换器 </p>
@@ -44,12 +36,6 @@ import java.util.stream.Collectors;
  * @date : 2025/4/2 14:34
  */
 public class FromMqttCategoryConverter extends AbstractFromSysEntityConverter<MqttCategory, HerodotusMqttCategory> {
-
-    private final Converter<MqttAuthority, HerodotusMqttAuthority> fromMqttMqttAuthority;
-
-    public FromMqttCategoryConverter() {
-        this.fromMqttMqttAuthority = new FromMqttAuthorityConverter();
-    }
 
     @Override
     public HerodotusMqttCategory getInstance() {
@@ -64,12 +50,5 @@ public class FromMqttCategoryConverter extends AbstractFromSysEntityConverter<Mq
         target.setArea(source.getArea());
         target.setAction(source.getAction());
         target.setPurpose(source.getPurpose());
-
-        Optional.of(source.getAuthorities()) // 实体中设置了默认空集合
-                .filter(CollectionUtils::isNotEmpty) // 主要判断数量是否为 0
-                .ifPresent(authorities -> {
-                    Set<HerodotusMqttAuthority> items = authorities.stream().map(fromMqttMqttAuthority::convert).collect(Collectors.toSet());
-                    target.setAuthorities(items);
-                });
     }
 }

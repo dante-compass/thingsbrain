@@ -27,13 +27,16 @@ package cn.herodotus.thingsbrain.persistence.commons.domain;
 
 import cn.herodotus.dante.data.commons.entity.AbstractSysEntity;
 import cn.herodotus.thingsbrain.kernel.commons.definition.domain.SubscribeTopic;
+import cn.herodotus.thingsbrain.kernel.commons.enums.Qos;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Action;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Permission;
-import cn.herodotus.thingsbrain.persistence.commons.enums.Qos;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Retain;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.apache.commons.lang3.ObjectUtils;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * <p>Description: 物联网 Mqtt 权限信息统一实体定义 </p>
@@ -61,6 +64,9 @@ public class MqttAuthority extends AbstractSysEntity implements SubscribeTopic {
 
     @Schema(name = "是否为保留数据")
     private Retain retain = Retain.FALSE;
+
+    @Schema(name = "主题类别")
+    private Set<MqttCategory> categories = new HashSet<>();
 
     public String getId() {
         return id;
@@ -116,6 +122,14 @@ public class MqttAuthority extends AbstractSysEntity implements SubscribeTopic {
 
     public void setRetain(Retain retain) {
         this.retain = retain;
+    }
+
+    public Set<MqttCategory> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<MqttCategory> categories) {
+        this.categories = categories;
     }
 
     @Override

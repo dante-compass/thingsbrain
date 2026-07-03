@@ -27,6 +27,7 @@ package cn.herodotus.thingsbrain.persistence.commons.service;
 
 import cn.herodotus.dante.data.commons.service.BaseWriteAndPageService;
 import cn.herodotus.thingsbrain.persistence.commons.domain.MqttAccount;
+import org.springframework.data.domain.Page;
 
 /**
  * <p>Description: 物联网 Mqtt 账号管理统一定义 Service</p>
@@ -35,4 +36,24 @@ import cn.herodotus.thingsbrain.persistence.commons.domain.MqttAccount;
  * @date : 2025/7/7 15:18
  */
 public interface MqttAccountService extends BaseWriteAndPageService<MqttAccount, String> {
+
+    /**
+     * 分页条件查询 {@link MqttAccount}
+     *
+     * @param pageNumber 当前页码
+     * @param pageSize   每页显示数量
+     * @param clientId   Mqtt 客户端ID
+     * @param username   Mqtt 用户名
+     * @return 分页数据 {@link Page}
+     */
+    Page<MqttAccount> findByCondition(int pageNumber, int pageSize, String clientId, String username);
+
+    /**
+     * 为 Mqtt 账户分配 Mqtt 主题类别
+     *
+     * @param id         Mqtt 账户ID
+     * @param categories Mqtt 主题类别ID数组
+     * @return 新的 {@link MqttAccount} 实体
+     */
+    MqttAccount assign(String id, String[] categories);
 }

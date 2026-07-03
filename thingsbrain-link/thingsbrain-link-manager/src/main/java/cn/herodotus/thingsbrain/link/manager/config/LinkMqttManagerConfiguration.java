@@ -27,7 +27,7 @@ package cn.herodotus.thingsbrain.link.manager.config;
 
 import cn.herodotus.thingsbrain.link.commons.definition.MqttAuthorizationManager;
 import cn.herodotus.thingsbrain.link.manager.mqtt.DefaultMqttAuthorizationManager;
-import cn.herodotus.thingsbrain.persistence.commons.service.MqttCategoryService;
+import cn.herodotus.thingsbrain.persistence.commons.service.MqttAuthorityService;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,8 +51,8 @@ class LinkMqttManagerConfiguration {
     }
 
     @Bean
-    public MqttAuthorizationManager mqttAuthorizationManager(MqttCategoryService mqttCategoryService) {
-        DefaultMqttAuthorizationManager mqttAuthorizationManager = new DefaultMqttAuthorizationManager(mqttCategoryService);
+    public MqttAuthorizationManager mqttAuthorizationManager(MqttAuthorityService mqttAuthorityService) {
+        DefaultMqttAuthorizationManager mqttAuthorizationManager = new DefaultMqttAuthorizationManager(mqttAuthorityService);
         log.trace("[ThingsBrain] |- Bean [Default Mqtt Authorization Manager] Configure.");
         return mqttAuthorizationManager;
     }
