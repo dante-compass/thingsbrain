@@ -38,6 +38,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
+import java.util.List;
+
 /**
  * <p>Description: 物联网 Mqtt 主题类别 Service Jpa 实现 </p>
  *
@@ -66,6 +68,12 @@ public class JpaMqttCategoryService implements MqttCategoryService {
     public Page<MqttCategory> findByPage(int pageNumber, int pageSize) {
         Page<HerodotusMqttCategory> pages = delegate.findByPage(pageNumber, pageSize);
         return pages.map(toMqttCategory::convert);
+    }
+
+    @Override
+    public List<MqttCategory> findAll() {
+        List<HerodotusMqttCategory> domains = delegate.findAll();
+        return domains.stream().map(toMqttCategory::convert).toList();
     }
 
     @Override
