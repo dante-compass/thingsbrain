@@ -102,12 +102,12 @@ public class MqttAuthorityController extends AbstractEntityWriteAndPageControlle
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = MediaType.APPLICATION_FORM_URLENCODED_VALUE)),
             responses = {@ApiResponse(description = "已分配权限的Mqtt主题权限数据", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))})
     @Parameters({
-            @Parameter(name = "id", required = true, description = "Mqtt主题类别ID"),
-            @Parameter(name = "authorities[]", required = true, description = "Mqtt主题权限对象组成的数组")
+            @Parameter(name = "id", required = true, description = "Mqtt主题权限ID"),
+            @Parameter(name = "categories[]", required = true, description = "Mqtt主题类别组成的数组")
     })
     @PutMapping
-    public Result<MqttAuthority> assign(@RequestParam(name = "id") String id, @RequestParam(name = "authorities[]") String[] authorities) {
-        MqttAuthority mqttAuthority = mqttAuthorityService.assign(id, authorities);
+    public Result<MqttAuthority> assign(@RequestParam(name = "id") String id, @RequestParam(name = "categories[]") String[] categories) {
+        MqttAuthority mqttAuthority = mqttAuthorityService.assign(id, categories);
         return result(mqttAuthority);
     }
 }
