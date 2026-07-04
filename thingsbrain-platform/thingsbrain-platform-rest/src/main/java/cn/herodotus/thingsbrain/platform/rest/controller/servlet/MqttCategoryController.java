@@ -80,11 +80,9 @@ public class MqttCategoryController extends AbstractEntityWriteAndPageController
     @Parameters({
             @Parameter(name = "pageNumber", required = true, description = "当前页码"),
             @Parameter(name = "pageSize", required = true, description = "每页显示数量"),
-            @Parameter(name = "topic", description = "Mqtt主题"),
+            @Parameter(name = "area", description = "Mqtt主题使用区域(索引数字值)"),
             @Parameter(name = "action", description = "Mqtt主题操作(索引数字值)"),
-            @Parameter(name = "permission", description = "Mqtt主题权限(索引数字值)"),
-            @Parameter(name = "qos", description = "Mqtt 主题 Qos(索引数字值)"),
-            @Parameter(name = "retain", description = "是否为保留主题"),
+            @Parameter(name = "purpose", description = "Mqtt主题用途(索引数字值)"),
     })
     @GetMapping("/condition")
     public Result<Map<String, Object>> findByCondition(
