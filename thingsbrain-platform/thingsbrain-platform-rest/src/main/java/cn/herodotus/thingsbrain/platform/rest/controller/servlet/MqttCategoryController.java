@@ -46,6 +46,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -94,5 +95,17 @@ public class MqttCategoryController extends AbstractEntityWriteAndPageController
 
         Page<MqttCategory> pages = mqttCategoryService.findByCondition(pageNumber, pageSize, Area.parse(area), Action.parse(action), Purpose.parse(purpose));
         return resultFromPage(pages);
+    }
+
+    @AccessLimited
+    @Operation(summary = "获取全部Mqtt主题类别", description = "获取全部Mqtt主题类别数据列表",
+            responses = {
+                    @ApiResponse(description = "全部数据列表", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Result.class))),
+                    @ApiResponse(responseCode = "500", description = "查询失败")
+            })
+    @GetMapping("/list")
+    public Result<List<MqttCategory>> findAll() {
+        List<MqttCategory> sysAuthorities = mqttCategoryService.findAll();
+        return result(sysAuthorities);
     }
 }
