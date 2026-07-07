@@ -33,7 +33,7 @@ import cn.herodotus.thingsbrain.persistence.jpa.logic.repository.HerodotusDevice
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
-import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -64,14 +64,22 @@ public class HerodotusDeviceService extends AbstractJpaService<HerodotusDevice, 
         return herodotusDeviceRepository;
     }
 
-    public Page<HerodotusDevice> findByCondition(int pageNumber, int pageSize, String productKey) {
+    public Page<HerodotusDevice> findByCondition(int pageNumber, int pageSize, String productKey, String deviceName, String clientId) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
         Specification<HerodotusDevice> specification = (root, criteriaQuery, criteriaBuilder) -> {
 
             List<Predicate> predicates = new ArrayList<>();
 
-            if (ObjectUtils.isNotEmpty(productKey)) {
+            if (StringUtils.isNotBlank(deviceName)) {
+                predicates.add(criteriaBuilder.like(root.get("deviceName"), like(deviceName)));
+            }
+
+            if (StringUtils.isNotBlank(clientId)) {
+                predicates.add(criteriaBuilder.like(root.get("clientId"), like(clientId)));
+            }
+
+            if (StringUtils.isNotBlank(productKey)) {
                 Join<HerodotusDevice, HerodotusProduct> join = root.join("product", JoinType.LEFT);
                 predicates.add(criteriaBuilder.equal(join.get("productKey"), productKey));
             }

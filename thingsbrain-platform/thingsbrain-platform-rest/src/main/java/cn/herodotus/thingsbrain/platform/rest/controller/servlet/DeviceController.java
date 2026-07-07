@@ -87,13 +87,17 @@ public class DeviceController extends AbstractEntityWriteAndPageController<Devic
             @Parameter(name = "pageNumber", required = true, description = "当前页码"),
             @Parameter(name = "pageSize", required = true, description = "每页显示数量"),
             @Parameter(name = "productKey", description = "物联网 ProductKey"),
+            @Parameter(name = "deviceName", description = "物联网 DeviceName"),
+            @Parameter(name = "clientId", description = "设备 ClientId"),
     })
     @GetMapping("/condition")
     public Result<Map<String, Object>> findByCondition(
             @NotNull @RequestParam("pageNumber") Integer pageNumber,
             @NotNull @RequestParam("pageSize") Integer pageSize,
-            @RequestParam(value = "productKey", required = false) String productKey) {
-        Page<Device> pages = deviceService.findByCondition(pageNumber, pageSize, productKey);
+            @RequestParam(value = "productKey", required = false) String productKey,
+            @RequestParam(value = "deviceName", required = false) String deviceName,
+            @RequestParam(value = "clientId", required = false) String clientId) {
+        Page<Device> pages = deviceService.findByCondition(pageNumber, pageSize, productKey, deviceName, clientId);
         return resultFromPage(pages);
     }
 

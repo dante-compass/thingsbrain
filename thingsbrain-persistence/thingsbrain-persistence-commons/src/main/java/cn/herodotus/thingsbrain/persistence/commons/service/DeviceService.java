@@ -47,9 +47,11 @@ public interface DeviceService extends BaseWriteAndPageService<Device, String> {
      * @param pageNumber 当前页数
      * @param pageSize   分页大小
      * @param productKey 物联网 ProductKey
+     * @param deviceName 物联网 DeviceName
+     * @param clientId   设备 ClientId
      * @return 查询结果 {@link Page<Device>}
      */
-    Page<Device> findByCondition(int pageNumber, int pageSize, String productKey);
+    Page<Device> findByCondition(int pageNumber, int pageSize, String productKey, String deviceName, String clientId);
 
     /**
      * 根据 clientId 查询设备。ClientId 默认格式为：ProductKey.DeviceName
