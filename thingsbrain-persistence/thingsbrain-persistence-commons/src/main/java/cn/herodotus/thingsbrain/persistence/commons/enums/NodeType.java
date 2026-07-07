@@ -29,6 +29,7 @@ import cn.herodotus.dante.core.domain.Dictionary;
 import cn.herodotus.dante.core.domain.DictionaryEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,6 +85,13 @@ public enum NodeType implements DictionaryEnum {
 
     public static List<Dictionary> getDictionaries() {
         return DICTIONARIES;
+    }
+
+    public static NodeType parse(Integer index) {
+        if (ObjectUtils.isNotEmpty(index)) {
+            return NodeType.get(index);
+        }
+        return null;
     }
 
     @Override

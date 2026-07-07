@@ -28,6 +28,7 @@ package cn.herodotus.thingsbrain.persistence.commons.service;
 import cn.herodotus.dante.data.commons.service.BaseWriteAndPageService;
 import cn.herodotus.thingsbrain.kernel.tsl.Specification;
 import cn.herodotus.thingsbrain.persistence.commons.domain.Product;
+import cn.herodotus.thingsbrain.persistence.commons.enums.NodeType;
 import org.springframework.data.domain.Page;
 
 import java.util.Optional;
@@ -48,7 +49,7 @@ public interface ProductService extends BaseWriteAndPageService<Product, String>
      */
     Optional<Product> findByProductKey(String productKey);
 
-    Page<Product> findByCondition(int pageNumber, int pageSize, String productKey, String productName, String categoryName);
+    Page<Product> findByCondition(int pageNumber, int pageSize, String productKey, String productName, NodeType nodeType, Boolean release, String categoryName);
 
     /**
      * 开启或关闭某个产品的设备动态注册功能。

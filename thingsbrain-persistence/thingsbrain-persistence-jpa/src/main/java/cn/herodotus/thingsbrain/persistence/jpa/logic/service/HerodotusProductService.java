@@ -27,11 +27,9 @@ package cn.herodotus.thingsbrain.persistence.jpa.logic.service;
 
 import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.dante.data.jpa.service.AbstractJpaService;
+import cn.herodotus.thingsbrain.persistence.commons.enums.NodeType;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusProduct;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusProductCategory;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.repository.HerodotusProductRepository;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.domain.Page;
@@ -68,7 +66,7 @@ public class HerodotusProductService extends AbstractJpaService<HerodotusProduct
         return herodotusProductRepository.findByProductKey(productKey);
     }
 
-    public Page<HerodotusProduct> findByCondition(int pageNumber, int pageSize, String productKey, String productName, String categoryName) {
+    public Page<HerodotusProduct> findByCondition(int pageNumber, int pageSize, String productKey, String productName, NodeType nodeType, Boolean release, String categoryName) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
         Specification<HerodotusProduct> specification = (root, criteriaQuery, criteriaBuilder) -> {
@@ -83,10 +81,14 @@ public class HerodotusProductService extends AbstractJpaService<HerodotusProduct
                 predicates.add(criteriaBuilder.like(root.get("productName"), like(productName)));
             }
 
-            if (ObjectUtils.isNotEmpty(categoryName)) {
-                Join<HerodotusProduct, HerodotusProductCategory> join = root.join("category", JoinType.LEFT);
-                predicates.add(criteriaBuilder.equal(join.get("categoryName"), categoryName));
+            if (ObjectUtils.isNotEmpty(nodeType)) {
+                predicates.add(criteriaBuilder.equal(root.get("nodeType"), nodeType));
             }
+
+            if (ObjectUtils.isNotEmpty(release)) {
+                predicates.add(criteriaBuilder.equal(root.get("release"), release));
+            }
+
 
             Predicate[] predicateArray = new Predicate[predicates.size()];
             criteriaQuery.where(criteriaBuilder.and(predicates.toArray(predicateArray)));
