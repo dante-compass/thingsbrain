@@ -204,7 +204,7 @@ INSERT INTO `iot_product_category` (`category_id`, `create_time`, `update_time`,
 -- ----------------------------
 -- Table data for iot_product
 -- ----------------------------
-INSERT INTO `iot_product` (`product_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `authentication`, `protocol`, `networking`, `node`, `photo_url`, `product_key`, `product_name`, `productsecret`, `quantity`, `registration`, `is_release`, `verification`, `category_id`) VALUES ('8452271e-e42e-4a59-af80-3ea3c83247ea', '2025-04-28 21:20:27.432', '2025-04-28 21:20:27.432', 'system', 0, 'system', NULL, 1, b'1', 0, NULL, NULL, 2, 0, NULL, 'apktestadd', '测试物联网产品', '9f3026f4beddf8d29f3026f4beddf8d2', 0, b'0', b'0', b'0', NULL);
+INSERT INTO `iot_product` (`product_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `authentication`, `protocol`, `networking`, `node`, `photo_url`, `product_key`, `product_name`, `productsecret`, `quantity`, `registration`, `is_release`, `verification`, `category_id`) VALUES ('8452271e-e42e-4a59-af80-3ea3c83247ea', '2025-04-28 21:20:27.432', '2025-04-28 21:20:27.432', 'system', 0, 'system', NULL, 1, b'1', 0, NULL, NULL, 2, 0, NULL, 'apktestadd', '测试物联网产品', '9f3026f4beddf8d29f3026f4beddf8d2', 0, b'0', b'0', b'0', '2bfa5467-b9f5-46dd-acec-f05aaaa00522');
 
 -- ----------------------------
 -- Table data for iot_mqtt_account
