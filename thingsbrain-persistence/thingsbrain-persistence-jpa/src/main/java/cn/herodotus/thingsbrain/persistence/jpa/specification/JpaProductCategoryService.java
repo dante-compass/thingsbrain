@@ -35,6 +35,8 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
+import java.util.List;
+
 /**
  * <p>Description: 物联网产品分类 Service Jpa 实现 </p>
  *
@@ -74,5 +76,11 @@ public class JpaProductCategoryService implements ProductCategoryService {
     @Override
     public void deleteById(String id) {
         delegate.deleteById(id);
+    }
+
+    @Override
+    public List<ProductCategory> findAllByName(String name) {
+        List<HerodotusProductCategory> domains = delegate.findAllByName(name);
+        return domains.stream().map(toProductCategory::convert).toList();
     }
 }

@@ -97,4 +97,22 @@ public class HerodotusProductService extends AbstractJpaService<HerodotusProduct
 
         return this.findByPage(specification, pageable);
     }
+
+    public List<HerodotusProduct> findAllByProductKey(String productKey) {
+
+        Specification<HerodotusProduct> specification = (root, criteriaQuery, criteriaBuilder) -> {
+
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (ObjectUtils.isNotEmpty(productKey)) {
+                predicates.add(criteriaBuilder.like(root.get("productKey"), like(productKey)));
+            }
+
+            Predicate[] predicateArray = new Predicate[predicates.size()];
+            criteriaQuery.where(criteriaBuilder.and(predicates.toArray(predicateArray)));
+            return criteriaQuery.getRestriction();
+        };
+
+        return this.findAll(specification);
+    }
 }

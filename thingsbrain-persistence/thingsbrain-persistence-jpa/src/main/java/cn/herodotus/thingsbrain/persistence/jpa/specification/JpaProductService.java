@@ -40,6 +40,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -98,6 +99,12 @@ public class JpaProductService implements ProductService {
         Optional<HerodotusProduct> optional = delegate.findByProductKey(productKey);
         return optional
                 .map(this.toProduct::convert);
+    }
+
+    @Override
+    public List<Product> findAllByProductKey(String productKey) {
+        List<HerodotusProduct> domains = delegate.findAllByProductKey(productKey);
+        return domains.stream().map(toProduct::convert).toList();
     }
 
     @Override

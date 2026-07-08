@@ -31,6 +31,7 @@ import cn.herodotus.thingsbrain.persistence.commons.domain.Product;
 import cn.herodotus.thingsbrain.persistence.commons.enums.NodeType;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -49,7 +50,27 @@ public interface ProductService extends BaseWriteAndPageService<Product, String>
      */
     Optional<Product> findByProductKey(String productKey);
 
+    /**
+     * 分页模糊条件查询。
+     *
+     * @param pageNumber   当前页数
+     * @param pageSize     分页大小
+     * @param productKey   物联网 ProductKey
+     * @param productName  物联网产品名称
+     * @param nodeType     节点类型 {@link NodeType}
+     * @param release      是否发布
+     * @param categoryName 产品类型名称
+     * @return 查询结果 {@link Page<Product>}
+     */
     Page<Product> findByCondition(int pageNumber, int pageSize, String productKey, String productName, NodeType nodeType, Boolean release, String categoryName);
+
+    /**
+     * 根据产品 ProductKey，模糊查询产品
+     *
+     * @param productKey 物联网 ProductKey
+     * @return 产品列表 {@link List <Product>}
+     */
+    List<Product> findAllByProductKey(String productKey);
 
     /**
      * 开启或关闭某个产品的设备动态注册功能。

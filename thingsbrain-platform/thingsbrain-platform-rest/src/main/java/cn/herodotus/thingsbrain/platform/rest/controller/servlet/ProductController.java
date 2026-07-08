@@ -48,6 +48,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -102,6 +103,23 @@ public class ProductController extends AbstractEntityWriteAndPageController<Prod
             @RequestParam(value = "categoryName", required = false) String categoryName) {
         Page<Product> pages = productService.findByCondition(pageNumber, pageSize, productKey, productName, NodeType.parse(nodeType), release, categoryName);
         return resultFromPage(pages);
+    }
+
+    @AccessLimited
+    @Operation(summary = "根据ProductKey模糊查询产品", description = "根据ProductKey模糊查询产品",
+            responses = {
+                    @ApiResponse(description = "产品列表", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Result.class))),
+                    @ApiResponse(responseCode = "204", description = "查询成功，未查到数据"),
+                    @ApiResponse(responseCode = "500", description = "查询失败")
+
+            })
+    @Parameters({
+            @Parameter(name = "productKey", required = true, description = "物联网 ProductKey"),
+    })
+    @GetMapping("/list")
+    public Result<List<Product>> findAllByProductKey(@RequestParam(value = "productKey") String productKey) {
+        List<Product> products = productService.findAllByProductKey(productKey);
+        return result(products);
     }
 
     @AccessLimited
