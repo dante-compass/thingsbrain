@@ -80,7 +80,7 @@ public class JpaProductCategoryService implements ProductCategoryService {
 
     @Override
     public List<ProductCategory> findAllByName(String name) {
-        List<HerodotusProductCategory> domains = delegate.findAllByName(name);
+        List<HerodotusProductCategory> domains = delegate.findAllByCategoryName(name);
         return domains.stream().map(toProductCategory::convert).toList();
     }
 }

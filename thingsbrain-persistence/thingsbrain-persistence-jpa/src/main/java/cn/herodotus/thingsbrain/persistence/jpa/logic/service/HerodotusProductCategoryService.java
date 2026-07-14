@@ -57,14 +57,14 @@ public class HerodotusProductCategoryService extends AbstractJpaService<Herodotu
         return herodotusProductCategoryRepository;
     }
 
-    public List<HerodotusProductCategory> findAllByName(String name) {
+    public List<HerodotusProductCategory> findAllByCategoryName(String categoryName) {
 
         Specification<HerodotusProductCategory> specification = (root, criteriaQuery, criteriaBuilder) -> {
 
             List<Predicate> predicates = new ArrayList<>();
 
-            if (ObjectUtils.isNotEmpty(name)) {
-                predicates.add(criteriaBuilder.like(root.get("name"), like(name)));
+            if (ObjectUtils.isNotEmpty(categoryName)) {
+                predicates.add(criteriaBuilder.like(root.get("categoryName"), like(categoryName)));
             }
 
             Predicate[] predicateArray = new Predicate[predicates.size()];
