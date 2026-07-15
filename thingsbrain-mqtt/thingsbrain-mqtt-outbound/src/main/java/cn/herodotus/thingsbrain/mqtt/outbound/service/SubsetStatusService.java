@@ -28,7 +28,7 @@ package cn.herodotus.thingsbrain.mqtt.outbound.service;
 import cn.herodotus.dante.security.domain.UserPrincipal;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
-import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import org.springframework.stereotype.Service;
 
 /**
@@ -44,10 +44,10 @@ public class SubsetStatusService {
     private static final MqttTopic TOPIC_ENABLE = new MqttTopic(MethodConstants.METHOD__THING_ENABLE);
     private static final MqttTopic TOPIC_DELETE = new MqttTopic(MethodConstants.METHOD__THING_DELETE);
 
-    private final MqttMessagePublisher mqttMessagePublisher;
+    private final MqttOutboundMessagePublisher mqttOutboundMessagePublisher;
 
-    public SubsetStatusService(MqttMessagePublisher mqttMessagePublisher) {
-        this.mqttMessagePublisher = mqttMessagePublisher;
+    public SubsetStatusService(MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
+        this.mqttOutboundMessagePublisher = mqttOutboundMessagePublisher;
     }
 
     /**
@@ -57,7 +57,7 @@ public class SubsetStatusService {
      * @param deviceName 物联网 DeviceName
      */
     public void disable(String productKey, String deviceName, UserPrincipal userPrincipal) {
-        mqttMessagePublisher.request(TOPIC_DISABLE, productKey, deviceName, userPrincipal);
+        mqttOutboundMessagePublisher.request(TOPIC_DISABLE, productKey, deviceName, userPrincipal);
     }
 
     /**
@@ -67,7 +67,7 @@ public class SubsetStatusService {
      * @param deviceName 物联网 DeviceName
      */
     public void enable(String productKey, String deviceName, UserPrincipal userPrincipal) {
-        mqttMessagePublisher.request(TOPIC_ENABLE, productKey, deviceName, userPrincipal);
+        mqttOutboundMessagePublisher.request(TOPIC_ENABLE, productKey, deviceName, userPrincipal);
     }
 
     /**
@@ -77,6 +77,6 @@ public class SubsetStatusService {
      * @param deviceName 物联网 DeviceName
      */
     public void delete(String productKey, String deviceName, UserPrincipal userPrincipal) {
-        mqttMessagePublisher.request(TOPIC_DELETE, productKey, deviceName, userPrincipal);
+        mqttOutboundMessagePublisher.request(TOPIC_DELETE, productKey, deviceName, userPrincipal);
     }
 }

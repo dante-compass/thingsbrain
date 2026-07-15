@@ -35,25 +35,25 @@ import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
  */
 public class MqttInboundMessageDispatcher {
 
-    private final ExtInboundMessageDispatcher extInboundMessageDispatcher;
-    private final OtaInboundMessageDispatcher otaInboundMessageDispatcher;
-    private final ShadowInboundMessageDispatcher shadowInboundMessageDispatcher;
-    private final SysInboundMessageDispatcher sysInboundMessageDispatcher;
+    private final InboundExtMessageDispatcher inboundExtMessageDispatcher;
+    private final InboundOtaMessageDispatcher inboundOtaMessageDispatcher;
+    private final InboundShadowMessageDispatcher inboundShadowMessageDispatcher;
+    private final InboundSysMessageDispatcher inboundSysMessageDispatcher;
 
-    public MqttInboundMessageDispatcher(ExtInboundMessageDispatcher extInboundMessageDispatcher, OtaInboundMessageDispatcher otaInboundMessageDispatcher, ShadowInboundMessageDispatcher shadowInboundMessageDispatcher, SysInboundMessageDispatcher sysInboundMessageDispatcher) {
-        this.extInboundMessageDispatcher = extInboundMessageDispatcher;
-        this.otaInboundMessageDispatcher = otaInboundMessageDispatcher;
-        this.shadowInboundMessageDispatcher = shadowInboundMessageDispatcher;
-        this.sysInboundMessageDispatcher = sysInboundMessageDispatcher;
+    public MqttInboundMessageDispatcher(InboundExtMessageDispatcher inboundExtMessageDispatcher, InboundOtaMessageDispatcher inboundOtaMessageDispatcher, InboundShadowMessageDispatcher inboundShadowMessageDispatcher, InboundSysMessageDispatcher inboundSysMessageDispatcher) {
+        this.inboundExtMessageDispatcher = inboundExtMessageDispatcher;
+        this.inboundOtaMessageDispatcher = inboundOtaMessageDispatcher;
+        this.inboundShadowMessageDispatcher = inboundShadowMessageDispatcher;
+        this.inboundSysMessageDispatcher = inboundSysMessageDispatcher;
     }
 
     public void process(MqttMessageDetails details) {
 
         switch (details.getTopicCategory()) {
-            case OTA -> otaInboundMessageDispatcher.process(details);
-            case EXT -> extInboundMessageDispatcher.process(details);
-            case SHADOW -> shadowInboundMessageDispatcher.process(details);
-            default -> sysInboundMessageDispatcher.process(details);
+            case OTA -> inboundOtaMessageDispatcher.process(details);
+            case EXT -> inboundExtMessageDispatcher.process(details);
+            case SHADOW -> inboundShadowMessageDispatcher.process(details);
+            default -> inboundSysMessageDispatcher.process(details);
         }
     }
 }

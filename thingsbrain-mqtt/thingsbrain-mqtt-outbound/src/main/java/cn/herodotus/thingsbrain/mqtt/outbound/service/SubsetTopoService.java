@@ -30,7 +30,7 @@ import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.link.domain.subset.TopoChange;
-import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,10 +47,10 @@ public class SubsetTopoService {
     private static final MqttTopic TOPIC_ADD_NOTIFY = new MqttTopic(MethodConstants.METHOD__THING_TOPO_ADD_NOTIFY);
     private static final MqttTopic TOPIC_CHANGE = new MqttTopic(MethodConstants.METHOD__THING_TOPO_CHANGE, false);
 
-    private final MqttMessagePublisher mqttMessagePublisher;
+    private final MqttOutboundMessagePublisher mqttOutboundMessagePublisher;
 
-    public SubsetTopoService(MqttMessagePublisher mqttMessagePublisher) {
-        this.mqttMessagePublisher = mqttMessagePublisher;
+    public SubsetTopoService(MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
+        this.mqttOutboundMessagePublisher = mqttOutboundMessagePublisher;
     }
 
     /**
@@ -61,7 +61,7 @@ public class SubsetTopoService {
      * @param param      配置信息 {@link List}
      */
     public void addNotify(String productKey, String deviceName, List<Identifier> param, UserPrincipal userPrincipal) {
-        mqttMessagePublisher.request(TOPIC_ADD_NOTIFY, productKey, deviceName, param, userPrincipal);
+        mqttOutboundMessagePublisher.request(TOPIC_ADD_NOTIFY, productKey, deviceName, param, userPrincipal);
     }
 
     /**
@@ -72,6 +72,6 @@ public class SubsetTopoService {
      * @param param      配置信息 {@link TopoChange}
      */
     public void change(String productKey, String deviceName, TopoChange param, UserPrincipal userPrincipal) {
-        mqttMessagePublisher.request(TOPIC_CHANGE, productKey, deviceName, param, userPrincipal);
+        mqttOutboundMessagePublisher.request(TOPIC_CHANGE, productKey, deviceName, param, userPrincipal);
     }
 }

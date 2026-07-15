@@ -27,6 +27,7 @@ package cn.herodotus.thingsbrain.persistence.jpa.specification;
 
 import cn.herodotus.thingsbrain.kernel.tsl.Specification;
 import cn.herodotus.thingsbrain.persistence.commons.domain.Product;
+import cn.herodotus.thingsbrain.persistence.commons.enums.NodeType;
 import cn.herodotus.thingsbrain.persistence.commons.service.ProductService;
 import cn.herodotus.thingsbrain.persistence.jpa.converter.FromProductConverter;
 import cn.herodotus.thingsbrain.persistence.jpa.converter.ToProductConverter;
@@ -39,6 +40,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -87,8 +89,8 @@ public class JpaProductService implements ProductService {
     }
 
     @Override
-    public Page<Product> findByCondition(int pageNumber, int pageSize, String productKey, String productName, String categoryName) {
-        Page<HerodotusProduct> pages = delegate.findByCondition(pageNumber, pageSize, productKey, productName, categoryName);
+    public Page<Product> findByCondition(int pageNumber, int pageSize, String productKey, String productName, NodeType nodeType, Boolean release, String categoryName) {
+        Page<HerodotusProduct> pages = delegate.findByCondition(pageNumber, pageSize, productKey, productName, nodeType, release, categoryName);
         return pages.map(toProduct::convert);
     }
 
@@ -97,6 +99,12 @@ public class JpaProductService implements ProductService {
         Optional<HerodotusProduct> optional = delegate.findByProductKey(productKey);
         return optional
                 .map(this.toProduct::convert);
+    }
+
+    @Override
+    public List<Product> findAllByProductKey(String productKey) {
+        List<HerodotusProduct> domains = delegate.findAllByProductKey(productKey);
+        return domains.stream().map(toProduct::convert).toList();
     }
 
     @Override

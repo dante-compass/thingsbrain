@@ -56,7 +56,7 @@ public class MqttAccount extends AbstractSysEntity {
     @Schema(name = "是否为超级用户", title = "目前主要为 Emqx 使用该字段")
     private Boolean superUser = Boolean.FALSE;
 
-    @Schema(name = "主题分类")
+    @Schema(name = "主题类别")
     private Set<MqttCategory> categories = new HashSet<>();
 
     public String getId() {

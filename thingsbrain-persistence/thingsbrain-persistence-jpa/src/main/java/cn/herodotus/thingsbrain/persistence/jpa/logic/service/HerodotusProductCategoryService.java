@@ -29,7 +29,13 @@ import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.dante.data.jpa.service.AbstractJpaService;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusProductCategory;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.repository.HerodotusProductCategoryRepository;
+import jakarta.persistence.criteria.Predicate;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>Description: 物联网产品分类 Jpa 存储 Service </p>
@@ -49,5 +55,23 @@ public class HerodotusProductCategoryService extends AbstractJpaService<Herodotu
     @Override
     public BaseJpaRepository<HerodotusProductCategory, String> getRepository() {
         return herodotusProductCategoryRepository;
+    }
+
+    public List<HerodotusProductCategory> findAllByCategoryName(String categoryName) {
+
+        Specification<HerodotusProductCategory> specification = (root, criteriaQuery, criteriaBuilder) -> {
+
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (ObjectUtils.isNotEmpty(categoryName)) {
+                predicates.add(criteriaBuilder.like(root.get("categoryName"), like(categoryName)));
+            }
+
+            Predicate[] predicateArray = new Predicate[predicates.size()];
+            criteriaQuery.where(criteriaBuilder.and(predicates.toArray(predicateArray)));
+            return criteriaQuery.getRestriction();
+        };
+
+        return this.findAll(specification);
     }
 }

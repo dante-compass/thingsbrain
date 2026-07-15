@@ -46,17 +46,17 @@ public interface HerodotusMqttCategoryRepository extends BaseJpaRepository<Herod
      * 根据主题使用区域，查询指定区域中的主题
      *
      * @param area 主题使用区域 {@link Area}
-     * @return 指定使用区域对应的主题分类
+     * @return 指定使用区域对应的主题类别
      */
     Set<HerodotusMqttCategory> findByArea(Area area);
 
     /**
-     * 查询一个指定条件的主题分类
+     * 查询一个指定条件的主题类别
      *
      * @param action  主题操作 {@link Action}
      * @param area    主题使用区域 {@link Area}
      * @param purpose 主题用途  {@link Purpose}
-     * @return 主题分类
+     * @return 主题类别
      */
     Optional<HerodotusMqttCategory> findOneByActionAndAreaAndPurpose(Action action, Area area, Purpose purpose);
 }

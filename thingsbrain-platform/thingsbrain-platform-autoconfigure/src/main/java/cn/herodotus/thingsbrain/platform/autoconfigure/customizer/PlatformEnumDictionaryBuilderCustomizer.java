@@ -27,6 +27,8 @@ package cn.herodotus.thingsbrain.platform.autoconfigure.customizer;
 
 import cn.herodotus.dante.core.builder.EnumDictionaryBuilder;
 import cn.herodotus.dante.core.function.EnumDictionaryBuilderCustomizer;
+import cn.herodotus.thingsbrain.kernel.commons.enums.AuthType;
+import cn.herodotus.thingsbrain.kernel.commons.enums.Qos;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.*;
 import cn.herodotus.thingsbrain.persistence.commons.enums.*;
 
@@ -53,5 +55,8 @@ public class PlatformEnumDictionaryBuilderCustomizer implements EnumDictionaryBu
         builder.append(AuthenticationMode.getDictionaries());
         builder.append(Area.getDictionaries());
         builder.append(Purpose.getDictionaries());
+        builder.append(AuthType.getDictionaries());
+        builder.append(Qos.getDictionaries());
+        builder.append(Retain.getDictionaries());
     }
 }

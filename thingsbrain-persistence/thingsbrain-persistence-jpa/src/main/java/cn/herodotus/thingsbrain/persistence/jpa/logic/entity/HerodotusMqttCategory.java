@@ -33,15 +33,10 @@ import cn.herodotus.thingsbrain.persistence.commons.enums.Purpose;
 import com.google.common.base.MoreObjects;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
- * <p>Description: Mqtt 主题分类 </p>
+ * <p>Description: Mqtt 主题类别 </p>
  * <p>
  * 类似于 RBAC 权限模型的 Role。方便主题的管理。
  *
@@ -75,28 +70,6 @@ public class HerodotusMqttCategory extends AbstractSysEntity {
     @Column(name = "purpose", length = 50)
     @Enumerated(EnumType.STRING)
     private Purpose purpose = Purpose.LINK;
-
-    /**
-     * 用户 - 角色关系定义:
-     * (1) 加上fetch=FetchType.LAZY  或 @Fetch(FetchMode.SELECT), 输出结果与上面相同，说明默认设置是fetch=FetchType.LAZY 和 @Fetch(FetchMode.SELECT) 下面四种配置等效，都是N+1条sql的懒加载
-     * (2) 加上fetch=FetchType.Eager 和 @Fetch(FetchMode.SELECT), 同样是N+1条sql，不过和上面情况不同的是，N条sql会在criteria.list()时执行
-     * (3) 加上@Fetch(FetchMode.JOIN), 那么Hibernate将强行设置为fetch=FetchType.EAGER, 用户设置fetch=FetchType.LAZY将不会生效
-     * 从输出可看出，在执行criteria.list()时通过一条sql 获取了所有的City和Hotel。
-     * 使用@Fetch(FetchMode.JOIN)需要注意的是：它在Join查询时是Full Join, 所以会有重复City出现
-     * (4) 加上@Fetch(FetchMode.SUBSELECT), 那么Hibernate将强行设置为fetch=FetchType.EAGER, 用户设置fetch=FetchType.LAZY将不会生效 从输出可看出，在执行criteria.list()时通过两条sql分别获取City和Hotel
-     * <p>
-     *
-     * @see <a href=https://www.jianshu.com/p/23bd82a7b96e>参考文档</a>
-     */
-    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = PersistenceConstants.REGION_IOT_MQTT_AUTHORITY)
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    @JoinTable(name = "iot_mqtt_category_authority",
-            joinColumns = {@JoinColumn(name = "category_id")},
-            inverseJoinColumns = {@JoinColumn(name = "authority_id")},
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"category_id", "authority_id"})},
-            indexes = {@Index(name = "iot_mqtt_category_authority_cid_idx", columnList = "category_id"), @Index(name = "iot_mqtt_category_authority_aid_idx", columnList = "authority_id")})
-    private Set<HerodotusMqttAuthority> authorities = new HashSet<>();
 
     public String getCategoryId() {
         return categoryId;
@@ -136,14 +109,6 @@ public class HerodotusMqttCategory extends AbstractSysEntity {
 
     public void setPurpose(Purpose purpose) {
         this.purpose = purpose;
-    }
-
-    public Set<HerodotusMqttAuthority> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(Set<HerodotusMqttAuthority> authorities) {
-        this.authorities = authorities;
     }
 
     @Override

@@ -32,9 +32,16 @@ import cn.herodotus.thingsbrain.persistence.commons.enums.Area;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Purpose;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttCategory;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.repository.HerodotusMqttCategoryRepository;
+import jakarta.persistence.criteria.Predicate;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -57,15 +64,38 @@ public class HerodotusMqttCategoryService extends AbstractJpaService<HerodotusMq
         return herodotusMqttCategoryRepository;
     }
 
+    public Page<HerodotusMqttCategory> findByCondition(int pageNumber, int pageSize, Area area, Action action, Purpose purpose) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+        Specification<HerodotusMqttCategory> specification = (root, criteriaQuery, criteriaBuilder) -> {
+
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (ObjectUtils.isNotEmpty(area)) {
+                predicates.add(criteriaBuilder.equal(root.get("area"), area));
+            }
+
+            if (ObjectUtils.isNotEmpty(action)) {
+                predicates.add(criteriaBuilder.equal(root.get("action"), action));
+            }
+
+            if (ObjectUtils.isNotEmpty(purpose)) {
+                predicates.add(criteriaBuilder.equal(root.get("purpose"), purpose));
+            }
+
+            Predicate[] predicateArray = new Predicate[predicates.size()];
+            criteriaQuery.where(criteriaBuilder.and(predicates.toArray(predicateArray)));
+            return criteriaQuery.getRestriction();
+        };
+
+        return this.findByPage(specification, pageable);
+    }
+
     public Set<HerodotusMqttCategory> findByArea(Area area) {
         return herodotusMqttCategoryRepository.findByArea(area);
     }
 
     public Set<HerodotusMqttCategory> findCategoryForDevice() {
         return findByArea(Area.DEVICE);
-    }
-
-    public Optional<HerodotusMqttCategory> findSubscribeLinkCategoryForPlatform() {
-        return herodotusMqttCategoryRepository.findOneByActionAndAreaAndPurpose(Action.subscribe, Area.PLATFORM, Purpose.LINK);
     }
 }

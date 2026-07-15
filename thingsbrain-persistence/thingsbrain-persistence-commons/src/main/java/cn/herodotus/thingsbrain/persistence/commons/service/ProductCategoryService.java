@@ -28,6 +28,8 @@ package cn.herodotus.thingsbrain.persistence.commons.service;
 import cn.herodotus.dante.data.commons.service.BaseWriteAndPageService;
 import cn.herodotus.thingsbrain.persistence.commons.domain.ProductCategory;
 
+import java.util.List;
+
 /**
  * <p>Description: 物联网产品分类服务定义 </p>
  *
@@ -35,5 +37,13 @@ import cn.herodotus.thingsbrain.persistence.commons.domain.ProductCategory;
  * @date : 2025/3/28 23:37
  */
 public interface ProductCategoryService extends BaseWriteAndPageService<ProductCategory, String> {
+
+    /**
+     * 根据产品类别名称，模糊查询产品类别
+     *
+     * @param name 产品类别名称
+     * @return 产品类别列表 {@link ProductCategory}
+     */
+    List<ProductCategory> findAllByName(String name);
 
 }

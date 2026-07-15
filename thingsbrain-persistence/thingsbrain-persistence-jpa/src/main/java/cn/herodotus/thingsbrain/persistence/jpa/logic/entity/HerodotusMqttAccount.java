@@ -49,6 +49,7 @@ import java.util.Set;
 @Table(name = "iot_mqtt_account", indexes = {
         @Index(name = "iot_mqtt_account_id_idx", columnList = "account_id"),
         @Index(name = "iot_mqtt_account_did_idx", columnList = "client_id"),
+        @Index(name = "iot_mqtt_account_un_idx", columnList = "username"),
 })
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = PersistenceConstants.REGION_IOT_MQTT_ACCOUNT)

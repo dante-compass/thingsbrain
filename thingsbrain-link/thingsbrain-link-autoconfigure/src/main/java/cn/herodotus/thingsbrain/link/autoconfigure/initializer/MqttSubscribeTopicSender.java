@@ -25,15 +25,17 @@
 
 package cn.herodotus.thingsbrain.link.autoconfigure.initializer;
 
+import cn.herodotus.dante.spring.context.ServiceContextHolder;
+import cn.herodotus.thingsbrain.kernel.commons.event.MqttSubscribeTopicAppenderEvent;
 import cn.herodotus.thingsbrain.link.commons.definition.MqttAuthorizationManager;
-import cn.herodotus.thingsbrain.persistence.commons.domain.MqttCategory;
+import cn.herodotus.thingsbrain.persistence.commons.domain.MqttAuthority;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 
-import java.util.Optional;
+import java.util.Set;
 
 /**
  * <p>Description: 系统 Mqtt 订阅主题发送器 </p>
@@ -64,13 +66,11 @@ public class MqttSubscribeTopicSender implements ApplicationListener<Application
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        Optional<MqttCategory> optional = mqttAuthorizationManager.findSubscribeCategoryForPlatform();
+        Set<MqttAuthority> authorities = mqttAuthorizationManager.findSubscribeTopicsForPlatform();
 
-        optional.ifPresent(mqttCategory -> {
-            if (CollectionUtils.isNotEmpty(mqttCategory.getAuthorities())) {
-                log.info("[ThingsBrain] |- Found [{}] subscribe topics.", mqttCategory.getAuthorities().size());
-//                ServiceContextHolder.publishEvent(new MqttSubscribeTopicAppenderEvent(mqttCategory.getAuthorities()));
-            }
-        });
+        if (CollectionUtils.isNotEmpty(authorities)) {
+            log.info("[ThingsMesh] |- Found [{}] subscribe topics.", authorities.size());
+            ServiceContextHolder.publishEvent(new MqttSubscribeTopicAppenderEvent(authorities));
+        }
     }
 }

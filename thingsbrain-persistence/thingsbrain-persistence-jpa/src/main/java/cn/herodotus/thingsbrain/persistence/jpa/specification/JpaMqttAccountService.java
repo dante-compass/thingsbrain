@@ -75,4 +75,16 @@ public class JpaMqttAccountService implements MqttAccountService {
     public void deleteById(String id) {
         delegate.deleteById(id);
     }
+
+    @Override
+    public Page<MqttAccount> findByCondition(int pageNumber, int pageSize, String clientId, String username) {
+        Page<HerodotusMqttAccount> pages = delegate.findByCondition(pageNumber, pageSize, clientId, username);
+        return pages.map(toMqttAccount::convert);
+    }
+
+    @Override
+    public MqttAccount assign(String id, String[] categories) {
+        HerodotusMqttAccount entity = delegate.assign(id, categories);
+        return toMqttAccount.convert(entity);
+    }
 }

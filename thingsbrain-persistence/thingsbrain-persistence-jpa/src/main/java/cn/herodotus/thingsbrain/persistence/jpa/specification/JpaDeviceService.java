@@ -93,8 +93,8 @@ public class JpaDeviceService implements DeviceService {
     }
 
     @Override
-    public Page<Device> findByCondition(int pageNumber, int pageSize, String productKey) {
-        Page<HerodotusDevice> pages = delegate.findByCondition(pageNumber, pageSize, productKey);
+    public Page<Device> findByCondition(int pageNumber, int pageSize, String productKey, String deviceName, String clientId) {
+        Page<HerodotusDevice> pages = delegate.findByCondition(pageNumber, pageSize, productKey, deviceName, clientId);
         return pages.map(toDevice::convert);
     }
 

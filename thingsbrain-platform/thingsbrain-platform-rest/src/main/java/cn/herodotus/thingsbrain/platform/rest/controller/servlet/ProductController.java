@@ -32,6 +32,7 @@ import cn.herodotus.dante.web.annotation.AccessLimited;
 import cn.herodotus.dante.web.annotation.Idempotent;
 import cn.herodotus.thingsbrain.link.commons.definition.SpecificationManager;
 import cn.herodotus.thingsbrain.persistence.commons.domain.Product;
+import cn.herodotus.thingsbrain.persistence.commons.enums.NodeType;
 import cn.herodotus.thingsbrain.persistence.commons.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -47,6 +48,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -86,7 +88,9 @@ public class ProductController extends AbstractEntityWriteAndPageController<Prod
             @Parameter(name = "pageSize", required = true, description = "每页显示数量"),
             @Parameter(name = "productKey", description = "物联网 ProductKey"),
             @Parameter(name = "productName", description = "产品名称"),
-            @Parameter(name = "categoryName", description = "产品品类名称"),
+            @Parameter(name = "nodeType", description = "节点类型"),
+            @Parameter(name = "release", description = "是否已发布"),
+            @Parameter(name = "categoryName", description = "产品分类名称"),
     })
     @GetMapping("/condition")
     public Result<Map<String, Object>> findByCondition(
@@ -94,9 +98,28 @@ public class ProductController extends AbstractEntityWriteAndPageController<Prod
             @NotNull @RequestParam("pageSize") Integer pageSize,
             @RequestParam(value = "productKey", required = false) String productKey,
             @RequestParam(value = "productName", required = false) String productName,
+            @RequestParam(value = "nodeType", required = false) Integer nodeType,
+            @RequestParam(value = "release", required = false) Boolean release,
             @RequestParam(value = "categoryName", required = false) String categoryName) {
-        Page<Product> pages = productService.findByCondition(pageNumber, pageSize, productKey, productName, categoryName);
+        Page<Product> pages = productService.findByCondition(pageNumber, pageSize, productKey, productName, NodeType.parse(nodeType), release, categoryName);
         return resultFromPage(pages);
+    }
+
+    @AccessLimited
+    @Operation(summary = "根据ProductKey模糊查询产品", description = "根据ProductKey模糊查询产品",
+            responses = {
+                    @ApiResponse(description = "产品列表", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Result.class))),
+                    @ApiResponse(responseCode = "204", description = "查询成功，未查到数据"),
+                    @ApiResponse(responseCode = "500", description = "查询失败")
+
+            })
+    @Parameters({
+            @Parameter(name = "productKey", required = true, description = "物联网 ProductKey"),
+    })
+    @GetMapping("/list")
+    public Result<List<Product>> findAllByProductKey(@RequestParam(value = "productKey") String productKey) {
+        List<Product> products = productService.findAllByProductKey(productKey);
+        return result(products);
     }
 
     @AccessLimited

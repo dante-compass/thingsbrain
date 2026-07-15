@@ -28,7 +28,7 @@ package cn.herodotus.thingsbrain.mqtt.outbound.service;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.link.domain.job.JobNotify;
-import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import org.springframework.stereotype.Service;
 
 /**
@@ -42,10 +42,10 @@ public class DeviceJobService {
 
     private static final MqttTopic TOPIC_JOB_NOTIFY = new MqttTopic(MethodConstants.METHOD__THING_JOB_NOTIFY, false);
 
-    private final MqttMessagePublisher mqttMessagePublisher;
+    private final MqttOutboundMessagePublisher mqttOutboundMessagePublisher;
 
-    public DeviceJobService(MqttMessagePublisher mqttMessagePublisher) {
-        this.mqttMessagePublisher = mqttMessagePublisher;
+    public DeviceJobService(MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
+        this.mqttOutboundMessagePublisher = mqttOutboundMessagePublisher;
     }
 
     /**
@@ -56,6 +56,6 @@ public class DeviceJobService {
      * @param data       配置信息 {@link JobNotify}
      */
     public void notify(String productKey, String deviceName, JobNotify data) {
-        mqttMessagePublisher.request(TOPIC_JOB_NOTIFY, productKey, deviceName, data);
+        mqttOutboundMessagePublisher.request(TOPIC_JOB_NOTIFY, productKey, deviceName, data);
     }
 }

@@ -25,9 +25,9 @@
 
 package cn.herodotus.thingsbrain.persistence.commons.domain;
 
+import cn.herodotus.dante.core.jackson.JsonToStringDeserializer;
+import cn.herodotus.dante.core.jackson.StringToJsonSerializer;
 import cn.herodotus.dante.data.commons.entity.AbstractAuditEntity;
-import cn.herodotus.thingsbrain.kernel.commons.jackson.JsonToObjectSerializer;
-import cn.herodotus.thingsbrain.kernel.commons.jackson.ObjectToJsonDeserializer;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.ArgumentType;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -59,8 +59,8 @@ public abstract class AbstractTslArgument extends AbstractAuditEntity {
      * Specs 为 JSON 字符串，增加下面的序列化器避免，发送给前端的 JSON 出现 '\'
      */
     @Schema(name = "数据描述", description = "采用JSON字符串形式存储属性规格描述内容")
-    @JsonDeserialize(using = ObjectToJsonDeserializer.class)
-    @JsonSerialize(using = JsonToObjectSerializer.class)
+    @JsonDeserialize(using = JsonToStringDeserializer.class)
+    @JsonSerialize(using = StringToJsonSerializer.class)
     private String specs;
 
     public String getIdentifier() {

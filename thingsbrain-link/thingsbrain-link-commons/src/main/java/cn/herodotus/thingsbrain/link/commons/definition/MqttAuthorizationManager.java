@@ -25,9 +25,9 @@
 
 package cn.herodotus.thingsbrain.link.commons.definition;
 
-import cn.herodotus.thingsbrain.persistence.commons.domain.MqttCategory;
+import cn.herodotus.thingsbrain.persistence.commons.domain.MqttAuthority;
 
-import java.util.Optional;
+import java.util.Set;
 
 /**
  * <p>Description: Mqtt 授权相关操作管理器 </p>
@@ -38,9 +38,9 @@ import java.util.Optional;
 public interface MqttAuthorizationManager {
 
     /**
-     * 查询包含所有平台可以订阅主题的主题分类
+     * 查询包含所有平台可以订阅主题权限
      *
-     * @return 主题分类 {@link MqttCategory}
+     * @return 主题权限 {@link MqttAuthority}
      */
-    Optional<MqttCategory> findSubscribeCategoryForPlatform();
+    Set<MqttAuthority> findSubscribeTopicsForPlatform();
 }

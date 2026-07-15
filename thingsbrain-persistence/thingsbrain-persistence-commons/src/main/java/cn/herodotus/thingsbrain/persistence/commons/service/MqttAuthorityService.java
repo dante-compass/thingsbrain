@@ -26,7 +26,14 @@
 package cn.herodotus.thingsbrain.persistence.commons.service;
 
 import cn.herodotus.dante.data.commons.service.BaseWriteAndPageService;
+import cn.herodotus.thingsbrain.kernel.commons.enums.Qos;
 import cn.herodotus.thingsbrain.persistence.commons.domain.MqttAuthority;
+import cn.herodotus.thingsbrain.persistence.commons.enums.Action;
+import cn.herodotus.thingsbrain.persistence.commons.enums.Permission;
+import cn.herodotus.thingsbrain.persistence.commons.enums.Retain;
+import org.springframework.data.domain.Page;
+
+import java.util.Set;
 
 /**
  * <p>Description: 物联网 Mqtt 权限管理统一定义 Service</p>
@@ -35,4 +42,34 @@ import cn.herodotus.thingsbrain.persistence.commons.domain.MqttAuthority;
  * @date : 2025/10/14 15:58
  */
 public interface MqttAuthorityService extends BaseWriteAndPageService<MqttAuthority, String> {
+
+    /**
+     * 分页条件查询 {@link MqttAuthority}
+     *
+     * @param pageNumber 当前页码
+     * @param pageSize   每页显示数量
+     * @param topic      Mqtt 主题
+     * @param action     Mqtt 主题操作 {@link Action}
+     * @param permission Mqtt 主题权限 {@link Permission}
+     * @param qos        Mqtt 主题 Qos {@link Qos}
+     * @param retain     是否支持发布保留消息 {@link Retain}
+     * @return 分页数据 {@link Page}
+     */
+    Page<MqttAuthority> findByCondition(int pageNumber, int pageSize, String topic, Action action, Permission permission, Qos qos, Retain retain);
+
+    /**
+     * 为 Mqtt 主题权限分配 Mqtt 主题类别
+     *
+     * @param id         Mqtt 账户ID
+     * @param categories Mqtt 主题类别ID数组
+     * @return 新的 {@link MqttAuthority} 实体
+     */
+    MqttAuthority assign(String id, String[] categories);
+
+    /**
+     * 查询包含所有平台可以订阅主题权限
+     *
+     * @return 主题权限 {@link MqttAuthority}
+     */
+    Set<MqttAuthority> findSubscribeTopicsForPlatform();
 }

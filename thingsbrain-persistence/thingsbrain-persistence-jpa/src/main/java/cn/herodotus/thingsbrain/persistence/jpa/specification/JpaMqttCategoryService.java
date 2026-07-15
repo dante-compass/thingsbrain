@@ -26,6 +26,9 @@
 package cn.herodotus.thingsbrain.persistence.jpa.specification;
 
 import cn.herodotus.thingsbrain.persistence.commons.domain.MqttCategory;
+import cn.herodotus.thingsbrain.persistence.commons.enums.Action;
+import cn.herodotus.thingsbrain.persistence.commons.enums.Area;
+import cn.herodotus.thingsbrain.persistence.commons.enums.Purpose;
 import cn.herodotus.thingsbrain.persistence.commons.service.MqttCategoryService;
 import cn.herodotus.thingsbrain.persistence.jpa.converter.FromMqttCategoryConverter;
 import cn.herodotus.thingsbrain.persistence.jpa.converter.ToMqttCategoryConverter;
@@ -35,10 +38,10 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
-import java.util.Optional;
+import java.util.List;
 
 /**
- * <p>Description: 物联网 Mqtt 主题分类 Service Jpa 实现 </p>
+ * <p>Description: 物联网 Mqtt 主题类别 Service Jpa 实现 </p>
  *
  * @author : gengwei.zheng
  * @date : 2025/10/14 16:07
@@ -68,6 +71,12 @@ public class JpaMqttCategoryService implements MqttCategoryService {
     }
 
     @Override
+    public List<MqttCategory> findAll() {
+        List<HerodotusMqttCategory> domains = delegate.findAll();
+        return domains.stream().map(toMqttCategory::convert).toList();
+    }
+
+    @Override
     public MqttCategory save(MqttCategory domain) {
         HerodotusMqttCategory entity = delegate.save(fromMqttCategory.convert(domain));
         return toMqttCategory.convert(entity);
@@ -79,8 +88,8 @@ public class JpaMqttCategoryService implements MqttCategoryService {
     }
 
     @Override
-    public Optional<MqttCategory> findSubscribeLinkCategoryForPlatform() {
-        Optional<HerodotusMqttCategory> optional = delegate.findSubscribeLinkCategoryForPlatform();
-        return optional.map(toMqttCategory::convert);
+    public Page<MqttCategory> findByCondition(int pageNumber, int pageSize, Area area, Action action, Purpose purpose) {
+        Page<HerodotusMqttCategory> pages = delegate.findByCondition(pageNumber, pageSize, area, action, purpose);
+        return pages.map(toMqttCategory::convert);
     }
 }

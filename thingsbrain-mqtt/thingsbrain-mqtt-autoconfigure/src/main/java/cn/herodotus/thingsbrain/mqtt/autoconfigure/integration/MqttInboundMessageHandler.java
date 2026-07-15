@@ -31,7 +31,7 @@ import cn.herodotus.dante.message.autoconfigure.mqtt.MqttProperties;
 import cn.herodotus.dante.message.commons.domain.MqttMessage;
 import cn.herodotus.dante.message.commons.event.MqttMessageSendingEvent;
 import cn.herodotus.dante.spring.context.ServiceContextHolder;
-import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttMessageDuplicateInspector;
+import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttInboundMessageDuplicateInspector;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 import cn.herodotus.thingsbrain.mqtt.inbound.dispatcher.MqttInboundMessageDispatcher;
 import org.apache.commons.lang3.ObjectUtils;
@@ -56,12 +56,12 @@ public class MqttInboundMessageHandler implements MessageHandler {
 
     private static final Logger log = LoggerFactory.getLogger(MqttInboundMessageHandler.class);
 
-    private final MqttMessageDuplicateInspector mqttMessageDuplicateInspector;
+    private final MqttInboundMessageDuplicateInspector mqttInboundMessageDuplicateInspector;
     private final MqttInboundMessageDispatcher mqttInboundMessageDispatcher;
     private final Converter<Message<?>, MqttMessageDetails> toDetailsConverter;
 
-    public MqttInboundMessageHandler(MqttProperties mqttProperties, MqttMessageDuplicateInspector mqttMessageDuplicateInspector, MqttInboundMessageDispatcher mqttInboundMessageDispatcher) {
-        this.mqttMessageDuplicateInspector = mqttMessageDuplicateInspector;
+    public MqttInboundMessageHandler(MqttProperties mqttProperties, MqttInboundMessageDuplicateInspector mqttInboundMessageDuplicateInspector, MqttInboundMessageDispatcher mqttInboundMessageDispatcher) {
+        this.mqttInboundMessageDuplicateInspector = mqttInboundMessageDuplicateInspector;
         this.mqttInboundMessageDispatcher = mqttInboundMessageDispatcher;
         this.toDetailsConverter = new MessageToMqttMessageDetailsConverter(mqttProperties);
     }
@@ -72,15 +72,15 @@ public class MqttInboundMessageHandler implements MessageHandler {
         MqttMessageDetails details = toDetailsConverter.convert(message);
 
         if (!details.isEmpty()) {
-            log.debug("[ThingsMesh] |- LINK - [1] Receive the message from topic [{}]", details.getTopic());
-            if (!mqttMessageDuplicateInspector.isDuplicate(details)) {
+            log.debug("[ThingsBrain] |- LINK - [1] Receive the message from topic [{}]", details.getTopic());
+            if (!mqttInboundMessageDuplicateInspector.isDuplicate(details)) {
                 mqttInboundMessageDispatcher.process(details);
-                mqttMessageDuplicateInspector.record(details);
+                mqttInboundMessageDuplicateInspector.record(details);
             } else {
-                log.warn("[ThingsMesh] |- LINK - Ignore message [{}], because messageId in cache or message duplicate!", message);
+                log.warn("[ThingsBrain] |- LINK - Ignore message [{}], because messageId in cache or message duplicate!", message);
             }
         } else {
-            log.warn("[ThingsMesh] |- LINK - Message [{}] payload is incorrect!", message);
+            log.warn("[ThingsBrain] |- LINK - Message [{}] payload is incorrect!", message);
             error(details);
         }
     }
