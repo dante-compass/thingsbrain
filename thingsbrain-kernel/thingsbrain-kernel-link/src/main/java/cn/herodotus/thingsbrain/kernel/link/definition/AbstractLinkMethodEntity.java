@@ -25,40 +25,39 @@
 
 package cn.herodotus.thingsbrain.kernel.link.definition;
 
-import cn.herodotus.thingsmesh.kernel.commons.definition.domain.AbstractEntity;
 import com.google.common.base.MoreObjects;
 
 /**
- * <p>Description: 请求响应通用属性定义 </p>
+ * <p>Description: Link 协议包含 Method 的实体抽象定义 </p>
  *
- * @author : gengwei.zheng
- * @date : 2024/11/2 0:12
+ * @author : gengwei_zheng
+ * @date : 2026/7/17 23:26
  */
-public abstract class AbstractLinkEntity extends AbstractEntity<String> {
+public abstract class AbstractLinkMethodEntity extends AbstractLinkEntity {
 
-    protected AbstractLinkEntity() {
-        this.setVersion("1.0");
+    protected AbstractLinkMethodEntity() {
+        super();
     }
 
     /**
-     * 消息ID号。
+     * 操作方法。
      * <p>
-     * String类型的数字，取值范围0~4294967295，且每个消息ID在当前设备中具有唯一性。
+     * 物模型设备属性、事件、服务中：下行数据的响应中不需要包含 method 信息。只有上行数据响应中需要包含 method。
      */
-    private String id;
+    private String method;
 
-    public String getId() {
-        return id;
+    public String getMethod() {
+        return method;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setMethod(String method) {
+        this.method = method;
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("id", id)
+                .add("method", method)
                 .addValue(super.toString())
                 .toString();
     }
