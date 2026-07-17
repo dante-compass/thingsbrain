@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.link.definition;
 
-import cn.herodotus.thingsmesh.kernel.commons.definition.domain.AbstractEntity;
+import cn.herodotus.thingsbrain.kernel.commons.definition.domain.AbstractEntity;
 import com.google.common.base.MoreObjects;
 
 /**
