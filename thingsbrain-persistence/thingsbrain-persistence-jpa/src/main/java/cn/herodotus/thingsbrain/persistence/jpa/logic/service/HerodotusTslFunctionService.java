@@ -63,6 +63,10 @@ public class HerodotusTslFunctionService extends AbstractJpaService<HerodotusTsl
         return herodotusTslFunctionRepository.findAllByProductKey(productKey);
     }
 
+    public void deleteAllByProductId(String productId) {
+        herodotusTslFunctionRepository.deleteAllByProductId(productId);
+    }
+
 //    public List<HerodotusTslFunction> findAllSettableProperties(String productKey) {
 //        return herodotusTslFunctionRepository.findAllByProductKeyAndDimensionAndAccessMode(productKey, Dimension.PROPERTY, AccessMode.READ_WRITE);
 //    }

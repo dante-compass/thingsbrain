@@ -122,6 +122,7 @@ public class HerodotusProductManager {
     public void deleteById(String id) {
         authenticationManager.disable(id);
         herodotusProductService.deleteById(id);
+        herodotusTslFunctionService.deleteAllByProductId(id);
     }
 
     public Optional<Specification> generateSpecification(String productKey) {

@@ -29,6 +29,9 @@ import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -43,4 +46,15 @@ public interface HerodotusTslFunctionRepository extends BaseJpaRepository<Herodo
     Page<HerodotusTslFunction> findByProductId(String productId, Pageable pageable);
 
     List<HerodotusTslFunction> findAllByProductKey(String productKey);
+
+    /**
+     * 根据 ProductId 删除对应物模型配置。
+     * <p>
+     * 因为改操作通常会与 Product 的删除同时使用，所以使用 ProductId，方便操作
+     *
+     * @param productId 物联网 ProductId
+     */
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("delete from HerodotusTslFunction f where f.productId = : productId")
+    void deleteAllByProductId(@Param("productId") String productId);
 }
