@@ -1,0 +1,14 @@
+{
+  "id": "123",
+  "version": "1.0",
+  "sys":{
+    "ack":0
+  },
+  "params":[
+    {
+      "attrKey": "Temperature",
+      "attrValue": "36.8"
+    }
+  ],
+  "method": "thing.deviceinfo.update"
+}

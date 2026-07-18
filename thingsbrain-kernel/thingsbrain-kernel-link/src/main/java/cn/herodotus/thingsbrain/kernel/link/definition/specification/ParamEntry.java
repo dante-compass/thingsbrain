@@ -25,24 +25,29 @@
 
 package cn.herodotus.thingsbrain.kernel.link.definition.specification;
 
+import cn.herodotus.dante.core.domain.BaseModel;
 import com.google.common.base.MoreObjects;
 
-import java.io.Serializable;
-
 /**
- * <p>Description: 基础交互参数定义实体</p>
+ * <p>Description:  物模型上报数据条目通用定义实体</p>
  * <p>
- * 若不上传time，可不上传value，直接上传参数值即可。就不必使用该对象
+ * 物模型上行数据，param 数据条目统一定义。
  *
  * @author : gengwei.zheng
  * @date : 2024/8/31 12:18
  */
-public class Param<T> implements Serializable {
+class ParamEntry<T> implements BaseModel {
 
-    public Param() {
+    public ParamEntry() {
+
     }
 
-    public Param(Long time) {
+    public ParamEntry(T value) {
+        this(value, System.currentTimeMillis());
+    }
+
+    public ParamEntry(T value, Long time) {
+        this.value = value;
         this.time = time;
     }
 

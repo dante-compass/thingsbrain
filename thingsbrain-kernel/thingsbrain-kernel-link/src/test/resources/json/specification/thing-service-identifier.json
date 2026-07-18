@@ -1,0 +1,9 @@
+{
+  "id": "123",
+  "version": "1.0",
+  "params": {
+    "Power": "on",
+    "WF": "2"
+  },
+  "method": "thing.service.${tsl.service.identifier}"
+}

@@ -1,0 +1,10 @@
+{
+  "method": "delete",
+  "state": {
+    "reported": {
+      "color": "null",
+      "temperature": "null"
+    }
+  },
+  "version": 1
+}

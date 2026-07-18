@@ -39,12 +39,12 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 
 /**
- * <p>Description: 设备上报属性请求实体测试 </p>
+ * <p>Description: 设备上报事件请求实体测试 </p>
  *
  * @author : gengwei.zheng
  * @date : 2024/11/1 22:21
  */
-public class EventPropertyPostParamTest {
+public class EventIdentifierPostTest {
 
     @BeforeEach
     public void setup() throws Exception {
@@ -53,14 +53,13 @@ public class EventPropertyPostParamTest {
 
     @Test
     void testDeserialization() throws Exception {
-        File file = ResourceUtils.getFile("classpath:json/specification/thing-event-property-post.json");
+        File file = ResourceUtils.getFile("classpath:json/specification/thing-event-identifier-post.json");
         String json = FileUtil.readString(file, StandardCharsets.UTF_8);
 
-        Assertions.assertNotNull(json, "测试代码无法读取 thing-event-property-post.json 文件");
+        Assertions.assertNotNull(json, "测试代码无法读取 thing-event-identifier-post.json 文件");
 
-        LinkSysRequest<EventPropertyPost> request = JacksonUtils.toObject(json, new TypeReference<>() {
+        LinkSysRequest<EventIdentifierPost> request = JacksonUtils.toObject(json, new TypeReference<>() {
         });
-
-        Assertions.assertTrue(ObjectUtils.isNotEmpty(request) && ObjectUtils.isNotEmpty(request.getParams()), "PostPropertyRequest 反序列化出错");
+        Assertions.assertTrue(ObjectUtils.isNotEmpty(request) && ObjectUtils.isNotEmpty(request.getParams()), "PostIdentifierRequest 反序列化出错");
     }
 }

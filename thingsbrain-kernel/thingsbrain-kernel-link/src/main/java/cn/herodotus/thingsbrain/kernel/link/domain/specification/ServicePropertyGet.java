@@ -23,43 +23,23 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.kernel.link.definition;
+package cn.herodotus.thingsbrain.kernel.link.domain.specification;
 
-import cn.hutool.v7.core.data.id.IdUtil;
-
-import java.util.HashMap;
-import java.util.Map;
+import cn.herodotus.thingsbrain.kernel.link.definition.specification.Params;
 
 /**
- * <p>Description: 设备服务调用（异步调用）请求参数实体 </p>
+ * <p>Description: 获取设备属性请求参数实体 </p>
  *
- * @author : gengwei.zheng
- * @date : 2024/11/2 0:27
+ * @author : gengwei_zheng
+ * @date : 2026/7/18 14:12
  */
-public class LinkRequest<T> extends AbstractRequest<T> {
+public class ServicePropertyGet extends Params {
 
-    public LinkRequest() {
+    public ServicePropertyGet() {
         super();
     }
 
-
-    private LinkRequest(String id, String method, T param) {
-        super();
-        this.setMethod(method);
-        this.setParams(param);
-        this.setId(id);
-    }
-
-    public static LinkRequest<Map<String, Object>> with(String method) {
-        Map<String, Object> param = new HashMap<>();
-        return with(method, param);
-    }
-
-    public static <T> LinkRequest<T> with(String method, T param) {
-        return with(IdUtil.fastSimpleUUID(), method, param);
-    }
-
-    public static <T> LinkRequest<T> with(String id, String method, T param) {
-        return new LinkRequest<>(id, method, param);
+    public ServicePropertyGet(String key, Object value) {
+        super(key, value);
     }
 }

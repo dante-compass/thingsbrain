@@ -23,64 +23,44 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.kernel.link.definition.specification;
+package cn.herodotus.thingsbrain.kernel.link.domain.specification;
 
+import cn.herodotus.dante.core.jackson.JacksonUtils;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
+import cn.hutool.v7.core.io.file.FileUtil;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.util.ResourceUtils;
+import tools.jackson.core.type.TypeReference;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
 
 /**
- * <p>Description: Event 上报参数标准定义 </p>
- * <p>
- * 对应格式：
- * <pre>
- * {
- * 	"alarmEvent": {
- * 		"value": {
- * 			"Power": "on",
- * 			"WF": "2"
- *      },
- * 		"time": 1524448722000
- *    },
- * 	"alertEvent": {
- * 		"value": {
- * 			"Power": "off",
- * 			"WF": "3"
- *      },
- * 		"time": 1524448722000
- *    }
- * }
- * </pre>
+ * <p>Description: 设备批量上报属性、事件请求实体测试 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/5/15 22:07
+ * @date : 2024/11/1 23:58
  */
-public class EventParams extends HashMap<String, EventParamEntry> {
+public class EventPropertyBatchPostTest {
 
-    public EventParams() {
+    @BeforeEach
+    public void setup() throws Exception {
 
     }
 
-    public EventParams(String key, Map<String, Object> value) {
-        this.add(key, value);
-    }
+    @Test
+    void deserialization() throws Exception {
+        File file = ResourceUtils.getFile("classpath:json/specification/thing-event-property-batch-post.json");
+        String json = FileUtil.readString(file, StandardCharsets.UTF_8);
 
-    public EventParams(String key, Map<String, Object> value, Long time) {
-        this.add(key, value, time);
-    }
+        Assertions.assertNotNull(json, "测试代码无法读取 thing-event-property-batch-post.json 文件");
 
-    public void add(String key, Map<String, Object> value) {
-        if (StringUtils.isNotBlank(key) && MapUtils.isNotEmpty(value)) {
-            this.put(key, new EventParamEntry(value));
-        }
-    }
-
-    public void add(String key, Map<String, Object> value, Long time) {
-        if (StringUtils.isNotBlank(key) && MapUtils.isNotEmpty(value) && ObjectUtils.isNotEmpty(time)) {
-            this.put(key, new EventParamEntry(value, time));
-        }
+        LinkSysRequest<EventPropertyBatchPost> request = JacksonUtils.toObject(json, new TypeReference<>() {
+        });
+        Assertions.assertTrue(ObjectUtils.isNotEmpty(request) && ObjectUtils.isNotEmpty(request.getParams()) && MapUtils.isNotEmpty(request.getParams().getProperties()), "PostBatchPropertyRequest 反序列化出错");
     }
 }

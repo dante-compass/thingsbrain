@@ -23,43 +23,31 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.kernel.link.definition;
+package cn.herodotus.thingsbrain.kernel.link.definition.specification;
 
-import cn.hutool.v7.core.data.id.IdUtil;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
- * <p>Description: 设备服务调用（异步调用）请求参数实体 </p>
+ * <p>Description: Map 类型常规参数定义 </p>
  *
- * @author : gengwei.zheng
- * @date : 2024/11/2 0:27
+ * @author : gengwei_zheng
+ * @date : 2026/7/18 14:16
  */
-public class LinkRequest<T> extends AbstractRequest<T> {
+public class Params extends HashMap<String, Object> {
 
-    public LinkRequest() {
-        super();
+    public Params() {
     }
 
-
-    private LinkRequest(String id, String method, T param) {
-        super();
-        this.setMethod(method);
-        this.setParams(param);
-        this.setId(id);
+    public Params(String key, Object value) {
+        this.add(key, value);
     }
 
-    public static LinkRequest<Map<String, Object>> with(String method) {
-        Map<String, Object> param = new HashMap<>();
-        return with(method, param);
-    }
-
-    public static <T> LinkRequest<T> with(String method, T param) {
-        return with(IdUtil.fastSimpleUUID(), method, param);
-    }
-
-    public static <T> LinkRequest<T> with(String id, String method, T param) {
-        return new LinkRequest<>(id, method, param);
+    public void add(String key, Object value) {
+        if (StringUtils.isNotBlank(key) && ObjectUtils.isNotEmpty(value)) {
+            this.put(key, value);
+        }
     }
 }

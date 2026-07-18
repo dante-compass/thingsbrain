@@ -1,0 +1,18 @@
+{
+  "id": "123",
+  "version": "1.0",
+  "sys": {
+    "ack": 0
+  },
+  "params": {
+    "Power": {
+      "value": "on",
+      "time": 1524448722000
+    },
+    "WF": {
+      "value": 23.6,
+      "time": 1524448722000
+    }
+  },
+  "method": "thing.event.property.post"
+}

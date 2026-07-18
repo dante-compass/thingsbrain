@@ -1,0 +1,92 @@
+{
+  "id": "123",
+  "version": "1.0",
+  "sys": {
+    "ack": 0
+  },
+  "method": "thing.event.property.history.post",
+  "params": [
+    {
+      "identity": {
+        "productKey": "",
+        "deviceName": ""
+      },
+      "properties": [
+        {
+          "Power": {
+            "value": "on",
+            "time": 1524448722000
+          },
+          "WF": {
+            "value": "3",
+            "time": 1524448722000
+          }
+        },
+        {
+          "Power": {
+            "value": "on",
+            "time": 1524448722000
+          },
+          "WF": {
+            "value": "3",
+            "time": 1524448722000
+          }
+        }
+      ],
+      "events": [
+        {
+          "alarmEvent": {
+            "value": {
+              "Power": "on",
+              "WF": "2"
+            },
+            "time": 1524448722000
+          },
+          "alertEvent": {
+            "value": {
+              "Power": "off",
+              "WF": "3"
+            },
+            "time": 1524448722000
+          }
+        }
+      ]
+    },
+    {
+      "identity": {
+        "productKey": "",
+        "deviceName": ""
+      },
+      "properties": [
+        {
+          "Power": {
+            "value": "on",
+            "time": 1524448722000
+          },
+          "WF": {
+            "value": "3",
+            "time": 1524448722000
+          }
+        }
+      ],
+      "events": [
+        {
+          "alarmEvent": {
+            "value": {
+              "Power": "on",
+              "WF": "2"
+            },
+            "time": 1524448722000
+          },
+          "alertEvent": {
+            "value": {
+              "Power": "off",
+              "WF": "3"
+            },
+            "time": 1524448722000
+          }
+        }
+      ]
+    }
+  ]
+}

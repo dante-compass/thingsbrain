@@ -45,7 +45,7 @@ import java.nio.charset.StandardCharsets;
  * @author : gengwei.zheng
  * @date : 2024/11/1 23:58
  */
-public class EventPropertyHistoryPostParamTest {
+public class EventPropertyHistoryPostTest {
 
     @BeforeEach
     public void setup() throws Exception {

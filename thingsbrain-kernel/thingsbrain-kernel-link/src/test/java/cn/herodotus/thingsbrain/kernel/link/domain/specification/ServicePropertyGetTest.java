@@ -26,12 +26,10 @@
 package cn.herodotus.thingsbrain.kernel.link.domain.specification;
 
 import cn.herodotus.dante.core.jackson.JacksonUtils;
-import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
 import cn.hutool.v7.core.io.file.FileUtil;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.ResourceUtils;
 import tools.jackson.core.type.TypeReference;
@@ -40,28 +38,23 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 
 /**
- * <p>Description: 网关批量上报数据请求实体测试 </p>
+ * <p>Description: 设备上报属性请求实体测试 </p>
  *
  * @author : gengwei.zheng
  * @date : 2024/11/1 22:21
  */
-public class EventPropertyPackPostParamTest {
-
-    @BeforeEach
-    public void setup() throws Exception {
-
-    }
+public class ServicePropertyGetTest {
 
     @Test
     void testDeserialization() throws Exception {
-        File file = ResourceUtils.getFile("classpath:json/specification/thing-event-property-pack-post.json");
+        File file = ResourceUtils.getFile("classpath:json/specification/thing-service-property-get.json");
         String json = FileUtil.readString(file, StandardCharsets.UTF_8);
 
-        Assertions.assertNotNull(json, "测试代码无法读取 thing-event-property-pack-post.json 文件");
+        Assertions.assertNotNull(json, "测试代码无法读取 thing-service-property-get.json 文件");
 
-        LinkSysRequest<EventPropertyPackPost> request = JacksonUtils.toObject(json, new TypeReference<>() {
+        LinkRequest<ServicePropertyGet> request = JacksonUtils.toObject(json, new TypeReference<>() {
         });
 
-        Assertions.assertTrue(ObjectUtils.isNotEmpty(request) && ObjectUtils.isNotEmpty(request.getParams()) && CollectionUtils.isNotEmpty(request.getParams().getSubDevices()), "PostPackPropertyRequest 反序列化出错");
+        Assertions.assertTrue(ObjectUtils.isNotEmpty(request) && ObjectUtils.isNotEmpty(request.getParams()), "PostPropertyRequest 反序列化出错");
     }
 }

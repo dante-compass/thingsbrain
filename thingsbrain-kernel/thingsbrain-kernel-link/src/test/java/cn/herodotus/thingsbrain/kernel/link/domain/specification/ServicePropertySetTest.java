@@ -23,43 +23,38 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.kernel.link.definition;
+package cn.herodotus.thingsbrain.kernel.link.domain.specification;
 
-import cn.hutool.v7.core.data.id.IdUtil;
+import cn.herodotus.dante.core.jackson.JacksonUtils;
+import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
+import cn.hutool.v7.core.io.file.FileUtil;
+import org.apache.commons.lang3.ObjectUtils;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.util.ResourceUtils;
+import tools.jackson.core.type.TypeReference;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
 
 /**
- * <p>Description: 设备服务调用（异步调用）请求参数实体 </p>
+ * <p>Description: 设备上报属性请求实体测试 </p>
  *
  * @author : gengwei.zheng
- * @date : 2024/11/2 0:27
+ * @date : 2024/11/1 22:21
  */
-public class LinkRequest<T> extends AbstractRequest<T> {
+public class ServicePropertySetTest {
 
-    public LinkRequest() {
-        super();
-    }
+    @Test
+    void testDeserialization() throws Exception {
+        File file = ResourceUtils.getFile("classpath:json/specification/thing-service-property-set.json");
+        String json = FileUtil.readString(file, StandardCharsets.UTF_8);
 
+        Assertions.assertNotNull(json, "测试代码无法读取 thing-service-property-set.json 文件");
 
-    private LinkRequest(String id, String method, T param) {
-        super();
-        this.setMethod(method);
-        this.setParams(param);
-        this.setId(id);
-    }
+        LinkRequest<ServicePropertySet> request = JacksonUtils.toObject(json, new TypeReference<>() {
+        });
 
-    public static LinkRequest<Map<String, Object>> with(String method) {
-        Map<String, Object> param = new HashMap<>();
-        return with(method, param);
-    }
-
-    public static <T> LinkRequest<T> with(String method, T param) {
-        return with(IdUtil.fastSimpleUUID(), method, param);
-    }
-
-    public static <T> LinkRequest<T> with(String id, String method, T param) {
-        return new LinkRequest<>(id, method, param);
+        Assertions.assertTrue(ObjectUtils.isNotEmpty(request) && ObjectUtils.isNotEmpty(request.getParams()), "PostPropertyRequest 反序列化出错");
     }
 }

@@ -28,10 +28,8 @@ package cn.herodotus.thingsbrain.kernel.link.domain.specification;
 import cn.herodotus.dante.core.jackson.JacksonUtils;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
 import cn.hutool.v7.core.io.file.FileUtil;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.ResourceUtils;
 import tools.jackson.core.type.TypeReference;
@@ -40,27 +38,23 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 
 /**
- * <p>Description: 设备批量上报属性、事件请求实体测试 </p>
+ * <p>Description: 设备上报属性请求实体测试 </p>
  *
  * @author : gengwei.zheng
- * @date : 2024/11/1 23:58
+ * @date : 2024/11/1 22:21
  */
-public class EventPropertyBatchPostParamTest {
-
-    @BeforeEach
-    public void setup() throws Exception {
-
-    }
+public class EventPropertyPostTest {
 
     @Test
-    void deserialization() throws Exception {
-        File file = ResourceUtils.getFile("classpath:json/specification/thing-event-property-batch-post.json");
+    void testDeserialization() throws Exception {
+        File file = ResourceUtils.getFile("classpath:json/specification/thing-event-property-post.json");
         String json = FileUtil.readString(file, StandardCharsets.UTF_8);
 
-        Assertions.assertNotNull(json, "测试代码无法读取 thing-event-property-batch-post.json 文件");
+        Assertions.assertNotNull(json, "测试代码无法读取 thing-event-property-post.json 文件");
 
-        LinkSysRequest<EventPropertyBatchPost> request = JacksonUtils.toObject(json, new TypeReference<>() {
+        LinkSysRequest<EventPropertyPost> request = JacksonUtils.toObject(json, new TypeReference<>() {
         });
-        Assertions.assertTrue(ObjectUtils.isNotEmpty(request) && ObjectUtils.isNotEmpty(request.getParams()) && MapUtils.isNotEmpty(request.getParams().getProperties()), "PostBatchPropertyRequest 反序列化出错");
+
+        Assertions.assertTrue(ObjectUtils.isNotEmpty(request) && ObjectUtils.isNotEmpty(request.getParams()), "PostPropertyRequest 反序列化出错");
     }
 }
