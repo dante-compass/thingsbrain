@@ -37,6 +37,12 @@ import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslArgumen
  */
 public class FromTslArgumentConverter extends AbstractFromAuditEntityConverter<TslArgument, HerodotusTslArgument> {
 
+    private final String productId;
+
+    public FromTslArgumentConverter(String productId) {
+        this.productId = productId;
+    }
+
     @Override
     public HerodotusTslArgument getInstance() {
         return new HerodotusTslArgument();
@@ -45,10 +51,10 @@ public class FromTslArgumentConverter extends AbstractFromAuditEntityConverter<T
     @Override
     public void prepare(TslArgument source, HerodotusTslArgument target) {
         target.setArgumentId(source.getId());
-        target.setOutput(source.getOutput());
         target.setIdentifier(source.getIdentifier());
         target.setName(source.getName());
         target.setType(source.getType());
         target.setSpecs(source.getSpecs());
+        target.setProductId(productId);
     }
 }

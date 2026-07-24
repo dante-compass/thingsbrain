@@ -26,6 +26,9 @@
 package cn.herodotus.thingsbrain.kernel.tsl.definition;
 
 import cn.herodotus.thingsbrain.kernel.tsl.enums.AccessMode;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.CallType;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.EventType;
 
 /**
  * <p>Description: 模型转换元数据 </p>
@@ -33,11 +36,68 @@ import cn.herodotus.thingsbrain.kernel.tsl.enums.AccessMode;
  * @author : gengwei.zheng
  * @date : 2025/5/3 23:12
  */
-public interface Metadata {
+public interface SpecificationMetadata {
 
-    String getSpecs();
+    /**
+     * 物模型标识符
+     *
+     * @return 物模型标识符
+     */
+    String getIdentifier();
 
+    /**
+     * 物模型功能名称
+     *
+     * @return 物模型功能名称
+     */
+    String getName();
+
+    /**
+     * 物模型维度
+     *
+     * @return 物模型维度
+     */
+    Dimension getDimension();
+
+    /**
+     * 物模型 Property 读写类型
+     *
+     * @return 物模型 Property 读写类型
+     */
+    AccessMode getAccessMode();
+
+    /**
+     * 物模型 Event 事件类型
+     *
+     * @return 物模型 Event 事件类型
+     */
+    EventType getEventType();
+
+    /**
+     * 物模型 Service 服务调用类型
+     *
+     * @return 物模型 Service 服务调用类型
+     */
+    CallType getCallType();
+
+    /**
+     * 物模型是否为必需标识
+     *
+     * @return 物模型是否为必需标识
+     */
     Boolean getRequired();
 
-    AccessMode getAccessMode();
+    /**
+     * 物模型功能描述，目前仅 Service 和 Event 需要
+     *
+     * @return 物模型功能描述
+     */
+    String getDescription();
+
+    /**
+     * 物模型功能方法，目前仅 Service 和 Event 需要
+     *
+     * @return 物模型功能方法
+     */
+    String getMethod();
 }

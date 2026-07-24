@@ -27,6 +27,9 @@ package cn.herodotus.thingsbrain.persistence.jpa.logic.repository;
 
 import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslArgument;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  * <p>Description: 物联网物模型属性 Jpa 存储 Repository </p>
@@ -35,4 +38,15 @@ import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslArgumen
  * @date : 2024/9/7 21:50
  */
 public interface HerodotusTslArgumentRepository extends BaseJpaRepository<HerodotusTslArgument, String> {
+
+    /**
+     * 根据 ProductId 删除对应物模型参数。
+     * <p>
+     * 因为改操作通常会与 Product 的删除同时使用，所以使用 ProductId，方便操作
+     *
+     * @param productId 物联网 ProductId
+     */
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("delete from HerodotusTslArgument a where a.productId = : productId")
+    void deleteAllByProductId(@Param("productId") String productId);
 }

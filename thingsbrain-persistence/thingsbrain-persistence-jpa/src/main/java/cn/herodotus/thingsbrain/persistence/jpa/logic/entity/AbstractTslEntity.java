@@ -23,31 +23,38 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.persistence.jpa.converter;
+package cn.herodotus.thingsbrain.persistence.jpa.logic.entity;
 
-import cn.herodotus.dante.data.jpa.converter.AbstractToAuditEntityConverter;
-import cn.herodotus.thingsbrain.persistence.commons.domain.TslArgument;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslArgument;
+import cn.herodotus.dante.data.jpa.entity.AbstractAuditEntity;
+import com.google.common.base.MoreObjects;
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 
 /**
- * <p>Description: {@link HerodotusTslArgument} 转 {@link TslArgument} 转换器 </p>
+ * <p>Description: 物模型 Attribute 公共属性 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/4/8 16:09
+ * @date : 2024/9/20 17:23
  */
-public class ToTslArgumentConverter extends AbstractToAuditEntityConverter<HerodotusTslArgument, TslArgument> {
+@MappedSuperclass
+public abstract class AbstractTslEntity extends AbstractAuditEntity {
 
-    @Override
-    public TslArgument getInstance() {
-        return new TslArgument();
+    @Column(name = "product_id", length = 64)
+    private String productId;
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     @Override
-    public void prepare(HerodotusTslArgument source, TslArgument target) {
-        target.setId(source.getArgumentId());
-        target.setIdentifier(source.getIdentifier());
-        target.setName(source.getName());
-        target.setType(source.getType());
-        target.setSpecs(source.getSpecs());
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("productId", productId)
+                .addValue(super.toString())
+                .toString();
     }
 }

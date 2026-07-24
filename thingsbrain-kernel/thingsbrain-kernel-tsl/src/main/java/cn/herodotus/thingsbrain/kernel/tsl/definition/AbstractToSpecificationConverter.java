@@ -28,13 +28,12 @@ package cn.herodotus.thingsbrain.kernel.tsl.definition;
 import cn.herodotus.thingsbrain.kernel.tsl.DimensionFactory;
 import cn.herodotus.thingsbrain.kernel.tsl.Specification;
 import cn.herodotus.thingsbrain.kernel.tsl.domain.*;
-import cn.herodotus.thingsbrain.kernel.tsl.enums.AccessMode;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
 import org.springframework.core.convert.converter.Converter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>Description: 物模型功能转物模型定义转换器 </p>
@@ -42,10 +41,7 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2025/5/3 18:13
  */
-public abstract class AbstractToSpecificationConverter<S extends Metadata> implements Converter<List<S>, Specification> {
-
-    protected static final String KEY_INPUT = "input";
-    protected static final String KEY_OUTPUT = "output";
+public abstract class AbstractToSpecificationConverter<S extends SpecificationMetadata> implements Converter<List<S>, Specification> {
 
     private final String productKey;
 
@@ -59,64 +55,90 @@ public abstract class AbstractToSpecificationConverter<S extends Metadata> imple
      * @param functions 物模型功能列表
      * @return 物模型功能分组 {@link Map}
      */
-    protected abstract Map<Dimension, List<S>> createFunctionGroup(List<S> functions);
+    private Map<Dimension, List<S>> createFunctionGroup(List<S> functions) {
+        return functions.stream().collect(Collectors.groupingBy(S::getDimension));
+    }
 
     /**
      * 转换物模型属性，并将其设置到物模性定义 {@link Specification} 中
      *
      * @param specification 物模性定义 {@link Specification}
-     * @param functions     物模型属性功能
+     * @param functions     物模型属性功能列表
      */
-    protected void convertProperties(Specification specification, List<S> functions) {
-        PropertyMetadata<S> metadata = new PropertyMetadata<>();
-        metadata.add(functions);
+    private void convertProperties(Specification specification, List<S> functions) {
+        functions.forEach(function -> {
+            // 一个 function 对应一个 Event。构造一个 PropertyDimension
+            PropertyDimension dimension = DimensionFactory.property(function.getName(), function.getIdentifier(), function.getRequired(), function.getAccessMode());
 
-        specification.setProperties(metadata.getDimensions());
+            // 从 function 中提取对应的 Argument，并设置到 PropertyDimension
+            appendArgumentToProperty(dimension, function);
 
-        EventDimension postEventDimension = DimensionFactory.post(metadata.getReadOnlyItems());
-        ServiceDimension setServiceDimension = DimensionFactory.set(metadata.getReadWriteItems());
-        ServiceDimension getServiceDimension = DimensionFactory.get(metadata.getReadOnlyItems(), metadata.getReadOnlyItems());
-
-        specification.add(postEventDimension);
-        specification.add(setServiceDimension);
-        specification.add(getServiceDimension);
+            // 将该 Property Function 转成的 PropertyDimension 添加至 specification
+            specification.add(dimension);
+        });
     }
+
+    /**
+     * 转换物模型属性，并将其设置到物模性定义，并将其设置到 {@link PropertyDimension} 中
+     *
+     * @param dimension 物模型 Property {@link PropertyDimension}
+     * @param function  物模型功能定义数据
+     */
+    protected abstract void appendArgumentToProperty(PropertyDimension dimension, S function);
 
     /**
      * 转换物模型事件，并将其设置到物模性定义 {@link Specification} 中
      *
      * @param specification 物模性定义 {@link Specification}
-     * @param functions     物模型事件功能
+     * @param functions     物模型事件功能列表
      */
     private void convertEvents(Specification specification, List<S> functions) {
-        functions.forEach(item -> convertEvent(specification, item));
+        functions.forEach(function -> {
+            // 一个 function 对应一个 Event。先构造一个 EventDimension
+            EventDimension dimension = DimensionFactory.event(function.getName(), function.getIdentifier(), function.getRequired(), function.getEventType(), function.getDescription(), function.getMethod());
+
+            // 从 function 中提取对应的 Argument，并设置到 EventDimension
+            appendArgumentToEvent(dimension, function);
+
+            // 将该 Event Function 转成的 EventDimension 添加至 specification
+            specification.add(dimension);
+        });
     }
 
     /**
      * 转换物模型事件，并将其设置到物模性定义 {@link Specification} 中
      *
-     * @param specification 物模性定义 {@link Specification}
-     * @param function      物模型事件功能
+     * @param dimension 物模型 Property {@link EventDimension}
+     * @param function  物模型功能定义数据
      */
-    protected abstract void convertEvent(Specification specification, S function);
+    protected abstract void appendArgumentToEvent(EventDimension dimension, S function);
 
     /**
      * 转换物模型服务，并将其设置到物模性定义 {@link Specification} 中
      *
      * @param specification 物模性定义 {@link Specification}
-     * @param functions     物模型属性功能
+     * @param functions     物模型属性功能列表
      */
     private void convertServices(Specification specification, List<S> functions) {
-        functions.forEach(item -> convertService(specification, item));
+        functions.forEach(function -> {
+            // 一个 function 对应一个 Service。先构造一个 ServiceDimension
+            ServiceDimension dimension = DimensionFactory.service(function.getName(), function.getIdentifier(), function.getRequired(), function.getCallType(), function.getDescription(), function.getMethod());
+
+            // 一个 Service 对应多个 Input 或者 Output 参数。先构造一个 ServiceDimension
+            appendArgumentToService(dimension, function);
+
+            // 将该 Service Function 转成的 ServiceDimension 添加至 specification
+            specification.add(dimension);
+        });
     }
 
     /**
      * 转换物模型服务，并将其设置到物模性定义 {@link Specification} 中
      *
-     * @param specification 物模性定义 {@link Specification}
-     * @param function      物模型服务功能
+     * @param dimension 物模型 Property {@link ServiceDimension}
+     * @param function  物模型功能定义数据
      */
-    protected abstract void convertService(Specification specification, S function);
+    protected abstract void appendArgumentToService(ServiceDimension dimension, S function);
 
     @Override
     public Specification convert(List<S> source) {
@@ -134,55 +156,5 @@ public abstract class AbstractToSpecificationConverter<S extends Metadata> imple
         convertServices(target, functionGroup.get(Dimension.SERVICE));
 
         return target;
-    }
-
-    static class PropertyMetadata<S extends Metadata> {
-        private final List<PropertyDimension> dimensions;
-        private final List<Argument> readOnlyItems;
-        private final List<Argument> readWriteItems;
-        private final List<String> identifiers;
-
-        public PropertyMetadata() {
-            this.dimensions = new ArrayList<>();
-            this.readOnlyItems = new ArrayList<>();
-            this.readWriteItems = new ArrayList<>();
-            this.identifiers = new ArrayList<>();
-        }
-
-        public void add(List<S> functions) {
-            functions.forEach(function -> add(function.getSpecs(), function.getRequired(), function.getAccessMode()));
-        }
-
-        private void add(String specs, Boolean required, AccessMode accessMode) {
-            // 将 Specs 转换成 Argument 对象
-            Argument argument = DimensionFactory.argument(specs);
-            // 根据 Argument 和相关信息生成 PropertyDimension 并添加到属性列表中，作为物模型属性维度的主体
-            PropertyDimension dimension = DimensionFactory.property(argument.getName(), argument.getIdentifier(), required, accessMode, argument.getDataType());
-            dimensions.add(dimension);
-            // 默认 Post Event OutputData 和 Get Service OutputData 需要包含所有的属性参数
-            readOnlyItems.add(argument);
-            // 默认 Set Service InputData 仅包含 AccessMode 为 ReadWrite 的属性参数
-            if (accessMode == AccessMode.READ_WRITE) {
-                readWriteItems.add(argument);
-            }
-            // Get Service InputData 需要包含所有的属性参数 Identifier
-            identifiers.add(argument.getIdentifier());
-        }
-
-        public List<PropertyDimension> getDimensions() {
-            return dimensions;
-        }
-
-        public List<Argument> getReadOnlyItems() {
-            return readOnlyItems;
-        }
-
-        public List<Argument> getReadWriteItems() {
-            return readWriteItems;
-        }
-
-        public List<String> getIdentifiers() {
-            return identifiers;
-        }
     }
 }

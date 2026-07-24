@@ -25,8 +25,13 @@
 
 package cn.herodotus.thingsbrain.persistence.commons.domain;
 
+import cn.herodotus.dante.core.jackson.JsonToStringDeserializer;
+import cn.herodotus.dante.core.jackson.StringToJsonSerializer;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.ArgumentType;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 /**
  * <p>Description: 物联网物模型参数统一实体定义 </p>
@@ -35,13 +40,21 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @date : 2025/4/4 16:04
  */
 @Schema(name = "物联网物模型参数统一实体定义")
-public class TslArgument extends AbstractTslArgument {
+public class TslArgument extends AbstractTslEntity {
 
     @Schema(name = "参数Id")
     private String id;
 
-    @Schema(name = "是否是输出数据", description = "主要用于事件、服务区分输入数据和输出数据。属性不需要该字段")
-    private Boolean output = Boolean.TRUE;
+    @Schema(name = "属性类型")
+    private ArgumentType type;
+
+    /**
+     * Specs 为 JSON 字符串，增加下面的序列化器避免，发送给前端的 JSON 出现 '\'
+     */
+    @Schema(name = "数据描述", description = "采用JSON字符串形式存储属性规格描述内容")
+    @JsonDeserialize(using = JsonToStringDeserializer.class)
+    @JsonSerialize(using = StringToJsonSerializer.class)
+    private String specs;
 
     public String getId() {
         return id;
@@ -51,19 +64,29 @@ public class TslArgument extends AbstractTslArgument {
         this.id = id;
     }
 
-    public Boolean getOutput() {
-        return output;
+    public ArgumentType getType() {
+        return type;
     }
 
-    public void setOutput(Boolean output) {
-        this.output = output;
+    public void setType(ArgumentType type) {
+        this.type = type;
+    }
+
+    public String getSpecs() {
+        return specs;
+    }
+
+    public void setSpecs(String specs) {
+        this.specs = specs;
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("id", id)
-                .add("output", output)
+                .add("type", type)
+                .add("specs", specs)
+                .addValue(super.toString())
                 .toString();
     }
 }

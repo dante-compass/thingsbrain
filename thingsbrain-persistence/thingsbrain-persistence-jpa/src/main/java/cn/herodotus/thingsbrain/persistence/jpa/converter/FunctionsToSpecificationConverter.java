@@ -26,15 +26,17 @@
 package cn.herodotus.thingsbrain.persistence.jpa.converter;
 
 import cn.herodotus.thingsbrain.kernel.tsl.DimensionFactory;
-import cn.herodotus.thingsbrain.kernel.tsl.Specification;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.AbstractToSpecificationConverter;
-import cn.herodotus.thingsbrain.kernel.tsl.domain.Argument;
+import cn.herodotus.thingsbrain.kernel.tsl.definition.Argument;
 import cn.herodotus.thingsbrain.kernel.tsl.domain.EventDimension;
+import cn.herodotus.thingsbrain.kernel.tsl.domain.PropertyDimension;
 import cn.herodotus.thingsbrain.kernel.tsl.domain.ServiceDimension;
-import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
+import cn.herodotus.thingsbrain.persistence.commons.enums.TslArgumentCategory;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslArgument;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunctionArgument;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -51,48 +53,64 @@ public class FunctionsToSpecificationConverter extends AbstractToSpecificationCo
         super(productKey);
     }
 
-    @Override
-    protected Map<Dimension, List<HerodotusTslFunction>> createFunctionGroup(List<HerodotusTslFunction> functions) {
-        return functions.stream().collect(Collectors.groupingBy(HerodotusTslFunction::getDimension));
+    private Argument toArgument(HerodotusTslArgument herodotusTslArgument) {
+        return DimensionFactory.argument(herodotusTslArgument.getSpecs());
     }
 
-    @Override
-    protected void convertEvent(Specification specification, HerodotusTslFunction function) {
-        List<Argument> arguments = toArguments(function.getArguments());
-        EventDimension eventDimension = DimensionFactory.event(function.getName(), function.getIdentifier(), function.getRequired(), function.getEventType(), function.getDescription(), arguments);
-        specification.add(eventDimension);
-    }
-
-    @Override
-    protected void convertService(Specification specification, HerodotusTslFunction function) {
-        ServiceDimension serviceDimension = DimensionFactory.service(function.getName(), function.getIdentifier(), function.getRequired(), function.getCallType(), function.getDescription(), null, null);
-        toArgumentsWithGroup(function.getArguments(), serviceDimension);
-        specification.add(serviceDimension);
-    }
-
-    private List<Argument> toArguments(Set<HerodotusTslArgument> arguments) {
-        return Optional.ofNullable(arguments)
-                .map(item -> item.stream().map(this::toArgument).toList())
+    /**
+     * 从 {@link Set<HerodotusTslFunctionArgument>} 提取对应的 Arguments
+     *
+     * @param functionArguments Function 与 Arguments 关联关系 {@link HerodotusTslFunctionArgument}
+     * @return Argument 列表 {@link List<HerodotusTslArgument>}
+     */
+    private List<Argument> toArguments(Set<HerodotusTslFunctionArgument> functionArguments) {
+        return Optional.ofNullable(functionArguments)
+                .map(items -> items.stream()
+                        .map(HerodotusTslFunctionArgument::getArgument)
+                        .map(this::toArgument)
+                        .toList())
                 .orElse(new LinkedList<>());
     }
 
+    @Override
+    protected void appendArgumentToProperty(PropertyDimension dimension, HerodotusTslFunction function) {
+        // 一个 Property 对应一个 Argument，先取到 Argument
+        Argument argument = toArgument(function.getFirstArgument());
 
-    private void toArgumentsWithGroup(Set<HerodotusTslArgument> arguments, ServiceDimension dimension) {
-        if (CollectionUtils.isNotEmpty(arguments)) {
-            Map<String, List<Argument>> maps = arguments.stream().collect(
-                    Collectors.groupingBy(this::grouping,
-                            Collectors.mapping(this::toArgument, Collectors.toList())));
-
-            dimension.setInputData(maps.get(KEY_INPUT));
-            dimension.setOutputData(maps.get(KEY_OUTPUT));
+        // 将 Argument 设置到 PropertyDimension 中
+        if (ObjectUtils.isNotEmpty(argument)) {
+            dimension.setDataType(argument.getDataType());
         }
     }
 
-    private String grouping(HerodotusTslArgument argument) {
-        return argument.getOutput() ? KEY_OUTPUT : KEY_INPUT;
+    @Override
+    protected void appendArgumentToEvent(EventDimension dimension, HerodotusTslFunction function) {
+        // 一个 Event 对应多个 Output Argument，先取到 Argument
+        List<Argument> arguments = toArguments(function.getArguments());
+
+        if (CollectionUtils.isNotEmpty(arguments)) {
+            dimension.setOutputData(arguments);
+        }
     }
 
-    private Argument toArgument(HerodotusTslArgument herodotusTslArgument) {
-        return DimensionFactory.argument(herodotusTslArgument.getSpecs());
+    private TslArgumentCategory groupingServiceArguments(HerodotusTslFunctionArgument functionArgument) {
+        return functionArgument.getCategory() == TslArgumentCategory.SERVICES_OUTPUT_DATA ? TslArgumentCategory.SERVICES_OUTPUT_DATA : TslArgumentCategory.SERVICES_INPUT_DATA;
+    }
+
+    private void getServiceArguments(ServiceDimension dimension, Set<HerodotusTslFunctionArgument> functionArguments) {
+        if (CollectionUtils.isNotEmpty(functionArguments)) {
+            Map<TslArgumentCategory, List<Argument>> maps = functionArguments.stream().collect(
+                    Collectors.groupingBy(this::groupingServiceArguments,
+                            Collectors.mapping(item -> toArgument(item.getArgument()), Collectors.toList())));
+
+            dimension.setInputData(maps.get(TslArgumentCategory.SERVICES_INPUT_DATA));
+            dimension.setOutputData(maps.get(TslArgumentCategory.SERVICES_OUTPUT_DATA));
+        }
+    }
+
+    @Override
+    protected void appendArgumentToService(ServiceDimension dimension, HerodotusTslFunction function) {
+        // 一个 Service 对应多个 Input 或者 Output 参数。解析并设置到 ServiceDimension
+        getServiceArguments(dimension, function.getArguments());
     }
 }

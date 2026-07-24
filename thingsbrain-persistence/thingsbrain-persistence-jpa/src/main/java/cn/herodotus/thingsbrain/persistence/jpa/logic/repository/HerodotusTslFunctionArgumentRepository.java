@@ -23,39 +23,31 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.kernel.tsl.domain;
+package cn.herodotus.thingsbrain.persistence.jpa.logic.repository;
 
-import cn.herodotus.thingsbrain.kernel.tsl.definition.AbstractArgument;
-import cn.herodotus.thingsbrain.kernel.tsl.jackson2.SpecificationViews;
-import com.fasterxml.jackson.annotation.JsonView;
-import com.google.common.base.MoreObjects;
+import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunctionArgument;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.generator.HerodotusTslFunctionArgumentId;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
- * <p>Description: 物模型数据条目基础定义 </p>
+ * <p>Description: 物联网物模型功能与参数关联 Jpa 存储 Repository </p>
  *
- * @author : gengwei.zheng
- * @date : 2024/8/2 17:43
+ * @author : gengwei_zheng
+ * @date : 2026/7/20 13:03
  */
-public class Argument extends AbstractArgument {
+public interface HerodotusTslFunctionArgumentRepository extends BaseJpaRepository<HerodotusTslFunctionArgument, HerodotusTslFunctionArgumentId> {
 
-    @JsonView(SpecificationViews.SimpleView.class)
-    private DataType dataType;
-
-    public Argument() {
-    }
-
-    public DataType getDataType() {
-        return dataType;
-    }
-
-    public void setDataType(DataType dataType) {
-        this.dataType = dataType;
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("dataType", dataType)
-                .toString();
-    }
+    /**
+     * 根据 ProductId 删除对应物模型配置。
+     * <p>
+     * 因为改操作通常会与 Product 的删除同时使用，所以使用 ProductId，方便操作
+     *
+     * @param productId 物联网 ProductId
+     */
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("delete from HerodotusTslFunctionArgument f where f.productId = : productId")
+    void deleteAllByProductId(@Param("productId") String productId);
 }

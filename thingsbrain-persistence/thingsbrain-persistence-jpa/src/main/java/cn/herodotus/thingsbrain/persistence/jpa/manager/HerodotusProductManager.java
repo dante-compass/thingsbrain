@@ -33,7 +33,6 @@ import cn.herodotus.thingsbrain.persistence.jpa.converter.HerodotusProductToAuth
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusProduct;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusProductService;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusTslFunctionService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,13 +55,13 @@ public class HerodotusProductManager {
     private static final Logger log = LoggerFactory.getLogger(HerodotusProductManager.class);
 
     private final HerodotusProductService herodotusProductService;
-    private final HerodotusTslFunctionService herodotusTslFunctionService;
+    private final HerodotusTslFunctionManager herodotusTslFunctionManager;
     private final AuthenticationManager authenticationManager;
     private final Converter<HerodotusProduct, RegisteredClientTransmitter> toAuthentication;
 
-    public HerodotusProductManager(HerodotusProductService herodotusProductService, HerodotusTslFunctionService herodotusTslFunctionService, AuthenticationManager authenticationManager) {
+    public HerodotusProductManager(HerodotusProductService herodotusProductService, HerodotusTslFunctionManager herodotusTslFunctionManager, AuthenticationManager authenticationManager) {
         this.herodotusProductService = herodotusProductService;
-        this.herodotusTslFunctionService = herodotusTslFunctionService;
+        this.herodotusTslFunctionManager = herodotusTslFunctionManager;
         this.authenticationManager = authenticationManager;
         this.toAuthentication = new HerodotusProductToAuthenticationConverter();
     }
@@ -95,12 +94,12 @@ public class HerodotusProductManager {
      */
     private HerodotusProduct switchAuthentication(HerodotusProduct oldProduct, HerodotusProduct newProduct) {
 
-        log.debug("[ThingsBrain] |- [SWITCH-AUTHENTICATION] Checking switch authentication status.");
+        log.debug("[ThingsMesh] |- [SWITCH-AUTHENTICATION] Checking switch authentication status.");
 
         // 和数据库中存储的 product getRegistration 值进行对比，如果不同就意味着状态产生了变化
         if (newProduct.getRegistration() != oldProduct.getRegistration()) {
 
-            log.debug("[ThingsBrain] |- [SWITCH-AUTHENTICATION] Processing switch authentication.");
+            log.debug("[ThingsMesh] |- [SWITCH-AUTHENTICATION] Processing switch authentication.");
 
             // 如果是开启动态注册
             if (newProduct.getRegistration()) {
@@ -122,12 +121,12 @@ public class HerodotusProductManager {
     public void deleteById(String id) {
         authenticationManager.disable(id);
         herodotusProductService.deleteById(id);
-        herodotusTslFunctionService.deleteAllByProductId(id);
+        herodotusTslFunctionManager.deleteAllByProductId(id);
     }
 
-    public Optional<Specification> generateSpecification(String productKey) {
+    public Optional<Specification> generate(String productId, String productKey) {
         Converter<List<HerodotusTslFunction>, Specification> toSpecification = new FunctionsToSpecificationConverter(productKey);
-        List<HerodotusTslFunction> functions = herodotusTslFunctionService.findAllByProductKey(productKey);
+        List<HerodotusTslFunction> functions = herodotusTslFunctionManager.findAllByProductId(productId);
         return Optional.ofNullable(functions)
                 .filter(CollectionUtils::isNotEmpty)
                 .map(toSpecification::convert);

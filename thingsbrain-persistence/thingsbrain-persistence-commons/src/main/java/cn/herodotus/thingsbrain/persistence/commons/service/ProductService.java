@@ -68,7 +68,7 @@ public interface ProductService extends BaseWriteAndPageService<Product, String>
      * 根据产品 ProductKey，模糊查询产品
      *
      * @param productKey 物联网 ProductKey
-     * @return 产品列表 {@link List <Product>}
+     * @return 产品列表 {@link List<Product>}
      */
     List<Product> findAllByProductKey(String productKey);
 
@@ -86,8 +86,8 @@ public interface ProductService extends BaseWriteAndPageService<Product, String>
     /**
      * 生成物模型声明
      *
-     * @param productKey 物联网 ProductKey
+     * @param domain 当前产品信息 {@link Product}
      * @return 物模型声明对象
      */
-    Optional<Specification> generate(String productKey);
+    Optional<Specification> generate(Product domain);
 }

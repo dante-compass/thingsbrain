@@ -28,7 +28,7 @@ package cn.herodotus.thingsbrain.kernel.tsl.specs;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.Describe;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.Specs;
 import cn.herodotus.thingsbrain.kernel.tsl.describe.ObjectDescribe;
-import cn.herodotus.thingsbrain.kernel.tsl.domain.Argument;
+import cn.herodotus.thingsbrain.kernel.tsl.definition.Argument;
 
 import java.util.ArrayList;
 

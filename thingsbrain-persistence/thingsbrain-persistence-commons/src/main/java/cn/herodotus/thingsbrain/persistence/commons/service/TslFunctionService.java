@@ -37,5 +37,5 @@ import org.springframework.data.domain.Page;
  */
 public interface TslFunctionService extends BaseWriteAndPageService<TslFunction, String> {
 
-    Page<TslFunction> findByProductId(int pageNumber, int pageSize, String productId);
+    Page<TslFunction> findByCondition(int pageNumber, int pageSize, String productId, String productKey, Boolean required);
 }

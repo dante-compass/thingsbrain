@@ -25,7 +25,8 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.domain;
 
-import cn.herodotus.thingsbrain.kernel.tsl.definition.AbstractDimension;
+import cn.herodotus.thingsbrain.kernel.tsl.definition.AbstractNonPropertyDimension;
+import cn.herodotus.thingsbrain.kernel.tsl.definition.Argument;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.CallType;
 import cn.herodotus.thingsbrain.kernel.tsl.jackson2.SpecificationViews;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -40,14 +41,14 @@ import java.util.List;
  * @author : gengwei.zheng
  * @date : 2024/8/2 20:35
  */
-public class ServiceDimension extends AbstractDimension {
+public class ServiceDimension extends AbstractNonPropertyDimension {
     /**
      * async（异步调用）或sync（同步调用）
      */
     @JsonView(SpecificationViews.CompleteView.class)
     private CallType callType;
 
-    @JsonView(SpecificationViews.CompleteView.class)
+    @JsonView(SpecificationViews.SimpleView.class)
     private List<Argument> inputData = new LinkedList<>();
 
     public CallType getCallType() {

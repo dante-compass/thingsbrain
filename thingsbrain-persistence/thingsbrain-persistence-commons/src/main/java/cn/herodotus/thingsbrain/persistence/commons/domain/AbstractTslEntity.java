@@ -23,37 +23,34 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.persistence.jpa.logic.entity;
+package cn.herodotus.thingsbrain.persistence.commons.domain;
 
-import cn.herodotus.dante.data.jpa.entity.AbstractAuditEntity;
+import cn.herodotus.dante.core.jackson.JsonToStringDeserializer;
+import cn.herodotus.dante.core.jackson.StringToJsonSerializer;
+import cn.herodotus.dante.data.commons.entity.AbstractAuditEntity;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.ArgumentType;
 import com.google.common.base.MoreObjects;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.MappedSuperclass;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 /**
- * <p>Description: 物模型 Attribute 公共属性 </p>
+ * <p>Description: 物联网物模型参数共性参数统一抽象定义 </p>
  *
  * @author : gengwei.zheng
  * @date : 2024/9/20 17:23
  */
-@MappedSuperclass
-public abstract class AbstractTslArgument extends AbstractAuditEntity {
+@Schema(name = "物联网物模型参数共性参数统一抽象定义")
+public abstract class AbstractTslEntity extends AbstractAuditEntity {
 
-    @Column(name = "identifier", length = 50)
+    @Schema(name = "属性唯一标识符", description = "物模型模块下唯一")
+    @Size(max = 50)
     private String identifier;
 
-    @Column(name = "argument_name", length = 30)
+    @Schema(name = "属性名称")
+    @Size(max = 30)
     private String name;
-
-    @Column(name = "argument_type", length = 50)
-    @Enumerated(EnumType.STRING)
-    private ArgumentType type;
-
-    @Column(name = "argument_specs", columnDefinition = "TEXT")
-    private String specs;
 
     public String getIdentifier() {
         return identifier;
@@ -67,24 +64,8 @@ public abstract class AbstractTslArgument extends AbstractAuditEntity {
         return name;
     }
 
-    public void setName(String argumentName) {
-        this.name = argumentName;
-    }
-
-    public ArgumentType getType() {
-        return type;
-    }
-
-    public void setType(ArgumentType argumentType) {
-        this.type = argumentType;
-    }
-
-    public String getSpecs() {
-        return specs;
-    }
-
-    public void setSpecs(String argumentSpecs) {
-        this.specs = argumentSpecs;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -92,8 +73,7 @@ public abstract class AbstractTslArgument extends AbstractAuditEntity {
         return MoreObjects.toStringHelper(this)
                 .add("identifier", identifier)
                 .add("name", name)
-                .add("type", type)
-                .add("specs", specs)
+                .addValue(super.toString())
                 .toString();
     }
 }

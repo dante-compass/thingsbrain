@@ -23,45 +23,28 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.persistence.commons.domain;
+package cn.herodotus.thingsbrain.persistence.jpa.logic.entity;
 
-import cn.herodotus.dante.core.jackson.JsonToStringDeserializer;
-import cn.herodotus.dante.core.jackson.StringToJsonSerializer;
-import cn.herodotus.dante.data.commons.entity.AbstractAuditEntity;
-import cn.herodotus.thingsbrain.kernel.tsl.enums.ArgumentType;
 import com.google.common.base.MoreObjects;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
-import tools.jackson.databind.annotation.JsonDeserialize;
-import tools.jackson.databind.annotation.JsonSerialize;
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 
 /**
- * <p>Description: 物联网物模型参数共性参数统一抽象定义 </p>
+ * <p>Description: 物模型功能和参数实体通用定义 </p>
+ * <p>
+ * 物模型功能和参数实体都需要 identifier 和 name 属性。
  *
- * @author : gengwei.zheng
- * @date : 2024/9/20 17:23
+ * @author : gengwei_zheng
+ * @date : 2026/7/20 18:13
  */
-@Schema(name = "物联网物模型参数共性参数统一抽象定义")
-public abstract class AbstractTslArgument extends AbstractAuditEntity {
+@MappedSuperclass
+public abstract class AbstractTslCharacteristic extends AbstractTslEntity {
 
-    @Schema(name = "属性唯一标识符", description = "物模型模块下唯一")
-    @Size(max = 50)
+    @Column(name = "identifier", length = 50)
     private String identifier;
 
-    @Schema(name = "属性名称")
-    @Size(max = 30)
+    @Column(name = "name", length = 30)
     private String name;
-
-    @Schema(name = "属性类型")
-    private ArgumentType type;
-
-    /**
-     * Specs 为 JSON 字符串，增加下面的序列化器避免，发送给前端的 JSON 出现 '\'
-     */
-    @Schema(name = "数据描述", description = "采用JSON字符串形式存储属性规格描述内容")
-    @JsonDeserialize(using = JsonToStringDeserializer.class)
-    @JsonSerialize(using = StringToJsonSerializer.class)
-    private String specs;
 
     public String getIdentifier() {
         return identifier;
@@ -79,29 +62,11 @@ public abstract class AbstractTslArgument extends AbstractAuditEntity {
         this.name = name;
     }
 
-    public ArgumentType getType() {
-        return type;
-    }
-
-    public void setType(ArgumentType type) {
-        this.type = type;
-    }
-
-    public String getSpecs() {
-        return specs;
-    }
-
-    public void setSpecs(String specs) {
-        this.specs = specs;
-    }
-
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("identifier", identifier)
                 .add("name", name)
-                .add("type", type)
-                .add("specs", specs)
                 .addValue(super.toString())
                 .toString();
     }

@@ -79,10 +79,9 @@ public class JpaTslFunctionService implements TslFunctionService {
         delegate.deleteById(id);
     }
 
-
     @Override
-    public Page<TslFunction> findByProductId(int pageNumber, int pageSize, String productId) {
-        Page<HerodotusTslFunction> pages = delegate.findByProductId(pageNumber, pageSize, productId);
+    public Page<TslFunction> findByCondition(int pageNumber, int pageSize, String productId, String productKey, Boolean required) {
+        Page<HerodotusTslFunction> pages = delegate.findByCondition(pageNumber, pageSize, productId, productKey, required);
         return pages.map(toFunction::convert);
     }
 }

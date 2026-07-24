@@ -83,19 +83,23 @@ public class TslFunctionController extends AbstractEntityWriteAndPageController<
     }
 
     @AccessLimited
-    @Operation(summary = "模糊条件查询物模型功能模块", description = "根据动态输入的字段模糊查询物模型功能模块",
-            responses = {@ApiResponse(description = "物模型功能模块分页列表", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Map.class)))})
+    @Operation(summary = "模糊条件查询物模型功能", description = "根据动态输入的字段模糊查询物模型功能信息",
+            responses = {@ApiResponse(description = "模型功能列表", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Map.class)))})
     @Parameters({
             @Parameter(name = "pageNumber", required = true, description = "当前页码"),
             @Parameter(name = "pageSize", required = true, description = "每页显示数量"),
-            @Parameter(name = "productId", description = "产品ID"),
+            @Parameter(name = "productId", description = "物联网 ProductId"),
+            @Parameter(name = "productKey", description = "物联网 ProductKey"),
+            @Parameter(name = "required", description = "是否为必需功能"),
     })
     @GetMapping("/condition")
     public Result<Map<String, Object>> findByCondition(
             @NotNull @RequestParam("pageNumber") Integer pageNumber,
             @NotNull @RequestParam("pageSize") Integer pageSize,
-            @RequestParam(value = "productKey") String productId) {
-        Page<TslFunction> pages = tslFunctionService.findByProductId(pageNumber, pageSize, productId);
+            @RequestParam(value = "productId", required = false) String productId,
+            @RequestParam(value = "productKey", required = false) String productKey,
+            @RequestParam(value = "required", required = false) Boolean required) {
+        Page<TslFunction> pages = tslFunctionService.findByCondition(pageNumber, pageSize, productId, productKey, required);
         return resultFromPage(pages);
     }
 

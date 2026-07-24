@@ -27,13 +27,29 @@ package cn.herodotus.thingsbrain.persistence.jpa.logic.service;
 
 import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.dante.data.jpa.service.AbstractJpaService;
+import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.AccessMode;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.CallType;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.EventType;
+import cn.herodotus.thingsbrain.persistence.commons.enums.TslArgumentCategory;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslArgument;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunctionArgument;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.repository.HerodotusTslFunctionRepository;
+import jakarta.persistence.criteria.Predicate;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>Description: 物联网物模型模块 Jpa 存储 Service </p>
@@ -55,37 +71,184 @@ public class HerodotusTslFunctionService extends AbstractJpaService<HerodotusTsl
         return herodotusTslFunctionRepository;
     }
 
-    public Page<HerodotusTslFunction> findByProductId(int pageNumber, int pageSize, String productId) {
-        return herodotusTslFunctionRepository.findByProductId(productId, PageRequest.of(pageNumber, pageSize));
-    }
-
-    public List<HerodotusTslFunction> findAllByProductKey(String productKey) {
-        return herodotusTslFunctionRepository.findAllByProductKey(productKey);
-    }
-
     public void deleteAllByProductId(String productId) {
         herodotusTslFunctionRepository.deleteAllByProductId(productId);
     }
 
-//    public List<HerodotusTslFunction> findAllSettableProperties(String productKey) {
-//        return herodotusTslFunctionRepository.findAllByProductKeyAndDimensionAndAccessMode(productKey, Dimension.PROPERTY, AccessMode.READ_WRITE);
-//    }
-//
-//    public List<HerodotusTslFunction> findAllCallableServices(String productKey) {
-//        Specification<HerodotusTslFunction> specification = (root, criteriaQuery, criteriaBuilder) -> {
-//            List<Predicate> predicates = new ArrayList<>();
-//
-//            predicates.add(criteriaBuilder.equal(root.get("productKey"), productKey));
-//            predicates.add(criteriaBuilder.equal(root.get("dimension"), Dimension.SERVICE.name()));
-//
-//            Join<HerodotusTslFunction, HerodotusTslArgument> join = root.join("attributes", JoinType.LEFT);
-//            predicates.add(criteriaBuilder.isFalse(join.get("output")));
-//
-//            Predicate[] predicateArray = new Predicate[predicates.size()];
-//            criteriaQuery.where(criteriaBuilder.and(predicates.toArray(predicateArray)));
-//            return criteriaQuery.getRestriction();
-//        };
-//
-//        return findAll(specification);
-//    }
+    public void deleteAllRequiredByProductId(String productId) {
+        herodotusTslFunctionRepository.deleteAllByProductIdAndRequired(productId, true);
+    }
+
+    public Page<HerodotusTslFunction> findByCondition(int pageNumber, int pageSize, String productId, String productKey, Boolean required) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+        Specification<HerodotusTslFunction> specification = (root, criteriaQuery, criteriaBuilder) -> {
+
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (StringUtils.isNotBlank(productId)) {
+                predicates.add(criteriaBuilder.equal(root.get("productId"), productId));
+            }
+
+            if (StringUtils.isNotBlank(productKey)) {
+                predicates.add(criteriaBuilder.equal(root.get("productKey"), productKey));
+            }
+
+            if (ObjectUtils.isNotEmpty(required)) {
+                predicates.add(criteriaBuilder.equal(root.get("required"), required));
+            }
+
+            Predicate[] predicateArray = new Predicate[predicates.size()];
+            criteriaQuery.where(criteriaBuilder.and(predicates.toArray(predicateArray)));
+            return criteriaQuery.getRestriction();
+        };
+
+        log.info("===========================findByCondition");
+        return this.findByPage(specification, pageable);
+    }
+
+    public long findPropertyNumber(String productId) {
+        return herodotusTslFunctionRepository.countByProductIdAndDimension(productId, Dimension.PROPERTY);
+    }
+
+    public List<HerodotusTslFunction> findAllRequiredByProductId(String productId) {
+        return herodotusTslFunctionRepository.findAllByProductIdAndRequired(productId, true);
+    }
+
+    public List<HerodotusTslFunction> findAllByProductId(String productId) {
+        return herodotusTslFunctionRepository.findAllByProductId(productId);
+    }
+
+
+    /**
+     * 将 Property 类型功能的参数，与物模型默认的 Get、Set Service 以及 Post Event 进行关联。
+     * 1. Property 的 AccessMode 为只读，则将其与标识符为 Get 的 Service 的 OutputData 进行关联。
+     * 2. Property 的 AccessMode 为读写，则将其与标识符为 Get 的 Service 的 OutputData 以及与标识符为 Set 的 Service 的 InputData 进行关联。
+     * 3. Property 将其与标识符为 Post 的 Event 的 OutputData 进行关联。
+     *
+     * @param function   Get、Set Service 或 Post Event 对应的功能 {@link HerodotusTslFunction}
+     * @param argument   新增 Property 对应的 Argument {@link HerodotusTslArgument}
+     * @param accessMode 新增 Property 的访问模式 {@link AccessMode}
+     * @return 更新了关联关系的物模型功能  {@link HerodotusTslFunction}
+     */
+    private HerodotusTslFunction addArgumentToStandardFunction(HerodotusTslFunction function, HerodotusTslArgument argument, AccessMode accessMode) {
+        Set<HerodotusTslFunctionArgument> functionArguments = function.getArguments();
+        // 防止 function.getArguments() 为 null。
+        if (CollectionUtils.isEmpty(functionArguments)) {
+            functionArguments = new HashSet<>();
+        }
+
+        // 如果当前的 function 是 Event, 同时 identifier 为 'post'
+        if (function.getDimension() == Dimension.EVENT && Strings.CS.equals(function.getIdentifier(), ProtocolConstants.ACTION__POST)) {
+            functionArguments.add(new HerodotusTslFunctionArgument(function, argument, TslArgumentCategory.EVENTS_OUTPUT_DATA));
+        }
+
+        // 如果当前的 function 是 Service
+        if (function.getDimension() == Dimension.SERVICE) {
+            // 如果当前的 function 是 Service, 同时 identifier 为 'get'。不管 Property 的 AccessMode 是只读还是读写，都将其加入到 outputData 中
+            if (Strings.CS.equals(function.getIdentifier(), ProtocolConstants.ACTION__GET)) {
+                functionArguments.add(new HerodotusTslFunctionArgument(function, argument, TslArgumentCategory.SERVICES_OUTPUT_DATA));
+            }
+
+            // 如果当前的 function 是 Service, 同时 identifier 为 'set'。
+            if (Strings.CS.equals(function.getIdentifier(), ProtocolConstants.ACTION__SET)) {
+                // 如果 Property 的 AccessMode 是读写，则将其加入到 inputData 中；如果是只读，则忽略
+                if (accessMode == AccessMode.READ_WRITE) {
+                    functionArguments.add(new HerodotusTslFunctionArgument(function, argument, TslArgumentCategory.SERVICES_INPUT_DATA));
+                }
+            }
+        }
+
+        // 更新当前 function 与 argument 的关系 set
+        function.setArguments(functionArguments);
+        return function;
+    }
+
+    /**
+     * 将 Property 类型功能的参数，与物模型默认的 Get、Set Service 以及 Post Event 进行关联。
+     * 1. Property 的 AccessMode 为只读，则将其与标识符为 Get 的 Service 的 OutputData 进行关联。
+     * 2. Property 的 AccessMode 为读写，则将其与标识符为 Get 的 Service 的 OutputData 以及与标识符为 Set 的 Service 的 InputData 进行关联。
+     * 3. Property 将其与标识符为 Post 的 Event 的 OutputData 进行关联。
+     *
+     * @param target   Get、Set Service 或 Post Event 对应的功能 {@link HerodotusTslFunction}
+     * @param property 新增 Property  {@link HerodotusTslFunction}
+     * @return 更新了关联关系的物模型功能  {@link HerodotusTslFunction}
+     */
+    private HerodotusTslFunction addPropertyToStandardFunction(HerodotusTslFunction target, HerodotusTslFunction property) {
+        // 从 Property 中获取到对应的 Argument。目前的设计中 Property 有且只有一个对应的 Argument。
+        Optional<HerodotusTslFunctionArgument> optional = property.getArguments().stream().findFirst();
+
+        return optional.map(HerodotusTslFunctionArgument::getArgument)
+                .map(argument -> addArgumentToStandardFunction(target, argument, property.getAccessMode()))
+                .orElse(null);
+    }
+
+    private HerodotusTslFunction createRequiredPostEvent(String productId, String productKey) {
+        HerodotusTslFunction domain = new HerodotusTslFunction();
+        domain.setProductId(productId);
+        domain.setIdentifier(ProtocolConstants.ACTION__POST);
+        domain.setName(ProtocolConstants.ACTION__POST);
+
+        domain.setProductKey(productKey);
+        domain.setDimension(Dimension.EVENT);
+        domain.setRequired(Boolean.TRUE);
+        domain.setEventType(EventType.INFO);
+        domain.setMethod(ProtocolConstants.METHOD__EVENT_POST);
+        domain.setDescription("属性上报");
+        return domain;
+    }
+
+    private HerodotusTslFunction createRequiredGetService(String productId, String productKey) {
+        HerodotusTslFunction domain = new HerodotusTslFunction();
+        domain.setProductId(productId);
+        domain.setIdentifier(ProtocolConstants.ACTION__GET);
+        domain.setName(ProtocolConstants.ACTION__GET);
+
+        domain.setProductKey(productKey);
+        domain.setDimension(Dimension.SERVICE);
+        domain.setRequired(Boolean.TRUE);
+        domain.setCallType(CallType.ASYNC);
+        domain.setMethod(ProtocolConstants.METHOD__SERVICE_GET);
+        domain.setDescription("属性获取");
+        return domain;
+    }
+
+    private HerodotusTslFunction createRequiredSetService(String productId, String productKey) {
+        HerodotusTslFunction domain = new HerodotusTslFunction();
+        domain.setProductId(productId);
+        domain.setIdentifier(ProtocolConstants.ACTION__SET);
+        domain.setName(ProtocolConstants.ACTION__SET);
+
+        domain.setProductKey(productKey);
+        domain.setDimension(Dimension.SERVICE);
+        domain.setRequired(Boolean.TRUE);
+        domain.setCallType(CallType.ASYNC);
+        domain.setMethod(ProtocolConstants.METHOD__SERVICE_SET);
+        domain.setDescription("属性设置");
+        return domain;
+    }
+
+    private void saveOrUpdateRequiredFunction(HerodotusTslFunction property) {
+        List<HerodotusTslFunction> requiredFunctions = herodotusTslFunctionRepository.findAllByProductIdAndRequired(property.getProductId(), true);
+        if (CollectionUtils.isEmpty(requiredFunctions)) {
+            requiredFunctions = List.of(
+                    createRequiredPostEvent(property.getProductId(), property.getProductKey()),
+                    createRequiredGetService(property.getProductId(), property.getProductKey()),
+                    createRequiredSetService(property.getProductId(), property.getProductKey()));
+        }
+
+        List<HerodotusTslFunction> newFunctions = requiredFunctions.stream()
+                .map(function -> addPropertyToStandardFunction(function, property))
+                .toList();
+        herodotusTslFunctionRepository.saveAll(newFunctions);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public HerodotusTslFunction save(HerodotusTslFunction domain) {
+        HerodotusTslFunction function = herodotusTslFunctionRepository.save(domain);
+        if (ObjectUtils.isNotEmpty(function) && domain.getDimension() == Dimension.PROPERTY) {
+            saveOrUpdateRequiredFunction(function);
+        }
+        return function;
+    }
 }

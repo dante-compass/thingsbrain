@@ -23,9 +23,8 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.kernel.tsl.domain;
+package cn.herodotus.thingsbrain.kernel.tsl.definition;
 
-import cn.herodotus.thingsbrain.kernel.tsl.definition.Specs;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.ArgumentType;
 import cn.herodotus.thingsbrain.kernel.tsl.jackson2.SpecificationViews;
 import cn.herodotus.thingsbrain.kernel.tsl.specs.*;

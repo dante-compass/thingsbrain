@@ -28,13 +28,14 @@ package cn.herodotus.thingsbrain.persistence.jpa.converter;
 import cn.herodotus.dante.data.jpa.converter.AbstractToAuditEntityConverter;
 import cn.herodotus.thingsbrain.persistence.commons.domain.TslArgument;
 import cn.herodotus.thingsbrain.persistence.commons.domain.TslFunction;
+import cn.herodotus.thingsbrain.persistence.commons.domain.TslFunctionArgument;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslArgument;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunctionArgument;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.core.convert.converter.Converter;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>Description: {@link HerodotusTslFunction} 转 {@link TslFunction} 转换器 </p>
@@ -58,7 +59,11 @@ public class ToTslFunctionConverter extends AbstractToAuditEntityConverter<Herod
     @Override
     public void prepare(HerodotusTslFunction source, TslFunction target) {
         target.setId(source.getFunctionId());
+
         target.setProductId(source.getProductId());
+        target.setIdentifier(source.getIdentifier());
+        target.setName(source.getName());
+
         target.setProductKey(source.getProductKey());
         target.setDimension(source.getDimension());
         target.setAccessMode(source.getAccessMode());
@@ -67,18 +72,22 @@ public class ToTslFunctionConverter extends AbstractToAuditEntityConverter<Herod
         target.setRequired(source.getRequired());
         target.setMethod(source.getMethod());
         target.setDescription(source.getDescription());
-        target.setArguments(toArguments(source.getArguments()));
-        target.setIdentifier(source.getIdentifier());
-        target.setName(source.getName());
-        target.setType(source.getType());
-        target.setSpecs(source.getSpecs());
+        target.setArguments(toArgument(source.getArguments()));
     }
 
-    private Set<TslArgument> toArguments(Set<HerodotusTslArgument> source) {
+    private TslFunctionArgument toArgument(Set<HerodotusTslFunctionArgument> source) {
+        TslFunctionArgument functionArgument = new TslFunctionArgument();
         if (CollectionUtils.isNotEmpty(source)) {
-            return source.stream().map(toArgument::convert).collect(Collectors.toSet());
-        } else {
-            return null;
+            source.forEach(herodotusTslFunctionArgument -> {
+                TslArgument tslArgument = toArgument.convert(herodotusTslFunctionArgument.getArgument());
+                switch (herodotusTslFunctionArgument.getCategory()) {
+                    case EVENTS_OUTPUT_DATA -> functionArgument.appendEventOutputData(tslArgument);
+                    case SERVICES_OUTPUT_DATA -> functionArgument.appendServiceOutputData(tslArgument);
+                    case SERVICES_INPUT_DATA -> functionArgument.appendServiceInputData(tslArgument);
+                    default -> functionArgument.setProperty(tslArgument);
+                }
+            });
         }
+        return functionArgument;
     }
 }

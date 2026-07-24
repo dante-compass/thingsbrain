@@ -29,7 +29,7 @@ import cn.hutool.v7.core.io.file.FileUtil;
 import org.apache.commons.lang3.Strings;
 import cn.herodotus.dante.core.jackson.JacksonUtils;
 import cn.herodotus.thingsbrain.kernel.commons.domain.ValidationResult;
-import cn.herodotus.thingsbrain.kernel.tsl.domain.Argument;
+import cn.herodotus.thingsbrain.kernel.tsl.definition.Argument;
 import cn.herodotus.thingsbrain.kernel.tsl.domain.ServiceDimension;
 import cn.herodotus.thingsbrain.kernel.tsl.entity.TslServices;
 import org.junit.jupiter.api.Assertions;

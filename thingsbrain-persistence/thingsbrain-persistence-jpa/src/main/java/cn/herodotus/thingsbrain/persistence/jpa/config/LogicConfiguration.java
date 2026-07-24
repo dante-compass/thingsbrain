@@ -65,17 +65,17 @@ class LogicConfiguration {
     }
 
     @Bean
-    public HerodotusProductManager herodotusProductManager(HerodotusProductService herodotusProductService, HerodotusTslFunctionService herodotusTslFunctionService, AuthenticationManager authenticationManager) {
-        return new HerodotusProductManager(herodotusProductService, herodotusTslFunctionService, authenticationManager);
+    public HerodotusTslFunctionManager herodotusTslFunctionManager(HerodotusTslFunctionService herodotusTslFunctionService, HerodotusTslArgumentService herodotusTslArgumentService, HerodotusTslFunctionArgumentService herodotusTslFunctionArgumentService) {
+        return new HerodotusTslFunctionManager(herodotusTslFunctionService, herodotusTslArgumentService, herodotusTslFunctionArgumentService);
+    }
+
+    @Bean
+    public HerodotusProductManager herodotusProductManager(HerodotusProductService herodotusProductService, HerodotusTslFunctionManager herodotusTslFunctionManager, AuthenticationManager authenticationManager) {
+        return new HerodotusProductManager(herodotusProductService, herodotusTslFunctionManager, authenticationManager);
     }
 
     @Bean
     public HerodotusDeviceManager herodotusDeviceManager(HerodotusDeviceService herodotusDeviceService, HerodotusDeviceConnectionService herodotusDeviceConnectionService, HerodotusMqttAccountService herodotusMqttAccountService, HerodotusMqttCategoryService herodotusMqttCategoryService, AuthenticationManager authenticationManager) {
         return new HerodotusDeviceManager(herodotusDeviceService, herodotusDeviceConnectionService, herodotusMqttAccountService, herodotusMqttCategoryService, authenticationManager);
-    }
-
-    @Bean
-    public HerodotusTslFunctionManager herodotusTslFunctionManager(HerodotusTslFunctionService herodotusTslFunctionService, HerodotusTslArgumentService herodotusTslArgumentService) {
-        return new HerodotusTslFunctionManager(herodotusTslFunctionService, herodotusTslArgumentService);
     }
 }

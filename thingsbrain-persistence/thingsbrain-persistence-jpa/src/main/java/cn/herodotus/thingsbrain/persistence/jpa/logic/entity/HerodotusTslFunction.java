@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.logic.entity;
 
-import cn.herodotus.thingsbrain.kernel.tsl.definition.Metadata;
+import cn.herodotus.thingsbrain.kernel.tsl.definition.SpecificationMetadata;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.AccessMode;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.CallType;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
@@ -33,9 +33,8 @@ import cn.herodotus.thingsbrain.kernel.tsl.enums.EventType;
 import cn.herodotus.thingsbrain.persistence.commons.constant.PersistenceConstants;
 import com.google.common.base.MoreObjects;
 import jakarta.persistence.*;
+import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.HashSet;
@@ -53,17 +52,26 @@ import java.util.Set;
         @Index(name = "iot_tsl_function_pid_idx", columnList = "product_id"),
         @Index(name = "iot_tsl_function_pk_idx", columnList = "product_key")
 })
+@NamedEntityGraph(
+        name = PersistenceConstants.ENTITY_GRAPH_TSL_FUNCTION_WITH_ARGUMENTS,
+        attributeNodes = {
+                @NamedAttributeNode(value = "arguments", subgraph = "function-argument-subgraph")
+        },
+        subgraphs = {
+                @NamedSubgraph(
+                        name = "function-argument-subgraph",
+                        attributeNodes = @NamedAttributeNode(value = "argument")
+                )
+        }
+)
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = PersistenceConstants.REGION_IOT_TSL_FUNCTION)
-public class HerodotusTslFunction extends AbstractTslArgument implements Metadata {
+public class HerodotusTslFunction extends AbstractTslCharacteristic implements SpecificationMetadata {
 
     @Id
     @UuidGenerator
     @Column(name = "function_id", length = 64)
     private String functionId;
-
-    @Column(name = "product_id", length = 64)
-    private String productId;
 
     @Column(name = "product_key", length = 32)
     private String productKey;
@@ -93,15 +101,9 @@ public class HerodotusTslFunction extends AbstractTslArgument implements Metadat
     @Column(name = "description", length = 512)
     private String description;
 
-    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = PersistenceConstants.REGION_IOT_TSL_ARGUMENT)
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    @JoinTable(name = "iot_tsl_function_argument",
-            joinColumns = {@JoinColumn(name = "function_id")},
-            inverseJoinColumns = {@JoinColumn(name = "argument_id")},
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"function_id", "argument_id"})},
-            indexes = {@Index(name = "iot_tsl_function_argument_fid_idx", columnList = "function_id"), @Index(name = "iot_tsl_function_argument_aid_idx", columnList = "argument_id")})
-    private Set<HerodotusTslArgument> arguments = new HashSet<>();
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = PersistenceConstants.REGION_IOT_TSL_FUNCTION_ARGUMENT)
+    @OneToMany(mappedBy = "function", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<HerodotusTslFunctionArgument> arguments = new HashSet<>();
 
     public String getFunctionId() {
         return functionId;
@@ -109,14 +111,6 @@ public class HerodotusTslFunction extends AbstractTslArgument implements Metadat
 
     public void setFunctionId(String functionId) {
         this.functionId = functionId;
-    }
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
     }
 
     public String getProductKey() {
@@ -127,6 +121,7 @@ public class HerodotusTslFunction extends AbstractTslArgument implements Metadat
         this.productKey = productKey;
     }
 
+    @Override
     public Dimension getDimension() {
         return dimension;
     }
@@ -144,6 +139,7 @@ public class HerodotusTslFunction extends AbstractTslArgument implements Metadat
         this.accessMode = accessMode;
     }
 
+    @Override
     public EventType getEventType() {
         return eventType;
     }
@@ -152,6 +148,7 @@ public class HerodotusTslFunction extends AbstractTslArgument implements Metadat
         this.eventType = eventType;
     }
 
+    @Override
     public CallType getCallType() {
         return callType;
     }
@@ -169,6 +166,7 @@ public class HerodotusTslFunction extends AbstractTslArgument implements Metadat
         this.required = required;
     }
 
+    @Override
     public String getMethod() {
         return method;
     }
@@ -177,6 +175,7 @@ public class HerodotusTslFunction extends AbstractTslArgument implements Metadat
         this.method = method;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -185,19 +184,35 @@ public class HerodotusTslFunction extends AbstractTslArgument implements Metadat
         this.description = description;
     }
 
-    public Set<HerodotusTslArgument> getArguments() {
+    public Set<HerodotusTslFunctionArgument> getArguments() {
         return arguments;
     }
 
-    public void setArguments(Set<HerodotusTslArgument> arguments) {
+    public void setArguments(Set<HerodotusTslFunctionArgument> arguments) {
         this.arguments = arguments;
+    }
+
+    public HerodotusTslFunction removeArgument(String identifier) {
+        if (CollectionUtils.isNotEmpty(this.arguments)) {
+            this.arguments.removeIf(item -> item.getArgument().getIdentifier().equals(identifier));
+        }
+        return this;
+    }
+
+    public HerodotusTslArgument getFirstArgument() {
+        if (CollectionUtils.isNotEmpty(this.arguments)) {
+            return arguments.stream()
+                    .findFirst()
+                    .map(HerodotusTslFunctionArgument::getArgument)
+                    .orElse(null);
+        }
+        return null;
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("functionId", functionId)
-                .add("productId", productId)
                 .add("productKey", productKey)
                 .add("dimension", dimension)
                 .add("accessMode", accessMode)
@@ -206,7 +221,6 @@ public class HerodotusTslFunction extends AbstractTslArgument implements Metadat
                 .add("required", required)
                 .add("method", method)
                 .add("description", description)
-                .addValue(super.toString())
                 .toString();
     }
 }

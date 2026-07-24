@@ -23,31 +23,38 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.persistence.jpa.converter;
+package cn.herodotus.thingsbrain.kernel.tsl.definition;
 
-import cn.herodotus.dante.data.jpa.converter.AbstractToAuditEntityConverter;
-import cn.herodotus.thingsbrain.persistence.commons.domain.TslArgument;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslArgument;
+import cn.herodotus.thingsbrain.kernel.tsl.jackson2.SpecificationViews;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.google.common.base.MoreObjects;
 
 /**
- * <p>Description: {@link HerodotusTslArgument} 转 {@link TslArgument} 转换器 </p>
+ * <p>Description: 物模型数据条目基础定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/4/8 16:09
+ * @date : 2024/8/2 17:43
  */
-public class ToTslArgumentConverter extends AbstractToAuditEntityConverter<HerodotusTslArgument, TslArgument> {
+public class Argument extends AbstractArgument {
 
-    @Override
-    public TslArgument getInstance() {
-        return new TslArgument();
+    @JsonView(SpecificationViews.SimpleView.class)
+    private DataType dataType;
+
+    public Argument() {
+    }
+
+    public DataType getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(DataType dataType) {
+        this.dataType = dataType;
     }
 
     @Override
-    public void prepare(HerodotusTslArgument source, TslArgument target) {
-        target.setId(source.getArgumentId());
-        target.setIdentifier(source.getIdentifier());
-        target.setName(source.getName());
-        target.setType(source.getType());
-        target.setSpecs(source.getSpecs());
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("dataType", dataType)
+                .toString();
     }
 }

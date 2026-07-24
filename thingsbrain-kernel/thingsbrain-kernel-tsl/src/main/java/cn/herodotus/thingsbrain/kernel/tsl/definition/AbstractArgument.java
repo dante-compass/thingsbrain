@@ -54,6 +54,8 @@ public abstract class AbstractArgument implements Serializable {
      * Property: 属性名称
      * Event: 事件名称
      * Service: 服务名称
+     * <p>
+     * 仅在完整物模型中可见
      */
     @JsonView(SpecificationViews.CompleteView.class)
     private String name;

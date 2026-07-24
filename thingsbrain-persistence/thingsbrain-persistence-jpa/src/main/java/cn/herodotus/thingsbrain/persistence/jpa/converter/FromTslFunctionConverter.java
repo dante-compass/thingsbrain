@@ -26,15 +26,14 @@
 package cn.herodotus.thingsbrain.persistence.jpa.converter;
 
 import cn.herodotus.dante.data.jpa.converter.AbstractFromAuditEntityConverter;
-import cn.herodotus.thingsbrain.persistence.commons.domain.TslArgument;
 import cn.herodotus.thingsbrain.persistence.commons.domain.TslFunction;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslArgument;
+import cn.herodotus.thingsbrain.persistence.commons.domain.TslFunctionArgument;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
-import org.apache.commons.collections4.CollectionUtils;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunctionArgument;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>Description: {@link TslFunction} 转  {@link HerodotusTslFunction} 转换器 </p>
@@ -44,12 +43,6 @@ import java.util.stream.Collectors;
  */
 public class FromTslFunctionConverter extends AbstractFromAuditEntityConverter<TslFunction, HerodotusTslFunction> {
 
-    private final Converter<TslArgument, HerodotusTslArgument> fromArgument;
-
-    public FromTslFunctionConverter() {
-        this.fromArgument = new FromTslArgumentConverter();
-    }
-
     @Override
     public HerodotusTslFunction getInstance() {
         return new HerodotusTslFunction();
@@ -58,7 +51,11 @@ public class FromTslFunctionConverter extends AbstractFromAuditEntityConverter<T
     @Override
     public void prepare(TslFunction source, HerodotusTslFunction target) {
         target.setFunctionId(source.getId());
+
         target.setProductId(source.getProductId());
+        target.setIdentifier(source.getIdentifier());
+        target.setName(source.getName());
+
         target.setProductKey(source.getProductKey());
         target.setDimension(source.getDimension());
         target.setAccessMode(source.getAccessMode());
@@ -67,18 +64,16 @@ public class FromTslFunctionConverter extends AbstractFromAuditEntityConverter<T
         target.setRequired(source.getRequired());
         target.setMethod(source.getMethod());
         target.setDescription(source.getDescription());
-        target.setArguments(toArguments(source.getArguments()));
-        target.setIdentifier(source.getIdentifier());
-        target.setName(source.getName());
-        target.setType(source.getType());
-        target.setSpecs(source.getSpecs());
+
+        target.setArguments(toArguments(source.getArguments(), target));
     }
 
-    private Set<HerodotusTslArgument> toArguments(Set<TslArgument> source) {
-        if (CollectionUtils.isNotEmpty(source)) {
-            return source.stream().map(fromArgument::convert).collect(Collectors.toSet());
-        } else {
-            return Set.of();
+    private Set<HerodotusTslFunctionArgument> toArguments(TslFunctionArgument source, HerodotusTslFunction target) {
+        if (ObjectUtils.isNotEmpty(source)) {
+            Converter<TslFunctionArgument, Set<HerodotusTslFunctionArgument>> toFunctionArguments = new FromTslFunctionArgumentConverter(target);
+            return toFunctionArguments.convert(source);
         }
+
+        return Set.of();
     }
 }

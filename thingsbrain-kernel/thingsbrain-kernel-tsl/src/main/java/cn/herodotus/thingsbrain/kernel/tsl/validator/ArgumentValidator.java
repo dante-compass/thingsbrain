@@ -28,7 +28,7 @@ package cn.herodotus.thingsbrain.kernel.tsl.validator;
 import cn.herodotus.thingsbrain.kernel.commons.definition.JsonSchemaValidator;
 import cn.herodotus.thingsbrain.kernel.commons.domain.ValidationResult;
 import cn.herodotus.thingsbrain.kernel.tsl.Schema;
-import cn.herodotus.thingsbrain.kernel.tsl.domain.Argument;
+import cn.herodotus.thingsbrain.kernel.tsl.definition.Argument;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.ArgumentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

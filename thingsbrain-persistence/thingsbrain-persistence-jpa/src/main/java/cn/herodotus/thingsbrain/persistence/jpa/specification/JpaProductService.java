@@ -95,6 +95,12 @@ public class JpaProductService implements ProductService {
     }
 
     @Override
+    public List<Product> findAllByProductKey(String productKey) {
+        List<HerodotusProduct> domains = delegate.findAllByProductKey(productKey);
+        return domains.stream().map(toProduct::convert).toList();
+    }
+
+    @Override
     public Optional<Product> findByProductKey(String productKey) {
         Optional<HerodotusProduct> optional = delegate.findByProductKey(productKey);
         return optional
@@ -102,15 +108,9 @@ public class JpaProductService implements ProductService {
     }
 
     @Override
-    public List<Product> findAllByProductKey(String productKey) {
-        List<HerodotusProduct> domains = delegate.findAllByProductKey(productKey);
-        return domains.stream().map(toProduct::convert).toList();
-    }
-
-    @Override
     public Product switchAuthentication(Product domain) {
 
-        log.debug("[ThingsBrain] |- [SWITCH-AUTHENTICATION] Start to switch product authentication.");
+        log.debug("[ThingsMesh] |- [SWITCH-AUTHENTICATION] Start to switch product authentication.");
 
         return Optional.ofNullable(domain)
                 .map(this.fromProduct::convert)
@@ -120,7 +120,7 @@ public class JpaProductService implements ProductService {
     }
 
     @Override
-    public Optional<Specification> generate(String productKey) {
-        return herodotusProductManager.generateSpecification(productKey);
+    public Optional<Specification> generate(Product product) {
+        return herodotusProductManager.generate(product.getId(), product.getProductKey());
     }
 }

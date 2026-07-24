@@ -27,31 +27,32 @@ package cn.herodotus.thingsbrain.persistence.jpa.logic.service;
 
 import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.dante.data.jpa.service.AbstractJpaService;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslArgument;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.repository.HerodotusTslArgumentRepository;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunctionArgument;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.generator.HerodotusTslFunctionArgumentId;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.repository.HerodotusTslFunctionArgumentRepository;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: 物联网物模型属性 Jpa 存储 Service </p>
+ * <p>Description: 物联网物模型功能与参数关联 Jpa 存储 Service </p>
  *
- * @author : gengwei.zheng
- * @date : 2024/9/7 21:51
+ * @author : gengwei_zheng
+ * @date : 2026/7/20 13:03
  */
 @Service
-public class HerodotusTslArgumentService extends AbstractJpaService<HerodotusTslArgument, String> {
+public class HerodotusTslFunctionArgumentService extends AbstractJpaService<HerodotusTslFunctionArgument, HerodotusTslFunctionArgumentId> {
 
-    private final HerodotusTslArgumentRepository herodotusTslArgumentRepository;
+    private final HerodotusTslFunctionArgumentRepository herodotusTslFunctionArgumentRepository;
 
-    public HerodotusTslArgumentService(HerodotusTslArgumentRepository herodotusTslArgumentRepository) {
-        this.herodotusTslArgumentRepository = herodotusTslArgumentRepository;
+    public HerodotusTslFunctionArgumentService(HerodotusTslFunctionArgumentRepository herodotusTslFunctionArgumentRepository) {
+        this.herodotusTslFunctionArgumentRepository = herodotusTslFunctionArgumentRepository;
     }
 
     @Override
-    public BaseJpaRepository<HerodotusTslArgument, String> getRepository() {
-        return herodotusTslArgumentRepository;
+    public BaseJpaRepository<HerodotusTslFunctionArgument, HerodotusTslFunctionArgumentId> getRepository() {
+        return herodotusTslFunctionArgumentRepository;
     }
 
     public void deleteAllByProductId(String productId) {
-        herodotusTslArgumentRepository.deleteAllByProductId(productId);
+        herodotusTslFunctionArgumentRepository.deleteAllByProductId(productId);
     }
 }
