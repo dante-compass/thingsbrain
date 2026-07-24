@@ -32,9 +32,6 @@ import cn.herodotus.thingsbrain.kernel.tsl.enums.EventType;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * <p>Description: 物联网物模型功能统一实体定义 </p>
  *

@@ -67,8 +67,8 @@ public class DefaultSpecificationManager implements SpecificationManager {
 
         return optional.map(product -> {
             product.setRelease(true);
-            return productService.generate(productKey)
-                    .map(specification -> specificationResourceManager.put(productKey, specification))
+            return productService.generate(product)
+                    .map(specificationResourceManager::put)
                     .filter(result -> result)
                     .map(status -> productService.save(product))
                     .map(ObjectUtils::isNotEmpty)

@@ -27,6 +27,7 @@ package cn.herodotus.thingsbrain.persistence.jpa.logic.service;
 
 import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.dante.data.jpa.service.AbstractJpaService;
+import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.AccessMode;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.CallType;
@@ -103,7 +104,6 @@ public class HerodotusTslFunctionService extends AbstractJpaService<HerodotusTsl
             return criteriaQuery.getRestriction();
         };
 
-        log.info("===========================findByCondition");
         return this.findByPage(specification, pageable);
     }
 
@@ -193,8 +193,8 @@ public class HerodotusTslFunctionService extends AbstractJpaService<HerodotusTsl
         domain.setDimension(Dimension.EVENT);
         domain.setRequired(Boolean.TRUE);
         domain.setEventType(EventType.INFO);
-        domain.setMethod(ProtocolConstants.METHOD__EVENT_POST);
-        domain.setDescription("属性上报");
+        domain.setMethod(MethodConstants.METHOD__THING_EVENT_PROPERTY_POST);
+        domain.setDescription(ProtocolConstants.DESCRIPTION__PROPERTY_POST);
         return domain;
     }
 
@@ -208,8 +208,8 @@ public class HerodotusTslFunctionService extends AbstractJpaService<HerodotusTsl
         domain.setDimension(Dimension.SERVICE);
         domain.setRequired(Boolean.TRUE);
         domain.setCallType(CallType.ASYNC);
-        domain.setMethod(ProtocolConstants.METHOD__SERVICE_GET);
-        domain.setDescription("属性获取");
+        domain.setMethod(MethodConstants.METHOD__THING_SERVICE_PROPERTY_GET);
+        domain.setDescription(ProtocolConstants.DESCRIPTION__PROPERTY_GET);
         return domain;
     }
 
@@ -223,8 +223,8 @@ public class HerodotusTslFunctionService extends AbstractJpaService<HerodotusTsl
         domain.setDimension(Dimension.SERVICE);
         domain.setRequired(Boolean.TRUE);
         domain.setCallType(CallType.ASYNC);
-        domain.setMethod(ProtocolConstants.METHOD__SERVICE_SET);
-        domain.setDescription("属性设置");
+        domain.setMethod(MethodConstants.METHOD__THING_SERVICE_PROPERTY_SET);
+        domain.setDescription(ProtocolConstants.DESCRIPTION__PROPERTY_SET);
         return domain;
     }
 

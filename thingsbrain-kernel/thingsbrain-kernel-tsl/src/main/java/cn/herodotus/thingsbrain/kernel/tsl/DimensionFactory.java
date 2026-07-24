@@ -26,19 +26,17 @@
 package cn.herodotus.thingsbrain.kernel.tsl;
 
 import cn.herodotus.dante.core.jackson.JacksonUtils;
-import cn.herodotus.dante.core.utils.StringTemplateUtils;
-import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
-import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.Argument;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.DataType;
-import cn.herodotus.thingsbrain.kernel.tsl.domain.*;
+import cn.herodotus.thingsbrain.kernel.tsl.domain.EventDimension;
+import cn.herodotus.thingsbrain.kernel.tsl.domain.PropertyDimension;
+import cn.herodotus.thingsbrain.kernel.tsl.domain.ServiceDimension;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.AccessMode;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.CallType;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.EventType;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>Description: 维度实体生成工厂 </p>
@@ -47,10 +45,6 @@ import java.util.Map;
  * @date : 2025/5/3 0:39
  */
 public class DimensionFactory {
-
-    private static final String DESCRIPTION__PROPERTY_POST = "属性上报";
-    private static final String DESCRIPTION__PROPERTY_SET = "属性设置";
-    private static final String DESCRIPTION__PROPERTY_GET = "属性获取";
 
     /**
      * 将字符串类型的模型 Specs JSON 数据转换成物模型参数实体 {@link Argument}

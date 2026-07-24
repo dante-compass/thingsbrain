@@ -51,6 +51,10 @@ public interface ProtocolConstants extends BaseConstants {
     String ACTION__GET = "get";
     String ACTION__REPLY = "_reply";
 
+    String DESCRIPTION__PROPERTY_POST = "属性上报";
+    String DESCRIPTION__PROPERTY_SET = "属性设置";
+    String DESCRIPTION__PROPERTY_GET = "属性获取";
+
     String PARAMETER__VALUE = "value";
 
     String PARAMETER__REPORTED = "reported";

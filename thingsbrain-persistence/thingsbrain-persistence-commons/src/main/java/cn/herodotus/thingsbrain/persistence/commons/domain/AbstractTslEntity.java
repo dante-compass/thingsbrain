@@ -25,15 +25,10 @@
 
 package cn.herodotus.thingsbrain.persistence.commons.domain;
 
-import cn.herodotus.dante.core.jackson.JsonToStringDeserializer;
-import cn.herodotus.dante.core.jackson.StringToJsonSerializer;
 import cn.herodotus.dante.data.commons.entity.AbstractAuditEntity;
-import cn.herodotus.thingsbrain.kernel.tsl.enums.ArgumentType;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
-import tools.jackson.databind.annotation.JsonDeserialize;
-import tools.jackson.databind.annotation.JsonSerialize;
 
 /**
  * <p>Description: 物联网物模型参数共性参数统一抽象定义 </p>

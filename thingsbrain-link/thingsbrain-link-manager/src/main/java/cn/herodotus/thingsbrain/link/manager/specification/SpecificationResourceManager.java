@@ -59,10 +59,10 @@ public class SpecificationResourceManager {
     /**
      * 从将物模型声明对象 {@link Specification} 以 JSON 文件形式存储，并放入缓存中进行备用。
      *
-     * @param productKey    物模型 ProductKey
      * @param specification 声明对象 {@link Specification}
      */
-    public boolean put(String productKey, Specification specification) {
+    public boolean put(Specification specification) {
+        String productKey = specification.getProfile().getProductKey();
         try {
             FileAttributes isSuccess = jsonSchemaFileManager.writeString(productKey, () -> JacksonUtils.toJson(specification));
             if (ObjectUtils.isNotEmpty(isSuccess)) {

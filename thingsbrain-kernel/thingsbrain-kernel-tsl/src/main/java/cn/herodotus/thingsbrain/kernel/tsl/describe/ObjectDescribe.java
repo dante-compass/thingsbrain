@@ -27,8 +27,8 @@ package cn.herodotus.thingsbrain.kernel.tsl.describe;
 
 import cn.herodotus.thingsbrain.kernel.commons.constant.SchemaConstants;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.AbstractDescribe;
-import cn.herodotus.thingsbrain.kernel.tsl.definition.Describe;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.Argument;
+import cn.herodotus.thingsbrain.kernel.tsl.definition.Describe;
 
 import java.util.ArrayList;
 import java.util.HashMap;

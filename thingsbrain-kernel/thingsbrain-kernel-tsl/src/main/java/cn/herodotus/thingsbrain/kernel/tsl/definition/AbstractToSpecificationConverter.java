@@ -27,7 +27,10 @@ package cn.herodotus.thingsbrain.kernel.tsl.definition;
 
 import cn.herodotus.thingsbrain.kernel.tsl.DimensionFactory;
 import cn.herodotus.thingsbrain.kernel.tsl.Specification;
-import cn.herodotus.thingsbrain.kernel.tsl.domain.*;
+import cn.herodotus.thingsbrain.kernel.tsl.domain.EventDimension;
+import cn.herodotus.thingsbrain.kernel.tsl.domain.Profile;
+import cn.herodotus.thingsbrain.kernel.tsl.domain.PropertyDimension;
+import cn.herodotus.thingsbrain.kernel.tsl.domain.ServiceDimension;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
 import org.springframework.core.convert.converter.Converter;
 
