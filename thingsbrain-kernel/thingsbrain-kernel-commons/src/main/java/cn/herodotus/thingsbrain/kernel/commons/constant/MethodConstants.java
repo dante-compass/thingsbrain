@@ -38,11 +38,11 @@ public interface MethodConstants {
     /**
      * 格式：thing.event.${tsl.event.identifier}.post
      */
-    String METHOD_FORMAT__POST_EVENT = ProtocolConstants.PREFIX__EVENT + SymbolConstants.PERIOD + ProtocolConstants.FORMAT_PLACEHOLDER__IDENTIFIER_EVENT + SymbolConstants.PERIOD + ProtocolConstants.ACTION__POST;
+    String METHOD_FORMAT__EVENT = ProtocolConstants.PREFIX__EVENT + SymbolConstants.PERIOD + ProtocolConstants.FORMAT_PLACEHOLDER__IDENTIFIER_EVENT + SymbolConstants.PERIOD + ProtocolConstants.ACTION__POST;
     /**
-     * 格式：thing.event.${tsl.service.identifier}
+     * 格式：thing.service.${tsl.service.identifier}
      */
-    String METHOD_FORMAT__INVOKE_SERVICE = ProtocolConstants.PREFIX__SERVICE + SymbolConstants.PERIOD + ProtocolConstants.FORMAT_PLACEHOLDER__IDENTIFIER_SERVICE;
+    String METHOD_FORMAT__SERVICE = ProtocolConstants.PREFIX__SERVICE + SymbolConstants.PERIOD + ProtocolConstants.FORMAT_PLACEHOLDER__IDENTIFIER_SERVICE;
 
 
     /* -------------------- 管理拓扑关系 -------------------- */

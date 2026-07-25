@@ -124,20 +124,24 @@ public class HerodotusTslFunctionManager {
     }
 
     private void deleteEventOrService(HerodotusTslFunction function) {
-        List<HerodotusTslArgument> arguments = new ArrayList<>();
+        List<String> arguments = new ArrayList<>();
         // 如果存在关联关系，则先获取到关联的 Argument
         if (CollectionUtils.isNotEmpty(function.getArguments())) {
             arguments = function.getArguments().stream()
                     .map(HerodotusTslFunctionArgument::getArgument)
+                    .map(HerodotusTslArgument::getArgumentId)
                     .toList();
         }
 
         // 先删除当前 function，会同步解除关联关系
-        herodotusTslFunctionService.delete(function);
+        herodotusTslFunctionService.deleteById(function.getFunctionId());
 
         // 如果存在关联 Argument 则批量删除
         if (CollectionUtils.isNotEmpty(arguments)) {
-            herodotusTslArgumentService.deleteAllInBatch(arguments);
+            // 注意：这里要使用 deleteAllById 而不能使用 deleteAllInBatch。
+            // 联合主键关联多对多处理，手动的删除逻辑，如果以对象的方式删除，会收到 Hibernate Session 中实体对象的关联关系的影响。即使 function 已经删除，arguments 对象中还会有关联关系存在。
+            // 所以手动删除时，通过 deleteBy 根据 ID 处理，可以解决外键关联问题。
+            herodotusTslArgumentService.deleteAllById(arguments);
         }
     }
 

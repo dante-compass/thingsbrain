@@ -25,14 +25,20 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.converter;
 
+import cn.herodotus.dante.core.utils.StringTemplateUtils;
 import cn.herodotus.dante.data.jpa.converter.AbstractFromAuditEntityConverter;
+import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
+import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
 import cn.herodotus.thingsbrain.persistence.commons.domain.TslFunction;
 import cn.herodotus.thingsbrain.persistence.commons.domain.TslFunctionArgument;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunctionArgument;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.converter.Converter;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -75,5 +81,38 @@ public class FromTslFunctionConverter extends AbstractFromAuditEntityConverter<T
         }
 
         return Set.of();
+    }
+
+    /**
+     * 手动设置 Method 值。
+     * <p>
+     * 如果前端没有传递 Method，同时 Function 为 Event 或者 Service 类型，则手动设置 Method
+     *
+     * @param source 物模型功能 {@link TslFunction}
+     * @return method
+     */
+    private String getMethod(TslFunction source) {
+
+        // 如果是 Event 或者 Service
+        if (ObjectUtils.isNotEmpty(source.getDimension()) && source.getDimension() != Dimension.PROPERTY) {
+            // 如果 Method 为空，则处理否则直接返回
+            if (StringUtils.isBlank(source.getMethod())) {
+                // 因为是根据 identifier 生成，如果 identifier 不为空则生成，否则则返回 null
+                if (StringUtils.isNotBlank(source.getIdentifier())) {
+                    if (source.getDimension() == Dimension.EVENT) {
+                        return StringTemplateUtils.replace(MethodConstants.METHOD_FORMAT__EVENT, Map.of(ProtocolConstants.FORMAT_PLACEHOLDER__IDENTIFIER_EVENT, source.getIdentifier()));
+                    } else {
+                        return StringTemplateUtils.replace(MethodConstants.METHOD_FORMAT__SERVICE, Map.of(ProtocolConstants.FORMAT_PLACEHOLDER__IDENTIFIER_SERVICE, source.getIdentifier()));
+                    }
+                } else {
+                    return null;
+                }
+            } else {
+                return source.getMethod();
+            }
+        } else {
+            // 只要是 Property 类型，不管 method 有没有值，都返回 null
+            return null;
+        }
     }
 }
