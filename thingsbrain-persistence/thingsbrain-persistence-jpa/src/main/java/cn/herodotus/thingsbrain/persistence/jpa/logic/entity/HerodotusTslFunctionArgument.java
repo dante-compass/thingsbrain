@@ -37,7 +37,7 @@ import java.util.Objects;
 
 /**
  * <p>Description: 物模型功能与参数多对多关联关系表 </p>
- *
+ * <p>
  * 采用联合主键方式实现多对多关联，function_id、argument_id 和 argument_category 共同组成联合主键
  *
  * @author : gengwei_zheng

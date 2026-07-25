@@ -76,7 +76,7 @@ public class HerodotusTslFunctionService extends AbstractJpaService<HerodotusTsl
         herodotusTslFunctionRepository.deleteAllByProductId(productId);
     }
 
-    public void deleteAllRequiredByProductId(String productId) {
+    public void deleteAllByProductIdAndRequired(String productId) {
         herodotusTslFunctionRepository.deleteAllByProductIdAndRequired(productId, true);
     }
 

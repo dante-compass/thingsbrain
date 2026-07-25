@@ -113,7 +113,7 @@ public class HerodotusTslFunctionManager {
      */
     private void deleteLastProperty(HerodotusTslFunction property) {
         // 先删除所有必需的 function（会同步删除 HerodotusTslFunctionArgument），即 Get、Set Service 和 Post Event
-        herodotusTslFunctionService.deleteAllRequiredByProductId(property.getProductId());
+        herodotusTslFunctionService.deleteAllByProductIdAndRequired(property.getProductId());
         // 再删除当前 Property（会同步删除 HerodotusTslFunctionArgument）。
         herodotusTslFunctionService.deleteById(property.getFunctionId());
         // 最后删除对应 HerodotusTslArgument
@@ -141,8 +141,7 @@ public class HerodotusTslFunctionManager {
         }
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    protected void delete(HerodotusTslFunction function) {
+    private void delete(HerodotusTslFunction function) {
         if (function.getDimension() == Dimension.PROPERTY) {
             long count = herodotusTslFunctionService.findPropertyNumber(function.getProductId());
             if (count >= 2L) {
@@ -158,6 +157,7 @@ public class HerodotusTslFunctionManager {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void deleteById(String id) {
         herodotusTslFunctionService.findById(id).ifPresent(this::delete);
     }

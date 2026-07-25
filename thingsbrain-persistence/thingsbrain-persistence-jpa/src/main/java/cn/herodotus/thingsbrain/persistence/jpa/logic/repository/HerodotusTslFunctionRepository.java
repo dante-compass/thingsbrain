@@ -29,6 +29,7 @@ import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
 import cn.herodotus.thingsbrain.persistence.commons.constant.PersistenceConstants;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -55,17 +56,20 @@ public interface HerodotusTslFunctionRepository extends BaseJpaRepository<Herodo
      * @param productId 物联网 ProductId
      */
     @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Transactional
     @Query("delete from HerodotusTslFunction f where f.productId = :productId")
     void deleteAllByProductId(@Param("productId") String productId);
 
     /**
      * 根据 ProductId 和 Required 删除对应物模型配置。
+     * <p>
+     * 该方法在删除 function 数据同时，会删除关系表中的数据。不能使用 @Modifying + @Query 的方式。如果使用之后，那么在删除时会出现外键关系关联错误。
+     * <p>
+     * 如果追求性能，后续可以考虑，在 function_argument 中间表中也增加一个 required 字段。然后手动先删除中间表数据。
      *
      * @param productId 物联网 ProductId
      * @param required  是否为必需
      */
-    @Modifying(clearAutomatically = true, flushAutomatically = true)
-    @Query("delete from HerodotusTslFunction f where f.productId = :productId and f.required = :required")
     void deleteAllByProductIdAndRequired(@Param("productId") String productId, @Param("required") Boolean required);
 
     /**

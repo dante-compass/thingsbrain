@@ -28,6 +28,7 @@ package cn.herodotus.thingsbrain.persistence.jpa.logic.repository;
 import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunctionArgument;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.generator.HerodotusTslFunctionArgumentId;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -48,6 +49,7 @@ public interface HerodotusTslFunctionArgumentRepository extends BaseJpaRepositor
      * @param productId 物联网 ProductId
      */
     @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Transactional
     @Query("delete from HerodotusTslFunctionArgument f where f.productId = : productId")
     void deleteAllByProductId(@Param("productId") String productId);
 }

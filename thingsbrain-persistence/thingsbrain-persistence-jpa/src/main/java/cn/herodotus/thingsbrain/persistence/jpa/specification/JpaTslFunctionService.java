@@ -76,7 +76,7 @@ public class JpaTslFunctionService implements TslFunctionService {
 
     @Override
     public void deleteById(String id) {
-        delegate.deleteById(id);
+        herodotusTslFunctionManager.deleteById(id);
     }
 
     @Override
