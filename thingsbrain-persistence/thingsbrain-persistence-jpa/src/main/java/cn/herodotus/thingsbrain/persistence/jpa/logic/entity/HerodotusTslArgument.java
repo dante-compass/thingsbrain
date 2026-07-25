@@ -32,6 +32,8 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.util.Objects;
+
 /**
  * <p>Description: 物联网物模型参数 Jpa 存储实体定义 </p>
  *
@@ -78,6 +80,20 @@ public class HerodotusTslArgument extends AbstractTslCharacteristic {
 
     public void setSpecs(String specs) {
         this.specs = specs;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        HerodotusTslArgument argument = (HerodotusTslArgument) o;
+        return Objects.equals(argumentId, argument.argumentId) && Objects.equals(getProductId(), argument.getProductId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(argumentId, getProductId());
     }
 
     @Override

@@ -30,9 +30,6 @@ import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
 import cn.herodotus.thingsbrain.persistence.commons.constant.PersistenceConstants;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
 import jakarta.transaction.Transactional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -71,20 +68,6 @@ public interface HerodotusTslFunctionRepository extends BaseJpaRepository<Herodo
      * @param required  是否为必需
      */
     void deleteAllByProductIdAndRequired(@Param("productId") String productId, @Param("required") Boolean required);
-
-    /**
-     * 条件分页查询物模型功能。
-     * <p>
-     * 1. 通过覆盖原始 findAll 方法，来支持 @EntityGraph
-     * 2. 物模型都是与产品绑定，所以常规翻页需要按 productId 显示。
-     *
-     * @param specification must not be {@literal null}.
-     * @param pageable      must not be {@literal null}.
-     * @return 物模型功能分页 {@link Page<HerodotusTslFunction>}
-     */
-    @Override
-    @EntityGraph(PersistenceConstants.ENTITY_GRAPH_TSL_FUNCTION_WITH_ARGUMENTS)
-    Page<HerodotusTslFunction> findAll(Specification<HerodotusTslFunction> specification, Pageable pageable);
 
     /**
      * 根据 Dimension {@link Dimension} 查询物模型中对应功能的数量

@@ -35,9 +35,12 @@ import com.google.common.base.MoreObjects;
 import jakarta.persistence.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -103,6 +106,7 @@ public class HerodotusTslFunction extends AbstractTslCharacteristic implements S
 
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = PersistenceConstants.REGION_IOT_TSL_FUNCTION_ARGUMENT)
     @OneToMany(mappedBy = "function", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
     private Set<HerodotusTslFunctionArgument> arguments = new HashSet<>();
 
     public String getFunctionId() {
@@ -207,6 +211,20 @@ public class HerodotusTslFunction extends AbstractTslCharacteristic implements S
                     .orElse(null);
         }
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        HerodotusTslFunction function = (HerodotusTslFunction) o;
+        return Objects.equals(functionId, function.functionId) && Objects.equals(getProductId(), function.getProductId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(functionId, getProductId());
     }
 
     @Override
