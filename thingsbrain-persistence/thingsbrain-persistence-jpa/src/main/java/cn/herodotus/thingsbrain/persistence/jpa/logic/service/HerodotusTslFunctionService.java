@@ -111,7 +111,7 @@ public class HerodotusTslFunctionService extends AbstractJpaService<HerodotusTsl
         return herodotusTslFunctionRepository.countByProductIdAndDimension(productId, Dimension.PROPERTY);
     }
 
-    public List<HerodotusTslFunction> findAllRequiredByProductId(String productId) {
+    public List<HerodotusTslFunction> findAllByProductIdAndRequired(String productId) {
         return herodotusTslFunctionRepository.findAllByProductIdAndRequired(productId, true);
     }
 

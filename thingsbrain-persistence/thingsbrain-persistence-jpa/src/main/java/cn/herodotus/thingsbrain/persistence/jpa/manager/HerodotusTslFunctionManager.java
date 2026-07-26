@@ -33,13 +33,13 @@ import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusTslArgume
 import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusTslFunctionArgumentService;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusTslFunctionService;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>Description: 物联网物模型功能 Manage </p>
@@ -84,19 +84,48 @@ public class HerodotusTslFunctionManager {
     }
 
     /**
+     * 删除物模型功能，包括关联关系、function 和 argument
+     *
+     * @param function 物模型功能 {@link HerodotusTslFunction}
+     */
+    private void deleteFunctionAndArgument(HerodotusTslFunction function) {
+        List<String> arguments = new ArrayList<>();
+        // 如果存在关联关系，则先获取到关联的 Argument
+        if (CollectionUtils.isNotEmpty(function.getArguments())) {
+            arguments = function.getArguments().stream()
+                    .map(HerodotusTslFunctionArgument::getArgument)
+                    .map(HerodotusTslArgument::getArgumentId)
+                    .toList();
+        }
+
+        // 删除当前 Property（会同步删除关联关系 HerodotusTslFunctionArgument）。
+        herodotusTslFunctionService.deleteById(function.getFunctionId());
+
+        // 如果存在关联 Argument 则批量删除
+        if (CollectionUtils.isNotEmpty(arguments)) {
+            // 注意：这里要使用 deleteAllById 而不能使用 deleteAllInBatch。
+            // 联合主键关联多对多处理，手动的删除逻辑，如果以对象的方式删除，会收到 Hibernate Session 中实体对象的关联关系的影响。即使 function 已经删除，arguments 对象中还会有关联关系存在。
+            // 所以手动删除时，通过 deleteBy 根据 ID 处理，可以解决外键关联问题。
+            herodotusTslArgumentService.deleteAllById(arguments);
+        }
+    }
+
+    /**
      * 删除其它 Property 功能。
      * <p>
      * 物模型中，当 Property 数量大于等 2 时，删除任意 Property，需要同步将 Get、Set Service 和 Post Event 与当前 Property 对应 Argument 的关联关系删除。
      *
      * @param property 任意 Property {@link HerodotusTslFunction}
      */
-    private void deletesOtherProperty(HerodotusTslFunction property) {
-        List<HerodotusTslFunction> requiredFunctions = herodotusTslFunctionService.findAllRequiredByProductId(property.getProductId());
+    private void deleteOtherProperty(HerodotusTslFunction property) {
+        List<HerodotusTslFunction> requiredFunctions = herodotusTslFunctionService.findAllByProductIdAndRequired(property.getProductId());
 
+        // 删除必需功能中的关联关系
         List<HerodotusTslFunction> newFunctions = requiredFunctions.stream().map(function -> function.removeArgument(property.getIdentifier())).toList();
         herodotusTslFunctionService.saveAll(newFunctions);
-        // 删除当前 Property（会同步删除 HerodotusTslFunctionArgument）。
-        herodotusTslFunctionService.deleteById(property.getFunctionId());
+
+        // 最后删除该 Property，包括关联关系、function 和 argument
+        deleteFunctionAndArgument(property);
     }
 
     /**
@@ -112,44 +141,23 @@ public class HerodotusTslFunctionManager {
      * @param property 当前物模型最后一个 Property {@link HerodotusTslFunction}
      */
     private void deleteLastProperty(HerodotusTslFunction property) {
-        // 先删除所有必需的 function（会同步删除 HerodotusTslFunctionArgument），即 Get、Set Service 和 Post Event
+        // 先删除所有必需的 function（会同步删除相关的 HerodotusTslFunctionArgument），即 Get、Set Service 和 Post Event
         herodotusTslFunctionService.deleteAllByProductIdAndRequired(property.getProductId());
-        // 再删除当前 Property（会同步删除 HerodotusTslFunctionArgument）。
-        herodotusTslFunctionService.deleteById(property.getFunctionId());
-        // 最后删除对应 HerodotusTslArgument
-        HerodotusTslArgument argument = property.getFirstArgument();
-        if (ObjectUtils.isNotEmpty(argument)) {
-            herodotusTslArgumentService.deleteById(argument.getArgumentId());
-        }
+
+        // 最后删除该 Property，包括关联关系、function 和 argument
+        deleteFunctionAndArgument(property);
     }
 
-    private void deleteEventOrService(HerodotusTslFunction function) {
-        List<String> arguments = new ArrayList<>();
-        // 如果存在关联关系，则先获取到关联的 Argument
-        if (CollectionUtils.isNotEmpty(function.getArguments())) {
-            arguments = function.getArguments().stream()
-                    .map(HerodotusTslFunctionArgument::getArgument)
-                    .map(HerodotusTslArgument::getArgumentId)
-                    .toList();
-        }
-
-        // 先删除当前 function，会同步解除关联关系
-        herodotusTslFunctionService.deleteById(function.getFunctionId());
-
-        // 如果存在关联 Argument 则批量删除
-        if (CollectionUtils.isNotEmpty(arguments)) {
-            // 注意：这里要使用 deleteAllById 而不能使用 deleteAllInBatch。
-            // 联合主键关联多对多处理，手动的删除逻辑，如果以对象的方式删除，会收到 Hibernate Session 中实体对象的关联关系的影响。即使 function 已经删除，arguments 对象中还会有关联关系存在。
-            // 所以手动删除时，通过 deleteBy 根据 ID 处理，可以解决外键关联问题。
-            herodotusTslArgumentService.deleteAllById(arguments);
-        }
-    }
-
+    /**
+     * 统一的删除方法。提取出一个方法，方便 {@link Optional} 调用。
+     *
+     * @param function 物模型功能 {@link HerodotusTslFunction}
+     */
     private void delete(HerodotusTslFunction function) {
         if (function.getDimension() == Dimension.PROPERTY) {
             long count = herodotusTslFunctionService.findPropertyNumber(function.getProductId());
             if (count >= 2L) {
-                deletesOtherProperty(function);
+                deleteOtherProperty(function);
             } else if (count == 1L) {
                 deleteLastProperty(function);
             } else {
@@ -157,7 +165,7 @@ public class HerodotusTslFunctionManager {
                 log.error("[ThingsMesh] |- TSL of product [{}] maybe exist fatal error.", function.getProductId());
             }
         } else {
-            deleteEventOrService(function);
+            deleteFunctionAndArgument(function);
         }
     }
 
