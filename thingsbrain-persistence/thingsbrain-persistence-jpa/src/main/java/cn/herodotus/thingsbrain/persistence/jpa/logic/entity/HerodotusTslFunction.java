@@ -42,6 +42,7 @@ import org.hibernate.annotations.UuidGenerator;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>Description: 物联网物模型功能 Jpa 存储实体定义 </p>
@@ -104,7 +105,6 @@ public class HerodotusTslFunction extends AbstractTslCharacteristic implements S
     @Column(name = "description", length = 512)
     private String description;
 
-    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = PersistenceConstants.REGION_IOT_TSL_FUNCTION_ARGUMENT)
     @OneToMany(mappedBy = "function", cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
     private Set<HerodotusTslFunctionArgument> arguments = new HashSet<>();
@@ -196,10 +196,16 @@ public class HerodotusTslFunction extends AbstractTslCharacteristic implements S
         this.arguments = arguments;
     }
 
-    public HerodotusTslFunction removeArgument(String identifier) {
-        if (CollectionUtils.isNotEmpty(this.arguments)) {
-            this.arguments.removeIf(item -> item.getArgument().getIdentifier().equals(identifier));
+    public HerodotusTslFunction remove(Set<HerodotusTslFunctionArgument> source) {
+        if (CollectionUtils.isNotEmpty(this.arguments) && CollectionUtils.isNotEmpty(source)) {
+
+            Set<HerodotusTslArgument> tslArguments = source.stream()
+                    .map(HerodotusTslFunctionArgument::getArgument)
+                    .collect(Collectors.toSet());
+
+            this.arguments.removeIf(arg -> tslArguments.contains(arg.getArgument()));
         }
+
         return this;
     }
 

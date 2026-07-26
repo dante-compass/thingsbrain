@@ -39,7 +39,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * <p>Description: 物联网物模型功能 Manage </p>
@@ -117,12 +116,15 @@ public class HerodotusTslFunctionManager {
      *
      * @param property 任意 Property {@link HerodotusTslFunction}
      */
-    private void deleteOtherProperty(HerodotusTslFunction property) {
+    private void deletesOtherProperty(HerodotusTslFunction property) {
         List<HerodotusTslFunction> requiredFunctions = herodotusTslFunctionService.findAllByProductIdAndRequired(property.getProductId());
 
         // 删除必需功能中的关联关系
-        List<HerodotusTslFunction> newFunctions = requiredFunctions.stream().map(function -> function.removeArgument(property.getIdentifier())).toList();
-        herodotusTslFunctionService.saveAll(newFunctions);
+        List<HerodotusTslFunction> newFunctions = requiredFunctions.stream()
+                .map(function -> function.remove(property.getArguments()))
+                .toList();
+
+        herodotusTslFunctionService.saveAllAndFlush(newFunctions);
 
         // 最后删除该 Property，包括关联关系、function 和 argument
         deleteFunctionAndArgument(property);
@@ -141,23 +143,18 @@ public class HerodotusTslFunctionManager {
      * @param property 当前物模型最后一个 Property {@link HerodotusTslFunction}
      */
     private void deleteLastProperty(HerodotusTslFunction property) {
-        // 先删除所有必需的 function（会同步删除相关的 HerodotusTslFunctionArgument），即 Get、Set Service 和 Post Event
+        // 先删除所有必需的 function（会同步删除 HerodotusTslFunctionArgument），即 Get、Set Service 和 Post Event
         herodotusTslFunctionService.deleteAllByProductIdAndRequired(property.getProductId());
 
         // 最后删除该 Property，包括关联关系、function 和 argument
         deleteFunctionAndArgument(property);
     }
 
-    /**
-     * 统一的删除方法。提取出一个方法，方便 {@link Optional} 调用。
-     *
-     * @param function 物模型功能 {@link HerodotusTslFunction}
-     */
     private void delete(HerodotusTslFunction function) {
         if (function.getDimension() == Dimension.PROPERTY) {
             long count = herodotusTslFunctionService.findPropertyNumber(function.getProductId());
             if (count >= 2L) {
-                deleteOtherProperty(function);
+                deletesOtherProperty(function);
             } else if (count == 1L) {
                 deleteLastProperty(function);
             } else {

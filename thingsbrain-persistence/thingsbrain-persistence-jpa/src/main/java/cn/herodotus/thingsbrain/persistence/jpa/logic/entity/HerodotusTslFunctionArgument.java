@@ -25,13 +25,11 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.logic.entity;
 
-import cn.herodotus.thingsbrain.persistence.commons.constant.PersistenceConstants;
 import cn.herodotus.thingsbrain.persistence.commons.enums.TslArgumentCategory;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.generator.HerodotusTslFunctionArgumentId;
 import com.google.common.base.MoreObjects;
 import jakarta.persistence.*;
 import org.apache.commons.lang3.ObjectUtils;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.util.Objects;
 
@@ -51,8 +49,6 @@ import java.util.Objects;
                 @Index(name = "iot_tsl_function_argument_c_idx", columnList = "argument_category"),
         },
         uniqueConstraints = {@UniqueConstraint(columnNames = {"function_id", "argument_id", "argument_category"})})
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = PersistenceConstants.REGION_IOT_TSL_ARGUMENT)
 public class HerodotusTslFunctionArgument extends AbstractTslEntity {
 
     @EmbeddedId
