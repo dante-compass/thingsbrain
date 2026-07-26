@@ -54,7 +54,7 @@ public class HerodotusTslFunctionArgumentId implements Serializable {
     private String argumentId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "argument_category", length = 50)
+    @Column(name = "argument_category", nullable = false, length = 50)
     private TslArgumentCategory category;
 
     public HerodotusTslFunctionArgumentId() {

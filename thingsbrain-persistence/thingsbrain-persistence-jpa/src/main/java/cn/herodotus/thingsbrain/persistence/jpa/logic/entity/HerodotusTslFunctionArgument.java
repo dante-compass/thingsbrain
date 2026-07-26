@@ -56,12 +56,12 @@ public class HerodotusTslFunctionArgument extends AbstractTslEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @MapsId("functionId")
-    @JoinColumn(name = "function_id", nullable = false, updatable = false)
+    @JoinColumn(name = "function_id", nullable = false, insertable = false, updatable = false)
     private HerodotusTslFunction function;
 
     @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
     @MapsId("argumentId")
-    @JoinColumn(name = "argument_id", nullable = false, updatable = false)
+    @JoinColumn(name = "argument_id", nullable = false, insertable = false, updatable = false)
     private HerodotusTslArgument argument;
 
     public HerodotusTslFunctionArgument() {
