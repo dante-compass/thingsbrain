@@ -100,9 +100,9 @@ public class FromTslFunctionConverter extends AbstractFromAuditEntityConverter<T
                 // 因为是根据 identifier 生成，如果 identifier 不为空则生成，否则则返回 null
                 if (StringUtils.isNotBlank(source.getIdentifier())) {
                     if (source.getDimension() == Dimension.EVENT) {
-                        return StringTemplateUtils.replace(MethodConstants.METHOD_FORMAT__EVENT, Map.of(ProtocolConstants.FORMAT_PLACEHOLDER__IDENTIFIER_EVENT, source.getIdentifier()));
+                        return StringTemplateUtils.replace(MethodConstants.METHOD_FORMAT__EVENT, Map.of(ProtocolConstants.VARIABLE__EVENT_IDENTIFIER, source.getIdentifier()));
                     } else {
-                        return StringTemplateUtils.replace(MethodConstants.METHOD_FORMAT__SERVICE, Map.of(ProtocolConstants.FORMAT_PLACEHOLDER__IDENTIFIER_SERVICE, source.getIdentifier()));
+                        return StringTemplateUtils.replace(MethodConstants.METHOD_FORMAT__SERVICE, Map.of(ProtocolConstants.VARIABLE__SERVICE_IDENTIFIER, source.getIdentifier()));
                     }
                 } else {
                     return null;
