@@ -105,6 +105,7 @@ public class HerodotusTslFunction extends AbstractTslCharacteristic implements S
     @Column(name = "description", length = 512)
     private String description;
 
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = PersistenceConstants.REGION_IOT_TSL_FUNCTION_ARGUMENT)
     @OneToMany(mappedBy = "function", cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SUBSELECT)
     private Set<HerodotusTslFunctionArgument> arguments = new HashSet<>();
