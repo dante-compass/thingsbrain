@@ -62,7 +62,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/iot/mqtt/category")
 @Tags({
-        @Tag(name = "ThingsMesh物联网平台 REST 接口"),
+        @Tag(name = "ThingsBrain物联网平台 REST 接口"),
         @Tag(name = "物联网平台业务功能接口"),
         @Tag(name = "物联网Mqtt主题类别接口"),
 })

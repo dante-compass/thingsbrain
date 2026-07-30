@@ -159,7 +159,7 @@ public class HerodotusTslFunctionManager {
                 deleteLastProperty(function);
             } else {
                 // 如果当前 function 是 property，但是查询数量还未为 0 或者 负数。意味着数据库或者数据本身存在较大问题，建议手动检查处理。
-                log.error("[ThingsMesh] |- TSL of product [{}] maybe exist fatal error.", function.getProductId());
+                log.error("[ThingsBrain] |- TSL of product [{}] maybe exist fatal error.", function.getProductId());
             }
         } else {
             deleteFunctionAndArgument(function);

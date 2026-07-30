@@ -69,7 +69,7 @@ public class MqttSubscribeTopicSender implements ApplicationListener<Application
         Set<MqttAuthority> authorities = mqttAuthorizationManager.findSubscribeTopicsForPlatform();
 
         if (CollectionUtils.isNotEmpty(authorities)) {
-            log.info("[ThingsMesh] |- Found [{}] subscribe topics.", authorities.size());
+            log.info("[ThingsBrain] |- Found [{}] subscribe topics.", authorities.size());
             ServiceContextHolder.publishEvent(new MqttSubscribeTopicAppenderEvent(authorities));
         }
     }

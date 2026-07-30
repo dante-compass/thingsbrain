@@ -94,12 +94,12 @@ public class HerodotusProductManager {
      */
     private HerodotusProduct switchAuthentication(HerodotusProduct oldProduct, HerodotusProduct newProduct) {
 
-        log.debug("[ThingsMesh] |- [SWITCH-AUTHENTICATION] Checking switch authentication status.");
+        log.debug("[ThingsBrain] |- [SWITCH-AUTHENTICATION] Checking switch authentication status.");
 
         // 和数据库中存储的 product getRegistration 值进行对比，如果不同就意味着状态产生了变化
         if (newProduct.getRegistration() != oldProduct.getRegistration()) {
 
-            log.debug("[ThingsMesh] |- [SWITCH-AUTHENTICATION] Processing switch authentication.");
+            log.debug("[ThingsBrain] |- [SWITCH-AUTHENTICATION] Processing switch authentication.");
 
             // 如果是开启动态注册
             if (newProduct.getRegistration()) {

@@ -110,7 +110,7 @@ public class JpaProductService implements ProductService {
     @Override
     public Product switchAuthentication(Product domain) {
 
-        log.debug("[ThingsMesh] |- [SWITCH-AUTHENTICATION] Start to switch product authentication.");
+        log.debug("[ThingsBrain] |- [SWITCH-AUTHENTICATION] Start to switch product authentication.");
 
         return Optional.ofNullable(domain)
                 .map(this.fromProduct::convert)

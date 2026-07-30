@@ -50,7 +50,6 @@ INSERT INTO `sys_element` (`element_id`, `create_time`, `update_time`, `create_b
 INSERT INTO `sys_element` (`element_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `application_type`, `component`, `detail_content`, `element_category`, `have_child`, `hide_all_child`, `icon`, `ignore_auth`, `menu_scenario`, `name`, `not_keep_alive`, `parent_id`, `path`, `redirect`, `title`) VALUES ('c499066e-5d36-4260-a3fa-e9be0b07f374', '2026-07-03 14:59:10.223', '2026-07-03 14:59:10.223', 'system', 0, 'system', NULL, 2, b'1', 0, 'WEB', 'views/pages/iot/mqtt-authority/Index.vue', b'0', 'MENU', b'1', b'1', 'mdi-link', b'0', 'APP', 'ThingsMqttAuthority', b'1', 'f7527762-16f9-429c-a82f-696862633fef', '/things/mqtt-authority', NULL, '主题权限管理');
 INSERT INTO `sys_element` (`element_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `application_type`, `component`, `detail_content`, `element_category`, `have_child`, `hide_all_child`, `icon`, `ignore_auth`, `menu_scenario`, `name`, `not_keep_alive`, `parent_id`, `path`, `redirect`, `title`) VALUES ('33353926-fef2-4272-82d0-762aed89fc6e', '2026-07-03 15:00:28.812', '2026-07-03 15:00:28.812', 'system', 0, 'system', NULL, 1, b'1', 0, 'WEB', 'views/pages/iot/mqtt-authority/Content.vue', b'1', 'MENU', b'0', b'0', 'mdi-link-edit', b'0', 'APP', 'ThingsMqttAuthorityContent', b'1', 'c499066e-5d36-4260-a3fa-e9be0b07f374', '/things/mqtt-authority/content', NULL, '主题权限详情');
 INSERT INTO `sys_element` (`element_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `application_type`, `component`, `detail_content`, `element_category`, `have_child`, `hide_all_child`, `icon`, `ignore_auth`, `menu_scenario`, `name`, `not_keep_alive`, `parent_id`, `path`, `redirect`, `title`) VALUES ('146512ac-c7e6-41f6-822d-886840baaeeb', '2026-07-03 15:01:25.771', '2026-07-03 15:01:45.351', 'system', 0, 'system', NULL, 2, b'1', 0, 'WEB', 'views/pages/iot/mqtt-authority/Authorize.vue', b'1', 'MENU', b'0', b'0', 'mdi-link-lock', b'0', 'APP', 'ThingsMqttAuthorityAuthorize', b'1', 'c499066e-5d36-4260-a3fa-e9be0b07f374', '/things/mqtt-authority/authorize', NULL, '主题权限授权');
-
 -- ----------------------------
 -- Table data for sys_element_role
 -- ----------------------------
@@ -78,6 +77,7 @@ INSERT INTO `sys_element_role` (`element_id`, `role_id`) VALUES ('33353926-fef2-
 INSERT INTO `sys_element_role` (`element_id`, `role_id`) VALUES ('146512ac-c7e6-41f6-822d-886840baaeeb', '1');
 INSERT INTO `sys_element_role` (`element_id`, `role_id`) VALUES ('d8b88ff6-b41c-4db9-86bb-d7fb416586ba', '1');
 INSERT INTO `sys_element_role` (`element_id`, `role_id`) VALUES ('024b8aab-7a8d-4aa9-8dc2-1c6842e01757', '1');
+
 -- ----------------------------
 -- Table data for iot_tsl_unit
 -- ----------------------------
@@ -201,6 +201,11 @@ INSERT INTO `iot_tsl_unit` (`unit_id`, `create_time`, `update_time`, `unit_name`
 INSERT INTO `iot_tsl_unit` (`unit_id`, `create_time`, `update_time`, `unit_name`, `unit_symbol`) VALUES ('118', '2024-09-08 17:10:08', '2024-09-08 17:10:13', '米', 'm');
 
 -- ----------------------------
+-- Table data for oauth2_registered_client
+-- ----------------------------
+INSERT INTO `oauth2_registered_client` (`id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `authorization_grant_types`, `client_authentication_methods`, `client_id_issued_at`, `client_secret_expires_at`, `post_logout_redirect_uris`, `redirect_uris`, `client_id`, `client_name`, `client_secret`, `client_settings`, `scopes`, `token_settings`) VALUES ('1e0741dd-7c98-49cf-a8a4-a1c52fa2aa3e', '2026-07-30 07:34:15.911565', '2026-07-30 07:34:15.911565', 'apktestadd', 0, 'apktestadd', NULL, 0, b'0', 0, 'client_credentials', 'client_secret_post', '2026-07-30 07:34:15.911564', NULL, '', '', '9527', 'aaaaaa', '{bcrypt}$2a$10$fyaqpupSfv7Rd8nuuqTMReAen4Oop9YWNPEM4pgL8KBiGAbaK5cM.', '{`@class`:`java.util.Collections$UnmodifiableMap`,`settings.client.require-proof-key`:true,`settings.client.require-authorization-consent`:true,`product_key`:`apktestadd`}', 'profile', '{`@class`:`java.util.Collections$UnmodifiableMap`,`settings.token.reuse-refresh-tokens`:true,`settings.token.x509-certificate-bound-access-tokens`:false,`settings.token.id-token-signature-algorithm`:[`org.springframework.security.oauth2.jose.jws.SignatureAlgorithm`,`RS256`],`settings.token.access-token-time-to-live`:[`java.time.Duration`,`PT5M`],`settings.token.access-token-format`:{`@class`:`org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat`,`value`:`reference`},`settings.token.refresh-token-time-to-live`:[`java.time.Duration`,`PT1H`],`settings.token.authorization-code-time-to-live`:[`java.time.Duration`,`PT5M`],`settings.token.device-code-time-to-live`:[`java.time.Duration`,`PT5M`]}');
+
+-- ----------------------------
 -- Table data for iot_product_category
 -- ----------------------------
 INSERT INTO `iot_product_category` (`category_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `category_name`, `scene_id`) VALUES ('2bfa5467-b9f5-46dd-acec-f05aaaa00522', '2025-04-24 16:16:11.724', '2025-04-24 16:17:04.647', 'system', 0, 'system', '物联网平台测试数据', 1, b'1', 0, '测试品类', NULL);
@@ -211,9 +216,15 @@ INSERT INTO `iot_product_category` (`category_id`, `create_time`, `update_time`,
 INSERT INTO `iot_product` (`product_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `authentication`, `protocol`, `networking`, `node`, `photo_url`, `product_key`, `product_name`, `productsecret`, `quantity`, `registration`, `is_release`, `verification`, `category_id`) VALUES ('8452271e-e42e-4a59-af80-3ea3c83247ea', '2025-04-28 21:20:27.432', '2025-04-28 21:20:27.432', 'system', 0, 'system', NULL, 1, b'1', 0, NULL, NULL, 2, 0, NULL, 'apktestadd', '测试物联网产品', '9f3026f4beddf8d29f3026f4beddf8d2', 0, b'0', b'0', b'0', '2bfa5467-b9f5-46dd-acec-f05aaaa00522');
 
 -- ----------------------------
+-- Table data for iot_device
+-- ----------------------------
+INSERT INTO `iot_device` (`device_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `is_activated`, `client_id`, `device_name`, `device_secret`, `redirect_uris`, `product_id`) VALUES ('1e0741dd-7c98-49cf-a8a4-a1c52fa2aa3e', '2026-07-30 07:34:16.000846', '2026-07-30 07:35:02.131944', 'apktestadd', 0, 'apktestadd', NULL, 0, b'0', 0, b'1', '9527', 'aaaaaa', 'ssop4X0ygNAO3IY4EB4YIgzivkJKwoqpHqJ1OK-pYzXdDPzlEDTY8FR-NkPjoDoa', '', '8452271e-e42e-4a59-af80-3ea3c83247ea');
+
+-- ----------------------------
 -- Table data for iot_mqtt_account
 -- ----------------------------
-INSERT INTO `iot_mqtt_account` (`account_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `client_id`, `password`, `username`, `is_superuser`) VALUES ('thingsbrain-platform', '2025-10-07 22:42:29', '2025-10-07 22:42:32', 'system', 0, 'system', '物联网平台链接Mqtt默认账号', 0, b'1', 0, 'thingsbrain-platform', '{bcrypt}$2a$10$/XF002c2EuL0NyaEZ8a0be8S2IxKjFDd8f1ryY6wHpRMuXCiF2x7K', 'herodotus', 't');
+INSERT INTO `iot_mqtt_account` (`account_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `client_id`, `password`, `is_superuser`, `username`) VALUES ('thingsbrain-platform', '2025-10-07 22:42:29', '2025-10-07 22:42:32', 'system', 0, 'system', '物联网平台链接Mqtt默认账号', 0, b'1', 0, 'thingsbrain-platform', '{bcrypt}$2a$10$/XF002c2EuL0NyaEZ8a0be8S2IxKjFDd8f1ryY6wHpRMuXCiF2x7K', b'1', 'herodotus');
+INSERT INTO `iot_mqtt_account` (`account_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `client_id`, `password`, `is_superuser`, `username`) VALUES ('1e0741dd-7c98-49cf-a8a4-a1c52fa2aa3e', '2026-07-30 07:34:16.079501', '2026-07-30 07:35:02.123837', NULL, 0, NULL, NULL, 0, b'0', 0, '9527', '{bcrypt}$2a$10$97wkIDqRcOxthXGrFOpb.e7v9tPr03OtbEA7fV8MpyIh3qHi.QR46', b'0', 'aaaaaa&apktestadd');
 
 -- ----------------------------
 -- Table data for iot_mqtt_account_category
@@ -230,8 +241,8 @@ INSERT INTO `iot_mqtt_category` (`category_id`, `create_time`, `update_time`, `c
 INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('thingsbrain-platform', '1');
 INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('thingsbrain-platform', '2');
 INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('thingsbrain-platform', '5');
--- INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('83a59414-04b9-4e83-af8a-a756a2e8f01f', '4');
--- INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('83a59414-04b9-4e83-af8a-a756a2e8f01f', '3');
+INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('1e0741dd-7c98-49cf-a8a4-a1c52fa2aa3e', '4');
+INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('1e0741dd-7c98-49cf-a8a4-a1c52fa2aa3e', '3');
 
 -- ----------------------------
 -- Table data for iot_mqtt_authority
