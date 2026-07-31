@@ -44,8 +44,6 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,8 +78,7 @@ public class HerodotusTslFunctionService extends AbstractJpaService<HerodotusTsl
         herodotusTslFunctionRepository.deleteAllByProductIdAndRequired(productId, true);
     }
 
-    public Page<HerodotusTslFunction> findByCondition(int pageNumber, int pageSize, String productId, String productKey, Boolean required) {
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+    public Page<HerodotusTslFunction> findByCondition(int pageNumber, int pageSize, String productId, String productKey, Dimension dimension) {
 
         Specification<HerodotusTslFunction> specification = (root, criteriaQuery, criteriaBuilder) -> {
 
@@ -95,8 +92,16 @@ public class HerodotusTslFunctionService extends AbstractJpaService<HerodotusTsl
                 predicates.add(criteriaBuilder.equal(root.get("productKey"), productKey));
             }
 
-            if (ObjectUtils.isNotEmpty(required)) {
-                predicates.add(criteriaBuilder.equal(root.get("required"), required));
+            if (ObjectUtils.isEmpty(dimension)) {
+                // 如果 dimension 为 null，则认为是 Product 详情中的物模型，则只显示 required 为 false 的功能
+                predicates.add(criteriaBuilder.equal(root.get("required"), false));
+            } else {
+                // 如果 dimension 不为 null，则认为是 Device 详情中的物模型
+                predicates.add(criteriaBuilder.equal(root.get("dimension"), dimension));
+                // Device 详情中的物模型，如果为 Service 或者 Event 则只显示 displayable 为 true 的功能
+                if (dimension == Dimension.SERVICE || dimension == Dimension.EVENT) {
+                    predicates.add(criteriaBuilder.equal(root.get("displayable"), true));
+                }
             }
 
             Predicate[] predicateArray = new Predicate[predicates.size()];
@@ -104,7 +109,7 @@ public class HerodotusTslFunctionService extends AbstractJpaService<HerodotusTsl
             return criteriaQuery.getRestriction();
         };
 
-        return this.findByPage(specification, pageable);
+        return this.findByCondition(specification, pageNumber, pageSize);
     }
 
     public long findPropertyNumber(String productId) {

@@ -32,6 +32,7 @@ import cn.herodotus.dante.security.domain.UserPrincipal;
 import cn.herodotus.dante.security.utils.ServletSecurityUtils;
 import cn.herodotus.dante.web.annotation.AccessLimited;
 import cn.herodotus.dante.web.annotation.Idempotent;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
 import cn.herodotus.thingsbrain.mqtt.outbound.service.TslServiceService;
 import cn.herodotus.thingsbrain.persistence.commons.domain.TslFunction;
 import cn.herodotus.thingsbrain.persistence.commons.service.TslFunctionService;
@@ -90,7 +91,7 @@ public class TslFunctionController extends AbstractEntityWriteAndPageController<
             @Parameter(name = "pageSize", required = true, description = "每页显示数量"),
             @Parameter(name = "productId", description = "物联网 ProductId"),
             @Parameter(name = "productKey", description = "物联网 ProductKey"),
-            @Parameter(name = "required", description = "是否为必需功能"),
+            @Parameter(name = "dimension", description = "物模型维度"),
     })
     @GetMapping("/condition")
     public Result<Map<String, Object>> findByCondition(
@@ -98,8 +99,8 @@ public class TslFunctionController extends AbstractEntityWriteAndPageController<
             @NotNull @RequestParam("pageSize") Integer pageSize,
             @RequestParam(value = "productId", required = false) String productId,
             @RequestParam(value = "productKey", required = false) String productKey,
-            @RequestParam(value = "required", required = false) Boolean required) {
-        Page<TslFunction> pages = tslFunctionService.findByCondition(pageNumber, pageSize, productId, productKey, required);
+            @RequestParam(value = "dimension", required = false) String dimension) {
+        Page<TslFunction> pages = tslFunctionService.findByCondition(pageNumber, pageSize, productId, productKey, Dimension.parse(dimension));
         return resultFromPage(pages);
     }
 

@@ -69,7 +69,6 @@ public class ToTslFunctionConverter extends AbstractToAuditEntityConverter<Herod
         target.setAccessMode(source.getAccessMode());
         target.setEventType(source.getEventType());
         target.setCallType(source.getCallType());
-        target.setRequired(source.getRequired());
         target.setMethod(source.getMethod());
         target.setDescription(source.getDescription());
         target.setArguments(toArgument(source.getArguments()));

@@ -62,9 +62,6 @@ public class TslFunction extends AbstractTslEntity {
     @Schema(name = "服务调用类型", description = "只有物模型 services 需要该属性")
     private CallType callType;
 
-    @Schema(name = "是否是标准功能的必选", title = "可根据该属性来区分是否为系统默认生成的功能")
-    private Boolean required = Boolean.FALSE;
-
     @Schema(name = "方法", title = "对于默认的 Event 和 Service 可以预存 method 方便使用")
     private String method;
 
@@ -130,14 +127,6 @@ public class TslFunction extends AbstractTslEntity {
         this.callType = callType;
     }
 
-    public Boolean getRequired() {
-        return required;
-    }
-
-    public void setRequired(Boolean required) {
-        this.required = required;
-    }
-
     public String getMethod() {
         return method;
     }
@@ -172,7 +161,6 @@ public class TslFunction extends AbstractTslEntity {
                 .add("accessMode", accessMode)
                 .add("eventType", eventType)
                 .add("callType", callType)
-                .add("required", required)
                 .add("method", method)
                 .add("description", description)
                 .add("arguments", arguments)

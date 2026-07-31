@@ -26,6 +26,7 @@
 package cn.herodotus.thingsbrain.persistence.commons.service;
 
 import cn.herodotus.dante.data.commons.service.BaseWriteAndPageService;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
 import cn.herodotus.thingsbrain.persistence.commons.domain.TslFunction;
 import org.springframework.data.domain.Page;
 
@@ -37,5 +38,5 @@ import org.springframework.data.domain.Page;
  */
 public interface TslFunctionService extends BaseWriteAndPageService<TslFunction, String> {
 
-    Page<TslFunction> findByCondition(int pageNumber, int pageSize, String productId, String productKey, Boolean required);
+    Page<TslFunction> findByCondition(int pageNumber, int pageSize, String productId, String productKey, Dimension dimension);
 }

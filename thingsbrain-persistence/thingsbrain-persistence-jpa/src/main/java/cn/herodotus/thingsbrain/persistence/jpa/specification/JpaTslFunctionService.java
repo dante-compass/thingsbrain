@@ -25,6 +25,7 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.specification;
 
+import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
 import cn.herodotus.thingsbrain.persistence.commons.domain.TslFunction;
 import cn.herodotus.thingsbrain.persistence.commons.service.TslFunctionService;
 import cn.herodotus.thingsbrain.persistence.jpa.converter.FromTslFunctionConverter;
@@ -80,8 +81,8 @@ public class JpaTslFunctionService implements TslFunctionService {
     }
 
     @Override
-    public Page<TslFunction> findByCondition(int pageNumber, int pageSize, String productId, String productKey, Boolean required) {
-        Page<HerodotusTslFunction> pages = delegate.findByCondition(pageNumber, pageSize, productId, productKey, required);
+    public Page<TslFunction> findByCondition(int pageNumber, int pageSize, String productId, String productKey, Dimension dimension) {
+        Page<HerodotusTslFunction> pages = delegate.findByCondition(pageNumber, pageSize, productId, productKey, dimension);
         return pages.map(toFunction::convert);
     }
 }

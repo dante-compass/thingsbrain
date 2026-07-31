@@ -99,6 +99,9 @@ public class HerodotusTslFunction extends AbstractTslCharacteristic implements S
     @Column(name = "is_required")
     private Boolean required = Boolean.FALSE;
 
+    @Column(name = "is_displayable")
+    private Boolean displayable = Boolean.TRUE;
+
     @Column(name = "method", length = 100)
     private String method;
 
@@ -169,6 +172,14 @@ public class HerodotusTslFunction extends AbstractTslCharacteristic implements S
 
     public void setRequired(Boolean required) {
         this.required = required;
+    }
+
+    public Boolean getDisplayable() {
+        return displayable;
+    }
+
+    public void setDisplayable(Boolean displayable) {
+        this.displayable = displayable;
     }
 
     @Override
@@ -244,6 +255,7 @@ public class HerodotusTslFunction extends AbstractTslCharacteristic implements S
                 .add("eventType", eventType)
                 .add("callType", callType)
                 .add("required", required)
+                .add("displayable", displayable)
                 .add("method", method)
                 .add("description", description)
                 .toString();
