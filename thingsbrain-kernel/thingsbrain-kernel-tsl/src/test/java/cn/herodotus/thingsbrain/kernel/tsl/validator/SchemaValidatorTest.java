@@ -28,7 +28,7 @@ package cn.herodotus.thingsbrain.kernel.tsl.validator;
 import cn.hutool.v7.core.io.file.FileUtil;
 import org.apache.commons.lang3.Strings;
 import cn.herodotus.dante.core.jackson.JacksonUtils;
-import cn.herodotus.thingsbrain.kernel.commons.domain.ValidationResult;
+import cn.herodotus.thingsbrain.kernel.commons.domain.SchemaValidationResult;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.Argument;
 import cn.herodotus.thingsbrain.kernel.tsl.domain.ServiceDimension;
 import cn.herodotus.thingsbrain.kernel.tsl.entity.TslServices;
@@ -49,14 +49,14 @@ import java.util.Optional;
  * @author : gengwei.zheng
  * @date : 2025/5/16 16:37
  */
-public class ArgumentValidatorTest {
+public class SchemaValidatorTest {
 
-    ArgumentValidator argumentValidator;
+    SchemaValidator schemaValidator;
     TslServices services;
 
     @BeforeEach
     void setup() throws Exception {
-        argumentValidator = new ArgumentValidator();
+        schemaValidator = new SchemaValidator();
 
         File file = ResourceUtils.getFile("classpath:json/service-with-struct.json");
         String json = FileUtil.readString(file, StandardCharsets.UTF_8);
@@ -78,7 +78,7 @@ public class ArgumentValidatorTest {
                 .orElse(null);
         Assertions.assertNotNull(argument, "无法从物模型中找到标识符为 model 的 Argument 定义");
 
-        ValidationResult result = argumentValidator.validate("modell", 150, argument);
+        SchemaValidationResult result = schemaValidator.validate(argument, "modell", 150);
         Assertions.assertFalse(result.getValid(), "物模型属性校验错误");
     }
 
@@ -106,7 +106,7 @@ public class ArgumentValidatorTest {
         Map<String, Object> root = new HashMap<>();
         root.put("fan_struct_property", child);
 
-        ValidationResult result = argumentValidator.validate(root, argument);
+        SchemaValidationResult result = schemaValidator.validate(argument, root);
         Assertions.assertNull(result.getErrors(), "JSON Schema 校验出错");
     }
 
@@ -138,7 +138,7 @@ public class ArgumentValidatorTest {
         root.put("fan_struct_property", child);
         root.put("fan_text_property", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
-        ValidationResult result = argumentValidator.validate(root, dimension.getOutputData());
+        SchemaValidationResult result = schemaValidator.validate(dimension.getOutputData(), root);
         result.getErrors().forEach(System.out::println);
         Assertions.assertEquals(2, result.getErrors().size(), "JSON Schema 校验出错");
     }

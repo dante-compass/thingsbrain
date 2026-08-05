@@ -26,8 +26,8 @@
 package cn.herodotus.thingsbrain.kernel.tsl.validator;
 
 import cn.herodotus.thingsbrain.kernel.commons.definition.JsonSchemaValidator;
-import cn.herodotus.thingsbrain.kernel.commons.domain.JsonSchemaError;
-import cn.herodotus.thingsbrain.kernel.commons.domain.ValidationResult;
+import cn.herodotus.thingsbrain.kernel.commons.domain.SchemaValidationError;
+import cn.herodotus.thingsbrain.kernel.commons.domain.SchemaValidationResult;
 import cn.herodotus.thingsbrain.kernel.tsl.converter.ValidationMessageToErrorConverter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.networknt.schema.Error;
@@ -56,7 +56,7 @@ public class DefaultJsonSchemaValidator implements JsonSchemaValidator {
 
     private final ObjectMapper objectMapper;
     private final SchemaRegistry schemaRegistry;
-    private final Converter<List<Error>, List<JsonSchemaError>> toError;
+    private final Converter<List<Error>, List<SchemaValidationError>> toError;
 
     public DefaultJsonSchemaValidator() {
         this.objectMapper = initObjectMapper();
@@ -88,15 +88,15 @@ public class DefaultJsonSchemaValidator implements JsonSchemaValidator {
     }
 
     @Override
-    public ValidationResult validate(JsonNode data, JsonNode schema) {
+    public SchemaValidationResult validate(JsonNode data, JsonNode schema) {
         Schema jsonSchema = schemaRegistry.getSchema(schema);
         List<Error> messages = jsonSchema.validate(data);
 
-        ValidationResult result = new ValidationResult();
+        SchemaValidationResult result = new SchemaValidationResult();
         if (CollectionUtils.isEmpty(messages)) {
             result.setValid(true);
         } else {
-            List<JsonSchemaError> errors = toError.convert(messages);
+            List<SchemaValidationError> errors = toError.convert(messages);
             result.setValid(false);
             result.setErrors(errors);
         }
@@ -105,13 +105,13 @@ public class DefaultJsonSchemaValidator implements JsonSchemaValidator {
     }
 
     @Override
-    public ValidationResult validate(Map<String, Object> data, JsonNode schema) {
+    public SchemaValidationResult validate(Map<String, Object> data, JsonNode schema) {
         JsonNode jsonNode = objectMapper.valueToTree(data);
         return validate(jsonNode, schema);
     }
 
     @Override
-    public ValidationResult validate(Map<String, Object> data, String schema) {
+    public SchemaValidationResult validate(Map<String, Object> data, String schema) {
         JsonNode jsonNode = objectMapper.valueToTree(schema);
         return validate(data, jsonNode);
     }

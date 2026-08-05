@@ -36,7 +36,7 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2025/5/16 17:26
  */
-public class JsonSchemaError implements Serializable {
+public class SchemaValidationError implements Serializable {
 
     private String key;
     private String message;

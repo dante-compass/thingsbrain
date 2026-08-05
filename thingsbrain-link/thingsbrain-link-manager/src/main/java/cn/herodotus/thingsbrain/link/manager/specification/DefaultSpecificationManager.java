@@ -26,13 +26,12 @@
 package cn.herodotus.thingsbrain.link.manager.specification;
 
 import cn.herodotus.dante.core.support.file.JsonSchemaFileManager;
-import cn.herodotus.thingsbrain.kernel.commons.exception.JsonSchemaValidateErrorException;
+import cn.herodotus.thingsbrain.kernel.commons.domain.SchemaValidationResult;
 import cn.herodotus.thingsbrain.kernel.tsl.domain.ServiceDimension;
-import cn.herodotus.thingsbrain.kernel.tsl.validator.ArgumentValidator;
+import cn.herodotus.thingsbrain.kernel.tsl.validator.SchemaValidator;
 import cn.herodotus.thingsbrain.link.commons.definition.SpecificationManager;
 import cn.herodotus.thingsbrain.persistence.commons.domain.Product;
 import cn.herodotus.thingsbrain.persistence.commons.service.ProductService;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.Map;
@@ -48,12 +47,12 @@ public class DefaultSpecificationManager implements SpecificationManager {
 
     private final SpecificationResourceManager specificationResourceManager;
     private final ProductService productService;
-    private final ArgumentValidator argumentValidator;
+    private final SchemaValidator schemaValidator;
 
     public DefaultSpecificationManager(ProductService productService, JsonSchemaFileManager jsonSchemaFileManager) {
         this.specificationResourceManager = new SpecificationResourceManager(jsonSchemaFileManager);
         this.productService = productService;
-        this.argumentValidator = new ArgumentValidator();
+        this.schemaValidator = new SchemaValidator();
     }
 
     @Override
@@ -77,18 +76,12 @@ public class DefaultSpecificationManager implements SpecificationManager {
     }
 
     @Override
-    public void verification(String productKey, String identifier, Map<String, Object> params) {
-        Optional<Product> optional = productService.findByProductKey(productKey);
-
-        optional.filter(Product::getVerification)
-                .flatMap(product -> specificationResourceManager.findService(productKey, identifier)
+    public SchemaValidationResult verification(String productKey, String identifier, Map<String, Object> params) {
+        return productService.findByProductKey(productKey)
+                .filter(Product::getVerification)
+                .flatMap(product -> specificationResourceManager.findService(product.getProductKey(), identifier)
                         .map(ServiceDimension::getInputData)
-                        .map(data -> argumentValidator.validate(params, data)))
-                .ifPresent(validationResult -> {
-                    if (BooleanUtils.isFalse(validationResult.getValid())) {
-                        throw new JsonSchemaValidateErrorException(validationResult.getMessage());
-                    }
-                });
-
+                        .map(specifications -> schemaValidator.validate(specifications, params)))
+                .orElse(new SchemaValidationResult());
     }
 }

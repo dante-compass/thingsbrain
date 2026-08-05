@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.kernel.tsl.validator;
 
 import cn.herodotus.thingsbrain.kernel.commons.definition.JsonSchemaValidator;
-import cn.herodotus.thingsbrain.kernel.commons.domain.ValidationResult;
+import cn.herodotus.thingsbrain.kernel.commons.domain.SchemaValidationResult;
 import cn.herodotus.thingsbrain.kernel.tsl.Schema;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.Argument;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.ArgumentType;
@@ -46,36 +46,59 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2025/5/16 15:48
  */
-public class ArgumentValidator {
+public class SchemaValidator {
 
-    private static final Logger log = LoggerFactory.getLogger(ArgumentValidator.class);
+    private static final Logger log = LoggerFactory.getLogger(SchemaValidator.class);
 
     private final JsonSchemaValidator jsonSchemaValidator;
     private final ObjectMapper objectMapper;
 
-    public ArgumentValidator() {
+    public SchemaValidator() {
         this.jsonSchemaValidator = new DefaultJsonSchemaValidator();
         this.objectMapper = this.jsonSchemaValidator.getObjectMapper();
     }
 
     private JsonNode createSchemaNode(Schema<Argument> describe) {
         JsonNode jsonNode = objectMapper.valueToTree(describe);
-        log.debug("[ThingsBrain] |- Schema is : [{}]", jsonNode.toString());
+        log.debug("[ThingsMesh] |- Schema is : [{}]", jsonNode.toString());
         return jsonNode;
     }
 
-    public ValidationResult validate(Map<String, Object> data, List<Argument> arguments) {
+    /**
+     * 根据多个物模型参数定义，使用 Json Schema 方式同时校验多条数据。
+     *
+     * @param arguments 物模型定义参数列表
+     * @param data      待校验数据
+     * @return Schema 校验结果 {@link SchemaValidationResult}
+     */
+    public SchemaValidationResult validate(List<Argument> arguments, Map<String, Object> data) {
+        // 根据物模型中定义的参数，将其转换为 JsonSchema
         Schema<Argument> describe = new Schema<>(arguments.stream());
         JsonNode jsonNode = createSchemaNode(describe);
         return jsonSchemaValidator.validate(data, jsonNode);
     }
 
-    public ValidationResult validate(Map<String, Object> data, Argument argument) {
-        return validate(data, Collections.singletonList(argument));
+    /**
+     * 根据单个物模型参数定义，使用 Json Schema 方式同时校验多条数据。支持 Struct 结构。
+     *
+     * @param argument 物模型定义参数
+     * @param data     待校验数据
+     * @return Schema 校验结果 {@link SchemaValidationResult}
+     */
+    public SchemaValidationResult validate(Argument argument, Map<String, Object> data) {
+        return validate(Collections.singletonList(argument), data);
     }
 
-    public ValidationResult validate(String identifier, Object value, Argument argument) {
+    /**
+     * 根据单个物模型参数定义，使用 Json Schema 方式同时校验单条数据。不支持 Struct 结构。
+     *
+     * @param argument   物模型定义参数
+     * @param identifier 物模型参数标识符
+     * @param value      待校验值
+     * @return Schema 校验结果 {@link SchemaValidationResult}
+     */
+    public SchemaValidationResult validate(Argument argument, String identifier, Object value) {
         Assert.isTrue(argument.getDataType().getType() != ArgumentType.STRUCT, "Argument type must be struct for single property");
-        return validate(Map.of(identifier, value), argument);
+        return validate(argument, Map.of(identifier, value));
     }
 }

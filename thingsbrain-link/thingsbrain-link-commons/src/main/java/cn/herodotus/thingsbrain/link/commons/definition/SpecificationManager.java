@@ -25,6 +25,7 @@
 
 package cn.herodotus.thingsbrain.link.commons.definition;
 
+import cn.herodotus.thingsbrain.kernel.commons.domain.SchemaValidationResult;
 import cn.herodotus.thingsbrain.persistence.commons.service.ProductService;
 
 import java.util.Map;
@@ -60,6 +61,7 @@ public interface SpecificationManager {
      * @param productKey 物联网产品 ProductKey
      * @param identifier 物模型标识符
      * @param params     传入参数 {@link Map}
+     * @return Schema 验证结果 {@link SchemaValidationResult}
      */
-    void verification(String productKey, String identifier, Map<String, Object> params);
+    SchemaValidationResult verification(String productKey, String identifier, Map<String, Object> params);
 }

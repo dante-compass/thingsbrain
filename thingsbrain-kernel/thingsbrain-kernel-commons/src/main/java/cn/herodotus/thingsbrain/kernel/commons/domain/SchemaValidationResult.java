@@ -26,9 +26,9 @@
 package cn.herodotus.thingsbrain.kernel.commons.domain;
 
 import cn.herodotus.dante.core.constant.SymbolConstants;
+import cn.herodotus.dante.core.domain.BaseEntity;
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -37,11 +37,11 @@ import java.util.List;
  * @author : gengwei.zheng
  * @date : 2025/5/16 17:28
  */
-public class ValidationResult implements Serializable {
+public class SchemaValidationResult implements BaseEntity {
 
     private Boolean valid = Boolean.TRUE;
 
-    private List<JsonSchemaError> errors;
+    private List<SchemaValidationError> errors;
 
     public Boolean getValid() {
         return valid;
@@ -51,11 +51,11 @@ public class ValidationResult implements Serializable {
         this.valid = valid;
     }
 
-    public List<JsonSchemaError> getErrors() {
+    public List<SchemaValidationError> getErrors() {
         return errors;
     }
 
-    public void setErrors(List<JsonSchemaError> errors) {
+    public void setErrors(List<SchemaValidationError> errors) {
         this.errors = errors;
     }
 

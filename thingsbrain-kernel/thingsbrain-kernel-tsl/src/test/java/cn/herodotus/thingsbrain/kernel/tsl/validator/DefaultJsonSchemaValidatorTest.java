@@ -27,7 +27,7 @@ package cn.herodotus.thingsbrain.kernel.tsl.validator;
 
 import cn.hutool.v7.core.io.file.FileUtil;
 import cn.herodotus.dante.core.jackson.JacksonUtils;
-import cn.herodotus.thingsbrain.kernel.commons.domain.ValidationResult;
+import cn.herodotus.thingsbrain.kernel.commons.domain.SchemaValidationResult;
 import cn.herodotus.thingsbrain.kernel.tsl.Schema;
 import cn.herodotus.thingsbrain.kernel.tsl.domain.PropertyDimension;
 import cn.herodotus.thingsbrain.kernel.tsl.entity.TslProperties;
@@ -97,7 +97,7 @@ public class DefaultJsonSchemaValidatorTest {
         root.put("fan_struct_property", child);
         root.put("fan_text_property", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
-        ValidationResult result = defaultJsonSchemaValidator.validate(root, schemaNode);
+        SchemaValidationResult result = defaultJsonSchemaValidator.validate(root, schemaNode);
         Assertions.assertTrue(result.getValid(), "JSON Schema 校验出错");
     }
 
@@ -123,7 +123,7 @@ public class DefaultJsonSchemaValidatorTest {
         root.put("fan_struct_property", child);
         root.put("fan_text_property", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
-        ValidationResult result = defaultJsonSchemaValidator.validate(root, schemaNode);
+        SchemaValidationResult result = defaultJsonSchemaValidator.validate(root, schemaNode);
 
         Assertions.assertEquals(2, result.getErrors().size(), "JSON Schema 校验出错");
     }
