@@ -26,6 +26,7 @@
 package cn.herodotus.thingsbrain.mqtt.inbound.processor;
 
 import cn.herodotus.dante.core.jackson.JacksonUtils;
+import cn.herodotus.dante.message.commons.constant.MessageConstants;
 import cn.herodotus.dante.message.commons.definition.strategy.MessageSendingEventManager;
 import cn.herodotus.dante.message.commons.domain.UserMessage;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
@@ -55,6 +56,7 @@ public class InboundResponseMessageProcessor {
 
             UserMessage userMessage = new UserMessage();
             userMessage.setUserId(mqttOperation.getUserId());
+            userMessage.setDestination(MessageConstants.WEBSOCKET_DESTINATION_PERSONAL_NOTIFY);
 
             if (ObjectUtils.isNotEmpty(response)) {
                 if (response.getCode() == 200) {
