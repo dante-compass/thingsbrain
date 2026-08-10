@@ -25,6 +25,11 @@
             <groupId>cn.herodotus.thingsbrain</groupId>
             <artifactId>thingsbrain-link-commons</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cn.herodotus.dante</groupId>
+            <artifactId>dante-message-commons</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

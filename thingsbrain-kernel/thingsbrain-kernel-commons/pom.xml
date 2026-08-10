@@ -48,12 +48,7 @@
 
         <dependency>
             <groupId>cn.herodotus.dante</groupId>
-            <artifactId>dante-spring</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.herodotus.dante</groupId>
-            <artifactId>dante-message-commons</artifactId>
+            <artifactId>dante-core</artifactId>
         </dependency>
 
         <dependency>

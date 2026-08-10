@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.link.autoconfigure.initializer;
 
 import cn.herodotus.dante.spring.context.ServiceContextHolder;
-import cn.herodotus.thingsbrain.kernel.commons.event.MqttSubscribeTopicAppenderEvent;
+import cn.herodotus.thingsbrain.link.commons.event.MqttSubscribeTopicAppenderEvent;
 import cn.herodotus.thingsbrain.link.commons.definition.MqttAuthorizationManager;
 import cn.herodotus.thingsbrain.persistence.commons.domain.MqttAuthority;
 import org.apache.commons.collections4.CollectionUtils;

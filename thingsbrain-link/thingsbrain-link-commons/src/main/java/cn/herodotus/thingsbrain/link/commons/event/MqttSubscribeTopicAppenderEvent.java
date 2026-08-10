@@ -23,37 +23,27 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.kernel.commons.event;
+package cn.herodotus.thingsbrain.link.commons.event;
 
 import cn.herodotus.dante.message.commons.definition.event.AbstractApplicationEvent;
-import cn.herodotus.thingsbrain.kernel.commons.enums.AuthType;
+import cn.herodotus.thingsbrain.kernel.commons.definition.domain.SubscribeTopic;
 
 import java.time.Clock;
+import java.util.Set;
 
 /**
- * <p>Description: 基于MQTT协议的设备动态注册成功事件 </p>
+ * <p>Description: Mqtt 动态订阅主题事件 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/7/6 23:27
+ * @date : 2025/10/14 0:04
  */
-public class MqttRegistrationResponseEvent extends AbstractApplicationEvent<String> {
+public class MqttSubscribeTopicAppenderEvent extends AbstractApplicationEvent<Set<? extends SubscribeTopic>> {
 
-    /**
-     * 基于MQTT协议的设备动态注册类型，参见 {@link AuthType}
-     */
-    private final String type;
-
-    public MqttRegistrationResponseEvent(String data, String type) {
+    public MqttSubscribeTopicAppenderEvent(Set<? extends SubscribeTopic> data) {
         super(data);
-        this.type = type;
     }
 
-    public MqttRegistrationResponseEvent(String data, Clock clock, String type) {
+    public MqttSubscribeTopicAppenderEvent(Set<? extends SubscribeTopic> data, Clock clock) {
         super(data, clock);
-        this.type = type;
-    }
-
-    public String getType() {
-        return type;
     }
 }

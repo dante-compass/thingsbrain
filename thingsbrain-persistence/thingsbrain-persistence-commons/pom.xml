@@ -23,12 +23,13 @@
 
         <dependency>
             <groupId>cn.herodotus.dante</groupId>
-            <artifactId>dante-core</artifactId>
+            <artifactId>dante-data-commons</artifactId>
         </dependency>
+
 
         <dependency>
             <groupId>cn.herodotus.dante</groupId>
-            <artifactId>dante-data-commons</artifactId>
+            <artifactId>dante-security</artifactId>
         </dependency>
 
         <dependency>
