@@ -26,7 +26,9 @@
 package cn.herodotus.thingsbrain.kernel.link.domain.shadow;
 
 import cn.herodotus.thingsbrain.kernel.link.definition.AbstractDomain;
+import cn.herodotus.thingsbrain.kernel.link.definition.shadow.Error;
 import cn.herodotus.thingsbrain.kernel.link.definition.shadow.Metadata;
+import cn.herodotus.thingsbrain.kernel.link.definition.shadow.Payload;
 import cn.herodotus.thingsbrain.kernel.link.definition.shadow.State;
 import com.google.common.base.MoreObjects;
 import org.apache.commons.lang3.ObjectUtils;
@@ -39,7 +41,7 @@ import org.apache.commons.lang3.Strings;
  * @author : gengwei.zheng
  * @date : 2025/5/31 23:00
  */
-public class ShadowResponse extends AbstractDomain<Long> {
+public class ShadowResponse extends AbstractDomain<Integer> {
 
     private Payload payload;
 
@@ -61,7 +63,7 @@ public class ShadowResponse extends AbstractDomain<Long> {
         this.timestamp = timestamp;
     }
 
-    public static ShadowResponse success(Long version) {
+    public static ShadowResponse success(Integer version) {
         return new Builder(version).status("success").build();
     }
 
@@ -100,7 +102,7 @@ public class ShadowResponse extends AbstractDomain<Long> {
     public static class Builder {
 
         private final String method;
-        private final Long version;
+        private final Integer version;
         private String status;
         private Error error;
         private State state;
@@ -111,11 +113,11 @@ public class ShadowResponse extends AbstractDomain<Long> {
             this(null);
         }
 
-        protected Builder(Long version) {
+        protected Builder(Integer version) {
             this("reply", version);
         }
 
-        protected Builder(String method, Long version) {
+        protected Builder(String method, Integer version) {
             this.method = method;
             this.version = version;
         }

@@ -53,17 +53,17 @@ public class Shadow extends AbstractShadow {
         this.timestamp = timestamp;
     }
 
-    private void process(State state, Long version, Consumer<State> consumer) {
+    private void process(State state, Integer version, Consumer<State> consumer) {
         consumer.accept(state);
         this.setVersion(version);
         this.setTimestamp(System.currentTimeMillis());
     }
 
-    public void update(State state, Long version) {
+    public void update(State state, Integer version) {
         process(state, version, this::update);
     }
 
-    public void delete(State state, Long version) {
+    public void delete(State state, Integer version) {
         process(state, version, this::delete);
     }
 

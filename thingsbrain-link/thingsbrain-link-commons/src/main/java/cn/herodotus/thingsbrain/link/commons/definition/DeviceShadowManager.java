@@ -57,7 +57,7 @@ public interface DeviceShadowManager {
      * @param consumer     处理逻辑，update 或者 delete
      * @return 修改后的设备影子实体 {@link DeviceShadow}
      */
-    default DeviceShadow modify(Long version, DeviceShadow deviceShadow, Consumer<Shadow> consumer) {
+    default DeviceShadow modify(Integer version, DeviceShadow deviceShadow, Consumer<Shadow> consumer) {
         String content = deviceShadow.getContent();
         Shadow shadow = JacksonUtils.toObject(content, Shadow.class);
         consumer.accept(shadow);
@@ -75,7 +75,7 @@ public interface DeviceShadowManager {
      * @param consumer   处理逻辑，update 或者 delete
      * @return 修改后的设备影子实体 {@link Optional}
      */
-    default Optional<DeviceShadow> modify(String productKey, String deviceName, Long version, Consumer<Shadow> consumer) {
+    default Optional<DeviceShadow> modify(String productKey, String deviceName, Integer version, Consumer<Shadow> consumer) {
         Optional<DeviceShadow> optional = getDeviceShadowService().findOneByProductKeyAndDeviceName(productKey, deviceName);
         return optional.filter(domain -> domain.getVersion() < version)
                 .map(domain -> modify(version, domain, consumer))
@@ -91,7 +91,7 @@ public interface DeviceShadowManager {
      * @param version    版本号
      * @return 修改后的设备影子实体 {@link Optional}
      */
-    default Optional<DeviceShadow> update(String productKey, String deviceName, State state, Long version) {
+    default Optional<DeviceShadow> update(String productKey, String deviceName, State state, Integer version) {
         return modify(productKey, deviceName, version, shadow -> shadow.update(state, version));
     }
 
@@ -104,7 +104,7 @@ public interface DeviceShadowManager {
      * @param version    版本号
      * @return 修改后的设备影子实体 {@link Optional}
      */
-    default Optional<DeviceShadow> delete(String productKey, String deviceName, State state, Long version) {
+    default Optional<DeviceShadow> delete(String productKey, String deviceName, State state, Integer version) {
         return modify(productKey, deviceName, version, shadow -> shadow.delete(state, version));
     }
 

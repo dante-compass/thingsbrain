@@ -39,7 +39,7 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2025/5/31 23:00
  */
-public class ShadowRequest extends AbstractMethodDomain<Long> {
+public class ShadowRequest extends AbstractMethodDomain<Integer> {
 
     private State state;
 
@@ -54,7 +54,7 @@ public class ShadowRequest extends AbstractMethodDomain<Long> {
         this.state = state;
     }
 
-    public static Builder update(Long version) {
+    public static Builder update(Integer version) {
         return new Builder(version);
     }
 
@@ -67,14 +67,14 @@ public class ShadowRequest extends AbstractMethodDomain<Long> {
 
     public static class Builder {
         private final String method;
-        private final Long version;
+        private final Integer version;
         private State state;
 
-        protected Builder(Long version) {
+        protected Builder(Integer version) {
             this(MethodConstants.METHOD__SHADOW__UPDATE, version);
         }
 
-        protected Builder(String method, Long version) {
+        protected Builder(String method, Integer version) {
             this.method = method;
             this.version = version;
         }

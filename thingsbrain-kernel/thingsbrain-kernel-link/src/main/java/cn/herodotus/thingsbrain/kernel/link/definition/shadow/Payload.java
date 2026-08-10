@@ -23,51 +23,32 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.kernel.link.domain.shadow;
-
-import cn.herodotus.dante.core.domain.BaseEntity;
-import com.google.common.base.MoreObjects;
+package cn.herodotus.thingsbrain.kernel.link.definition.shadow;
 
 /**
- * <p>Description: 设备影子错误信息定义 </p>
+ * <p>Description: 设备接收影子信息数据实体定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/5/28 22:09
+ * @date : 2025/5/28 23:08
  */
-public class Error implements BaseEntity {
+public class Payload extends AbstractShadow {
 
-    private String errorCode;
-    private String errorMessage;
+    private String status;
+    private cn.herodotus.thingsbrain.kernel.link.definition.shadow.Error content;
 
-    public Error() {
+    public String getStatus() {
+        return status;
     }
 
-    public Error(String errorCode, String errorMessage) {
-        this.errorCode = errorCode;
-        this.errorMessage = errorMessage;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public String getErrorCode() {
-        return errorCode;
+    public cn.herodotus.thingsbrain.kernel.link.definition.shadow.Error getContent() {
+        return content;
     }
 
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("errorCode", errorCode)
-                .add("errorMessage", errorMessage)
-                .toString();
+    public void setContent(Error content) {
+        this.content = content;
     }
 }

@@ -25,9 +25,8 @@
 
 package cn.herodotus.thingsbrain.kernel.link.definition.shadow;
 
+import cn.herodotus.dante.core.domain.BaseModel;
 import com.google.common.base.MoreObjects;
-
-import java.io.Serializable;
 
 /**
  * <p>Description: 设备影子 Metadata 值对象定义 </p>
@@ -35,7 +34,7 @@ import java.io.Serializable;
  * @author : gengwei.zheng
  * @date : 2025/5/28 23:22
  */
-public class MetadataTimestamp implements Serializable {
+public class MetadataTimestamp implements BaseModel {
 
     private Long timestamp;
 

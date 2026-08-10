@@ -60,7 +60,7 @@ public class DeviceShadowService {
      * @param data       变更的属性 {@link Map}
      * @param version    新的版本号
      */
-    public void update(String productKey, String deviceName, Map<String, Object> data, Long version) {
+    public void update(String productKey, String deviceName, Map<String, Object> data, Integer version) {
         ShadowRequest request = ShadowRequest.update(version).desired(data).build();
 
         Optional<DeviceShadow> optional = deviceShadowManager.update(productKey, deviceName, request.getState(), request.getVersion());

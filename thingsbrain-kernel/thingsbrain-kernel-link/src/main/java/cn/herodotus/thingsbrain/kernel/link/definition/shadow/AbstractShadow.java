@@ -26,8 +26,8 @@
 package cn.herodotus.thingsbrain.kernel.link.definition.shadow;
 
 import cn.herodotus.dante.core.constant.SymbolConstants;
-import cn.herodotus.dante.core.domain.BaseEntity;
 import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
+import cn.herodotus.thingsbrain.kernel.link.definition.AbstractDomain;
 import org.apache.commons.lang3.Strings;
 
 import java.util.Map;
@@ -39,11 +39,10 @@ import java.util.stream.Collectors;
  * @author : gengwei.zheng
  * @date : 2025/6/3 22:24
  */
-public abstract class AbstractShadow implements BaseEntity {
+public abstract class AbstractShadow extends AbstractDomain<Integer> {
 
     private State state;
     private Metadata metadata;
-    private Long version = 0L;
 
     protected AbstractShadow() {
         this.state = new State();
@@ -64,14 +63,6 @@ public abstract class AbstractShadow implements BaseEntity {
 
     public void setMetadata(Metadata metadata) {
         this.metadata = metadata;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 
     private Map<String, MetadataTimestamp> toMetadata(Map<String, Object> data) {

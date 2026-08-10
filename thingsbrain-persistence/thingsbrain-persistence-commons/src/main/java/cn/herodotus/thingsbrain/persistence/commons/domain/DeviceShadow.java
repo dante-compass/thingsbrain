@@ -53,7 +53,7 @@ public class DeviceShadow extends AbstractAuditEntity {
     private String deviceName;
 
     @Schema(name = "设备影子版本", title = "便于对版本进行比较")
-    private Long version;
+    private Integer version;
 
     @Schema(name = "设备影子 JSON 内容")
     private String content;
@@ -82,11 +82,11 @@ public class DeviceShadow extends AbstractAuditEntity {
         this.deviceName = deviceName;
     }
 
-    public Long getVersion() {
+    public Integer getVersion() {
         return version;
     }
 
-    public void setVersion(Long version) {
+    public void setVersion(Integer version) {
         this.version = version;
     }
 
