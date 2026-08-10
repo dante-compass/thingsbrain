@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.kernel.link.domain.specification;
 
 import cn.herodotus.dante.core.jackson.JacksonUtils;
-import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
+import cn.herodotus.thingsbrain.kernel.link.domain.LinkSysRequest;
 import cn.hutool.v7.core.io.file.FileUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.jupiter.api.Assertions;

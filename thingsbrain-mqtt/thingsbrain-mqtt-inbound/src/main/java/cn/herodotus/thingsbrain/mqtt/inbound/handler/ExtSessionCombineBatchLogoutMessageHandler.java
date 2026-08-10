@@ -32,7 +32,7 @@ import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.mqtt.commons.enums.TopicCategory;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
-import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
+import cn.herodotus.thingsbrain.kernel.link.domain.LinkRequest;
 import cn.herodotus.thingsbrain.link.commons.definition.SubsetSessionManager;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.AbstractInboundExtMessageHandler;
 import org.springframework.stereotype.Component;

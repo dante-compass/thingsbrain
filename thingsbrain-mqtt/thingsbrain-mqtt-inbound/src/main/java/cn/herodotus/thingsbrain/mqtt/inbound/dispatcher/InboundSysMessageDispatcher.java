@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.mqtt.inbound.dispatcher;
 
-import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
+import cn.herodotus.thingsbrain.kernel.link.domain.LinkResponse;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.dispatcher.AbstractResponseMessageDispatcher;

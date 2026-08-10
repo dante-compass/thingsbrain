@@ -33,7 +33,7 @@ import com.google.common.base.MoreObjects;
  * @author : gengwei.zheng
  * @date : 2024/11/2 0:11
  */
-public abstract class AbstractResponse<T> extends AbstractLinkMethodEntity {
+public abstract class AbstractResponse<T> extends AbstractLinkDomain {
 
     protected AbstractResponse() {
         super();

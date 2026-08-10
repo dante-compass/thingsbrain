@@ -23,42 +23,38 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.kernel.link.definition;
+package cn.herodotus.thingsbrain.kernel.link.domain;
 
-import cn.herodotus.thingsbrain.kernel.commons.definition.AbstractEntity;
+import cn.herodotus.thingsbrain.kernel.link.definition.AbstractRequest;
+import cn.herodotus.thingsbrain.kernel.link.definition.SysDomain;
 import com.google.common.base.MoreObjects;
 
 /**
- * <p>Description: 请求响应通用属性定义 </p>
+ * <p>Description: 物联网统一请求实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2024/11/2 0:12
+ * @date : 2024/11/1 21:58
  */
-public abstract class AbstractLinkEntity extends AbstractEntity<String> {
+public class LinkSysRequest<T> extends AbstractRequest<T> {
 
-    protected AbstractLinkEntity() {
-        this.setVersion("1.0");
+    private SysDomain sys;
+
+    public LinkSysRequest() {
+        super();
     }
 
-    /**
-     * 消息ID号。
-     * <p>
-     * String类型的数字，取值范围0~4294967295，且每个消息ID在当前设备中具有唯一性。
-     */
-    private String id;
-
-    public String getId() {
-        return id;
+    public SysDomain getSys() {
+        return sys;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setSys(SysDomain sys) {
+        this.sys = sys;
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("id", id)
+                .add("sys", sys)
                 .addValue(super.toString())
                 .toString();
     }

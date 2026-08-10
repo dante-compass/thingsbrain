@@ -23,37 +23,41 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.kernel.commons.definition;
+package cn.herodotus.thingsbrain.kernel.link.definition;
 
-import cn.herodotus.dante.core.domain.BaseModel;
 import com.google.common.base.MoreObjects;
 
 /**
- * <p>Description: Herodotus Link 协议数据交互数据实体基础定义 </p>
+ * <p>Description: Link 协议包含 Method 的实体抽象定义 </p>
  *
- * @author : gengwei.zheng
- * @date : 2025/5/28 23:42
+ * @author : gengwei_zheng
+ * @date : 2026/7/17 23:26
  */
-public abstract class AbstractEntity<T> implements BaseModel {
-    /**
-     * 版本号。对应关系
-     * 对于"设备属性、事件、服务": 为 String 类型，表示为协议版本号，目前协议版本号唯一取值为1.0
-     * 对于"设备影子数据流": 为 Long 类型，如果version设置为-1时，表示清空设备影子数据，设备影子会接收设备端的请求，并将设备影子版本更新为0
-     */
-    private T version;
+public abstract class AbstractMethodDomain<T> extends AbstractDomain<T> {
 
-    public T getVersion() {
-        return version;
+    protected AbstractMethodDomain() {
+        super();
     }
 
-    public void setVersion(T version) {
-        this.version = version;
+    /**
+     * 操作方法。
+     * <p>
+     * 物模型设备属性、事件、服务中：下行数据的响应中不需要包含 method 信息。只有上行数据响应中需要包含 method。
+     */
+    private String method;
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("version", version)
+                .add("method", method)
                 .addValue(super.toString())
                 .toString();
     }

@@ -23,54 +23,41 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.kernel.link.domain;
+package cn.herodotus.thingsbrain.kernel.link.definition;
 
-import cn.herodotus.thingsbrain.kernel.link.definition.shadow.AbstractShadow;
-import cn.herodotus.thingsbrain.kernel.link.definition.shadow.State;
 import com.google.common.base.MoreObjects;
 
-import java.util.function.Consumer;
-
 /**
- * <p>Description: 设备影子结构定义 </p>
+ * <p>Description: 请求响应通用属性定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/5/28 21:33
+ * @date : 2024/11/2 0:12
  */
-public class Shadow extends AbstractShadow {
+abstract class AbstractLinkDomain extends AbstractMethodDomain<String> {
 
-    private Long timestamp;
-
-    public Shadow() {
-        super();
+    protected AbstractLinkDomain() {
+        this.setVersion("1.0");
     }
 
-    public Long getTimestamp() {
-        return timestamp;
+    /**
+     * 消息ID号。
+     * <p>
+     * String类型的数字，取值范围0~4294967295，且每个消息ID在当前设备中具有唯一性。
+     */
+    private String id;
+
+    public String getId() {
+        return id;
     }
 
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    private void process(State state, Long version, Consumer<State> consumer) {
-        consumer.accept(state);
-        this.setVersion(version);
-        this.setTimestamp(System.currentTimeMillis());
-    }
-
-    public void update(State state, Long version) {
-        process(state, version, this::update);
-    }
-
-    public void delete(State state, Long version) {
-        process(state, version, this::delete);
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("timestamp", timestamp)
+                .add("id", id)
                 .addValue(super.toString())
                 .toString();
     }

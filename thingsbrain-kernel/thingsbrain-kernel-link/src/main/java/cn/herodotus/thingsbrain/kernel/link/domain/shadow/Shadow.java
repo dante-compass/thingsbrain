@@ -23,36 +23,54 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.kernel.link.definition;
+package cn.herodotus.thingsbrain.kernel.link.domain.shadow;
 
+import cn.herodotus.thingsbrain.kernel.link.definition.shadow.AbstractShadow;
+import cn.herodotus.thingsbrain.kernel.link.definition.shadow.State;
 import com.google.common.base.MoreObjects;
 
+import java.util.function.Consumer;
+
 /**
- * <p>Description: 物联网统一请求实体 </p>
+ * <p>Description: 设备影子结构定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2024/11/1 21:58
+ * @date : 2025/5/28 21:33
  */
-public class LinkSysRequest<T> extends AbstractRequest<T> {
+public class Shadow extends AbstractShadow {
 
-    private SysDomain sys;
+    private Long timestamp;
 
-    public LinkSysRequest() {
+    public Shadow() {
         super();
     }
 
-    public SysDomain getSys() {
-        return sys;
+    public Long getTimestamp() {
+        return timestamp;
     }
 
-    public void setSys(SysDomain sys) {
-        this.sys = sys;
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    private void process(State state, Long version, Consumer<State> consumer) {
+        consumer.accept(state);
+        this.setVersion(version);
+        this.setTimestamp(System.currentTimeMillis());
+    }
+
+    public void update(State state, Long version) {
+        process(state, version, this::update);
+    }
+
+    public void delete(State state, Long version) {
+        process(state, version, this::delete);
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("sys", sys)
+                .add("timestamp", timestamp)
                 .addValue(super.toString())
                 .toString();
     }

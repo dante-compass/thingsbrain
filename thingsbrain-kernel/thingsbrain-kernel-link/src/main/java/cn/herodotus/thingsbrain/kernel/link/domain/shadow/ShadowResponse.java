@@ -25,10 +25,9 @@
 
 package cn.herodotus.thingsbrain.kernel.link.domain.shadow;
 
-import cn.herodotus.thingsbrain.kernel.commons.definition.AbstractEntity;
+import cn.herodotus.thingsbrain.kernel.link.definition.AbstractDomain;
 import cn.herodotus.thingsbrain.kernel.link.definition.shadow.Metadata;
 import cn.herodotus.thingsbrain.kernel.link.definition.shadow.State;
-import cn.herodotus.thingsbrain.kernel.link.domain.Shadow;
 import com.google.common.base.MoreObjects;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -40,7 +39,7 @@ import org.apache.commons.lang3.Strings;
  * @author : gengwei.zheng
  * @date : 2025/5/31 23:00
  */
-public class ShadowResponse extends AbstractEntity<Long> {
+public class ShadowResponse extends AbstractDomain<Long> {
 
     private Payload payload;
 

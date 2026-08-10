@@ -26,8 +26,6 @@
 package cn.herodotus.thingsbrain.kernel.link.domain;
 
 import cn.herodotus.dante.core.jackson.JacksonUtils;
-import cn.herodotus.thingsbrain.kernel.link.definition.LinkMethodRequest;
-import cn.herodotus.thingsbrain.kernel.link.definition.LinkSysRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.specification.EventPropertyBatchPost;
 import cn.hutool.v7.core.io.file.FileUtil;
 import org.apache.commons.collections4.MapUtils;

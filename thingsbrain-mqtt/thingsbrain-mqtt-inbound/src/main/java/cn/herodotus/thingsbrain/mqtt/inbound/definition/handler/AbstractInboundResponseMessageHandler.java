@@ -29,7 +29,7 @@ import cn.herodotus.dante.core.function.ThrowableBiFunction;
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.exception.InboundMessageProcessingException;
-import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;
+import cn.herodotus.thingsbrain.kernel.link.domain.LinkResponse;
 
 /**
  * <p>Description: 支持回复的入站消息处理器抽象定义 </p>

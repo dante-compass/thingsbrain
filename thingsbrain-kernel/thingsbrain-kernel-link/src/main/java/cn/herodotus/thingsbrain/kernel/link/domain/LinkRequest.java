@@ -23,38 +23,44 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.kernel.link.definition.specification;
+package cn.herodotus.thingsbrain.kernel.link.domain;
 
-import cn.hutool.v7.core.io.file.FileUtil;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.util.ResourceUtils;
+import cn.herodotus.thingsbrain.kernel.link.definition.AbstractRequest;
+import cn.hutool.v7.core.data.id.IdUtil;
 
-import java.io.File;
-import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * <p>Description: 设备服务调用（异步调用）请求参数实体测试 </p>
+ * <p>Description: 设备服务调用（异步调用）请求参数实体 </p>
  *
  * @author : gengwei.zheng
  * @date : 2024/11/2 0:27
  */
-public class LinkRequestTest {
+public class LinkRequest<T> extends AbstractRequest<T> {
 
-    @BeforeEach
-    public void setup() throws Exception {
-
+    public LinkRequest() {
+        super();
     }
 
-    @Test
-    void testDeserialization() throws Exception {
-        File file = ResourceUtils.getFile("classpath:json/specification/thing-service-identifier.json");
-        String json = FileUtil.readString(file, StandardCharsets.UTF_8);
 
-        Assertions.assertNotNull(json, "测试代码无法读取 thing-service-identifier.json 文件");
+    private LinkRequest(String id, String method, T param) {
+        super();
+        this.setMethod(method);
+        this.setParams(param);
+        this.setId(id);
+    }
 
-//        LinkRequest request = JacksonUtils.toObject(json, LinkRequest.class);
-//        Assertions.assertTrue(ObjectUtils.isNotEmpty(request) && MapUtils.isNotEmpty(request.getParams()), "IdentifierRequest 反序列化出错");
+    public static LinkRequest<Map<String, Object>> with(String method) {
+        Map<String, Object> param = new HashMap<>();
+        return with(method, param);
+    }
+
+    public static <T> LinkRequest<T> with(String method, T param) {
+        return with(IdUtil.fastSimpleUUID(), method, param);
+    }
+
+    public static <T> LinkRequest<T> with(String id, String method, T param) {
+        return new LinkRequest<>(id, method, param);
     }
 }
