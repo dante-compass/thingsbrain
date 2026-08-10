@@ -23,25 +23,38 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.kernel.commons.definition.domain;
+package cn.herodotus.thingsbrain.kernel.commons.definition;
 
 import cn.herodotus.dante.core.domain.BaseModel;
+import com.google.common.base.MoreObjects;
 
 /**
- * <p>Description: 系统订阅主题实体 </p>
+ * <p>Description: Herodotus Link 协议数据交互数据实体基础定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/10/14 0:01
+ * @date : 2025/5/28 23:42
  */
-public interface SubscribeTopic extends BaseModel {
-
+public abstract class AbstractEntity<T> implements BaseModel {
     /**
-     * 主题
+     * 版本号。对应关系
+     * 对于"设备属性、事件、服务": 为 String 类型，表示为协议版本号，目前协议版本号唯一取值为1.0
+     * 对于"设备影子数据流": 为 Long 类型，如果version设置为-1时，表示清空设备影子数据，设备影子会接收设备端的请求，并将设备影子版本更新为0
      */
-    String getTopic();
+    private T version;
 
-    /**
-     * qos
-     */
-    int getQuality();
+    public T getVersion() {
+        return version;
+    }
+
+    public void setVersion(T version) {
+        this.version = version;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("version", version)
+                .addValue(super.toString())
+                .toString();
+    }
 }

@@ -23,7 +23,7 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.thingsbrain.kernel.commons.constant;
+package cn.herodotus.thingsbrain.kernel.tsl.constant;
 
 import java.util.Map;
 

@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.kernel.link.domain.shadow;
 
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
-import cn.herodotus.thingsbrain.kernel.commons.definition.domain.AbstractEntity;
+import cn.herodotus.thingsbrain.kernel.commons.definition.AbstractEntity;
 import cn.herodotus.thingsbrain.kernel.link.definition.shadow.State;
 import cn.hutool.v7.core.lang.Assert;
 import com.google.common.base.MoreObjects;

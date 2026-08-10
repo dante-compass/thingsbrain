@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.definition;
 
-import cn.herodotus.thingsbrain.kernel.commons.constant.JsonSchemaConstants;
+import cn.herodotus.thingsbrain.kernel.tsl.constant.JsonSchemaConstants;
 import com.google.common.base.MoreObjects;
 
 /**
