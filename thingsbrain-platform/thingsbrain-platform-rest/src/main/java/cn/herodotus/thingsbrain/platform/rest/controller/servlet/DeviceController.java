@@ -31,8 +31,8 @@ import cn.herodotus.dante.data.rest.servlet.AbstractEntityWriteAndPageController
 import cn.herodotus.dante.web.annotation.AccessLimited;
 import cn.herodotus.thingsbrain.persistence.commons.domain.Device;
 import cn.herodotus.thingsbrain.persistence.commons.service.DeviceService;
-import cn.herodotus.thingsbrain.platform.commons.definition.MqttSignatureGenerator;
-import cn.herodotus.thingsbrain.platform.commons.domain.SignatureGenerationResult;
+import cn.herodotus.thingsbrain.kernel.commons.definition.MqttSignatureGenerator;
+import cn.herodotus.thingsbrain.kernel.commons.domain.SignatureGenerationResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

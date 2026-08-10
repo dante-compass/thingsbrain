@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.platform.rest.controller.servlet;
 
-import cn.herodotus.thingsbrain.platform.commons.definition.EmqxAuthenticationHandler;
-import cn.herodotus.thingsbrain.platform.commons.domain.EmqxAuthenticationStatus;
+import cn.herodotus.thingsbrain.kernel.commons.definition.EmqxAuthenticationHandler;
+import cn.herodotus.thingsbrain.kernel.commons.domain.EmqxAuthenticationStatus;
 import cn.herodotus.thingsbrain.platform.rest.dto.EmqxAuthenticationRequest;
 import cn.herodotus.thingsbrain.platform.rest.dto.EmqxAuthenticationResponse;
 import io.swagger.v3.oas.annotations.Operation;

@@ -27,7 +27,7 @@ package cn.herodotus.thingsbrain.platform.authentication.utils;
 
 import cn.herodotus.thingsbrain.kernel.commons.constant.KernelConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
-import cn.herodotus.thingsbrain.platform.commons.domain.MqttClientIdFactory;
+import cn.herodotus.thingsbrain.kernel.commons.domain.MqttClientIdFactory;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;

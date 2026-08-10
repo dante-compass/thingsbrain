@@ -29,7 +29,7 @@ import cn.herodotus.dante.core.jackson.JacksonUtils;
 import cn.herodotus.dante.message.commons.event.MqttMessageSendingEvent;
 import cn.herodotus.dante.security.domain.UserPrincipal;
 import cn.herodotus.dante.spring.context.ServiceContextHolder;
-import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.enums.Qos;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkResponse;

@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.mqtt.commons.constant;
 
 import cn.herodotus.dante.core.constant.BaseConstants;
-import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttTopic;
 
 /**
  * <p>Description: Mqtt 常量 </p>

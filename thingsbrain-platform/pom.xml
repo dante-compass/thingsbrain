@@ -21,6 +21,5 @@
         <module>thingsbrain-platform-rest</module>
         <module>thingsbrain-platform-authentication</module>
         <module>thingsbrain-monolith-application</module>
-        <module>thingsbrain-platform-commons</module>
     </modules>
 </project>

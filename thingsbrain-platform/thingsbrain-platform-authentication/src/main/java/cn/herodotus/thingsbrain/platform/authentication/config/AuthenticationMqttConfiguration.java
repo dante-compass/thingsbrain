@@ -30,7 +30,7 @@ import cn.herodotus.thingsbrain.platform.authentication.mqtt.DefaultMqttSignatur
 import cn.herodotus.thingsbrain.platform.authentication.mqtt.MqttIdentificationHandler;
 import cn.herodotus.thingsbrain.platform.authentication.mqtt.ServletMqttIdentificationHandler;
 import cn.herodotus.thingsbrain.platform.authentication.oauth2.ServletLocalOAuth2ClientRegistrationHandler;
-import cn.herodotus.thingsbrain.platform.commons.definition.MqttSignatureGenerator;
+import cn.herodotus.thingsbrain.kernel.commons.definition.MqttSignatureGenerator;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

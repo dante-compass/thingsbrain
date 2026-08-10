@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.link.domain.shadow;
 
-import cn.herodotus.thingsbrain.kernel.commons.definition.domain.shadow.AbstractShadow;
+import cn.herodotus.thingsbrain.kernel.link.definition.shadow.AbstractShadow;
 
 /**
  * <p>Description: 设备接收影子信息数据实体定义 </p>

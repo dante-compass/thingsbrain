@@ -86,7 +86,6 @@ herodotus-thingsbrain
 ├    ├── thingsbrain-monolith-application -- ThingsBrain 物联网平台应用(单体版)
 ├    ├── thingsbrain-platform-authentication -- 设备认证功能逻辑模块
 ├    ├── thingsbrain-platform-autoconfigure -- 平台功能自动配置模块
-├    ├── thingsbrain-platform-commons --  平台功能通用代码模块
 └──  └── thingsbrain-platform-rest -- 平台功能 REST 接口模块
 ```
 

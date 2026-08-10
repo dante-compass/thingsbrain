@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.thingsbrain</groupId>
-            <artifactId>thingsbrain-platform-commons</artifactId>
+            <artifactId>thingsbrain-kernel-commons</artifactId>
         </dependency>
 
         <dependency>

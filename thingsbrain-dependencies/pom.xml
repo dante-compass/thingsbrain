@@ -171,11 +171,6 @@
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.thingsbrain</groupId>
-                <artifactId>thingsbrain-platform-commons</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.herodotus.thingsbrain</groupId>
                 <artifactId>thingsbrain-platform-rest</artifactId>
                 <version>${project.version}</version>
             </dependency>

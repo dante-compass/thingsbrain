@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.definition;
 
-import cn.herodotus.thingsbrain.kernel.commons.constant.SchemaConstants;
+import cn.herodotus.thingsbrain.kernel.commons.constant.JsonSchemaConstants;
 import com.google.common.base.MoreObjects;
 
 /**
@@ -39,7 +39,7 @@ public abstract class AbstractDescribe implements Describe {
     /**
      * 对应 Schema 的数据类型定义。默认为 "string"
      */
-    private String type = SchemaConstants.SCHEMA_TYPE_STRING;
+    private String type = JsonSchemaConstants.SCHEMA_TYPE_STRING;
 
     public String getType() {
         return type;

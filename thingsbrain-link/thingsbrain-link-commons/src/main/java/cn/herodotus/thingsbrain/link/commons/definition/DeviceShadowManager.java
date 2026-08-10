@@ -26,8 +26,8 @@
 package cn.herodotus.thingsbrain.link.commons.definition;
 
 import cn.herodotus.dante.core.jackson.JacksonUtils;
-import cn.herodotus.thingsbrain.kernel.commons.definition.domain.shadow.State;
-import cn.herodotus.thingsbrain.kernel.commons.domain.Shadow;
+import cn.herodotus.thingsbrain.kernel.link.definition.shadow.State;
+import cn.herodotus.thingsbrain.kernel.link.domain.Shadow;
 import cn.herodotus.thingsbrain.persistence.commons.domain.DeviceShadow;
 import cn.herodotus.thingsbrain.persistence.commons.service.DeviceShadowService;
 

@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.describe;
 
-import cn.herodotus.thingsbrain.kernel.commons.constant.SchemaConstants;
+import cn.herodotus.thingsbrain.kernel.commons.constant.JsonSchemaConstants;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.AbstractDescribe;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.Argument;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.Describe;
@@ -51,7 +51,7 @@ public class ObjectDescribe<T extends Argument> extends AbstractDescribe {
     public ObjectDescribe(Stream<T> arguments) {
         this.required = new ArrayList<>();
         this.properties = new HashMap<>();
-        setType(SchemaConstants.SCHEMA_TYPE_OBJECT);
+        setType(JsonSchemaConstants.SCHEMA_TYPE_OBJECT);
         arguments.forEach(this::append);
     }
 

@@ -27,7 +27,7 @@ package cn.herodotus.thingsbrain.mqtt.inbound.handler;
 
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
-import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.link.definition.LinkRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.ota.DeviceProgressParam;
 import cn.herodotus.thingsbrain.link.commons.definition.OtaManager;

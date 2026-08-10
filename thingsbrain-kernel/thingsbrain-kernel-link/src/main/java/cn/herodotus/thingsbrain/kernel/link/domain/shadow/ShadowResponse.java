@@ -26,9 +26,9 @@
 package cn.herodotus.thingsbrain.kernel.link.domain.shadow;
 
 import cn.herodotus.thingsbrain.kernel.commons.definition.domain.AbstractEntity;
-import cn.herodotus.thingsbrain.kernel.commons.definition.domain.shadow.Metadata;
-import cn.herodotus.thingsbrain.kernel.commons.definition.domain.shadow.State;
-import cn.herodotus.thingsbrain.kernel.commons.domain.Shadow;
+import cn.herodotus.thingsbrain.kernel.link.definition.shadow.Metadata;
+import cn.herodotus.thingsbrain.kernel.link.definition.shadow.State;
+import cn.herodotus.thingsbrain.kernel.link.domain.Shadow;
 import com.google.common.base.MoreObjects;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;

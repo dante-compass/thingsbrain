@@ -31,7 +31,7 @@ import cn.herodotus.dante.web.definition.SignatureValidator;
 import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import cn.herodotus.thingsbrain.platform.authentication.emqx.*;
 import cn.herodotus.thingsbrain.platform.authentication.mqtt.MqttIdentificationHandler;
-import cn.herodotus.thingsbrain.platform.commons.definition.EmqxAuthenticationHandler;
+import cn.herodotus.thingsbrain.kernel.commons.definition.EmqxAuthenticationHandler;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

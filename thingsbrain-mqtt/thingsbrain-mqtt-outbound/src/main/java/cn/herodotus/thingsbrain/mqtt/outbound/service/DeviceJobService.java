@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.mqtt.outbound.service;
 
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
-import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.link.domain.job.JobNotify;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import org.springframework.stereotype.Service;

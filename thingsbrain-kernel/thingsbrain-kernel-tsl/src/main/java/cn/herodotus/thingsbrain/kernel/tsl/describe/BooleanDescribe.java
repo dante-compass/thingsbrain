@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.describe;
 
-import cn.herodotus.thingsbrain.kernel.commons.constant.SchemaConstants;
+import cn.herodotus.thingsbrain.kernel.commons.constant.JsonSchemaConstants;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.AbstractDescribe;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -40,14 +40,14 @@ import java.util.Map;
 public class BooleanDescribe extends AbstractDescribe {
 
     public BooleanDescribe() {
-        setType(SchemaConstants.SCHEMA_TYPE_OBJECT);
+        setType(JsonSchemaConstants.SCHEMA_TYPE_OBJECT);
     }
 
     @JsonProperty("0")
-    private Map<String, String> falseValue = SchemaConstants.SCHEMA_DESCRIBE_STRING;
+    private Map<String, String> falseValue = JsonSchemaConstants.SCHEMA_DESCRIBE_STRING;
 
     @JsonProperty("1")
-    private Map<String, String> trueValue = SchemaConstants.SCHEMA_DESCRIBE_STRING;
+    private Map<String, String> trueValue = JsonSchemaConstants.SCHEMA_DESCRIBE_STRING;
 
     public Map<String, String> getFalseValue() {
         return falseValue;

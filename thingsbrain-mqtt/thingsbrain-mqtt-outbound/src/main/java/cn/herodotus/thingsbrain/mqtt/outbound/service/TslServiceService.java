@@ -28,9 +28,9 @@ package cn.herodotus.thingsbrain.mqtt.outbound.service;
 import cn.herodotus.dante.security.domain.UserPrincipal;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
-import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.domain.SchemaValidationResult;
-import cn.herodotus.thingsbrain.kernel.commons.exception.JsonSchemaValidateErrorException;
+import cn.herodotus.thingsbrain.kernel.commons.exception.JsonSchemaValidateException;
 import cn.herodotus.thingsbrain.link.commons.definition.SpecificationManager;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import org.springframework.stereotype.Service;
@@ -62,7 +62,7 @@ public class TslServiceService {
         if (result.getValid()) {
             mqttOutboundMessagePublisher.request(TOPIC_SET, productKey, deviceName, params, userPrincipal);
         } else {
-            throw new JsonSchemaValidateErrorException(result.getMessage());
+            throw new JsonSchemaValidateException(result.getMessage());
         }
     }
 
@@ -71,7 +71,7 @@ public class TslServiceService {
         if (result.getValid()) {
             mqttOutboundMessagePublisher.request(TOPIC_INVOKE, productKey, deviceName, identifier, params, userPrincipal);
         } else {
-            throw new JsonSchemaValidateErrorException(result.getMessage());
+            throw new JsonSchemaValidateException(result.getMessage());
         }
     }
 }
