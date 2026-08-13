@@ -1,0 +1,13 @@
+{
+  "method": "update",
+  "state": {
+    "reported" : {
+      "colors" : [
+        "RED",
+        "GREEN",
+        "BLUE"
+      ]
+    }
+  },
+  "version": 1
+}

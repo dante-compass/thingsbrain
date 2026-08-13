@@ -25,13 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.link.definition.shadow;
 
-import cn.herodotus.dante.core.constant.SymbolConstants;
-import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import cn.herodotus.thingsbrain.kernel.link.definition.AbstractDomain;
-import org.apache.commons.lang3.Strings;
-
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * <p>Description: 设备影子核心数据抽象定义 </p>
@@ -63,74 +57,5 @@ public abstract class AbstractShadow extends AbstractDomain<Integer> {
 
     public void setMetadata(Metadata metadata) {
         this.metadata = metadata;
-    }
-
-    private Map<String, MetadataTimestamp> toMetadata(Map<String, Object> data) {
-        return data.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> new MetadataTimestamp()));
-    }
-
-    protected void update(State state) {
-        if (state.justReported()) {
-            Map<String, Object> stateData = state.getReported();
-            this.state.getReported().putAll(stateData);
-            this.metadata.getReported().putAll(toMetadata(stateData));
-        }
-
-        if (state.justDesired()) {
-            Map<String, Object> stateData = state.getDesired();
-            this.state.getDesired().putAll(stateData);
-            this.metadata.getDesired().putAll(toMetadata(stateData));
-        }
-    }
-
-    private void removeReported(String key) {
-        this.state.getReported().remove(key);
-        this.metadata.getReported().remove(key);
-    }
-
-    private void removeAllReported() {
-        this.state.setReported(Map.of());
-        this.metadata.setReported(Map.of());
-    }
-
-    private void removeAllDesired() {
-        this.state.setDesired(Map.of());
-        this.metadata.setDesired(Map.of());
-    }
-
-    /**
-     * 判断是否为删除影子全部属性。
-     *
-     * @param state 请求参数 {@link State}
-     * @return true 删除全部属性，false 删除指定属性。
-     */
-    private boolean isRemoveAllReported(State state) {
-        return state.isNull() && state.containsKey(ProtocolConstants.PARAMETER__REPORTED) && Strings.CS.equals((String) state.get(ProtocolConstants.PARAMETER__REPORTED), SymbolConstants.NULL);
-    }
-
-    /**
-     * 判断是否为删除影子全部属性。
-     *
-     * @param state 请求参数 {@link State}
-     * @return true 删除全部属性，false 删除指定属性。
-     */
-    private boolean isRemoveAllDesired(State state) {
-        return state.isNull() && state.containsKey(ProtocolConstants.PARAMETER__DESIRED) && Strings.CS.equals((String) state.get(ProtocolConstants.PARAMETER__DESIRED), SymbolConstants.NULL);
-    }
-
-    protected void delete(State state) {
-
-        if (isRemoveAllReported(state)) {
-            removeAllReported();
-        } else {
-            state.getReported().entrySet()
-                    .stream()
-                    .filter(entry -> Strings.CS.equals((String) entry.getValue(), SymbolConstants.NULL))
-                    .forEach(entry -> removeReported(entry.getKey()));
-        }
-
-        if (isRemoveAllDesired(state)) {
-            removeAllDesired();
-        }
     }
 }

@@ -25,13 +25,19 @@
 
 package cn.herodotus.thingsbrain.kernel.link.domain.shadow;
 
+import cn.herodotus.dante.core.constant.SymbolConstants;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
+import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import cn.herodotus.thingsbrain.kernel.link.definition.AbstractMethodDomain;
 import cn.herodotus.thingsbrain.kernel.link.definition.shadow.State;
-import cn.hutool.v7.core.lang.Assert;
-import com.google.common.base.MoreObjects;
+import cn.hutool.v7.core.bean.BeanUtil;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.Strings;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>Description: 设备影子数据交互请求实体 </p>
@@ -41,70 +47,182 @@ import java.util.Map;
  */
 public class ShadowRequest extends AbstractMethodDomain<Integer> {
 
-    private State state;
+    private Map<String, Object> state;
 
     public ShadowRequest() {
     }
 
-    public State getState() {
+    public Map<String, Object> getState() {
         return state;
     }
 
-    public void setState(State state) {
+    public void setState(Map<String, Object> state) {
         this.state = state;
     }
 
-    public static Builder update(Integer version) {
-        return new Builder(version);
+    private State createReportedState() {
+        Object object = this.getState().get(ProtocolConstants.PARAMETER__REPORTED);
+        Map<String, Object> reported = BeanUtil.beanToMap(object);
+        State state = new State();
+        state.setReported(reported);
+        return state;
     }
 
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("state", state)
-                .toString();
-    }
+    public State getUpdateState() {
+        if (Strings.CS.equals(this.getMethod(), MethodConstants.METHOD__SHADOW__UPDATE) && MapUtils.isNotEmpty(getState())) {
 
-    public static class Builder {
-        private final String method;
-        private final Integer version;
-        private State state;
+            if (getState().containsKey(ProtocolConstants.PARAMETER__REPORTED)) {
+                return createReportedState();
+            }
 
-        protected Builder(Integer version) {
-            this(MethodConstants.METHOD__SHADOW__UPDATE, version);
+            if (getState().containsKey(ProtocolConstants.PARAMETER__DESIRED)) {
+                Object object = this.getState().get(ProtocolConstants.PARAMETER__DESIRED);
+                Map<String, Object> desired = BeanUtil.beanToMap(object);
+                State state = new State();
+                state.setDesired(desired);
+                return state;
+            }
+
         }
 
-        protected Builder(String method, Integer version) {
+        return null;
+    }
+
+    public State getDeleteState() {
+        if (Strings.CS.equals(this.getMethod(), MethodConstants.METHOD__SHADOW__DELETE) && MapUtils.isNotEmpty(state)) {
+
+            if (getState().containsKey(ProtocolConstants.PARAMETER__REPORTED)) {
+                return createReportedState();
+            }
+        }
+
+        return null;
+    }
+
+    public State getDeleteAllState() {
+
+        if (Strings.CS.equals(this.getMethod(), MethodConstants.METHOD__SHADOW__DELETE) && MapUtils.isNotEmpty(state)) {
+
+            if (state.containsKey(ProtocolConstants.PARAMETER__REPORTED)) {
+                Object object = this.getState().get(ProtocolConstants.PARAMETER__REPORTED);
+                if (object instanceof String s && Strings.CI.equals(s, SymbolConstants.NULL)) {
+                    State state = new State();
+                    state.setReported(null);
+                    return state;
+                }
+            }
+
+            if (state.containsKey(ProtocolConstants.PARAMETER__DESIRED)) {
+                Object object = this.getState().get(ProtocolConstants.PARAMETER__DESIRED);
+                if (object instanceof String s && Strings.CI.equals(s, SymbolConstants.NULL)) {
+                    State state = new State();
+                    state.setDesired(null);
+                    return state;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public static UpdateBuilder update(Integer version) {
+        return new UpdateBuilder(version);
+    }
+
+    public static DeleteBuilder delete(Integer version) {
+        return new DeleteBuilder(version);
+    }
+
+    public static DeleteAllBuilder deleteAll(Integer version) {
+        return new DeleteAllBuilder(version);
+    }
+
+    private static abstract class AbstractBuilder {
+        private final String method;
+        private final Integer version;
+        private Map<String, Object> state;
+
+        protected AbstractBuilder(String method, Integer version) {
             this.method = method;
             this.version = version;
         }
 
-        public Builder reported(Map<String, Object> data) {
-            State state = new State();
-            state.setReported(data);
-            this.state = state;
-            return this;
+        protected Map<String, Object> getState() {
+            return state;
         }
 
-        public Builder desired(Map<String, Object> data) {
-            State state = new State();
-            state.setDesired(data);
+        protected void setState(Map<String, Object> state) {
             this.state = state;
-            return this;
-        }
-
-        private void validate() {
-            Assert.notNull(this.state, "state is required");
         }
 
         public ShadowRequest build() {
-            validate();
-
             ShadowRequest request = new ShadowRequest();
-            request.setState(state);
-            request.setVersion(this.version);
-            request.setMethod(this.method);
+            request.setState(getState());
+            request.setVersion(version);
+            request.setMethod(method);
             return request;
+        }
+    }
+
+    public static class UpdateBuilder extends AbstractBuilder {
+
+        protected UpdateBuilder(Integer version) {
+            super(MethodConstants.METHOD__SHADOW__UPDATE, version);
+        }
+
+        public UpdateBuilder reported(Map<String, Object> data) {
+            Map<String, Object> state = new HashMap<>();
+            state.put(ProtocolConstants.PARAMETER__REPORTED, data);
+            this.setState(state);
+            return this;
+        }
+
+        public UpdateBuilder desired(Map<String, Object> data) {
+            Map<String, Object> state = new HashMap<>();
+            state.put(ProtocolConstants.PARAMETER__DESIRED, data);
+            this.setState(state);
+            return this;
+        }
+    }
+
+    public static class DeleteBuilder extends AbstractBuilder {
+
+        protected DeleteBuilder(Integer version) {
+            super(MethodConstants.METHOD__SHADOW__DELETE, version);
+        }
+
+        public DeleteBuilder reported(String... items) {
+            Map<String, String> data = Arrays.stream(items).collect(Collectors.toMap(item -> item, item -> SymbolConstants.NULL));
+            this.reported(data);
+            return this;
+        }
+
+        public DeleteBuilder reported(Map<String, String> data) {
+            Map<String, Object> state = new HashMap<>();
+            state.put(ProtocolConstants.PARAMETER__REPORTED, data);
+            this.setState(state);
+            return this;
+        }
+    }
+
+    public static class DeleteAllBuilder extends AbstractBuilder {
+
+        protected DeleteAllBuilder(Integer version) {
+            super(MethodConstants.METHOD__SHADOW__DELETE, version);
+        }
+
+        public DeleteAllBuilder reported() {
+            Map<String, Object> state = new HashMap<>();
+            state.put(ProtocolConstants.PARAMETER__REPORTED, SymbolConstants.NULL);
+            this.setState(state);
+            return this;
+        }
+
+        public DeleteAllBuilder desired() {
+            Map<String, Object> state = new HashMap<>();
+            state.put(ProtocolConstants.PARAMETER__DESIRED, SymbolConstants.NULL);
+            this.setState(state);
+            return this;
         }
     }
 }

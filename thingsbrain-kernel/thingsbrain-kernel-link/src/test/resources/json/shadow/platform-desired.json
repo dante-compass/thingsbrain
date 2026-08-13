@@ -1,0 +1,9 @@
+{
+  "method": "update",
+  "state": {
+    "desired": {
+      "color": "green"
+    }
+  },
+  "version": 2
+}

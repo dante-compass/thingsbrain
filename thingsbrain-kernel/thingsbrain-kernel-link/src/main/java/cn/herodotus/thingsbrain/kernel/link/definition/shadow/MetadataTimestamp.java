@@ -26,7 +26,6 @@
 package cn.herodotus.thingsbrain.kernel.link.definition.shadow;
 
 import cn.herodotus.dante.core.domain.BaseModel;
-import com.google.common.base.MoreObjects;
 
 /**
  * <p>Description: 设备影子 Metadata 值对象定义 </p>
@@ -34,26 +33,9 @@ import com.google.common.base.MoreObjects;
  * @author : gengwei.zheng
  * @date : 2025/5/28 23:22
  */
-public class MetadataTimestamp implements BaseModel {
-
-    private Long timestamp;
+public record MetadataTimestamp(Long timestamp) implements BaseModel {
 
     public MetadataTimestamp() {
-        this.timestamp = System.currentTimeMillis();
-    }
-
-    public Long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("timestamp", timestamp)
-                .toString();
+        this(System.currentTimeMillis());
     }
 }

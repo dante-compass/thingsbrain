@@ -1,24 +1,32 @@
 {
   "state": {
-    "reported": {
-      "color": "red"
-    },
     "desired": {
-      "color": "green"
+      "color": "RED",
+      "sequence": [
+        "RED",
+        "GREEN",
+        "BLUE"
+      ]
+    },
+    "reported": {
+      "color": "GREEN"
     }
   },
   "metadata": {
+    "desired": {
+      "color": {
+        "timestamp": 1469564492
+      },
+      "sequence": {
+        "timestamp": 1469564492
+      }
+    },
     "reported": {
       "color": {
         "timestamp": 1469564492
       }
-    },
-    "desired": {
-      "color": {
-        "timestamp": 1469564576
-      }
     }
   },
-  "timestamp": 1469564576,
-  "version": 2
+  "timestamp": 1469564492,
+  "version": 1
 }
