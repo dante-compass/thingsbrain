@@ -26,8 +26,8 @@
 package cn.herodotus.thingsbrain.mqtt.commons.domain;
 
 import cn.herodotus.dante.core.constant.SymbolConstants;
+import cn.herodotus.dante.core.constant.SystemConstants;
 import cn.herodotus.dante.core.utils.StringTemplateUtils;
-import cn.herodotus.thingsbrain.kernel.commons.constant.KernelConstants;
 import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import cn.herodotus.thingsbrain.mqtt.commons.enums.TopicCategory;
 import org.apache.commons.lang3.StringUtils;
@@ -310,13 +310,13 @@ public class MqttTopic {
     private String createTopic(String template, String productKey, String deviceName, String identifier) {
         if (StringUtils.isNotEmpty(identifier)) {
             if (this.parameter == Parameter.SERVICE) {
-                return StringTemplateUtils.replace(template, Map.of(KernelConstants.KEY__PRODUCT_KEY, productKey, KernelConstants.KEY__DEVICE_NAME, deviceName, ProtocolConstants.VARIABLE__SERVICE_IDENTIFIER, identifier));
+                return StringTemplateUtils.replace(template, Map.of(SystemConstants.KEY__PRODUCT_KEY, productKey, SystemConstants.KEY__DEVICE_NAME, deviceName, ProtocolConstants.VARIABLE__SERVICE_IDENTIFIER, identifier));
             } else {
-                return StringTemplateUtils.replace(template, Map.of(KernelConstants.KEY__PRODUCT_KEY, productKey, KernelConstants.KEY__DEVICE_NAME, deviceName, ProtocolConstants.VARIABLE__EVENT_IDENTIFIER, identifier));
+                return StringTemplateUtils.replace(template, Map.of(SystemConstants.KEY__PRODUCT_KEY, productKey, SystemConstants.KEY__DEVICE_NAME, deviceName, ProtocolConstants.VARIABLE__EVENT_IDENTIFIER, identifier));
             }
         }
 
-        return StringTemplateUtils.replace(template, Map.of(KernelConstants.KEY__PRODUCT_KEY, productKey, KernelConstants.KEY__DEVICE_NAME, deviceName));
+        return StringTemplateUtils.replace(template, Map.of(SystemConstants.KEY__PRODUCT_KEY, productKey, SystemConstants.KEY__DEVICE_NAME, deviceName));
     }
 
     /**

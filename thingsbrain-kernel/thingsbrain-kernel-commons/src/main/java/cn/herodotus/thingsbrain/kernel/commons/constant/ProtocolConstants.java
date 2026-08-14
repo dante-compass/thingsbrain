@@ -27,6 +27,7 @@ package cn.herodotus.thingsbrain.kernel.commons.constant;
 
 import cn.herodotus.dante.core.constant.BaseConstants;
 import cn.herodotus.dante.core.constant.SymbolConstants;
+import cn.herodotus.dante.core.constant.SystemConstants;
 
 /**
  * <p>Description: Herodotus Link 通用基础常量 </p>
@@ -63,11 +64,11 @@ public interface ProtocolConstants extends BaseConstants {
     /**
      * 格式：${productKey}
      */
-    String FORMAT_PLACEHOLDER__PRODUCT_KEY = PLACEHOLDER_PREFIX + KernelConstants.KEY__PRODUCT_KEY + PLACEHOLDER_SUFFIX;
+    String FORMAT_PLACEHOLDER__PRODUCT_KEY = PLACEHOLDER_PREFIX + SystemConstants.KEY__PRODUCT_KEY + PLACEHOLDER_SUFFIX;
     /**
      * 格式：${deviceName}
      */
-    String FORMAT_PLACEHOLDER__DEVICE_NAME = PLACEHOLDER_PREFIX + KernelConstants.KEY__DEVICE_NAME + PLACEHOLDER_SUFFIX;
+    String FORMAT_PLACEHOLDER__DEVICE_NAME = PLACEHOLDER_PREFIX + SystemConstants.KEY__DEVICE_NAME + PLACEHOLDER_SUFFIX;
     /**
      * 格式：${tsl.event.identifier}
      */

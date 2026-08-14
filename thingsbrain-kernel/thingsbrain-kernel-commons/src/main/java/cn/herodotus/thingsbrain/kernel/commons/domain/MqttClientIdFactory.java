@@ -26,8 +26,8 @@
 package cn.herodotus.thingsbrain.kernel.commons.domain;
 
 import cn.herodotus.dante.core.constant.SymbolConstants;
+import cn.herodotus.dante.core.constant.SystemConstants;
 import cn.herodotus.dante.core.enums.SignatureMethod;
-import cn.herodotus.thingsbrain.kernel.commons.constant.KernelConstants;
 import cn.herodotus.thingsbrain.kernel.commons.enums.AuthType;
 import cn.herodotus.thingsbrain.kernel.commons.utils.DataFormatUtils;
 import cn.hutool.v7.core.util.RandomUtil;
@@ -205,25 +205,25 @@ public class MqttClientIdFactory {
 
         public Builder secureMode(Integer secureMode) {
             this.secureMode = secureMode;
-            parameters.put(KernelConstants.KEY__SECURE_MODE, secureMode);
+            parameters.put(SystemConstants.KEY__SECURE_MODE, secureMode);
             return this;
         }
 
         public Builder signMethod(SignatureMethod signMethod) {
             this.signMethod = signMethod;
-            parameters.put(KernelConstants.KEY__SIGNATURE_METHOD, signMethod.getValue());
+            parameters.put(SystemConstants.KEY__SIGNATURE_METHOD, signMethod.getValue());
             return this;
         }
 
         public Builder authType(AuthType authType) {
             this.authType = authType;
-            parameters.put(KernelConstants.KEY__AUTH_TYPE, authType);
+            parameters.put(SystemConstants.KEY__AUTH_TYPE, authType);
             return this;
         }
 
         public Builder timestamp(String timestamp) {
             this.timestamp = timestamp;
-            parameters.put(KernelConstants.KEY__TIMESTAMP, timestamp);
+            parameters.put(SystemConstants.KEY__TIMESTAMP, timestamp);
             return this;
         }
 
@@ -233,7 +233,7 @@ public class MqttClientIdFactory {
 
         public Builder random(String random) {
             this.random = random;
-            parameters.put(KernelConstants.KEY__RANDOM, random);
+            parameters.put(SystemConstants.KEY__RANDOM, random);
             return this;
         }
 

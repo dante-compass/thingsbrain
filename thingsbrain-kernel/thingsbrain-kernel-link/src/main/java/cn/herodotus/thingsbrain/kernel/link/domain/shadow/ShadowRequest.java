@@ -69,7 +69,7 @@ public class ShadowRequest extends AbstractMethodDomain<Integer> {
     }
 
     public State getUpdateState() {
-        if (Strings.CS.equals(this.getMethod(), MethodConstants.METHOD__SHADOW__UPDATE) && MapUtils.isNotEmpty(getState())) {
+        if (Strings.CS.equals(this.getMethod(), MethodConstants.METHOD__SHADOW_UPDATE) && MapUtils.isNotEmpty(getState())) {
 
             if (getState().containsKey(ProtocolConstants.PARAMETER__REPORTED)) {
                 return createReportedState();
@@ -89,7 +89,7 @@ public class ShadowRequest extends AbstractMethodDomain<Integer> {
     }
 
     public State getDeleteState() {
-        if (Strings.CS.equals(this.getMethod(), MethodConstants.METHOD__SHADOW__DELETE) && MapUtils.isNotEmpty(state)) {
+        if (Strings.CS.equals(this.getMethod(), MethodConstants.METHOD__SHADOW_DELETE) && MapUtils.isNotEmpty(state)) {
 
             if (getState().containsKey(ProtocolConstants.PARAMETER__REPORTED)) {
                 return createReportedState();
@@ -101,7 +101,7 @@ public class ShadowRequest extends AbstractMethodDomain<Integer> {
 
     public State getDeleteAllState() {
 
-        if (Strings.CS.equals(this.getMethod(), MethodConstants.METHOD__SHADOW__DELETE) && MapUtils.isNotEmpty(state)) {
+        if (Strings.CS.equals(this.getMethod(), MethodConstants.METHOD__SHADOW_DELETE) && MapUtils.isNotEmpty(state)) {
 
             if (state.containsKey(ProtocolConstants.PARAMETER__REPORTED)) {
                 Object object = this.getState().get(ProtocolConstants.PARAMETER__REPORTED);
@@ -167,7 +167,7 @@ public class ShadowRequest extends AbstractMethodDomain<Integer> {
     public static class UpdateBuilder extends AbstractBuilder {
 
         protected UpdateBuilder(Integer version) {
-            super(MethodConstants.METHOD__SHADOW__UPDATE, version);
+            super(MethodConstants.METHOD__SHADOW_UPDATE, version);
         }
 
         public UpdateBuilder reported(Map<String, Object> data) {
@@ -188,7 +188,7 @@ public class ShadowRequest extends AbstractMethodDomain<Integer> {
     public static class DeleteBuilder extends AbstractBuilder {
 
         protected DeleteBuilder(Integer version) {
-            super(MethodConstants.METHOD__SHADOW__DELETE, version);
+            super(MethodConstants.METHOD__SHADOW_DELETE, version);
         }
 
         public DeleteBuilder reported(String... items) {
@@ -208,7 +208,7 @@ public class ShadowRequest extends AbstractMethodDomain<Integer> {
     public static class DeleteAllBuilder extends AbstractBuilder {
 
         protected DeleteAllBuilder(Integer version) {
-            super(MethodConstants.METHOD__SHADOW__DELETE, version);
+            super(MethodConstants.METHOD__SHADOW_DELETE, version);
         }
 
         public DeleteAllBuilder reported() {

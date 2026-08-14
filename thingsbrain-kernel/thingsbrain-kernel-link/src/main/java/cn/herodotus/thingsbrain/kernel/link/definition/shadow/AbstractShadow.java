@@ -26,6 +26,7 @@
 package cn.herodotus.thingsbrain.kernel.link.definition.shadow;
 
 import cn.herodotus.thingsbrain.kernel.link.definition.AbstractDomain;
+import org.apache.commons.collections4.MapUtils;
 
 /**
  * <p>Description: 设备影子核心数据抽象定义 </p>
@@ -57,5 +58,9 @@ public abstract class AbstractShadow extends AbstractDomain<Integer> {
 
     public void setMetadata(Metadata metadata) {
         this.metadata = metadata;
+    }
+
+    public boolean isNotEmpty() {
+        return MapUtils.isNotEmpty(getState()) || MapUtils.isNotEmpty(getMetadata());
     }
 }

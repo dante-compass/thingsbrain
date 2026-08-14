@@ -309,10 +309,12 @@ public interface MethodConstants {
     /**
      * 设备和应用程序发布消息到此Topic。物联网平台收到该Topic的消息后，将消息中的状态更新到设备影子中。
      */
-    String METHOD__SHADOW__UPDATE = "update";
-    String METHOD__SHADOW__DELETE = "delete";
-    String METHOD__SHADOW__GET = ProtocolConstants.ACTION__GET;
-    String METHOD__SHADOW__REPLY = "reply";
+    String METHOD__SHADOW_UPDATE = "update";
+    String METHOD__SHADOW_DELETE = "delete";
+    String METHOD__SHADOW_GET = ProtocolConstants.ACTION__GET;
+    String METHOD__SHADOW_REPLY = "reply";
+    String METHOD__SHADOW_CONTROL = "control";
+
 
 
     /* -------------------- 设备任务 -------------------- */

@@ -54,7 +54,7 @@ import java.util.function.Function;
  */
 public class InboundShadowMessageDispatcher implements InboundMessageDispatcher {
 
-    private static final List<String> SUPPORTED_METHOD = List.of(MethodConstants.METHOD__SHADOW__UPDATE, MethodConstants.METHOD__SHADOW__DELETE, MethodConstants.METHOD__SHADOW__GET);
+    private static final List<String> SUPPORTED_METHOD = List.of(MethodConstants.METHOD__SHADOW_UPDATE, MethodConstants.METHOD__SHADOW_DELETE, MethodConstants.METHOD__SHADOW_GET);
     private static final String SHADOW_UPDATE_TOPIC_TEMPLATE = "shadow/update/${productKey}/${deviceName}";
     private static final String SHADOW_GET_TOPIC_TEMPLATE = "shadow/get/${productKey}/${deviceName}";
 
@@ -85,8 +85,8 @@ public class InboundShadowMessageDispatcher implements InboundMessageDispatcher 
 
     private ShadowResponse process(String method, String productKey, String deviceName, ShadowRequest request) {
         return switch (method) {
-            case MethodConstants.METHOD__SHADOW__GET -> get(productKey, deviceName);
-            case MethodConstants.METHOD__SHADOW__DELETE ->
+            case MethodConstants.METHOD__SHADOW_GET -> get(productKey, deviceName);
+            case MethodConstants.METHOD__SHADOW_DELETE ->
                     modify(shadowManager -> shadowManager.delete(productKey, deviceName, request.getState(), request.getVersion()));
             default ->
                     modify(shadowManager -> shadowManager.update(productKey, deviceName, request.getState(), request.getVersion()));
@@ -95,36 +95,36 @@ public class InboundShadowMessageDispatcher implements InboundMessageDispatcher 
 
     private ShadowResponse get(String productKey, String deviceName) {
         Optional<Shadow> optional = deviceShadowManager.get(productKey, deviceName);
-        return optional.map(ShadowResponse::success).orElse(ShadowResponse.failure());
+        return optional.map(ShadowResponse::reply).orElse(ShadowResponse.error());
     }
 
     private ShadowResponse modify(Function<DeviceShadowManager, Optional<DeviceShadow>> function) {
         Optional<DeviceShadow> optional = function.apply(deviceShadowManager);
-        return optional.map(deviceShadow -> ShadowResponse.success(deviceShadow.getVersion()))
-                .orElse(ShadowResponse.failure());
+        return optional.map(deviceShadow -> ShadowResponse.reply(deviceShadow.getVersion()))
+                .orElse(ShadowResponse.error());
     }
 
     private ShadowResponse verification(ShadowRequest request) {
 
         if (ObjectUtils.isEmpty(request)) {
-            return ShadowResponse.failure("400", "不正确的JSON格式");
+            return ShadowResponse.error("400", "不正确的JSON格式");
         }
 
         if (StringUtils.isBlank(request.getMethod())) {
-            return ShadowResponse.failure("401", "影子数据缺少 method 信息");
+            return ShadowResponse.error("401", "影子数据缺少 method 信息");
         }
 
         if (!SUPPORTED_METHOD.contains(request.getMethod())) {
-            return ShadowResponse.failure("406", "影子数据中 method是无效的方法");
+            return ShadowResponse.error("406", "影子数据中 method是无效的方法");
         }
 
-        if (!Strings.CS.equals(request.getMethod(), MethodConstants.METHOD__SHADOW__GET)) {
+        if (!Strings.CS.equals(request.getMethod(), MethodConstants.METHOD__SHADOW_GET)) {
             if (ObjectUtils.isEmpty(request.getState())) {
-                return ShadowResponse.failure("402", "影子数据缺少 state 信息");
+                return ShadowResponse.error("402", "影子数据缺少 state 信息");
             }
 
             if (MapUtils.isEmpty(request.getState().getReported())) {
-                return ShadowResponse.failure("405", "影子数据中 reported属性字段为空");
+                return ShadowResponse.error("405", "影子数据中 reported属性字段为空");
             }
         }
 

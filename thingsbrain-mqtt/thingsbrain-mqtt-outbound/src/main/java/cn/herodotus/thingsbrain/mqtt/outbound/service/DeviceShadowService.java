@@ -66,7 +66,7 @@ public class DeviceShadowService {
         Optional<DeviceShadow> optional = deviceShadowManager.update(productKey, deviceName, request.getState(), request.getVersion());
         ShadowResponse response = optional.map(deviceShadowManager::read)
                 .map(ShadowResponse::control)
-                .orElse(ShadowResponse.failure());
+                .orElse(ShadowResponse.error());
 
         mqttOutboundMessagePublisher.publish(MqttConstants.MQTT_TOPIC__SHADOW.getReplyTopic(productKey, deviceName), JacksonUtils.toJson(response));
     }

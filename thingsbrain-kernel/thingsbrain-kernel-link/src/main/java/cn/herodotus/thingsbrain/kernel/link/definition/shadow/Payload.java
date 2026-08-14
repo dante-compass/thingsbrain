@@ -25,16 +25,19 @@
 
 package cn.herodotus.thingsbrain.kernel.link.definition.shadow;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * <p>Description: 设备接收影子信息数据实体定义 </p>
  *
  * @author : gengwei.zheng
  * @date : 2025/5/28 23:08
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Payload extends AbstractShadow {
 
     private String status;
-    private cn.herodotus.thingsbrain.kernel.link.definition.shadow.Error content;
+    private Error content;
 
     public String getStatus() {
         return status;
@@ -44,11 +47,16 @@ public class Payload extends AbstractShadow {
         this.status = status;
     }
 
-    public cn.herodotus.thingsbrain.kernel.link.definition.shadow.Error getContent() {
+    public Error getContent() {
         return content;
     }
 
     public void setContent(Error content) {
         this.content = content;
+    }
+
+    public void setShadow(AbstractShadow shadow) {
+        this.setState(shadow.getState());
+        this.setMetadata(shadow.getMetadata());
     }
 }

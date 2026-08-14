@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.platform.authentication.utils;
 
-import cn.herodotus.thingsbrain.kernel.commons.constant.KernelConstants;
+import cn.herodotus.dante.core.constant.SystemConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttClientIdFactory;
 import org.apache.commons.lang3.StringUtils;
@@ -76,16 +76,16 @@ public class MqttSignatureContentUtils {
      */
     public static Map<String, String> content(String productKey, String deviceName, String clientId, String timestamp, String random) {
         Map<String, String> contents = new HashMap<>();
-        contents.put(KernelConstants.KEY__PRODUCT_KEY, productKey);
-        contents.put(KernelConstants.KEY__DEVICE_NAME, deviceName);
-        contents.put(KernelConstants.KEY__CLIENT_ID, clientId);
+        contents.put(SystemConstants.KEY__PRODUCT_KEY, productKey);
+        contents.put(SystemConstants.KEY__DEVICE_NAME, deviceName);
+        contents.put(SystemConstants.KEY__CLIENT_ID, clientId);
 
         if (StringUtils.isNotBlank(timestamp)) {
-            contents.put(KernelConstants.KEY__TIMESTAMP, timestamp);
+            contents.put(SystemConstants.KEY__TIMESTAMP, timestamp);
         }
 
         if (StringUtils.isNotBlank(random)) {
-            contents.put(KernelConstants.KEY__RANDOM, random);
+            contents.put(SystemConstants.KEY__RANDOM, random);
         }
         return contents;
     }

@@ -60,7 +60,7 @@ public class ShadowRequestTest {
 
         Assertions.assertNotNull(request, "生成平台端设备影子更新请求对象出错");
         Assertions.assertEquals(version, request.getVersion(), "平台端设备影子更新请求 version 设置出错");
-        Assertions.assertEquals(MethodConstants.METHOD__SHADOW__UPDATE, request.getMethod(), "平台端设备影子更新请求 method 设置出错");
+        Assertions.assertEquals(MethodConstants.METHOD__SHADOW_UPDATE, request.getMethod(), "平台端设备影子更新请求 method 设置出错");
 
         State state = request.getUpdateState();
         Assertions.assertTrue(MapUtils.isNotEmpty(request.getUpdateState()), "平台端设备影子更新请求 state 设置出错");
@@ -79,7 +79,7 @@ public class ShadowRequestTest {
 
         Assertions.assertNotNull(request, "生成设备删除设备影子属性请求对象出错");
         Assertions.assertEquals(version, request.getVersion(), "设备删除设备影子属性请求 version 设置出错");
-        Assertions.assertEquals(MethodConstants.METHOD__SHADOW__DELETE, request.getMethod(), "设备删除设备影子属性请求 method 设置出错");
+        Assertions.assertEquals(MethodConstants.METHOD__SHADOW_DELETE, request.getMethod(), "设备删除设备影子属性请求 method 设置出错");
 
         State state = request.getDeleteState();
         Assertions.assertTrue(MapUtils.isNotEmpty(state), "设备删除设备影子属性请求 state 设置出错");
@@ -98,7 +98,7 @@ public class ShadowRequestTest {
 
         Assertions.assertNotNull(request, "生成设备删除全部设备影子属性请求对象出错");
         Assertions.assertEquals(version, request.getVersion(), "设备删除设备影子全部属性请求 version 设置出错");
-        Assertions.assertEquals(MethodConstants.METHOD__SHADOW__DELETE, request.getMethod(), "设备删除全部设备影子属性请求 method 设置出错");
+        Assertions.assertEquals(MethodConstants.METHOD__SHADOW_DELETE, request.getMethod(), "设备删除全部设备影子属性请求 method 设置出错");
 
         State state = request.getDeleteAllState();
         Assertions.assertTrue(MapUtils.isNotEmpty(state), "设备删除全部设备影子属性请求 state 设置出错");
