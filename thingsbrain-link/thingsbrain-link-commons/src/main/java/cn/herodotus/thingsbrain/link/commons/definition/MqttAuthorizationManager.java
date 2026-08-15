@@ -40,7 +40,7 @@ public interface MqttAuthorizationManager {
     /**
      * 查询包含所有平台可以订阅主题权限
      *
-     * @return 主题权限 {@link MqttAuthority}
+     * @return 主题类别 {@link MqttAuthority}
      */
     Set<MqttAuthority> findSubscribeTopicsForPlatform();
 }

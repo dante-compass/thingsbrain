@@ -26,6 +26,7 @@
 package cn.herodotus.thingsbrain.kernel.link.domain.shadow;
 
 import cn.herodotus.dante.core.constant.SymbolConstants;
+import cn.herodotus.thingsbrain.kernel.commons.constant.KernelConstants;
 import cn.herodotus.thingsbrain.kernel.link.definition.shadow.AbstractShadow;
 import cn.herodotus.thingsbrain.kernel.link.definition.shadow.Metadata;
 import cn.herodotus.thingsbrain.kernel.link.definition.shadow.MetadataTimestamp;
@@ -37,6 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -172,7 +174,7 @@ public class Shadow extends AbstractShadow {
     private void reset() {
         setState(new State());
         setMetadata(new Metadata());
-        setVersion(0);
+        setVersion(KernelConstants.VALUE__SHADOW_CLEAR_RESULT);
     }
 
     /**
@@ -215,8 +217,12 @@ public class Shadow extends AbstractShadow {
      * @param version 版本
      */
     public Shadow update(State state, Integer version) {
-        // 只有当新版本大于当前版本时，设备影子才会接收设备端的请求，并更新设备影子版本。
-        if (version > this.getVersion()) {
+        // 如果 version 设置为-1时，表示清空设备影子数据，设备影子会接收设备端的请求，并将设备影子版本更新为0。
+        if (Objects.equals(version, KernelConstants.VALUE__SHADOW_CLEAR_REQUEST)) {
+            log.info("[ThingsMesh] |- Device shadow reset for version is -1.");
+            this.reset();
+            this.setTimestamp(System.currentTimeMillis());
+        } else {
             if (state.onlyReported()) {
                 log.info("[ThingsMesh] |- Device shadow updated for device reported.");
                 process(state, version, this::updateReported);
@@ -226,13 +232,6 @@ public class Shadow extends AbstractShadow {
                 log.info("[ThingsMesh] |- Device shadow updated for platform desired.");
                 process(state, version, this::updateDesired);
             }
-        }
-
-        // 如果 version 设置为-1时，表示清空设备影子数据，设备影子会接收设备端的请求，并将设备影子版本更新为0。
-        if (version == -1) {
-            log.info("[ThingsMesh] |- Device shadow reset for version is -1.");
-            this.reset();
-            this.setTimestamp(System.currentTimeMillis());
         }
 
         return this;
@@ -245,10 +244,8 @@ public class Shadow extends AbstractShadow {
      * @param version 版本
      */
     public Shadow delete(State state, Integer version) {
-        if (state.onlyReported()) {
-            log.info("[ThingsMesh] |- Device shadow delete properties.");
-            process(state, version, this::delete);
-        }
+        log.info("[ThingsMesh] |- Device shadow delete properties.");
+        process(state, version, this::delete);
 
         return this;
     }
@@ -256,19 +253,23 @@ public class Shadow extends AbstractShadow {
     /**
      * 删除影子中某一属性
      *
-     * @param state   状态数据 {@link State}
      * @param version 版本
      */
-    public Shadow clear(State state, Integer version) {
-        if (state.isClearReported()) {
-            log.info("[ThingsMesh] |- Device shadow empty reported for.");
-            process(version, this::clearReported);
-        }
+    public Shadow clearReported(Integer version) {
+        log.info("[ThingsMesh] |- Device shadow empty reported for.");
+        process(version, this::clearReported);
+        return this;
+    }
 
-        if (state.isClearDesired()) {
-            log.info("[ThingsMesh] |- Device shadow empty desired.");
-            process(version, this::clearDesired);
-        }
+    /**
+     * 删除影子中某一属性
+     *
+     * @param version 版本
+     */
+    public Shadow clearDesired(Integer version) {
+        log.info("[ThingsMesh] |- Device shadow empty desired.");
+        process(version, this::clearDesired);
+
         return this;
     }
 

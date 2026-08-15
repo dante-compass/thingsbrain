@@ -133,11 +133,11 @@ public class ShadowTest {
     void testClearWhenFromPlatformThenClearDesired() throws Exception {
         Integer version = 2;
 
-        ShadowRequest request = ShadowRequest.deleteAll(version)
+        ShadowRequest request = ShadowRequest.clear(version)
                 .desired()
                 .build();
 
-        Shadow newShadow = shadow.clear(request.getDeleteAllState(), request.getVersion());
+        Shadow newShadow = shadow.clearDesired(request.getVersion());
         Assertions.assertEquals(version, newShadow.getVersion(), "版本号限制未生效错误");
         Assertions.assertTrue(newShadow.getState().isDesiredEmpty(), "未按预期设置 State 值错误");
         Assertions.assertTrue(newShadow.getMetadata().isDesiredEmpty(), "未按预期设置 Metadata 值错误");
@@ -147,11 +147,11 @@ public class ShadowTest {
     void testClearWhenFromDeviceThenClearReported() throws Exception {
         Integer version = 2;
 
-        ShadowRequest request = ShadowRequest.deleteAll(version)
+        ShadowRequest request = ShadowRequest.clear(version)
                 .reported()
                 .build();
 
-        Shadow newShadow = shadow.clear(request.getDeleteAllState(), request.getVersion());
+        Shadow newShadow = shadow.clearReported(request.getVersion());
         Assertions.assertEquals(version, newShadow.getVersion(), "版本号限制未生效错误");
         Assertions.assertTrue(newShadow.getState().isReportedEmpty(), "未按预期设置 State 值错误");
         Assertions.assertTrue(newShadow.getMetadata().isReportedEmpty(), "未按预期设置 Metadata 值错误");

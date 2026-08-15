@@ -33,7 +33,7 @@ import cn.herodotus.dante.security.utils.ServletSecurityUtils;
 import cn.herodotus.dante.web.annotation.AccessLimited;
 import cn.herodotus.dante.web.annotation.Idempotent;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
-import cn.herodotus.thingsbrain.mqtt.outbound.service.TslServiceService;
+import cn.herodotus.thingsbrain.mqtt.outbound.service.MqttTslServiceService;
 import cn.herodotus.thingsbrain.persistence.commons.domain.TslFunction;
 import cn.herodotus.thingsbrain.persistence.commons.service.TslFunctionService;
 import cn.herodotus.thingsbrain.platform.rest.dto.TslInvokeServiceRequest;
@@ -71,11 +71,11 @@ import java.util.Map;
 public class TslFunctionController extends AbstractEntityWriteAndPageController<TslFunction, String, BaseWriteAndPageService<TslFunction, String>> {
 
     private final TslFunctionService tslFunctionService;
-    private final TslServiceService tslServiceService;
+    private final MqttTslServiceService mqttTslServiceService;
 
-    public TslFunctionController(TslFunctionService tslFunctionService, TslServiceService tslServiceService) {
+    public TslFunctionController(TslFunctionService tslFunctionService, MqttTslServiceService mqttTslServiceService) {
         this.tslFunctionService = tslFunctionService;
-        this.tslServiceService = tslServiceService;
+        this.mqttTslServiceService = mqttTslServiceService;
     }
 
     @Override
@@ -114,7 +114,7 @@ public class TslFunctionController extends AbstractEntityWriteAndPageController<
     @PutMapping("/set")
     public Result<String> set(@Validated @RequestBody TslSetPropertyRequest domain, HttpServletRequest request) {
         UserPrincipal userPrincipal = ServletSecurityUtils.getUserPrincipal(request);
-        tslServiceService.set(domain.getProductKey(), domain.getDeviceName(), domain.getParams(), userPrincipal);
+        mqttTslServiceService.set(domain.getProductKey(), domain.getDeviceName(), domain.getParams(), userPrincipal);
         return Result.success("发送设置设备属性请求成功");
     }
 
@@ -128,7 +128,7 @@ public class TslFunctionController extends AbstractEntityWriteAndPageController<
     @PutMapping("/invoke")
     public Result<String> invoke(@Validated @RequestBody TslInvokeServiceRequest domain, HttpServletRequest request) {
         UserPrincipal userPrincipal = ServletSecurityUtils.getUserPrincipal(request);
-        tslServiceService.invoke(domain.getProductKey(), domain.getDeviceName(), domain.getIdentifier(), domain.getParams(), userPrincipal);
+        mqttTslServiceService.invoke(domain.getProductKey(), domain.getDeviceName(), domain.getIdentifier(), domain.getParams(), userPrincipal);
         return Result.success("设置设备属性操作成功");
     }
 }

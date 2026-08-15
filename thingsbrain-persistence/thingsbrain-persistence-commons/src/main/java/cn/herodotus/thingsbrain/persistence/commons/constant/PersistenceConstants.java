@@ -38,6 +38,7 @@ public interface PersistenceConstants extends KernelConstants {
     String REGION_IOT_PRODUCT = IOT_AREA_PREFIX + "product";
     String REGION_IOT_PRODUCT_CATEGORY = IOT_AREA_PREFIX + "product:category";
     String REGION_IOT_DEVICE = IOT_AREA_PREFIX + "device";
+    String REGION_IOT_DEVICE_CONNECTION = IOT_AREA_PREFIX + "device:connection";
     String REGION_IOT_DEVICE_SHADOW = IOT_AREA_PREFIX + "device:shadow";
     String REGION_IOT_DEVICE_TAG = IOT_AREA_PREFIX + "device:tag";
     String REGION_IOT_TAG = IOT_AREA_PREFIX + "tag";

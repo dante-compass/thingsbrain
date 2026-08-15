@@ -92,17 +92,13 @@ public class ShadowRequestTest {
 
         Integer version = 1;
 
-        ShadowRequest request = ShadowRequest.deleteAll(version)
+        ShadowRequest request = ShadowRequest.clear(version)
                 .reported()
                 .build();
 
         Assertions.assertNotNull(request, "生成设备删除全部设备影子属性请求对象出错");
         Assertions.assertEquals(version, request.getVersion(), "设备删除设备影子全部属性请求 version 设置出错");
         Assertions.assertEquals(MethodConstants.METHOD__SHADOW_DELETE, request.getMethod(), "设备删除全部设备影子属性请求 method 设置出错");
-
-        State state = request.getDeleteAllState();
-        Assertions.assertTrue(MapUtils.isNotEmpty(state), "设备删除全部设备影子属性请求 state 设置出错");
-        Assertions.assertTrue(state.isReportedEmpty(), "设备删除全部设备影子属性请求 state 内容设置出错");
     }
 
     @Test
@@ -154,21 +150,5 @@ public class ShadowRequestTest {
         Assertions.assertTrue(MapUtils.isNotEmpty(state), "ShadowRequest state 值为空");
         Assertions.assertFalse(state.isReportedEmpty(), "ShadowRequest state 转换为 State 对象出错");
         Assertions.assertInstanceOf(String.class, state.getReported().get("color"), "ShadowRequest State 值反序列化出错");
-    }
-
-    @Test
-    void deleteAllDeserializationAndConvertToState() throws Exception {
-        File file = ResourceUtils.getFile("classpath:json/shadow/device-delete-all.json");
-        String json = FileUtil.readString(file, StandardCharsets.UTF_8);
-
-        Assertions.assertNotNull(json, "测试代码无法读取 device-delete-all.json 文件");
-
-        ShadowRequest request = JacksonUtils.toObject(json, new TypeReference<>() {
-        });
-        Assertions.assertTrue(ObjectUtils.isNotEmpty(request), "ShadowRequest 反序列化出错");
-
-        State state = request.getDeleteAllState();
-        Assertions.assertTrue(MapUtils.isNotEmpty(state), "ShadowRequest state 值为空");
-        Assertions.assertTrue(state.isReportedEmpty(), "ShadowRequest state 值为空");
     }
 }

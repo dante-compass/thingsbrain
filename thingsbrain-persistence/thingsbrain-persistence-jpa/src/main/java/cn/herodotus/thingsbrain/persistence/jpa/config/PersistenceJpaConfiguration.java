@@ -80,13 +80,12 @@ public class PersistenceJpaConfiguration {
         return service;
     }
 
-//    @Bean
-//    @ConditionalOnMissingBean
-//    public DeviceShadowService deviceShadowService(HerodotusDeviceShadowService herodotusDeviceShadowService) {
-//        JpaDeviceShadowService service = new JpaDeviceShadowService(herodotusDeviceShadowService);
-//        log.trace("[ThingsBrain] |- Bean [Jpa Device Shadow Service] Configure.");
-//        return service;
-//    }
+    @Bean
+    public DeviceShadowService deviceShadowService(HerodotusDeviceShadowService herodotusDeviceShadowService) {
+        JpaDeviceShadowService service = new JpaDeviceShadowService(herodotusDeviceShadowService);
+        log.trace("[ThingsBrain] |- Bean [Jpa Device Shadow Service] Configure.");
+        return service;
+    }
 
     @Bean
     public MqttAccountService mqttAccountService(HerodotusMqttAccountService herodotusMqttAccountService) {

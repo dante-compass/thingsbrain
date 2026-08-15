@@ -31,7 +31,6 @@ import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import cn.herodotus.thingsbrain.kernel.link.definition.AbstractMethodDomain;
 import cn.herodotus.thingsbrain.kernel.link.definition.shadow.State;
 import cn.hutool.v7.core.bean.BeanUtil;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.Strings;
 
 import java.util.Arrays;
@@ -60,8 +59,50 @@ public class ShadowRequest extends AbstractMethodDomain<Integer> {
         this.state = state;
     }
 
+    private boolean containsReported() {
+        return getState().containsKey(ProtocolConstants.PARAMETER__REPORTED);
+    }
+
+    private boolean containsDesired() {
+        return getState().containsKey(ProtocolConstants.PARAMETER__DESIRED);
+    }
+
+    private Object getReported() {
+        return getState().get(ProtocolConstants.PARAMETER__REPORTED);
+    }
+
+    private Object getDesired() {
+        return getState().get(ProtocolConstants.PARAMETER__DESIRED);
+    }
+
+    /**
+     * 判断是否为删除影子全部属性操作
+     *
+     * @return true 是；false 不是。
+     */
+    public boolean isClearReported() {
+        if (containsReported()) {
+            return getReported() instanceof String reported && Strings.CS.equals(reported, SymbolConstants.NULL);
+        }
+
+        return false;
+    }
+
+    /**
+     * 判断是否为删除影子全部 Desired 操作
+     *
+     * @return true 是；false 不是。
+     */
+    public boolean isClearDesired() {
+        if (containsDesired()) {
+            return getDesired() instanceof String desired && Strings.CS.equals(desired, SymbolConstants.NULL);
+        }
+
+        return false;
+    }
+
     private State createReportedState() {
-        Object object = this.getState().get(ProtocolConstants.PARAMETER__REPORTED);
+        Object object = getReported();
         Map<String, Object> reported = BeanUtil.beanToMap(object);
         State state = new State();
         state.setReported(reported);
@@ -69,57 +110,24 @@ public class ShadowRequest extends AbstractMethodDomain<Integer> {
     }
 
     public State getUpdateState() {
-        if (Strings.CS.equals(this.getMethod(), MethodConstants.METHOD__SHADOW_UPDATE) && MapUtils.isNotEmpty(getState())) {
+        if (containsReported()) {
+            return createReportedState();
+        }
 
-            if (getState().containsKey(ProtocolConstants.PARAMETER__REPORTED)) {
-                return createReportedState();
-            }
-
-            if (getState().containsKey(ProtocolConstants.PARAMETER__DESIRED)) {
-                Object object = this.getState().get(ProtocolConstants.PARAMETER__DESIRED);
-                Map<String, Object> desired = BeanUtil.beanToMap(object);
-                State state = new State();
-                state.setDesired(desired);
-                return state;
-            }
-
+        if (containsDesired()) {
+            Object object = getDesired();
+            Map<String, Object> desired = BeanUtil.beanToMap(object);
+            State state = new State();
+            state.setDesired(desired);
+            return state;
         }
 
         return null;
     }
 
     public State getDeleteState() {
-        if (Strings.CS.equals(this.getMethod(), MethodConstants.METHOD__SHADOW_DELETE) && MapUtils.isNotEmpty(state)) {
-
-            if (getState().containsKey(ProtocolConstants.PARAMETER__REPORTED)) {
-                return createReportedState();
-            }
-        }
-
-        return null;
-    }
-
-    public State getDeleteAllState() {
-
-        if (Strings.CS.equals(this.getMethod(), MethodConstants.METHOD__SHADOW_DELETE) && MapUtils.isNotEmpty(state)) {
-
-            if (state.containsKey(ProtocolConstants.PARAMETER__REPORTED)) {
-                Object object = this.getState().get(ProtocolConstants.PARAMETER__REPORTED);
-                if (object instanceof String s && Strings.CI.equals(s, SymbolConstants.NULL)) {
-                    State state = new State();
-                    state.setReported(null);
-                    return state;
-                }
-            }
-
-            if (state.containsKey(ProtocolConstants.PARAMETER__DESIRED)) {
-                Object object = this.getState().get(ProtocolConstants.PARAMETER__DESIRED);
-                if (object instanceof String s && Strings.CI.equals(s, SymbolConstants.NULL)) {
-                    State state = new State();
-                    state.setDesired(null);
-                    return state;
-                }
-            }
+        if (containsReported()) {
+            return createReportedState();
         }
 
         return null;
@@ -133,13 +141,13 @@ public class ShadowRequest extends AbstractMethodDomain<Integer> {
         return new DeleteBuilder(version);
     }
 
-    public static DeleteAllBuilder deleteAll(Integer version) {
-        return new DeleteAllBuilder(version);
+    public static ClearBuilder clear(Integer version) {
+        return new ClearBuilder(version);
     }
 
     private static abstract class AbstractBuilder {
-        private final String method;
         private final Integer version;
+        private String method;
         private Map<String, Object> state;
 
         protected AbstractBuilder(String method, Integer version) {
@@ -153,6 +161,10 @@ public class ShadowRequest extends AbstractMethodDomain<Integer> {
 
         protected void setState(Map<String, Object> state) {
             this.state = state;
+        }
+
+        protected void setMethod() {
+            this.method = MethodConstants.METHOD__SHADOW_UPDATE;
         }
 
         public ShadowRequest build() {
@@ -205,23 +217,24 @@ public class ShadowRequest extends AbstractMethodDomain<Integer> {
         }
     }
 
-    public static class DeleteAllBuilder extends AbstractBuilder {
+    public static class ClearBuilder extends AbstractBuilder {
 
-        protected DeleteAllBuilder(Integer version) {
+        protected ClearBuilder(Integer version) {
             super(MethodConstants.METHOD__SHADOW_DELETE, version);
         }
 
-        public DeleteAllBuilder reported() {
+        public ClearBuilder reported() {
             Map<String, Object> state = new HashMap<>();
             state.put(ProtocolConstants.PARAMETER__REPORTED, SymbolConstants.NULL);
             this.setState(state);
             return this;
         }
 
-        public DeleteAllBuilder desired() {
+        public ClearBuilder desired() {
             Map<String, Object> state = new HashMap<>();
             state.put(ProtocolConstants.PARAMETER__DESIRED, SymbolConstants.NULL);
-            this.setState(state);
+            setMethod();
+            setState(state);
             return this;
         }
     }

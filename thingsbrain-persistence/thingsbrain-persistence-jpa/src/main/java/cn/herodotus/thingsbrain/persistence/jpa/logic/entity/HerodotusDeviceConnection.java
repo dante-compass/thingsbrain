@@ -50,7 +50,7 @@ import java.time.LocalDateTime;
         @Index(name = "iot_device_connection_cid_idx", columnList = "client_id"),
 })
 @Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = PersistenceConstants.REGION_IOT_DEVICE)
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = PersistenceConstants.REGION_IOT_DEVICE_CONNECTION)
 public class HerodotusDeviceConnection implements BaseEntity {
 
     @Id

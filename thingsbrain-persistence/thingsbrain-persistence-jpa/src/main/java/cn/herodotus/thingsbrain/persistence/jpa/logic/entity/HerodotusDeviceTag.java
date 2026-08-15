@@ -58,12 +58,12 @@ public class HerodotusDeviceTag extends AbstractEntity {
     @Column(name = "id", length = 64)
     private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "device_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "device_id", nullable = false, insertable = false, updatable = false)
     private HerodotusDevice device;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tag_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "tag_id", nullable = false, insertable = false, updatable = false)
     private HerodotusTag tag;
 
     public HerodotusDeviceTag() {

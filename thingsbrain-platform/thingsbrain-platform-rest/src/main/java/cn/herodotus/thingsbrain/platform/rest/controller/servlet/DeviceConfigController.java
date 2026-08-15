@@ -29,7 +29,7 @@ import cn.herodotus.dante.core.domain.Result;
 import cn.herodotus.dante.security.domain.UserPrincipal;
 import cn.herodotus.dante.security.utils.ServletSecurityUtils;
 import cn.herodotus.dante.web.annotation.Idempotent;
-import cn.herodotus.thingsbrain.mqtt.outbound.service.DeviceConfigService;
+import cn.herodotus.thingsbrain.mqtt.outbound.service.MqttDeviceConfigService;
 import cn.herodotus.thingsbrain.platform.rest.dto.DeviceConfigLogPushRequest;
 import cn.herodotus.thingsbrain.platform.rest.dto.DeviceConfigPushRequest;
 import cn.herodotus.thingsbrain.platform.rest.dto.TslSetPropertyRequest;
@@ -64,10 +64,10 @@ import org.springframework.web.bind.annotation.RestController;
 })
 public class DeviceConfigController {
 
-    private final DeviceConfigService deviceConfigService;
+    private final MqttDeviceConfigService mqttDeviceConfigService;
 
-    public DeviceConfigController(DeviceConfigService deviceConfigService) {
-        this.deviceConfigService = deviceConfigService;
+    public DeviceConfigController(MqttDeviceConfigService mqttDeviceConfigService) {
+        this.mqttDeviceConfigService = mqttDeviceConfigService;
     }
 
     @Idempotent
@@ -80,7 +80,7 @@ public class DeviceConfigController {
     @PutMapping("/log/push")
     public Result<String> logPush(@Validated @RequestBody DeviceConfigLogPushRequest domain) {
 
-        deviceConfigService.logPush(domain.getProductKey(), domain.getDeviceName(), domain.getEnabled());
+        mqttDeviceConfigService.logPush(domain.getProductKey(), domain.getDeviceName(), domain.getEnabled());
         return Result.success("发送设置设备属性请求成功");
     }
 
@@ -96,7 +96,7 @@ public class DeviceConfigController {
 
         UserPrincipal userPrincipal = ServletSecurityUtils.getUserPrincipal(request);
 
-        deviceConfigService.push(domain.getProductKey(), domain.getDeviceName(), domain.getParams(), userPrincipal);
+        mqttDeviceConfigService.push(domain.getProductKey(), domain.getDeviceName(), domain.getParams(), userPrincipal);
         return Result.success("发送设置设备属性请求成功");
     }
 }

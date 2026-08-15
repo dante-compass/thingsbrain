@@ -33,6 +33,8 @@ import cn.hutool.v7.core.data.id.IdUtil;
 import com.google.common.base.MoreObjects;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -75,9 +77,19 @@ public class HerodotusDevice extends AbstractSysEntity implements RegisteredClie
     private String deviceId;
 
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = PersistenceConstants.REGION_IOT_PRODUCT)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "product_id", nullable = false)
     private HerodotusProduct product;
+
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = PersistenceConstants.REGION_IOT_DEVICE_CONNECTION)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "connect_id")
+    private HerodotusDeviceConnection deviceConnection;
+
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = PersistenceConstants.REGION_IOT_DEVICE_SHADOW)
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @JoinColumn(name = "shadow_id")
+    private HerodotusDeviceShadow deviceShadow;
 
     @Column(name = "device_name", length = 32)
     private String deviceName = IdUtil.fastSimpleUUID();
@@ -108,7 +120,9 @@ public class HerodotusDevice extends AbstractSysEntity implements RegisteredClie
     @Column(name = "redirect_uris", length = 1000)
     private String redirectUris;
 
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = PersistenceConstants.REGION_IOT_DEVICE_TAG)
     @OneToMany(mappedBy = "device", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
     private Set<HerodotusDeviceTag> deviceTags = new HashSet<>();
 
     /**
@@ -137,6 +151,22 @@ public class HerodotusDevice extends AbstractSysEntity implements RegisteredClie
 
     public void setProduct(HerodotusProduct product) {
         this.product = product;
+    }
+
+    public HerodotusDeviceConnection getDeviceConnection() {
+        return deviceConnection;
+    }
+
+    public void setDeviceConnection(HerodotusDeviceConnection deviceConnection) {
+        this.deviceConnection = deviceConnection;
+    }
+
+    public HerodotusDeviceShadow getDeviceShadow() {
+        return deviceShadow;
+    }
+
+    public void setDeviceShadow(HerodotusDeviceShadow deviceShadow) {
+        this.deviceShadow = deviceShadow;
     }
 
     public String getDeviceName() {
@@ -216,6 +246,8 @@ public class HerodotusDevice extends AbstractSysEntity implements RegisteredClie
         return MoreObjects.toStringHelper(this)
                 .add("deviceId", deviceId)
                 .add("product", product)
+                .add("deviceConnection", deviceConnection)
+                .add("deviceShadow", deviceShadow)
                 .add("deviceName", deviceName)
                 .add("deviceSecret", deviceSecret)
                 .add("clientId", clientId)

@@ -25,49 +25,53 @@
 
 package cn.herodotus.thingsbrain.mqtt.outbound.service;
 
-import cn.herodotus.dante.core.jackson.JacksonUtils;
-import cn.herodotus.thingsbrain.kernel.link.domain.shadow.ShadowRequest;
-import cn.herodotus.thingsbrain.kernel.link.domain.shadow.ShadowResponse;
-import cn.herodotus.thingsbrain.link.commons.definition.DeviceShadowManager;
-import cn.herodotus.thingsbrain.mqtt.commons.constant.MqttConstants;
+import cn.herodotus.dante.security.domain.UserPrincipal;
+import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
+import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
+import cn.herodotus.thingsbrain.kernel.link.domain.subset.TopoChange;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
-import cn.herodotus.thingsbrain.persistence.commons.domain.DeviceShadow;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttTopic;
+import org.springframework.stereotype.Service;
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.List;
 
 /**
- * <p>Description: 设备影子服务 </p>
+ * <p>Description: 管理拓扑关系 </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/6/8 17:50
+ * @date : 2025/6/16 12:36
  */
-public class DeviceShadowService {
+@Service
+public class MqttSubsetTopoService {
 
-    private final DeviceShadowManager deviceShadowManager;
+    private static final MqttTopic TOPIC_ADD_NOTIFY = new MqttTopic(MethodConstants.METHOD__THING_TOPO_ADD_NOTIFY);
+    private static final MqttTopic TOPIC_CHANGE = new MqttTopic(MethodConstants.METHOD__THING_TOPO_CHANGE, false);
+
     private final MqttOutboundMessagePublisher mqttOutboundMessagePublisher;
 
-    public DeviceShadowService(DeviceShadowManager deviceShadowManager, MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
-        this.deviceShadowManager = deviceShadowManager;
+    public MqttSubsetTopoService(MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
         this.mqttOutboundMessagePublisher = mqttOutboundMessagePublisher;
     }
 
     /**
-     * 业务系统可以通过该 API 改变设备的状态
+     * 设备接收订阅云端推送日志配置
      *
      * @param productKey 物联网 ProductKey
      * @param deviceName 物联网 DeviceName
-     * @param data       变更的属性 {@link Map}
-     * @param version    新的版本号
+     * @param param      配置信息 {@link List}
      */
-    public void update(String productKey, String deviceName, Map<String, Object> data, Integer version) {
-        ShadowRequest request = ShadowRequest.update(version).desired(data).build();
+    public void addNotify(String productKey, String deviceName, List<Identifier> param, UserPrincipal userPrincipal) {
+        mqttOutboundMessagePublisher.request(TOPIC_ADD_NOTIFY, productKey, deviceName, param, userPrincipal);
+    }
 
-        Optional<DeviceShadow> optional = deviceShadowManager.update(productKey, deviceName, request.getState(), request.getVersion());
-        ShadowResponse response = optional.map(deviceShadowManager::read)
-                .map(ShadowResponse::control)
-                .orElse(ShadowResponse.error());
-
-        mqttOutboundMessagePublisher.publish(MqttConstants.MQTT_TOPIC__SHADOW.getReplyTopic(productKey, deviceName), JacksonUtils.toJson(response));
+    /**
+     * 设备接收订阅云端推送日志配置
+     *
+     * @param productKey 物联网 ProductKey
+     * @param deviceName 物联网 DeviceName
+     * @param param      配置信息 {@link TopoChange}
+     */
+    public void change(String productKey, String deviceName, TopoChange param, UserPrincipal userPrincipal) {
+        mqttOutboundMessagePublisher.request(TOPIC_CHANGE, productKey, deviceName, param, userPrincipal);
     }
 }

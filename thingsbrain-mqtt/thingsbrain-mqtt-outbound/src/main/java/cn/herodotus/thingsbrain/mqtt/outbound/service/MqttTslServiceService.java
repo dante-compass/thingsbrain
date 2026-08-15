@@ -28,11 +28,11 @@ package cn.herodotus.thingsbrain.mqtt.outbound.service;
 import cn.herodotus.dante.security.domain.UserPrincipal;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
 import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
-import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.domain.SchemaValidationResult;
 import cn.herodotus.thingsbrain.kernel.commons.exception.JsonSchemaValidateException;
 import cn.herodotus.thingsbrain.link.commons.definition.SpecificationManager;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttTopic;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -44,7 +44,7 @@ import java.util.Map;
  * @date : 2025/5/21 22:53
  */
 @Service
-public class TslServiceService {
+public class MqttTslServiceService {
 
     private static final MqttTopic TOPIC_SET = new MqttTopic(MethodConstants.METHOD__THING_SERVICE_PROPERTY_SET);
     private static final MqttTopic TOPIC_INVOKE = new MqttTopic(MethodConstants.METHOD__THING_SERVICE_IDENTIFIER, MqttTopic.Parameter.SERVICE);
@@ -52,7 +52,7 @@ public class TslServiceService {
     private final SpecificationManager specificationManager;
     private final MqttOutboundMessagePublisher mqttOutboundMessagePublisher;
 
-    public TslServiceService(SpecificationManager specificationManager, MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
+    public MqttTslServiceService(SpecificationManager specificationManager, MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
         this.specificationManager = specificationManager;
         this.mqttOutboundMessagePublisher = mqttOutboundMessagePublisher;
     }

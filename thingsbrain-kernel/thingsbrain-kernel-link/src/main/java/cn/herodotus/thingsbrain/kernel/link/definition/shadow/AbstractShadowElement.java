@@ -111,24 +111,6 @@ public abstract class AbstractShadowElement<T> extends HashMap<String, Map<Strin
     }
 
     /**
-     * 主要用于清空影子数据时，用来判断是否为清空 reported;
-     *
-     * @return 否为清空 reported
-     */
-    public boolean isClearReported() {
-        return containsKey(ProtocolConstants.PARAMETER__REPORTED);
-    }
-
-    /**
-     * 主要用于清空影子数据时，用来判断是否为清空 desired;
-     *
-     * @return 否为清空 desired
-     */
-    public boolean isClearDesired() {
-        return containsKey(ProtocolConstants.PARAMETER__DESIRED);
-    }
-
-    /**
      * 当前数据中是否只有 reported 内容。
      * <p>
      * 注意：
@@ -161,7 +143,7 @@ public abstract class AbstractShadowElement<T> extends HashMap<String, Map<Strin
      * 因此，该放法在下面场景下，
      * <pre>
      * {
-     *     "method": "delete",
+     *     "method": "update",
      *     "state": {
      *         "desired": "null"
      *     },
@@ -174,9 +156,5 @@ public abstract class AbstractShadowElement<T> extends HashMap<String, Map<Strin
      */
     public boolean onlyDesired() {
         return isReportedEmpty() && !isDesiredEmpty();
-    }
-
-    public boolean isNull() {
-        return this.isEmpty();
     }
 }

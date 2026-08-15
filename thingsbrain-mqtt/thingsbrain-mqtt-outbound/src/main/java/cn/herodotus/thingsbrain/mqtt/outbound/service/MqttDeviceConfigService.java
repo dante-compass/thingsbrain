@@ -27,56 +27,57 @@ package cn.herodotus.thingsbrain.mqtt.outbound.service;
 
 import cn.herodotus.dante.security.domain.UserPrincipal;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
-import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttTopic;
+import cn.herodotus.thingsbrain.kernel.link.domain.config.ConfigDomain;
+import cn.herodotus.thingsbrain.kernel.link.domain.config.LogConfigDomain;
+import cn.herodotus.thingsbrain.kernel.link.domain.config.LogContentDomain;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttTopic;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: 子设备禁用、启用、删除操作服务 </p>
+ * <p>Description: 远程配置 Servcie </p>
  *
  * @author : gengwei.zheng
- * @date : 2025/6/16 12:32
+ * @date : 2025/6/16 12:19
  */
 @Service
-public class SubsetStatusService {
+public class MqttDeviceConfigService {
 
-    private static final MqttTopic TOPIC_DISABLE = new MqttTopic(MethodConstants.METHOD__THING_DISABLE);
-    private static final MqttTopic TOPIC_ENABLE = new MqttTopic(MethodConstants.METHOD__THING_ENABLE);
-    private static final MqttTopic TOPIC_DELETE = new MqttTopic(MethodConstants.METHOD__THING_DELETE);
+    private static final MqttTopic TOPIC_LOG_PUSH = new MqttTopic(MethodConstants.METHOD__THING_CONFIG_LOG_PUSH, false);
+
+    private static final MqttTopic TOPIC_PUSH = new MqttTopic(MethodConstants.METHOD__THING_CONFIG_PUSH);
 
     private final MqttOutboundMessagePublisher mqttOutboundMessagePublisher;
 
-    public SubsetStatusService(MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
+    public MqttDeviceConfigService(MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
         this.mqttOutboundMessagePublisher = mqttOutboundMessagePublisher;
     }
 
     /**
-     * 禁用子设备
+     * 设备接收订阅云端推送日志配置
      *
      * @param productKey 物联网 ProductKey
      * @param deviceName 物联网 DeviceName
+     * @param enabled    true 表示设备SDK上报日志，false 表示设备SDK不上报日志
      */
-    public void disable(String productKey, String deviceName, UserPrincipal userPrincipal) {
-        mqttOutboundMessagePublisher.request(TOPIC_DISABLE, productKey, deviceName, userPrincipal);
+    public void logPush(String productKey, String deviceName, boolean enabled) {
+        LogContentDomain content = new LogContentDomain();
+        content.setMode(enabled ? 1 : 0);
+
+        LogConfigDomain config = new LogConfigDomain();
+        config.setContent(content);
+
+        mqttOutboundMessagePublisher.request(TOPIC_LOG_PUSH, productKey, deviceName, config);
     }
 
     /**
-     * 启用被禁用的子设备
+     * 设备接收订阅云端推送日志配置
      *
      * @param productKey 物联网 ProductKey
      * @param deviceName 物联网 DeviceName
+     * @param data       配置信息 {@link ConfigDomain}
      */
-    public void enable(String productKey, String deviceName, UserPrincipal userPrincipal) {
-        mqttOutboundMessagePublisher.request(TOPIC_ENABLE, productKey, deviceName, userPrincipal);
-    }
-
-    /**
-     * 删除子设备
-     *
-     * @param productKey 物联网 ProductKey
-     * @param deviceName 物联网 DeviceName
-     */
-    public void delete(String productKey, String deviceName, UserPrincipal userPrincipal) {
-        mqttOutboundMessagePublisher.request(TOPIC_DELETE, productKey, deviceName, userPrincipal);
+    public void push(String productKey, String deviceName, ConfigDomain data, UserPrincipal userPrincipal) {
+        mqttOutboundMessagePublisher.request(TOPIC_PUSH, productKey, deviceName, data, userPrincipal);
     }
 }

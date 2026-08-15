@@ -26,9 +26,9 @@
 package cn.herodotus.thingsbrain.mqtt.outbound.service;
 
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
-import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.link.domain.job.JobNotify;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttTopic;
 import org.springframework.stereotype.Service;
 
 /**
@@ -38,13 +38,13 @@ import org.springframework.stereotype.Service;
  * @date : 2025/6/19 16:37
  */
 @Service
-public class DeviceJobService {
+public class MqttDeviceJobService {
 
     private static final MqttTopic TOPIC_JOB_NOTIFY = new MqttTopic(MethodConstants.METHOD__THING_JOB_NOTIFY, false);
 
     private final MqttOutboundMessagePublisher mqttOutboundMessagePublisher;
 
-    public DeviceJobService(MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
+    public MqttDeviceJobService(MqttOutboundMessagePublisher mqttOutboundMessagePublisher) {
         this.mqttOutboundMessagePublisher = mqttOutboundMessagePublisher;
     }
 

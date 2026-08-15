@@ -29,6 +29,9 @@ import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusDevice;
 import jakarta.persistence.QueryHint;
 import org.hibernate.jpa.AvailableHints;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.QueryHints;
 
@@ -60,7 +63,27 @@ public interface HerodotusDeviceRepository extends BaseJpaRepository<HerodotusDe
     @QueryHints(@QueryHint(name = AvailableHints.HINT_CACHEABLE, value = "true"))
     Optional<HerodotusDevice> findByDeviceName(String deviceName);
 
+    /**
+     * 实现 {@link HerodotusDevice} 分页查询，多个关联对象数据的一次性查询
+     *
+     * @param pageable the pageable to request a paged result, can be {@link Pageable#unpaged()}, must not be
+     *                 {@literal null}.
+     * @return 分页数据 {@link Page}
+     */
     @QueryHints(@QueryHint(name = AvailableHints.HINT_CACHEABLE, value = "true"))
-    @EntityGraph(attributePaths = {"deviceTags", "deviceTags.tag"})
-    Optional<HerodotusDevice> findWithTagsByDeviceId(String deviceId);
+    @Override
+    @EntityGraph(attributePaths = {"product", "deviceConnection", "deviceShadow", "deviceTags"})
+    Page<HerodotusDevice> findAll(Pageable pageable);
+
+    /**
+     * 实现 {@link HerodotusDevice} 条件查询，多个关联对象数据的一次性查询
+     *
+     * @param specification must not be {@literal null}.
+     * @param pageable      must not be {@literal null}.
+     * @return 分页数据 {@link Page}
+     */
+    @QueryHints(@QueryHint(name = AvailableHints.HINT_CACHEABLE, value = "true"))
+    @Override
+    @EntityGraph(attributePaths = {"product", "deviceConnection", "deviceShadow", "deviceTags"})
+    Page<HerodotusDevice> findAll(Specification<HerodotusDevice> specification, Pageable pageable);
 }
