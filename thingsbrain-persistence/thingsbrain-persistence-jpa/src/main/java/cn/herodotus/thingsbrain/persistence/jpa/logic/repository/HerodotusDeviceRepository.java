@@ -52,6 +52,7 @@ public interface HerodotusDeviceRepository extends BaseJpaRepository<HerodotusDe
      * @return {@link HerodotusDevice}
      */
     @QueryHints(@QueryHint(name = AvailableHints.HINT_CACHEABLE, value = "true"))
+    @EntityGraph(attributePaths = {"product", "product.category", "deviceConnection", "deviceShadow", "deviceTags"})
     Optional<HerodotusDevice> findByClientId(String clientId);
 
     /**
@@ -61,6 +62,7 @@ public interface HerodotusDeviceRepository extends BaseJpaRepository<HerodotusDe
      * @return 设备详情 {@link HerodotusDevice}
      */
     @QueryHints(@QueryHint(name = AvailableHints.HINT_CACHEABLE, value = "true"))
+    @EntityGraph(attributePaths = {"product", "product.category", "deviceConnection", "deviceShadow", "deviceTags"})
     Optional<HerodotusDevice> findByDeviceName(String deviceName);
 
     /**
@@ -72,7 +74,7 @@ public interface HerodotusDeviceRepository extends BaseJpaRepository<HerodotusDe
      */
     @QueryHints(@QueryHint(name = AvailableHints.HINT_CACHEABLE, value = "true"))
     @Override
-    @EntityGraph(attributePaths = {"product", "deviceConnection", "deviceShadow", "deviceTags"})
+    @EntityGraph(attributePaths = {"product", "product.category", "deviceConnection", "deviceShadow", "deviceTags"})
     Page<HerodotusDevice> findAll(Pageable pageable);
 
     /**
@@ -84,6 +86,6 @@ public interface HerodotusDeviceRepository extends BaseJpaRepository<HerodotusDe
      */
     @QueryHints(@QueryHint(name = AvailableHints.HINT_CACHEABLE, value = "true"))
     @Override
-    @EntityGraph(attributePaths = {"product", "deviceConnection", "deviceShadow", "deviceTags"})
+    @EntityGraph(attributePaths = {"product", "product.category", "deviceConnection", "deviceShadow", "deviceTags"})
     Page<HerodotusDevice> findAll(Specification<HerodotusDevice> specification, Pageable pageable);
 }

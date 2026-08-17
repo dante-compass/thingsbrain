@@ -133,7 +133,7 @@ public class HerodotusProduct extends AbstractSysEntity implements RegisteredCli
     private String productSecret = IdUtil.fastSimpleUUID();
 
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = PersistenceConstants.REGION_IOT_PRODUCT_CATEGORY)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private HerodotusProductCategory category;
 

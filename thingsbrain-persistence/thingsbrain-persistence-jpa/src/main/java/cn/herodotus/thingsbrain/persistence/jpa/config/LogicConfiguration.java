@@ -75,7 +75,7 @@ class LogicConfiguration {
     }
 
     @Bean
-    public HerodotusDeviceManager herodotusDeviceManager(HerodotusDeviceService herodotusDeviceService, HerodotusDeviceConnectionService herodotusDeviceConnectionService, HerodotusMqttAccountService herodotusMqttAccountService, HerodotusMqttCategoryService herodotusMqttCategoryService, AuthenticationManager authenticationManager) {
-        return new HerodotusDeviceManager(herodotusDeviceService, herodotusDeviceConnectionService, herodotusMqttAccountService, herodotusMqttCategoryService, authenticationManager);
+    public HerodotusDeviceManager herodotusDeviceManager(HerodotusDeviceService herodotusDeviceService, HerodotusDeviceConnectionService herodotusDeviceConnectionService, HerodotusDeviceShadowService herodotusDeviceShadowService, HerodotusMqttAccountService herodotusMqttAccountService, HerodotusMqttCategoryService herodotusMqttCategoryService, AuthenticationManager authenticationManager) {
+        return new HerodotusDeviceManager(herodotusDeviceService, herodotusDeviceConnectionService, herodotusDeviceShadowService, herodotusMqttAccountService, herodotusMqttCategoryService, authenticationManager);
     }
 }

@@ -38,6 +38,8 @@ public interface KernelConstants extends BaseConstants {
     Integer VALUE__SHADOW_CLEAR_REQUEST = -1;
     Integer VALUE__SHADOW_CLEAR_RESULT = 0;
 
+    String SHADOW__EMPTY = "{\"metadata\":{},\"state\":{},\"timestamp\":null,\"version\":0}";
+
     String PROPERTY_IOT_TSDB = PROPERTY_PREFIX_IOT + ".tsdb";
 
 

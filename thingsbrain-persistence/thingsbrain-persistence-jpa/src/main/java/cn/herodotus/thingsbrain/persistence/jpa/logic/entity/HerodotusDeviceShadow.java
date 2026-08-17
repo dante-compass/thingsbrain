@@ -26,6 +26,7 @@
 package cn.herodotus.thingsbrain.persistence.jpa.logic.entity;
 
 import cn.herodotus.dante.data.jpa.entity.AbstractAuditEntity;
+import cn.herodotus.thingsbrain.kernel.commons.constant.KernelConstants;
 import cn.herodotus.thingsbrain.persistence.commons.constant.PersistenceConstants;
 import cn.hutool.v7.core.data.id.IdUtil;
 import com.google.common.base.MoreObjects;
@@ -60,8 +61,11 @@ public class HerodotusDeviceShadow extends AbstractAuditEntity {
     @Column(name = "device_name", length = 32)
     private String deviceName = IdUtil.fastSimpleUUID();
 
+    @Column(name = "version")
+    private Integer version = KernelConstants.VALUE__SHADOW_CLEAR_RESULT;
+
     @Column(name = "content", columnDefinition = "TEXT")
-    private String content;
+    private String content = KernelConstants.SHADOW__EMPTY;
 
     public String getShadowId() {
         return shadowId;
@@ -87,6 +91,14 @@ public class HerodotusDeviceShadow extends AbstractAuditEntity {
         this.deviceName = deviceName;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     public String getContent() {
         return content;
     }
@@ -101,8 +113,8 @@ public class HerodotusDeviceShadow extends AbstractAuditEntity {
                 .add("shadowId", shadowId)
                 .add("productKey", productKey)
                 .add("deviceName", deviceName)
+                .add("version", version)
                 .add("content", content)
-                .addValue(super.toString())
                 .toString();
     }
 }

@@ -41,7 +41,7 @@ public class ToDeviceConnectionConverter implements Converter<HerodotusDeviceCon
     public DeviceConnection convert(HerodotusDeviceConnection source) {
 
         DeviceConnection target = new DeviceConnection();
-        target.setId(source.getConnectId());
+        target.setId(source.getConnectionId());
         target.setProductKey(source.getProductKey());
         target.setDeviceName(source.getDeviceName());
         target.setClientId(source.getClientId());

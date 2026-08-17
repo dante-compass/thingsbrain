@@ -48,5 +48,6 @@ public class ToDeviceShadowConverter extends AbstractToAuditEntityConverter<Hero
         target.setProductKey(source.getProductKey());
         target.setDeviceName(source.getDeviceName());
         target.setContent(source.getContent());
+        target.setVersion(source.getVersion());
     }
 }

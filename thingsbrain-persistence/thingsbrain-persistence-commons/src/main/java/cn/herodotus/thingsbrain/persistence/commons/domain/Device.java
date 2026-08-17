@@ -25,10 +25,14 @@
 
 package cn.herodotus.thingsbrain.persistence.commons.domain;
 
+import cn.herodotus.dante.core.constant.SystemConstants;
 import cn.herodotus.dante.data.commons.entity.AbstractSysEntity;
 import cn.hutool.v7.core.data.id.IdUtil;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.time.LocalDateTime;
 
 /**
  * <p>Description: 物联网设备统一实体定义 </p>
@@ -108,6 +112,29 @@ public class Device extends AbstractSysEntity {
     @Schema(name = "是否激活")
     private Boolean activated = Boolean.FALSE;
 
+    @Schema(name = "设备连接ID", title = "仅用于维持实体的关联性")
+    private String connectionId;
+
+    @Schema(name = "是否在线")
+    private Boolean online = Boolean.FALSE;
+
+    @Schema(name = "最后上线时间")
+    @JsonFormat(pattern = SystemConstants.PATTERN__DATE_TIME)
+    private LocalDateTime connectedAt;
+
+    @Schema(name = "最后离线时间")
+    @JsonFormat(pattern = SystemConstants.PATTERN__DATE_TIME)
+    private LocalDateTime disconnectedAt;
+
+    @Schema(name = "IP地址")
+    private String ipAddress;
+
+    @Schema(name = "设备影子ID", title = "仅用于维持实体的关联性")
+    private String shadowId;
+
+    @Schema(name = "影子版本")
+    private Integer shadowVersion = 0;
+
     @Schema(name = "回调地址", title = "支持多个值，以逗号分隔。客户端动态注册以及一些授权模式会用到。")
     private String redirectUris;
 
@@ -159,6 +186,62 @@ public class Device extends AbstractSysEntity {
         this.activated = activated;
     }
 
+    public String getConnectionId() {
+        return connectionId;
+    }
+
+    public void setConnectionId(String connectionId) {
+        this.connectionId = connectionId;
+    }
+
+    public Boolean getOnline() {
+        return online;
+    }
+
+    public void setOnline(Boolean online) {
+        this.online = online;
+    }
+
+    public LocalDateTime getConnectedAt() {
+        return connectedAt;
+    }
+
+    public void setConnectedAt(LocalDateTime connectedAt) {
+        this.connectedAt = connectedAt;
+    }
+
+    public LocalDateTime getDisconnectedAt() {
+        return disconnectedAt;
+    }
+
+    public void setDisconnectedAt(LocalDateTime disconnectedAt) {
+        this.disconnectedAt = disconnectedAt;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public String getShadowId() {
+        return shadowId;
+    }
+
+    public void setShadowId(String shadowId) {
+        this.shadowId = shadowId;
+    }
+
+    public Integer getShadowVersion() {
+        return shadowVersion;
+    }
+
+    public void setShadowVersion(Integer shadowVersion) {
+        this.shadowVersion = shadowVersion;
+    }
+
     public String getRedirectUris() {
         return redirectUris;
     }
@@ -170,14 +253,20 @@ public class Device extends AbstractSysEntity {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("deviceId", id)
+                .add("id", id)
                 .add("deviceName", deviceName)
                 .add("deviceSecret", deviceSecret)
                 .add("clientId", clientId)
                 .add("product", product)
                 .add("activated", activated)
+                .add("connectionId", connectionId)
+                .add("online", online)
+                .add("connectedAt", connectedAt)
+                .add("disconnectedAt", disconnectedAt)
+                .add("ipAddress", ipAddress)
+                .add("shadowId", shadowId)
+                .add("shadowVersion", shadowVersion)
                 .add("redirectUris", redirectUris)
-                .addValue(super.toString())
                 .toString();
     }
 }

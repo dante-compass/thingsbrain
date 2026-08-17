@@ -53,6 +53,13 @@ public class HerodotusDeviceShadowService extends AbstractJpaService<HerodotusDe
         return herodotusDeviceShadowRepository;
     }
 
+    public HerodotusDeviceShadow create(String productKey, String deviceName) {
+        HerodotusDeviceShadow shadow = new HerodotusDeviceShadow();
+        shadow.setProductKey(productKey);
+        shadow.setDeviceName(deviceName);
+        return save(shadow);
+    }
+
     public Optional<HerodotusDeviceShadow> findOneByProductKeyAndDeviceName(String productKey, String deviceName) {
         return herodotusDeviceShadowRepository.findOneByProductKeyAndDeviceName(productKey, deviceName);
     }

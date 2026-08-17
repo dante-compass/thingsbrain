@@ -44,7 +44,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(name = "iot_device_connection", indexes = {
-        @Index(name = "iot_device_connection_id_idx", columnList = "connect_id"),
+        @Index(name = "iot_device_connection_id_idx", columnList = "connection_id"),
         @Index(name = "iot_device_connection_pdk_idx", columnList = "product_key"),
         @Index(name = "iot_device_connection_dn_idx", columnList = "device_name"),
         @Index(name = "iot_device_connection_cid_idx", columnList = "client_id"),
@@ -55,8 +55,8 @@ public class HerodotusDeviceConnection implements BaseEntity {
 
     @Id
     @UuidGenerator
-    @Column(name = "connect_id", length = 64)
-    private String connectId;
+    @Column(name = "connection_id", length = 64)
+    private String connectionId;
 
     @Column(name = "product_key", length = 32)
     private String productKey;
@@ -105,12 +105,12 @@ public class HerodotusDeviceConnection implements BaseEntity {
     @JsonFormat(pattern = SystemConstants.PATTERN__DATE_TIME, locale = "GMT+8", shape = JsonFormat.Shape.STRING)
     private LocalDateTime disconnectedAt;
 
-    public String getConnectId() {
-        return connectId;
+    public String getConnectionId() {
+        return connectionId;
     }
 
-    public void setConnectId(String connectId) {
-        this.connectId = connectId;
+    public void setConnectionId(String connectId) {
+        this.connectionId = connectId;
     }
 
     public String getProductKey() {
@@ -236,7 +236,7 @@ public class HerodotusDeviceConnection implements BaseEntity {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("connectId", connectId)
+                .add("connectId", connectionId)
                 .add("productKey", productKey)
                 .add("deviceName", deviceName)
                 .add("clientId", clientId)

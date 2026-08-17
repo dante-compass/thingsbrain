@@ -26,6 +26,7 @@
 package cn.herodotus.thingsbrain.kernel.link.definition.shadow;
 
 import cn.herodotus.thingsbrain.kernel.link.definition.AbstractDomain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.collections4.MapUtils;
 
 /**
@@ -60,6 +61,7 @@ public abstract class AbstractShadow extends AbstractDomain<Integer> {
         this.metadata = metadata;
     }
 
+    @JsonIgnore
     public boolean isNotEmpty() {
         return MapUtils.isNotEmpty(getState()) || MapUtils.isNotEmpty(getMetadata());
     }

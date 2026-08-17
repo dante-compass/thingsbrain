@@ -64,9 +64,10 @@ public class HerodotusDeviceConnectionService extends AbstractJpaService<Herodot
      * 如果客户端信息已经存在，则更新现有信息状态。如果客户端信息不存在，则新建连接信息。
      *
      * @param newConnection 新的上线信息 {@link HerodotusDeviceConnection}
+     * @return 新的上线信息 {@link HerodotusDeviceConnection}
      */
-    public void connected(HerodotusDeviceConnection newConnection) {
-        save(newConnection);
+    public HerodotusDeviceConnection connected(HerodotusDeviceConnection newConnection) {
+        return save(newConnection);
     }
 
     /**
@@ -78,10 +79,11 @@ public class HerodotusDeviceConnectionService extends AbstractJpaService<Herodot
      *
      * @param oldConnection 原有上线信息 {@link HerodotusDeviceConnection}
      * @param newConnection 新的上线信息 {@link HerodotusDeviceConnection}
+     * @return 新的上线信息 {@link HerodotusDeviceConnection}
      */
-    public void reconnected(HerodotusDeviceConnection oldConnection, HerodotusDeviceConnection newConnection) {
-        newConnection.setConnectId(oldConnection.getConnectId());
-        connected(newConnection);
+    public HerodotusDeviceConnection reconnected(HerodotusDeviceConnection oldConnection, HerodotusDeviceConnection newConnection) {
+        newConnection.setConnectionId(oldConnection.getConnectionId());
+        return connected(newConnection);
     }
 
     /**

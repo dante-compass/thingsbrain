@@ -90,12 +90,12 @@ public class DeviceConnection implements BaseEntity {
     @Schema(name = "是否在线", title = "直接记录在线状态，减少不必要的计算")
     private Boolean connected = Boolean.FALSE;
 
-    @Schema(name = "连接时间")
-    @JsonFormat(pattern = SystemConstants.PATTERN__DATE_TIME, locale = "GMT+8", shape = JsonFormat.Shape.STRING)
+    @Schema(name = "最后上线时间")
+    @JsonFormat(pattern = SystemConstants.PATTERN__DATE_TIME)
     private LocalDateTime connectedAt;
 
-    @Schema(name = "断开连接时间")
-    @JsonFormat(pattern = SystemConstants.PATTERN__DATE_TIME, locale = "GMT+8", shape = JsonFormat.Shape.STRING)
+    @Schema(name = "最后离线时间")
+    @JsonFormat(pattern = SystemConstants.PATTERN__DATE_TIME)
     private LocalDateTime disconnectedAt;
 
     public void setUsername(Identifier deviceIdentifier) {
