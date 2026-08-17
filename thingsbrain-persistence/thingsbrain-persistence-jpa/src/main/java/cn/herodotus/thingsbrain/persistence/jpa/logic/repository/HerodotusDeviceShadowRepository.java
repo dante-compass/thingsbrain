@@ -27,6 +27,9 @@ package cn.herodotus.thingsbrain.persistence.jpa.logic.repository;
 
 import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusDeviceShadow;
+import jakarta.persistence.QueryHint;
+import org.hibernate.jpa.AvailableHints;
+import org.springframework.data.jpa.repository.QueryHints;
 
 import java.util.Optional;
 
@@ -45,5 +48,6 @@ public interface HerodotusDeviceShadowRepository extends BaseJpaRepository<Herod
      * @param deviceName 物联网 DeviceName
      * @return 设备影子
      */
+    @QueryHints(@QueryHint(name = AvailableHints.HINT_CACHEABLE, value = "true"))
     Optional<HerodotusDeviceShadow> findOneByProductKeyAndDeviceName(String productKey, String deviceName);
 }

@@ -101,4 +101,8 @@ public class HerodotusMqttAccountService extends AbstractJpaService<HerodotusMqt
                 .map(this::save)
                 .orElse(null);
     }
+
+    public Optional<HerodotusMqttAccount> findByClientId(String clientId) {
+        return this.herodotusMqttAccountRepository.findByClientId(clientId);
+    }
 }

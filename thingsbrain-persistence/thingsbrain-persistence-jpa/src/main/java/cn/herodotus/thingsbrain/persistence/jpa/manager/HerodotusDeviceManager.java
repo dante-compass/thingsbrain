@@ -92,7 +92,8 @@ public class HerodotusDeviceManager {
     public void deleteById(String id) {
         authenticationManager.disable(id);
         herodotusDeviceService.deleteById(id);
-        herodotusDeviceConnectionService.deleteById(id);
+        // DeviceConnection 通过 @OneToOne 配置进行删除
+//        herodotusDeviceConnectionService.deleteById(id);
         herodotusMqttAccountService.deleteById(id);
     }
 
@@ -108,12 +109,16 @@ public class HerodotusDeviceManager {
     }
 
     private void enableMqttIdentify(HerodotusDevice domain) {
-        HerodotusMqttAccount account = toMqttAccount.convert(domain);
+        Optional<HerodotusMqttAccount> optional = herodotusMqttAccountService.findByClientId(domain.getClientId());
 
-        Set<HerodotusMqttCategory> categories = herodotusMqttCategoryService.findCategoryForDevice();
-        account.setCategories(categories);
+        if (optional.isEmpty()) {
+            HerodotusMqttAccount account = toMqttAccount.convert(domain);
 
-        herodotusMqttAccountService.save(account);
+            Set<HerodotusMqttCategory> categories = herodotusMqttCategoryService.findCategoryForDevice();
+            account.setCategories(categories);
+
+            herodotusMqttAccountService.save(account);
+        }
     }
 
     /**
