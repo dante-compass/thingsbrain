@@ -46,22 +46,22 @@ spring:
   ssl:
     bundle:
       jks:
-        herodotus-cloud-sas:
+        dante-cloud-sas:
           key:
-            alias: herodotus-cloud-sas
+            alias: dante-cloud-sas
             password: 123456
           keystore:
-            location: classpath:certificate/herodotus-cloud-sas_keystore.jks
+            location: classpath:certificate/dante-cloud-sas_keystore.jks
             password: 123456
             type: JKS
           truststore:
-            location: classpath:certificate/herodotus-cloud-sas_truststore.jks
+            location: classpath:certificate/dante-cloud-sas_truststore.jks
             password: 123456
             type: JKS
 herodotus:
   oauth2:
     authentication:
-      ssl-bundle-provider: herodotus-cloud-sas
+      ssl-bundle-provider: dante-cloud-sas
 
 jasypt:
   encryptor:
@@ -294,7 +294,7 @@ herodotus:
           OSCHINA:
             client-id: 7c1623d76f3909757912338688cae8a061e241b56070face6d54114eb61
             client-secret: 8c343cad9ca732d54242f002d254239e17b68cab11c1d506a57822be
-            redirect-uri: http://192.168.101.10:8847/herodotus-cloud-uaa/oauth/social/gitee
+            redirect-uri: http://192.168.101.10:8847/dante-cloud-uaa/oauth/social/gitee
     oss:
       endpoint: http://192.168.101.10:9000
       access-key: 2RO1WHelOwCFxp6Annr7
@@ -540,7 +540,7 @@ herodotus:
           OSCHINA:
             client-id: 7c1623d76f3909757912338688cae8a061e241b56070face6d54114eb61c
             client-secret: 8c343cad9ca732d54242f002d254239e17b68cab11c1d506a57822be82
-            redirect-uri: http://192.168.101.10:8847/herodotus-cloud-uaa/oauth/social/gitee
+            redirect-uri: http://192.168.101.10:8847/dante-cloud-uaa/oauth/social/gitee
     oss:
       endpoint: http://192.168.101.10:9000
       access-key: 2RO1WHelOwCFxp6Annr7

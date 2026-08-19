@@ -101,7 +101,7 @@
                         <artifactId>central-publishing-maven-plugin</artifactId>
                         <configuration>
                             <excludeArtifacts>
-                                <excludeArtifact>thingsbrain-herodotus-cloud-ability</excludeArtifact>
+                                <excludeArtifact>dante-cloud-iot-ability</excludeArtifact>
                                 <excludeArtifact>thingsbrain-monolith-application</excludeArtifact>
                             </excludeArtifacts>
                         </configuration>
@@ -147,7 +147,7 @@
                         <artifactId>central-publishing-maven-plugin</artifactId>
                         <configuration>
                             <excludeArtifacts>
-                                <excludeArtifact>thingsbrain-herodotus-cloud-ability</excludeArtifact>
+                                <excludeArtifact>dante-cloud-iot-ability</excludeArtifact>
                                 <excludeArtifact>thingsbrain-monolith-application</excludeArtifact>
                             </excludeArtifacts>
                         </configuration>
@@ -186,6 +186,7 @@
         <module>thingsbrain-persistence</module>
         <module>thingsbrain-platform</module>
         <module>thingsbrain-nosql</module>
+        <module>thingsbrain-application</module>
     </modules>
 
 </project>
