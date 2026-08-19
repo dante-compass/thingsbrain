@@ -23,6 +23,27 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ *
+ * Copyright (c) 2020-2030 郑庚伟 ZHENGGENGWEI (码匠君), <herodotus@aliyun.com> Licensed under the AGPL License
+ *
+ * This file is part of Herodotus ThingsMesh.
+ *
+ * Herodotus ThingsMesh is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Herodotus ThingsMesh is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.herodotus.cn>.
+ */
+
 -- ----------------------------
 -- Table data for sys_element
 -- ----------------------------
@@ -204,8 +225,8 @@ INSERT INTO `iot_tsl_unit` (`unit_id`, `create_time`, `update_time`, `unit_name`
 -- ----------------------------
 -- Table data for oauth2_registered_client
 -- ----------------------------
-INSERT INTO `oauth2_registered_client` (`id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `authorization_grant_types`, `client_authentication_methods`, `client_id_issued_at`, `client_secret_expires_at`, `post_logout_redirect_uris`, `redirect_uris`, `client_id`, `client_name`, `client_secret`, `client_settings`, `scopes`, `token_settings`) VALUES ('8452271e-e42e-4a59-af80-3ea3c83247ea', '2026-08-17 20:55:52.297615', '2026-08-17 20:55:52.297615', 'system', 0, 'system', NULL, 0, b'0', 0, 'client_credentials', 'client_secret_post,client_secret_basic', '2026-08-17 20:55:52.298622', NULL, '', 'http://192.168.101.10:8847', 'apktestadd', '测试物联网产品', '{bcrypt}$2a$10$H0X2EWstF7cWpriIQkYZH.2cldwFS7aGliF2ncTchrQC5YTXd.L9S', '{`@class`:`java.util.Collections$UnmodifiableMap`,`settings.client.token-endpoint-authentication-signing-algorithm`:[`org.springframework.security.oauth2.jose.jws.SignatureAlgorithm`,`RS256`],`settings.client.require-proof-key`:false,`settings.client.require-authorization-consent`:true}', 'client.create,client.read', '{`@class`:`java.util.Collections$UnmodifiableMap`,`settings.token.reuse-refresh-tokens`:true,`settings.token.x509-certificate-bound-access-tokens`:false,`settings.token.id-token-signature-algorithm`:[`org.springframework.security.oauth2.jose.jws.SignatureAlgorithm`,`RS256`],`settings.token.access-token-time-to-live`:[`java.time.Duration`,`PT10M`],`settings.token.access-token-format`:{`@class`:`org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat`,`value`:`reference`},`settings.token.refresh-token-time-to-live`:[`java.time.Duration`,`PT1H`],`settings.token.authorization-code-time-to-live`:[`java.time.Duration`,`PT5M`],`settings.token.device-code-time-to-live`:[`java.time.Duration`,`PT5M`]}');
-INSERT INTO `oauth2_registered_client` (`id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `authorization_grant_types`, `client_authentication_methods`, `client_id_issued_at`, `client_secret_expires_at`, `post_logout_redirect_uris`, `redirect_uris`, `client_id`, `client_name`, `client_secret`, `client_settings`, `scopes`, `token_settings`) VALUES ('7d7c144f-78d6-4653-a2bd-5ccbfbb4edf1', '2026-08-17 21:05:04.6214', '2026-08-17 21:05:04.6214', 'apktestadd', 0, 'apktestadd', NULL, 0, b'0', 0, 'client_credentials', 'client_secret_post', '2026-08-17 21:05:04.6214', NULL, '', '', '9527', 'aaaaaa', '{bcrypt}$2a$10$fx0EtOblDA3zjA.ocBVnKuvxtAvfgPyZmT1F3NwkcK9KmfGU/TmF6', '{`@class`:`java.util.Collections$UnmodifiableMap`,`settings.client.require-proof-key`:true,`settings.client.require-authorization-consent`:true,`product_key`:`apktestadd`}', 'profile', '{`@class`:`java.util.Collections$UnmodifiableMap`,`settings.token.reuse-refresh-tokens`:true,`settings.token.x509-certificate-bound-access-tokens`:false,`settings.token.id-token-signature-algorithm`:[`org.springframework.security.oauth2.jose.jws.SignatureAlgorithm`,`RS256`],`settings.token.access-token-time-to-live`:[`java.time.Duration`,`PT5M`],`settings.token.access-token-format`:{`@class`:`org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat`,`value`:`reference`},`settings.token.refresh-token-time-to-live`:[`java.time.Duration`,`PT1H`],`settings.token.authorization-code-time-to-live`:[`java.time.Duration`,`PT5M`],`settings.token.device-code-time-to-live`:[`java.time.Duration`,`PT5M`]}');
+INSERT INTO `oauth2_registered_client` (`id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `authorization_grant_types`, `client_authentication_methods`, `client_id_issued_at`, `client_secret_expires_at`, `post_logout_redirect_uris`, `redirect_uris`, `client_id`, `client_name`, `client_secret`, `client_settings`, `scopes`, `token_settings`) VALUES ('8452271e-e42e-4a59-af80-3ea3c83247ea', '2026-08-17 20:55:52.297615', '2026-08-17 20:55:52.297615', 'system', 0, 'system', NULL, 0, 'f', 0, 'client_credentials', 'client_secret_post,client_secret_basic', '2026-08-17 20:55:52.298622', NULL, '', 'http://192.168.101.10:8847', 'apktestadd', '测试物联网产品', '{bcrypt}$2a$10$H0X2EWstF7cWpriIQkYZH.2cldwFS7aGliF2ncTchrQC5YTXd.L9S', '{"@class":"java.util.Collections$UnmodifiableMap","settings.client.token-endpoint-authentication-signing-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.client.require-proof-key":false,"settings.client.require-authorization-consent":true}', 'client.create,client.read', '{"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":true,"settings.token.x509-certificate-bound-access-tokens":false,"settings.token.id-token-signature-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.token.access-token-time-to-live":["java.time.Duration","PT10M"],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"reference"},"settings.token.refresh-token-time-to-live":["java.time.Duration","PT1H"],"settings.token.authorization-code-time-to-live":["java.time.Duration","PT5M"],"settings.token.device-code-time-to-live":["java.time.Duration","PT5M"]}');
+INSERT INTO `oauth2_registered_client` (`id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `authorization_grant_types`, `client_authentication_methods`, `client_id_issued_at`, `client_secret_expires_at`, `post_logout_redirect_uris`, `redirect_uris`, `client_id`, `client_name`, `client_secret`, `client_settings`, `scopes`, `token_settings`) VALUES ('7d7c144f-78d6-4653-a2bd-5ccbfbb4edf1', '2026-08-17 21:05:04.6214', '2026-08-17 21:05:04.6214', 'apktestadd', 0, 'apktestadd', NULL, 0, 'f', 0, 'client_credentials', 'client_secret_post', '2026-08-17 21:05:04.6214', NULL, '', '', '9527', 'aaaaaa', '{bcrypt}$2a$10$fx0EtOblDA3zjA.ocBVnKuvxtAvfgPyZmT1F3NwkcK9KmfGU/TmF6', '{"@class":"java.util.Collections$UnmodifiableMap","settings.client.require-proof-key":true,"settings.client.require-authorization-consent":true,"product_key":"apktestadd"}', 'profile', '{"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":true,"settings.token.x509-certificate-bound-access-tokens":false,"settings.token.id-token-signature-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.token.access-token-time-to-live":["java.time.Duration","PT5M"],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"reference"},"settings.token.refresh-token-time-to-live":["java.time.Duration","PT1H"],"settings.token.authorization-code-time-to-live":["java.time.Duration","PT5M"],"settings.token.device-code-time-to-live":["java.time.Duration","PT5M"]}');
 
 -- ----------------------------
 -- Table data for iot_product_category
@@ -230,7 +251,7 @@ INSERT INTO `iot_device_connection` (`connection_id`, `clean_start`, `client_id`
 -- ----------------------------
 -- Table data for iot_device_shadow
 -- ----------------------------
-INSERT INTO `iot_device_shadow` (`shadow_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `content`, `device_name`, `product_key`, `version`) VALUES ('7110435a-f9e4-4849-8628-d70edc5653f8', '2026-08-17 21:05:43.921476', '2026-08-17 21:05:43.921476', NULL, 0, NULL, '{`metadata`:{},`state`:{},`timestamp`:null,`version`:0}', 'aaaaaa', 'apktestadd', 0);
+INSERT INTO `iot_device_shadow` (`shadow_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `content`, `device_name`, `product_key`, `version`) VALUES ('7110435a-f9e4-4849-8628-d70edc5653f8', '2026-08-17 21:05:43.921476', '2026-08-17 21:05:43.921476', NULL, 0, NULL, '{"metadata":{},"state":{},"timestamp":null,"version":0}', 'aaaaaa', 'apktestadd', 0);
 
 -- ----------------------------
 -- Table data for iot_mqtt_account
