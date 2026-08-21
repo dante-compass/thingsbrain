@@ -45,7 +45,6 @@ public class ToTslArgumentConverter extends AbstractToAuditEntityConverter<Herod
     @Override
     public void prepare(HerodotusTslArgument source, TslArgument target) {
         target.setId(source.getArgumentId());
-        target.setOutput(source.getOutput());
         target.setIdentifier(source.getIdentifier());
         target.setName(source.getName());
         target.setType(source.getType());

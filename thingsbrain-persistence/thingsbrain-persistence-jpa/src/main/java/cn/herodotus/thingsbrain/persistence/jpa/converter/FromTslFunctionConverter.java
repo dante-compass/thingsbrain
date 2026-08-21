@@ -25,16 +25,21 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.converter;
 
+import cn.herodotus.dante.core.utils.StringTemplateUtils;
 import cn.herodotus.dante.data.jpa.converter.AbstractFromAuditEntityConverter;
-import cn.herodotus.thingsbrain.persistence.commons.domain.TslArgument;
+import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
+import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
 import cn.herodotus.thingsbrain.persistence.commons.domain.TslFunction;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslArgument;
+import cn.herodotus.thingsbrain.persistence.commons.domain.TslFunctionArgument;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
-import org.apache.commons.collections4.CollectionUtils;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunctionArgument;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.convert.converter.Converter;
 
+import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>Description: {@link TslFunction} 转  {@link HerodotusTslFunction} 转换器 </p>
@@ -44,12 +49,6 @@ import java.util.stream.Collectors;
  */
 public class FromTslFunctionConverter extends AbstractFromAuditEntityConverter<TslFunction, HerodotusTslFunction> {
 
-    private final Converter<TslArgument, HerodotusTslArgument> fromArgument;
-
-    public FromTslFunctionConverter() {
-        this.fromArgument = new FromTslArgumentConverter();
-    }
-
     @Override
     public HerodotusTslFunction getInstance() {
         return new HerodotusTslFunction();
@@ -58,27 +57,61 @@ public class FromTslFunctionConverter extends AbstractFromAuditEntityConverter<T
     @Override
     public void prepare(TslFunction source, HerodotusTslFunction target) {
         target.setFunctionId(source.getId());
+
         target.setProductId(source.getProductId());
+        target.setIdentifier(source.getIdentifier());
+        target.setName(source.getName());
+
         target.setProductKey(source.getProductKey());
         target.setDimension(source.getDimension());
         target.setAccessMode(source.getAccessMode());
         target.setEventType(source.getEventType());
         target.setCallType(source.getCallType());
-        target.setRequired(source.getRequired());
         target.setMethod(source.getMethod());
         target.setDescription(source.getDescription());
-        target.setArguments(toArguments(source.getArguments()));
-        target.setIdentifier(source.getIdentifier());
-        target.setName(source.getName());
-        target.setType(source.getType());
-        target.setSpecs(source.getSpecs());
+
+        target.setArguments(toArguments(source.getArguments(), target));
     }
 
-    private Set<HerodotusTslArgument> toArguments(Set<TslArgument> source) {
-        if (CollectionUtils.isNotEmpty(source)) {
-            return source.stream().map(fromArgument::convert).collect(Collectors.toSet());
+    private Set<HerodotusTslFunctionArgument> toArguments(TslFunctionArgument source, HerodotusTslFunction target) {
+        if (ObjectUtils.isNotEmpty(source)) {
+            Converter<TslFunctionArgument, Set<HerodotusTslFunctionArgument>> toFunctionArguments = new FromTslFunctionArgumentConverter(target);
+            return toFunctionArguments.convert(source);
+        }
+
+        return Set.of();
+    }
+
+    /**
+     * 手动设置 Method 值。
+     * <p>
+     * 如果前端没有传递 Method，同时 Function 为 Event 或者 Service 类型，则手动设置 Method
+     *
+     * @param source 物模型功能 {@link TslFunction}
+     * @return method
+     */
+    private String getMethod(TslFunction source) {
+
+        // 如果是 Event 或者 Service
+        if (ObjectUtils.isNotEmpty(source.getDimension()) && source.getDimension() != Dimension.PROPERTY) {
+            // 如果 Method 为空，则处理否则直接返回
+            if (StringUtils.isBlank(source.getMethod())) {
+                // 因为是根据 identifier 生成，如果 identifier 不为空则生成，否则则返回 null
+                if (StringUtils.isNotBlank(source.getIdentifier())) {
+                    if (source.getDimension() == Dimension.EVENT) {
+                        return StringTemplateUtils.replace(MethodConstants.METHOD_FORMAT__EVENT, Map.of(ProtocolConstants.VARIABLE__EVENT_IDENTIFIER, source.getIdentifier()));
+                    } else {
+                        return StringTemplateUtils.replace(MethodConstants.METHOD_FORMAT__SERVICE, Map.of(ProtocolConstants.VARIABLE__SERVICE_IDENTIFIER, source.getIdentifier()));
+                    }
+                } else {
+                    return null;
+                }
+            } else {
+                return source.getMethod();
+            }
         } else {
-            return Set.of();
+            // 只要是 Property 类型，不管 method 有没有值，都返回 null
+            return null;
         }
     }
 }

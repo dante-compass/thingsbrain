@@ -31,7 +31,7 @@
     <parent>
         <groupId>cn.herodotus.thingsbrain</groupId>
         <artifactId>thingsbrain-kernel</artifactId>
-        <version>4.1.0.4</version>
+        <version>4.1.1.0</version>
     </parent>
 
     <artifactId>thingsbrain-kernel-commons</artifactId>
@@ -48,12 +48,7 @@
 
         <dependency>
             <groupId>cn.herodotus.dante</groupId>
-            <artifactId>dante-spring</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.herodotus.dante</groupId>
-            <artifactId>dante-message-commons</artifactId>
+            <artifactId>dante-core</artifactId>
         </dependency>
 
         <dependency>

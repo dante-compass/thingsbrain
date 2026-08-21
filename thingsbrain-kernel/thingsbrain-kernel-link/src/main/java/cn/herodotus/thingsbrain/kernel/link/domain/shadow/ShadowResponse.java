@@ -25,10 +25,13 @@
 
 package cn.herodotus.thingsbrain.kernel.link.domain.shadow;
 
-import cn.herodotus.thingsbrain.kernel.commons.definition.domain.AbstractEntity;
-import cn.herodotus.thingsbrain.kernel.commons.definition.domain.shadow.Metadata;
-import cn.herodotus.thingsbrain.kernel.commons.definition.domain.shadow.State;
-import cn.herodotus.thingsbrain.kernel.commons.domain.Shadow;
+import cn.herodotus.dante.core.constant.SystemConstants;
+import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
+import cn.herodotus.thingsbrain.kernel.link.definition.AbstractMethodDomain;
+import cn.herodotus.thingsbrain.kernel.link.definition.shadow.AbstractShadow;
+import cn.herodotus.thingsbrain.kernel.link.definition.shadow.Error;
+import cn.herodotus.thingsbrain.kernel.link.definition.shadow.Payload;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.base.MoreObjects;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -40,7 +43,8 @@ import org.apache.commons.lang3.Strings;
  * @author : gengwei.zheng
  * @date : 2025/5/31 23:00
  */
-public class ShadowResponse extends AbstractEntity<Long> {
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class ShadowResponse extends AbstractMethodDomain<Integer> {
 
     private Payload payload;
 
@@ -62,37 +66,29 @@ public class ShadowResponse extends AbstractEntity<Long> {
         this.timestamp = timestamp;
     }
 
-    public static ShadowResponse success(Long version) {
-        return new Builder(version).status("success").build();
+    public static ShadowResponse reply(Integer version) {
+        return new Builder().version(version).build();
     }
 
-    public static ShadowResponse success(Shadow shadow) {
-        return new Builder(shadow.getVersion())
-                .status("success")
-                .state(shadow.getState())
-                .metadata(shadow.getMetadata())
-                .build();
+    public static ShadowResponse reply(Shadow shadow) {
+        return new Builder().shadow(shadow).build();
     }
 
-    public static ShadowResponse failure(String code, String message) {
-        return new Builder().status("error").error(new Error(code, message)).build();
+    public static ShadowResponse error(String code, String message) {
+        return new Builder().error(new Error(code, message)).build();
     }
 
-    public static ShadowResponse failure() {
-        return failure("500", "服务端处理异常");
+    public static ShadowResponse error() {
+        return error("500", "服务端处理异常");
     }
 
     public static ShadowResponse control(Shadow shadow) {
-        return new Builder("control", shadow.getVersion())
-                .state(shadow.getState())
-                .metadata(shadow.getMetadata())
-                .build();
+        return new Builder(MethodConstants.METHOD__SHADOW_CONTROL).shadow(shadow).build();
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("payload", payload)
                 .add("timestamp", timestamp)
                 .addValue(super.toString())
                 .toString();
@@ -101,70 +97,64 @@ public class ShadowResponse extends AbstractEntity<Long> {
     public static class Builder {
 
         private final String method;
-        private final Long version;
+        private Integer version;
+        private final Long timestamp;
         private String status;
         private Error error;
-        private State state;
-        private Metadata metadata;
-        private Long timestamp;
+        private AbstractShadow shadow;
 
         protected Builder() {
-            this(null);
+            this(MethodConstants.METHOD__SHADOW_REPLY);
         }
 
-        protected Builder(Long version) {
-            this("reply", version);
-        }
-
-        protected Builder(String method, Long version) {
+        protected Builder(String method) {
             this.method = method;
-            this.version = version;
-        }
-
-        public Builder status(String status) {
-            this.status = "status";
-            return this;
+            this.timestamp = System.currentTimeMillis();
         }
 
         public Builder error(Error error) {
-            ;
             this.error = error;
+            this.status = SystemConstants.STATUS__ERROR;
             return this;
         }
 
-        public Builder state(State state) {
-            this.state = state;
+        public Builder shadow(AbstractShadow shadow) {
+            this.shadow = shadow;
             return this;
         }
 
-        public Builder metadata(Metadata metadata) {
-            this.metadata = metadata;
+        public Builder version(Integer version) {
+            this.version = version;
             return this;
         }
 
         public ShadowResponse build() {
 
             ShadowResponse response = new ShadowResponse();
-            response.setTimestamp(ObjectUtils.isNotEmpty(timestamp) ? timestamp : System.currentTimeMillis());
+            response.setTimestamp(this.timestamp);
+            response.setMethod(this.method);
 
             Payload payload = new Payload();
-            // method 为 control 类型响应中不包含 status 字段
-            if (Strings.CS.equals(method, "reply") && StringUtils.isNotEmpty(status)) {
-                payload.setStatus(status);
 
-                if (Strings.CS.equals(status, "success")) {
-                    payload.setVersion(version);
+            if (Strings.CS.equals(this.method, MethodConstants.METHOD__SHADOW_REPLY)) {
+                // reply 模式下，都有 status
+                if (StringUtils.isBlank(this.status)) {
+                    payload.setStatus(SystemConstants.STATUS__SUCCESS);
+                } else {
+                    payload.setStatus(this.status);
+                    if (ObjectUtils.isNotEmpty(this.error)) {
+                        payload.setContent(this.error);
+                    }
                 }
 
-                if (Strings.CS.equals(status, "error")) {
-                    payload.setContent(error);
+                if (ObjectUtils.isNotEmpty(this.version)) {
+                    payload.setVersion(this.version);
                 }
             }
 
-            if (ObjectUtils.isNotEmpty(state) && ObjectUtils.isNotEmpty(metadata)) {
-                payload.setState(state);
-                payload.setMetadata(metadata);
-
+            if (ObjectUtils.isNotEmpty(this.shadow) && this.shadow.isNotEmpty()) {
+                payload.setShadow(this.shadow);
+                // 只有在包含 state 和 metadata 时，才需要给 response 设置 version
                 response.setVersion(version);
             }
 

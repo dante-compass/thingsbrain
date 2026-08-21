@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.domain;
 
-import cn.herodotus.thingsbrain.kernel.tsl.definition.AbstractDimension;
+import cn.herodotus.thingsbrain.kernel.tsl.definition.AbstractNonPropertyDimension;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.EventType;
 import cn.herodotus.thingsbrain.kernel.tsl.jackson2.SpecificationViews;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -37,7 +37,7 @@ import com.google.common.base.MoreObjects;
  * @author : gengwei.zheng
  * @date : 2024/8/2 20:36
  */
-public class EventDimension extends AbstractDimension {
+public class EventDimension extends AbstractNonPropertyDimension {
 
     /**
      * 事件类型（info、alert、error）

@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.mqtt.autoconfigure.integration;
 
-import cn.herodotus.thingsbrain.kernel.commons.definition.domain.SubscribeTopic;
-import cn.herodotus.thingsbrain.kernel.commons.event.MqttSubscribeTopicAppenderEvent;
+import cn.herodotus.thingsbrain.kernel.commons.definition.SubscribeTopic;
+import cn.herodotus.thingsbrain.link.commons.event.MqttSubscribeTopicAppenderEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;

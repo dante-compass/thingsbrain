@@ -1,0 +1,70 @@
+{
+  "id": "123",
+  "version": "1.0",
+  "sys": {
+    "ack": 0
+  },
+  "params": {
+    "properties": {
+      "Power": {
+        "value": "on",
+        "time": 1524448722000
+      },
+      "WF": {
+        "value": {},
+        "time": 1524448722000
+      }
+    },
+    "events": {
+      "alarmEvent1": {
+        "value": {
+          "param1": "on",
+          "param2": "2"
+        },
+        "time": 1524448722000
+      },
+      "alertEvent2": {
+        "value": {
+          "param1": "on",
+          "param2": "2"
+        },
+        "time": 1524448722000
+      }
+    },
+    "subDevices": [
+      {
+        "identity": {
+          "productKey": "",
+          "deviceName": ""
+        },
+        "properties": {
+          "Power": {
+            "value": "on",
+            "time": 1524448722000
+          },
+          "WF": {
+            "value": {},
+            "time": 1524448722000
+          }
+        },
+        "events": {
+          "alarmEvent1": {
+            "value": {
+              "param1": "on",
+              "param2": "2"
+            },
+            "time": 1524448722000
+          },
+          "alertEvent2": {
+            "value": {
+              "param1": "on",
+              "param2": "2"
+            },
+            "time": 1524448722000
+          }
+        }
+      }
+    ]
+  },
+  "method": "thing.event.property.pack.post"
+}

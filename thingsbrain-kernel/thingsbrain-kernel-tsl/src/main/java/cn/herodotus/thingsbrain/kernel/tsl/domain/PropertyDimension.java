@@ -25,6 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.domain;
 
+import cn.herodotus.thingsbrain.kernel.tsl.definition.Argument;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.AccessMode;
 import cn.herodotus.thingsbrain.kernel.tsl.jackson2.SpecificationViews;
 import com.fasterxml.jackson.annotation.JsonView;

@@ -29,7 +29,7 @@ import cn.herodotus.dante.core.constant.SymbolConstants;
 import cn.herodotus.dante.core.domain.BaseModel;
 import cn.herodotus.dante.core.jackson.JacksonUtils;
 import cn.herodotus.dante.core.jackson.JsonNodeUtils;
-import cn.herodotus.thingsbrain.kernel.commons.enums.TopicCategory;
+import cn.herodotus.thingsbrain.mqtt.commons.enums.TopicCategory;
 import cn.hutool.v7.crypto.SecureUtil;
 import com.google.common.base.MoreObjects;
 import org.apache.commons.lang3.ObjectUtils;

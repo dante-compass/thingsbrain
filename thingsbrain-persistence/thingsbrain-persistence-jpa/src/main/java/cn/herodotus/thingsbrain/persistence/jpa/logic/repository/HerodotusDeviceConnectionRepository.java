@@ -27,6 +27,9 @@ package cn.herodotus.thingsbrain.persistence.jpa.logic.repository;
 
 import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusDeviceConnection;
+import jakarta.persistence.QueryHint;
+import org.hibernate.jpa.AvailableHints;
+import org.springframework.data.jpa.repository.QueryHints;
 
 import java.util.Optional;
 
@@ -38,5 +41,6 @@ import java.util.Optional;
  */
 public interface HerodotusDeviceConnectionRepository extends BaseJpaRepository<HerodotusDeviceConnection, String> {
 
+    @QueryHints(@QueryHint(name = AvailableHints.HINT_CACHEABLE, value = "true"))
     Optional<HerodotusDeviceConnection> findByClientId(String clientId);
 }

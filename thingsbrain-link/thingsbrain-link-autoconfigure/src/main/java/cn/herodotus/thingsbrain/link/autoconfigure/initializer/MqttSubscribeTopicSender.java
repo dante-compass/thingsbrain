@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.link.autoconfigure.initializer;
 
 import cn.herodotus.dante.spring.context.ServiceContextHolder;
-import cn.herodotus.thingsbrain.kernel.commons.event.MqttSubscribeTopicAppenderEvent;
+import cn.herodotus.thingsbrain.link.commons.event.MqttSubscribeTopicAppenderEvent;
 import cn.herodotus.thingsbrain.link.commons.definition.MqttAuthorizationManager;
 import cn.herodotus.thingsbrain.persistence.commons.domain.MqttAuthority;
 import org.apache.commons.collections4.CollectionUtils;
@@ -69,7 +69,7 @@ public class MqttSubscribeTopicSender implements ApplicationListener<Application
         Set<MqttAuthority> authorities = mqttAuthorizationManager.findSubscribeTopicsForPlatform();
 
         if (CollectionUtils.isNotEmpty(authorities)) {
-            log.info("[ThingsMesh] |- Found [{}] subscribe topics.", authorities.size());
+            log.info("[ThingsBrain] |- Found [{}] subscribe topics.", authorities.size());
             ServiceContextHolder.publishEvent(new MqttSubscribeTopicAppenderEvent(authorities));
         }
     }

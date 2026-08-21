@@ -38,11 +38,13 @@ public interface PersistenceConstants extends KernelConstants {
     String REGION_IOT_PRODUCT = IOT_AREA_PREFIX + "product";
     String REGION_IOT_PRODUCT_CATEGORY = IOT_AREA_PREFIX + "product:category";
     String REGION_IOT_DEVICE = IOT_AREA_PREFIX + "device";
+    String REGION_IOT_DEVICE_CONNECTION = IOT_AREA_PREFIX + "device:connection";
     String REGION_IOT_DEVICE_SHADOW = IOT_AREA_PREFIX + "device:shadow";
     String REGION_IOT_DEVICE_TAG = IOT_AREA_PREFIX + "device:tag";
     String REGION_IOT_TAG = IOT_AREA_PREFIX + "tag";
     String REGION_IOT_TSL_FUNCTION = IOT_AREA_PREFIX + "tsl:function";
-    String REGION_IOT_TSL_ARGUMENT = IOT_AREA_PREFIX + "tsl:attribute";
+    String REGION_IOT_TSL_ARGUMENT = IOT_AREA_PREFIX + "tsl:argument";
+    String REGION_IOT_TSL_FUNCTION_ARGUMENT = IOT_AREA_PREFIX + "tsl:function:argument";
     String REGION_IOT_TSL_UNIT = IOT_AREA_PREFIX + "tsl:unit";
 
     String REGION_IOT_MQTT_ACCOUNT = IOT_AREA_PREFIX + "mqtt:account";
@@ -50,4 +52,6 @@ public interface PersistenceConstants extends KernelConstants {
     String REGION_IOT_MQTT_AUTHORITY = IOT_AREA_PREFIX + "mqtt:authority";
 
     String ITEM_IOT_PERSISTENCE = PROPERTY_PREFIX_IOT + ".persistence";
+
+    String ENTITY_GRAPH_TSL_FUNCTION_WITH_ARGUMENTS = "Function.withArguments";
 }

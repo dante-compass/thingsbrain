@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.herodotus.thingsbrain</groupId>
         <artifactId>thingsbrain-mqtt</artifactId>
-        <version>4.1.0.4</version>
+        <version>4.1.1.0</version>
     </parent>
 
     <artifactId>thingsbrain-mqtt-commons</artifactId>
@@ -15,10 +15,20 @@
     <description>ThingsBrain 物联网平台 Mqtt 业务逻辑通用代码模块</description>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>cn.herodotus.thingsbrain</groupId>
             <artifactId>thingsbrain-link-commons</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.herodotus.dante</groupId>
+            <artifactId>dante-message-commons</artifactId>
         </dependency>
     </dependencies>
 

@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.herodotus.thingsbrain</groupId>
         <artifactId>thingsbrain-platform</artifactId>
-        <version>4.1.0.4</version>
+        <version>4.1.1.0</version>
     </parent>
 
     <artifactId>thingsbrain-platform-authentication</artifactId>
@@ -17,12 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.thingsbrain</groupId>
-            <artifactId>thingsbrain-platform-commons</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.herodotus.thingsbrain</groupId>
-            <artifactId>thingsbrain-persistence-commons</artifactId>
+            <artifactId>thingsbrain-link-commons</artifactId>
         </dependency>
 
         <dependency>

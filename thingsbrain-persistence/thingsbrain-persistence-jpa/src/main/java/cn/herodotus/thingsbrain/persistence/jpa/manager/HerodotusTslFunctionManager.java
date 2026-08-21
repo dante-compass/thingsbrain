@@ -28,12 +28,16 @@ package cn.herodotus.thingsbrain.persistence.jpa.manager;
 import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslArgument;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunctionArgument;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusTslArgumentService;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusTslFunctionArgumentService;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusTslFunctionService;
 import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,26 +50,124 @@ import java.util.List;
  */
 public class HerodotusTslFunctionManager {
 
+    private static final Logger log = LoggerFactory.getLogger(HerodotusTslFunctionManager.class);
+
     private final HerodotusTslFunctionService herodotusTslFunctionService;
     private final HerodotusTslArgumentService herodotusTslArgumentService;
+    private final HerodotusTslFunctionArgumentService herodotusTslFunctionArgumentService;
 
-    public HerodotusTslFunctionManager(HerodotusTslFunctionService herodotusTslFunctionService, HerodotusTslArgumentService herodotusTslArgumentService) {
+    public HerodotusTslFunctionManager(HerodotusTslFunctionService herodotusTslFunctionService, HerodotusTslArgumentService herodotusTslArgumentService, HerodotusTslFunctionArgumentService herodotusTslFunctionArgumentService) {
         this.herodotusTslFunctionService = herodotusTslFunctionService;
         this.herodotusTslArgumentService = herodotusTslArgumentService;
+        this.herodotusTslFunctionArgumentService = herodotusTslFunctionArgumentService;
     }
 
     public HerodotusTslFunctionService getHerodotusTslFunctionService() {
         return herodotusTslFunctionService;
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    public List<HerodotusTslFunction> findAllByProductId(String productId) {
+        return herodotusTslFunctionService.findAllByProductId(productId);
+    }
+
     public HerodotusTslFunction save(HerodotusTslFunction domain) {
-        if (domain.getDimension() != Dimension.PROPERTY) {
-            if (CollectionUtils.isNotEmpty(domain.getArguments())) {
-                List<HerodotusTslArgument> attributes = herodotusTslArgumentService.saveAll(domain.getArguments());
-                domain.setArguments(new HashSet<>(attributes));
-            }
-        }
         return herodotusTslFunctionService.save(domain);
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteAllByProductId(String productId) {
+        herodotusTslFunctionArgumentService.deleteAllByProductId(productId);
+        herodotusTslArgumentService.deleteAllByProductId(productId);
+        herodotusTslFunctionService.deleteAllByProductId(productId);
+    }
+
+    /**
+     * 删除物模型功能，包括关联关系、function 和 argument
+     *
+     * @param function 物模型功能 {@link HerodotusTslFunction}
+     */
+    private void deleteFunctionAndArgument(HerodotusTslFunction function) {
+        List<String> arguments = new ArrayList<>();
+        // 如果存在关联关系，则先获取到关联的 Argument
+        if (CollectionUtils.isNotEmpty(function.getArguments())) {
+            arguments = function.getArguments().stream()
+                    .map(HerodotusTslFunctionArgument::getArgument)
+                    .map(HerodotusTslArgument::getArgumentId)
+                    .toList();
+        }
+
+        // 删除当前 Property（会同步删除关联关系 HerodotusTslFunctionArgument）。
+        herodotusTslFunctionService.deleteById(function.getFunctionId());
+
+        // 如果存在关联 Argument 则批量删除
+        if (CollectionUtils.isNotEmpty(arguments)) {
+            // 注意：这里要使用 deleteAllById 而不能使用 deleteAllInBatch。
+            // 联合主键关联多对多处理，手动的删除逻辑，如果以对象的方式删除，会收到 Hibernate Session 中实体对象的关联关系的影响。即使 function 已经删除，arguments 对象中还会有关联关系存在。
+            // 所以手动删除时，通过 deleteBy 根据 ID 处理，可以解决外键关联问题。
+            herodotusTslArgumentService.deleteAllById(arguments);
+        }
+    }
+
+    /**
+     * 删除其它 Property 功能。
+     * <p>
+     * 物模型中，当 Property 数量大于等 2 时，删除任意 Property，需要同步将 Get、Set Service 和 Post Event 与当前 Property 对应 Argument 的关联关系删除。
+     *
+     * @param property 任意 Property {@link HerodotusTslFunction}
+     */
+    private void deletesOtherProperty(HerodotusTslFunction property) {
+        List<HerodotusTslFunction> requiredFunctions = herodotusTslFunctionService.findAllByProductIdAndRequired(property.getProductId());
+
+        // 删除必需功能中的关联关系
+        List<HerodotusTslFunction> newFunctions = requiredFunctions.stream()
+                .map(function -> function.remove(property.getArguments()))
+                .toList();
+
+        herodotusTslFunctionService.saveAllAndFlush(newFunctions);
+
+        // 最后删除该 Property，包括关联关系、function 和 argument
+        deleteFunctionAndArgument(property);
+    }
+
+    /**
+     * 删除最后一个 Property 功能。
+     * <p>
+     * 删除最后一个 Property 时，需要将该物模型必需的 Get、Set Service 和 Post Event 同步删掉。
+     * <p>
+     * 主要注意顺序：
+     * 1. 先删除该物模型必需的 Get、Set Service 和 Post Event，这会同步删除 {@link HerodotusTslFunctionArgument}。这会解除 Get、Set Service 和 Post Event 与 Property 参数的关系
+     * 2. 再删除当前对应的 Property，即当前物模型最后一个 Property function。这个操作会同步删除 {@link HerodotusTslFunctionArgument}
+     * 3. 最后删除该 Property 对应的参数 {@link HerodotusTslArgument}
+     *
+     * @param property 当前物模型最后一个 Property {@link HerodotusTslFunction}
+     */
+    private void deleteLastProperty(HerodotusTslFunction property) {
+        // 先删除所有必需的 function（会同步删除 HerodotusTslFunctionArgument），即 Get、Set Service 和 Post Event
+        herodotusTslFunctionService.deleteAllByProductIdAndRequired(property.getProductId());
+
+        // 最后删除该 Property，包括关联关系、function 和 argument
+        deleteFunctionAndArgument(property);
+    }
+
+    private void delete(HerodotusTslFunction function) {
+        if (function.getDimension() == Dimension.PROPERTY) {
+            long count = herodotusTslFunctionService.findPropertyNumber(function.getProductId());
+            if (count >= 2L) {
+                deletesOtherProperty(function);
+            } else if (count == 1L) {
+                deleteLastProperty(function);
+            } else {
+                // 如果当前 function 是 property，但是查询数量还未为 0 或者 负数。意味着数据库或者数据本身存在较大问题，建议手动检查处理。
+                log.error("[ThingsBrain] |- TSL of product [{}] maybe exist fatal error.", function.getProductId());
+            }
+        } else {
+            deleteFunctionAndArgument(function);
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteById(String id) {
+        herodotusTslFunctionService.findById(id).ifPresent(this::delete);
     }
 }

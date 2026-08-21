@@ -36,7 +36,7 @@ import java.util.Map;
  * 	"value": {
  * 		"Power": "on",
  * 		"WF": "2"
- *        },
+ *  },
  * 	"time": 1524448722000
  * }
  * </pre>
@@ -44,12 +44,17 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2025/5/15 16:33
  */
-public class EventParamEntry extends Param<Map<String, Object>> {
+public class EventParamEntry extends ParamEntry<Map<String, Object>> {
 
     public EventParamEntry() {
+        super();
     }
 
-    public EventParamEntry(Long time) {
-        super(time);
+    public EventParamEntry(Map<String, Object> value) {
+        super(value);
+    }
+
+    public EventParamEntry(Map<String, Object> value, Long time) {
+        super(value, time);
     }
 }

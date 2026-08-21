@@ -27,6 +27,11 @@ package cn.herodotus.thingsbrain.persistence.jpa.logic.repository;
 
 import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttAccount;
+import jakarta.persistence.QueryHint;
+import org.hibernate.jpa.AvailableHints;
+import org.springframework.data.jpa.repository.QueryHints;
+
+import java.util.Optional;
 
 /**
  * <p>Description: 物联网 Mqtt 客户端账号 Jpa 存储 Repository </p>
@@ -35,4 +40,7 @@ import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttAccoun
  * @date : 2024/10/16 14:51
  */
 public interface HerodotusMqttAccountRepository extends BaseJpaRepository<HerodotusMqttAccount, String> {
+
+    @QueryHints(@QueryHint(name = AvailableHints.HINT_CACHEABLE, value = "true"))
+    Optional<HerodotusMqttAccount> findByClientId(String clientId);
 }

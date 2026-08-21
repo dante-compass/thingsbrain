@@ -1,0 +1,50 @@
+{
+  "id": "123",
+  "version": "1.0",
+  "sys": {
+    "ack": 0
+  },
+  "method": "thing.event.property.batch.post",
+  "params": {
+    "properties": {
+      "Power": [
+        {
+          "value": "on",
+          "time": 1524448722000
+        },
+        {
+          "value": "off",
+          "time": 1524448722001
+        }
+      ],
+      "WF": [
+        {
+          "value": 3,
+          "time": 1524448722000
+        },
+        {
+          "value": 4,
+          "time": 1524448722009
+        }
+      ]
+    },
+    "events": {
+      "alarmEvent": [
+        {
+          "value": {
+            "Power": "on",
+            "WF": "2"
+          },
+          "time": 1524448722000
+        },
+        {
+          "value": {
+            "Power": "on",
+            "WF": "2"
+          },
+          "time": 1524448722000
+        }
+      ]
+    }
+  }
+}

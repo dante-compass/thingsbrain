@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.herodotus.thingsbrain</groupId>
         <artifactId>thingsbrain</artifactId>
-        <version>4.1.0.4</version>
+        <version>4.1.1.0</version>
     </parent>
 
     <artifactId>thingsbrain-platform</artifactId>
@@ -20,7 +20,5 @@
         <module>thingsbrain-platform-autoconfigure</module>
         <module>thingsbrain-platform-rest</module>
         <module>thingsbrain-platform-authentication</module>
-        <module>thingsbrain-monolith-application</module>
-        <module>thingsbrain-platform-commons</module>
     </modules>
 </project>

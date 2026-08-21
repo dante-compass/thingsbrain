@@ -30,14 +30,8 @@ import cn.herodotus.dante.security.domain.RegisteredClientTransmitter;
 import cn.herodotus.thingsbrain.persistence.jpa.converter.HerodotusDeviceToAuthenticationConverter;
 import cn.herodotus.thingsbrain.persistence.jpa.converter.HerodotusDeviceToHerodotusDeviceConnectionConverter;
 import cn.herodotus.thingsbrain.persistence.jpa.converter.HerodotusDeviceToHerodotusMqttAccountConverter;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusDevice;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusDeviceConnection;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttAccount;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusMqttCategory;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusDeviceConnectionService;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusDeviceService;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusMqttAccountService;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusMqttCategoryService;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.*;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.service.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,6 +50,7 @@ public class HerodotusDeviceManager {
 
     private final HerodotusDeviceService herodotusDeviceService;
     private final HerodotusDeviceConnectionService herodotusDeviceConnectionService;
+    private final HerodotusDeviceShadowService herodotusDeviceShadowService;
     private final HerodotusMqttAccountService herodotusMqttAccountService;
     private final HerodotusMqttCategoryService herodotusMqttCategoryService;
     private final AuthenticationManager authenticationManager;
@@ -63,9 +58,10 @@ public class HerodotusDeviceManager {
     private final Converter<HerodotusDevice, HerodotusMqttAccount> toMqttAccount;
     private final Converter<HerodotusDevice, HerodotusDeviceConnection> toDeviceConnection;
 
-    public HerodotusDeviceManager(HerodotusDeviceService herodotusDeviceService, HerodotusDeviceConnectionService herodotusDeviceConnectionService, HerodotusMqttAccountService herodotusMqttAccountService, HerodotusMqttCategoryService herodotusMqttCategoryService, AuthenticationManager authenticationManager) {
+    public HerodotusDeviceManager(HerodotusDeviceService herodotusDeviceService, HerodotusDeviceConnectionService herodotusDeviceConnectionService, HerodotusDeviceShadowService herodotusDeviceShadowService, HerodotusMqttAccountService herodotusMqttAccountService, HerodotusMqttCategoryService herodotusMqttCategoryService, AuthenticationManager authenticationManager) {
         this.herodotusDeviceService = herodotusDeviceService;
         this.herodotusDeviceConnectionService = herodotusDeviceConnectionService;
+        this.herodotusDeviceShadowService = herodotusDeviceShadowService;
         this.herodotusMqttAccountService = herodotusMqttAccountService;
         this.herodotusMqttCategoryService = herodotusMqttCategoryService;
         this.authenticationManager = authenticationManager;
@@ -96,7 +92,8 @@ public class HerodotusDeviceManager {
     public void deleteById(String id) {
         authenticationManager.disable(id);
         herodotusDeviceService.deleteById(id);
-        herodotusDeviceConnectionService.deleteById(id);
+        // DeviceConnection 通过 @OneToOne 配置进行删除
+//        herodotusDeviceConnectionService.deleteById(id);
         herodotusMqttAccountService.deleteById(id);
     }
 
@@ -112,12 +109,16 @@ public class HerodotusDeviceManager {
     }
 
     private void enableMqttIdentify(HerodotusDevice domain) {
-        HerodotusMqttAccount account = toMqttAccount.convert(domain);
+        Optional<HerodotusMqttAccount> optional = herodotusMqttAccountService.findByClientId(domain.getClientId());
 
-        Set<HerodotusMqttCategory> categories = herodotusMqttCategoryService.findCategoryForDevice();
-        account.setCategories(categories);
+        if (optional.isEmpty()) {
+            HerodotusMqttAccount account = toMqttAccount.convert(domain);
 
-        herodotusMqttAccountService.save(account);
+            Set<HerodotusMqttCategory> categories = herodotusMqttCategoryService.findCategoryForDevice();
+            account.setCategories(categories);
+
+            herodotusMqttAccountService.save(account);
+        }
     }
 
     /**
@@ -138,13 +139,25 @@ public class HerodotusDeviceManager {
             // OAuth2 DeviceFlow 无法获取到 connection 对象，需要为其生成一个默认的、仅包含基本信息的、没有 mqtt 信息的 connection 对象
             currentConnection = toDeviceConnection.convert(device);
         }
+        // 记录线下信息。激活操作代表第一次成功连接，所以也需要生成connection 信息
+        HerodotusDeviceConnection deviceConnection = herodotusDeviceConnectionService.connected(currentConnection);
+        // 第一次连接，生成 shadow 信息
+        HerodotusDeviceShadow deviceShadow = herodotusDeviceShadowService.create(device.getProduct().getProductKey(), device.getDeviceName());
 
         // 为设备开启 Mqtt ACL
         enableMqttIdentify(device);
-        // 记录线下信息。激活操作代表第一次成功连接，所以也需要生成connection 信息
-        herodotusDeviceConnectionService.connected(currentConnection);
+
         // 更新设备的激活状态标识。目前仅作一个标识，没有实际约束操作。后续可以根据需要删除或者扩展
         device.setActivated(true);
+
+        if (ObjectUtils.isNotEmpty(deviceConnection)) {
+            device.setDeviceConnection(deviceConnection);
+        }
+
+        if (ObjectUtils.isNotEmpty(deviceShadow)) {
+            device.setDeviceShadow(deviceShadow);
+        }
+
         herodotusDeviceService.save(device);
     }
 

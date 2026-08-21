@@ -26,8 +26,10 @@
 package cn.herodotus.thingsbrain.kernel.link.domain.shadow;
 
 import cn.herodotus.dante.core.jackson.JacksonUtils;
-import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
+import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
+import cn.herodotus.thingsbrain.kernel.link.definition.shadow.State;
 import cn.hutool.v7.core.io.file.FileUtil;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -36,6 +38,8 @@ import tools.jackson.core.type.TypeReference;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * <p>Description: {@link ShadowRequest} 测试类 </p>
@@ -46,7 +50,93 @@ import java.nio.charset.StandardCharsets;
 public class ShadowRequestTest {
 
     @Test
-    void deleteItemsDeserialization() throws Exception {
+    void testCreateUpdateRequest() throws Exception {
+
+        Integer version = 1;
+
+        ShadowRequest request = ShadowRequest.update(version)
+                .desired(Map.of("color", "green"))
+                .build();
+
+        Assertions.assertNotNull(request, "生成平台端设备影子更新请求对象出错");
+        Assertions.assertEquals(version, request.getVersion(), "平台端设备影子更新请求 version 设置出错");
+        Assertions.assertEquals(MethodConstants.METHOD__SHADOW_UPDATE, request.getMethod(), "平台端设备影子更新请求 method 设置出错");
+
+        State state = request.getUpdateState();
+        Assertions.assertTrue(MapUtils.isNotEmpty(request.getUpdateState()), "平台端设备影子更新请求 state 设置出错");
+        Assertions.assertFalse(state.isDesiredEmpty(), "平台端设备影子更新请求 state 内容设置出错");
+        Assertions.assertTrue(state.getDesired().containsKey("color"), "平台端设备影子更新请求 state 属性设置出错");
+    }
+
+    @Test
+    void testCreateDeleteRequest() throws Exception {
+
+        Integer version = 1;
+
+        ShadowRequest request = ShadowRequest.delete(version)
+                .reported("color", "temperature")
+                .build();
+
+        Assertions.assertNotNull(request, "生成设备删除设备影子属性请求对象出错");
+        Assertions.assertEquals(version, request.getVersion(), "设备删除设备影子属性请求 version 设置出错");
+        Assertions.assertEquals(MethodConstants.METHOD__SHADOW_DELETE, request.getMethod(), "设备删除设备影子属性请求 method 设置出错");
+
+        State state = request.getDeleteState();
+        Assertions.assertTrue(MapUtils.isNotEmpty(state), "设备删除设备影子属性请求 state 设置出错");
+        Assertions.assertFalse(state.isReportedEmpty(), "设备删除设备影子属性请求 state 内容设置出错");
+        Assertions.assertInstanceOf(String.class, state.getReported().get("color"), "平台端设备影子更新请求 state 属性设置出错");
+    }
+
+    @Test
+    void testCreateDeleteAllRequest() throws Exception {
+
+        Integer version = 1;
+
+        ShadowRequest request = ShadowRequest.clear(version)
+                .reported()
+                .build();
+
+        Assertions.assertNotNull(request, "生成设备删除全部设备影子属性请求对象出错");
+        Assertions.assertEquals(version, request.getVersion(), "设备删除设备影子全部属性请求 version 设置出错");
+        Assertions.assertEquals(MethodConstants.METHOD__SHADOW_DELETE, request.getMethod(), "设备删除全部设备影子属性请求 method 设置出错");
+    }
+
+    @Test
+    void testDeviceReportedDeserializationAndConvertToState() throws Exception {
+        File file = ResourceUtils.getFile("classpath:json/shadow/device-reported.json");
+        String json = FileUtil.readString(file, StandardCharsets.UTF_8);
+
+        Assertions.assertNotNull(json, "测试代码无法读取 device-reported.json 文件");
+
+        ShadowRequest request = JacksonUtils.toObject(json, new TypeReference<>() {
+        });
+        Assertions.assertTrue(ObjectUtils.isNotEmpty(request), "ShadowRequest 反序列化出错");
+
+        State state = request.getUpdateState();
+        Assertions.assertTrue(MapUtils.isNotEmpty(state), "ShadowRequest state 值为空");
+        Assertions.assertFalse(state.isReportedEmpty(), "ShadowRequest state 转换为 State 对象出错");
+        Assertions.assertInstanceOf(ArrayList.class, state.getReported().get("colors"), "ShadowRequest State 值反序列化出错");
+    }
+
+    @Test
+    void testPlatformDesiredDeserializationAndConvertToState() throws Exception {
+        File file = ResourceUtils.getFile("classpath:json/shadow/platform-desired.json");
+        String json = FileUtil.readString(file, StandardCharsets.UTF_8);
+
+        Assertions.assertNotNull(json, "测试代码无法读取 platform-desired.json 文件");
+
+        ShadowRequest request = JacksonUtils.toObject(json, new TypeReference<>() {
+        });
+        Assertions.assertTrue(ObjectUtils.isNotEmpty(request), "ShadowRequest 反序列化出错");
+
+        State state = request.getUpdateState();
+        Assertions.assertTrue(MapUtils.isNotEmpty(state), "ShadowRequest state 值为空");
+        Assertions.assertFalse(state.isDesiredEmpty(), "ShadowRequest state 转换为 State 对象出错");
+        Assertions.assertInstanceOf(String.class, state.getDesired().get("color"), "ShadowRequest State 值反序列化出错");
+    }
+
+    @Test
+    void deleteItemsDeserializationAndConvertToState() throws Exception {
         File file = ResourceUtils.getFile("classpath:json/shadow/device-delete-items.json");
         String json = FileUtil.readString(file, StandardCharsets.UTF_8);
 
@@ -55,19 +145,10 @@ public class ShadowRequestTest {
         ShadowRequest request = JacksonUtils.toObject(json, new TypeReference<>() {
         });
         Assertions.assertTrue(ObjectUtils.isNotEmpty(request), "ShadowRequest 反序列化出错");
-    }
 
-    @Test
-    void deleteAllDeserialization() throws Exception {
-        File file = ResourceUtils.getFile("classpath:json/shadow/device-delete-all.json");
-        String json = FileUtil.readString(file, StandardCharsets.UTF_8);
-
-        Assertions.assertNotNull(json, "测试代码无法读取 device-delete-all.json 文件");
-
-        ShadowRequest request = JacksonUtils.toObject(json, new TypeReference<>() {
-        });
-
-        boolean result = request.getState().containsKey(ProtocolConstants.PARAMETER__REPORTED);
-        Assertions.assertTrue(result, "ShadowRequest 反序列化出错");
+        State state = request.getDeleteState();
+        Assertions.assertTrue(MapUtils.isNotEmpty(state), "ShadowRequest state 值为空");
+        Assertions.assertFalse(state.isReportedEmpty(), "ShadowRequest state 转换为 State 对象出错");
+        Assertions.assertInstanceOf(String.class, state.getReported().get("color"), "ShadowRequest State 值反序列化出错");
     }
 }

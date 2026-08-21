@@ -30,8 +30,8 @@ import cn.herodotus.dante.message.emqx.event.WebhookClientConnectedEvent;
 import cn.herodotus.dante.spring.context.ServiceContextHolder;
 import cn.herodotus.thingsbrain.kernel.commons.domain.Identifier;
 import cn.herodotus.thingsbrain.kernel.commons.enums.AuthType;
-import cn.herodotus.thingsbrain.kernel.commons.event.MqttRegistrationResponseEvent;
 import cn.herodotus.thingsbrain.kernel.commons.utils.DataFormatUtils;
+import cn.herodotus.thingsbrain.link.commons.event.MqttRegistrationResponseEvent;
 import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import cn.herodotus.thingsbrain.platform.authentication.domain.MqttRegistrationResponse;
 import cn.herodotus.thingsbrain.platform.authentication.domain.OAuth2ClientRegistration;
@@ -134,7 +134,7 @@ public abstract class AbstractMqttIdentificationHandler implements MqttIdentific
                         () -> {
                             // 这里无需再校验 Product 是否存在，在 Emqx Http 认证阶段已经做了校验以及错误处理
                             identifierManager.findProductByProductKey(identifier.getProductKey())
-                                    .ifPresent(product -> performOAuth2ClientRegistration(product.getProductKey(), product.getProductSecret(), identifier.getDeviceName(), clientId));
+                                    .ifPresent(product -> performOAuth2ClientRegistration(clientId, identifier.getDeviceName(), product.getProductKey(), product.getProductSecret()));
                         });
     }
 

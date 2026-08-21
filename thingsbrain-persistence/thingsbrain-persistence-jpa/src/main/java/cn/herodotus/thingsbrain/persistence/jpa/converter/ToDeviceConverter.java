@@ -29,7 +29,9 @@ import cn.herodotus.dante.data.jpa.converter.AbstractToSysEntityConverter;
 import cn.herodotus.thingsbrain.persistence.commons.domain.Device;
 import cn.herodotus.thingsbrain.persistence.commons.domain.Product;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusDevice;
+import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusDeviceConnection;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusProduct;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;
 
 /**
@@ -59,6 +61,22 @@ public class ToDeviceConverter extends AbstractToSysEntityConverter<HerodotusDev
         target.setClientId(source.getClientId());
         target.setProduct(toProductConverter.convert(source.getProduct()));
         target.setActivated(source.getActivated());
+
+        HerodotusDeviceConnection deviceConnection = source.getDeviceConnection();
+        if (ObjectUtils.isNotEmpty(deviceConnection)) {
+            target.setConnectionId(deviceConnection.getConnectionId());
+            target.setOnline(deviceConnection.getConnected());
+            target.setConnectedAt(deviceConnection.getConnectedAt());
+            target.setDisconnectedAt(deviceConnection.getDisconnectedAt());
+            target.setIpAddress(deviceConnection.getIpAddress());
+        }
+
+        if (ObjectUtils.isNotEmpty(source.getDeviceShadow())) {
+            target.setShadowId(source.getDeviceShadow().getShadowId());
+            target.setShadowVersion(source.getDeviceShadow().getVersion());
+        }
+
+        target.setShadowId(ObjectUtils.isNotEmpty(source.getDeviceShadow()) ? source.getDeviceShadow().getShadowId() : null);
         target.setRedirectUris(source.getRedirectUris());
     }
 }

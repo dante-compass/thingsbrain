@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.converter;
 
-import cn.herodotus.thingsbrain.kernel.commons.domain.JsonSchemaError;
+import cn.herodotus.thingsbrain.kernel.commons.domain.SchemaValidationError;
 import com.networknt.schema.Error;
 import org.springframework.core.convert.converter.Converter;
 
@@ -37,15 +37,15 @@ import java.util.List;
  * @author : gengwei.zheng
  * @date : 2025/5/16 17:32
  */
-public class ValidationMessageToErrorConverter implements Converter<List<Error>, List<JsonSchemaError>> {
+public class ValidationMessageToErrorConverter implements Converter<List<Error>, List<SchemaValidationError>> {
 
     @Override
-    public List<JsonSchemaError> convert(List<Error> source) {
+    public List<SchemaValidationError> convert(List<Error> source) {
         return source.stream().map(this::convert).toList();
     }
 
-    private JsonSchemaError convert(Error source) {
-        JsonSchemaError target = new JsonSchemaError();
+    private SchemaValidationError convert(Error source) {
+        SchemaValidationError target = new SchemaValidationError();
         target.setKey(source.getMessageKey());
         target.setMessage(source.getMessage());
         target.setDetails(source.getDetails());

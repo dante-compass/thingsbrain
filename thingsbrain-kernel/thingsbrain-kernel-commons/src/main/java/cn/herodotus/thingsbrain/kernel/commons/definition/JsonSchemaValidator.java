@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.commons.definition;
 
-import cn.herodotus.thingsbrain.kernel.commons.domain.ValidationResult;
+import cn.herodotus.thingsbrain.kernel.commons.domain.SchemaValidationResult;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
@@ -53,25 +53,25 @@ public interface JsonSchemaValidator {
      *
      * @param data   待校验数据 {@link JsonNode}
      * @param schema 用于校验的 Schema {@link JsonNode}
-     * @return 校验结果 {@link ValidationResult}
+     * @return 校验结果 {@link SchemaValidationResult}
      */
-    ValidationResult validate(JsonNode data, JsonNode schema);
+    SchemaValidationResult validate(JsonNode data, JsonNode schema);
 
     /**
      * 根据 Schema 校验 JSON 数据值
      *
      * @param data   待校验数据 {@link Map}
      * @param schema 用于校验的 Schema {@link JsonNode}
-     * @return 校验结果 {@link ValidationResult}
+     * @return 校验结果 {@link SchemaValidationResult}
      */
-    ValidationResult validate(Map<String, Object> data, JsonNode schema);
+    SchemaValidationResult validate(Map<String, Object> data, JsonNode schema);
 
     /**
      * 根据 Schema 校验 JSON 数据值
      *
      * @param data   待校验数据 {@link Map}
      * @param schema 用于校验的 Schema
-     * @return 校验结果 {@link ValidationResult}
+     * @return 校验结果 {@link SchemaValidationResult}
      */
-    ValidationResult validate(Map<String, Object> data, String schema);
+    SchemaValidationResult validate(Map<String, Object> data, String schema);
 }

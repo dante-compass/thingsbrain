@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.mqtt.inbound.definition.handler;
 
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
-import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttTopic;
 import tools.jackson.core.type.TypeReference;
 
 /**

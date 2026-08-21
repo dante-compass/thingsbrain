@@ -26,13 +26,15 @@
 package cn.herodotus.thingsbrain.link.commons.definition;
 
 import cn.herodotus.dante.core.jackson.JacksonUtils;
-import cn.herodotus.thingsbrain.kernel.commons.definition.domain.shadow.State;
-import cn.herodotus.thingsbrain.kernel.commons.domain.Shadow;
+import cn.herodotus.thingsbrain.kernel.commons.constant.KernelConstants;
+import cn.herodotus.thingsbrain.kernel.link.domain.shadow.Shadow;
+import cn.herodotus.thingsbrain.kernel.link.domain.shadow.ShadowRequest;
 import cn.herodotus.thingsbrain.persistence.commons.domain.DeviceShadow;
 import cn.herodotus.thingsbrain.persistence.commons.service.DeviceShadowService;
 
+import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * <p>Description: 设备影子 Service 定义 </p>
@@ -50,20 +52,53 @@ public interface DeviceShadowManager {
     DeviceShadowService getDeviceShadowService();
 
     /**
+     * 判断是否允许进行修改。
+     * <p>
+     * 只有当新版本大于当前版本时，设备影子才会接收设备端的请求，并更新设备影子版本。
+     * 如果version设置为-1时，表示清空设备影子数据，设备影子会接收设备端的请求，并将设备影子版本更新为0
+     *
+     * @param requestVersion 请求中传递的新 Version
+     * @param shadowVersion  设备影子当前 Version
+     * @return true 允许修改；false 不允许修改。
+     */
+    private boolean isAllowModify(Integer requestVersion, Integer shadowVersion) {
+        return requestVersion > shadowVersion || Objects.equals(requestVersion, KernelConstants.VALUE__SHADOW_CLEAR_REQUEST);
+    }
+
+    /**
+     * 是否设备影子执行了更新。
+     * <p>
+     * 新 shadow 的 version 值，如果和请求中的 version 相等或者 version 为 0，说明设备影子发生了变化，那么就更新数据库，反之不做任何操作
+     *
+     * @param requestVersion 请求中传递的新 Version
+     * @param shadowVersion  数设备影子当前 Version
+     * @return true 已经修改；false 未修改。
+     */
+    private boolean isModified(Integer requestVersion, Integer shadowVersion) {
+        return Objects.equals(requestVersion, shadowVersion) || Objects.equals(shadowVersion, KernelConstants.VALUE__SHADOW_CLEAR_RESULT);
+    }
+
+    /**
      * 修改设备影子内容
      *
      * @param version      版本号
      * @param deviceShadow 设备影子实体
-     * @param consumer     处理逻辑，update 或者 delete
+     * @param function     处理逻辑，update 或者 delete
      * @return 修改后的设备影子实体 {@link DeviceShadow}
      */
-    default DeviceShadow modify(Long version, DeviceShadow deviceShadow, Consumer<Shadow> consumer) {
+    private DeviceShadow modify(Integer version, DeviceShadow deviceShadow, Function<Shadow, Shadow> function) {
         String content = deviceShadow.getContent();
         Shadow shadow = JacksonUtils.toObject(content, Shadow.class);
-        consumer.accept(shadow);
-        deviceShadow.setContent(JacksonUtils.toJson(shadow));
-        deviceShadow.setVersion(version);
-        return deviceShadow;
+        Shadow newShadow = function.apply(shadow);
+
+        if (isModified(version, newShadow.getVersion())) {
+            deviceShadow.setContent(JacksonUtils.toJson(newShadow));
+            deviceShadow.setVersion(version);
+            return deviceShadow;
+        }
+
+        // 表示未做任何变更
+        return null;
     }
 
     /**
@@ -72,13 +107,13 @@ public interface DeviceShadowManager {
      * @param productKey 物联网 ProductKey
      * @param deviceName 物联网 DeviceName
      * @param version    版本号
-     * @param consumer   处理逻辑，update 或者 delete
+     * @param function   处理逻辑，update 或者 delete
      * @return 修改后的设备影子实体 {@link Optional}
      */
-    default Optional<DeviceShadow> modify(String productKey, String deviceName, Long version, Consumer<Shadow> consumer) {
-        Optional<DeviceShadow> optional = getDeviceShadowService().findOneByProductKeyAndDeviceName(productKey, deviceName);
-        return optional.filter(domain -> domain.getVersion() < version)
-                .map(domain -> modify(version, domain, consumer))
+    private Optional<DeviceShadow> modify(String productKey, String deviceName, Integer version, Function<Shadow, Shadow> function) {
+        return getDeviceShadowService().findOneByProductKeyAndDeviceName(productKey, deviceName)
+                .filter(domain -> isAllowModify(version, domain.getVersion()))
+                .map(domain -> modify(version, domain, function))
                 .map(getDeviceShadowService()::save);
     }
 
@@ -87,12 +122,16 @@ public interface DeviceShadowManager {
      *
      * @param productKey 物联网 ProductKey
      * @param deviceName 物联网 DeviceName
-     * @param state      状态值 {@link State}
-     * @param version    版本号
+     * @param request    请求值 {@link ShadowRequest}
      * @return 修改后的设备影子实体 {@link Optional}
      */
-    default Optional<DeviceShadow> update(String productKey, String deviceName, State state, Long version) {
-        return modify(productKey, deviceName, version, shadow -> shadow.update(state, version));
+    default Optional<DeviceShadow> update(String productKey, String deviceName, ShadowRequest request) {
+        if (request.isClearDesired()) {
+            return modify(productKey, deviceName, request.getVersion(), shadow -> shadow.clearDesired(request.getVersion()));
+        } else {
+            return modify(productKey, deviceName, request.getVersion(), shadow -> shadow.update(request.getUpdateState(), request.getVersion()));
+        }
+
     }
 
     /**
@@ -100,19 +139,22 @@ public interface DeviceShadowManager {
      *
      * @param productKey 物联网 ProductKey
      * @param deviceName 物联网 DeviceName
-     * @param state      状态值 {@link State}
-     * @param version    版本号
+     * @param request    请求值 {@link ShadowRequest}
      * @return 修改后的设备影子实体 {@link Optional}
      */
-    default Optional<DeviceShadow> delete(String productKey, String deviceName, State state, Long version) {
-        return modify(productKey, deviceName, version, shadow -> shadow.delete(state, version));
+    default Optional<DeviceShadow> delete(String productKey, String deviceName, ShadowRequest request) {
+        if (request.isClearReported()) {
+            return modify(productKey, deviceName, request.getVersion(), shadow -> shadow.clearReported(request.getVersion()));
+        } else {
+            return modify(productKey, deviceName, request.getVersion(), shadow -> shadow.delete(request.getDeleteState(), request.getVersion()));
+        }
     }
 
     /**
      * 从 {@link DeviceShadow} 中读取 Shadow JSON 并转换成 {@link Shadow} 对象
      *
      * @param deviceShadow 设备影子实体 {@link DeviceShadow}
-     * @return 设备影子对象或者 null
+     * @return 设备影子或者空的影子
      */
     default Shadow read(DeviceShadow deviceShadow) {
         return Optional.ofNullable(deviceShadow.getContent())

@@ -50,7 +50,7 @@ public class DefaultMqttOutboundMessagePublisher implements MqttOutboundMessageP
     private final Cache<String, MqttOperation> cache;
 
     public DefaultMqttOutboundMessagePublisher() {
-        this.cache = JetCacheUtils.create(MqttConstants.CACHE_THINGSBRAIN_REQUEST_ID, CacheType.BOTH, Duration.ofSeconds(1), true);
+        this.cache = JetCacheUtils.create(MqttConstants.CACHE_THINGSBRAIN_REQUEST_ID, CacheType.BOTH, Duration.ofMinutes(1), true);
     }
 
     private String getRequestId(MqttMessageDetails details) {

@@ -26,9 +26,14 @@
 package cn.herodotus.thingsbrain.persistence.jpa.logic.repository;
 
 import cn.herodotus.dante.data.jpa.repository.BaseJpaRepository;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
+import cn.herodotus.thingsbrain.persistence.commons.constant.PersistenceConstants;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -40,7 +45,59 @@ import java.util.List;
  */
 public interface HerodotusTslFunctionRepository extends BaseJpaRepository<HerodotusTslFunction, String> {
 
-    Page<HerodotusTslFunction> findByProductId(String productId, Pageable pageable);
+    /**
+     * 根据 ProductId 删除对应物模型配置。
+     * <p>
+     * 因为改操作通常会与 Product 的删除同时使用，所以使用 ProductId，方便操作
+     *
+     * @param productId 物联网 ProductId
+     */
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Transactional
+    @Query("delete from HerodotusTslFunction f where f.productId = :productId")
+    void deleteAllByProductId(@Param("productId") String productId);
 
-    List<HerodotusTslFunction> findAllByProductKey(String productKey);
+    /**
+     * 根据 ProductId 和 Required 删除对应物模型配置。
+     * <p>
+     * 该方法在删除 function 数据同时，会删除关系表中的数据。不能使用 @Modifying + @Query 的方式。如果使用之后，那么在删除时会出现外键关系关联错误。
+     * <p>
+     * 如果追求性能，后续可以考虑，在 function_argument 中间表中也增加一个 required 字段。然后手动先删除中间表数据。
+     *
+     * @param productId 物联网 ProductId
+     * @param required  是否为必需
+     */
+    void deleteAllByProductIdAndRequired(@Param("productId") String productId, @Param("required") Boolean required);
+
+    /**
+     * 根据 Dimension {@link Dimension} 查询物模型中对应功能的数量
+     * <p>
+     * count 操作无需使用 {@link EntityGraph}。count 查询的目的是统计记录总数。它只需要一个数值结果，不会返回或处理任何 实体实例
+     *
+     * @param productId 物联网 ProductId
+     * @param dimension 物模型维度 {@link Dimension}
+     * @return 功能的数量
+     */
+    long countByProductIdAndDimension(String productId, Dimension dimension);
+
+    /**
+     * 根据 ProductId 和 required 标识符查询必需的 services 和 events
+     * <p>
+     * 只要物模型中添加了属性，那么就需要为其生成配套的 Get、Set Service 和 Post Event。这几个物模型功能，被称之为标准功能
+     *
+     * @param productId 物联网 ProductId
+     * @param required  是否为必须功能
+     * @return 必需功能列表
+     */
+    @EntityGraph(PersistenceConstants.ENTITY_GRAPH_TSL_FUNCTION_WITH_ARGUMENTS)
+    List<HerodotusTslFunction> findAllByProductIdAndRequired(String productId, boolean required);
+
+    /**
+     * 根据 ProductId 查询对应产品下物模型所有功能
+     *
+     * @param productId 物联网 ProductId
+     * @return 物模型功能列表
+     */
+    @EntityGraph(PersistenceConstants.ENTITY_GRAPH_TSL_FUNCTION_WITH_ARGUMENTS)
+    List<HerodotusTslFunction> findAllByProductId(String productId);
 }

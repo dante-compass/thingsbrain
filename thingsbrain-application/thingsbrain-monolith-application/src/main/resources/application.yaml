@@ -1,0 +1,1097 @@
+server:
+  port: 8847
+  servlet:
+    session:
+      timeout: 2h
+  jetty:
+    connection-idle-timeout: 30000 #在请求延迟高时，避免线程被快速占满
+  compression:
+    enabled: true    # 启用GZIP压缩
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json # 压缩类型
+    min-response-size: 1024  # 最小压缩响应大小
+spring:
+  application:
+    name:  @artifactId@
+  profiles:
+    active: development-postgresql
+  #    active: development-preview
+  data:
+    redis:
+      repositories:
+        enabled: false
+  session:
+    timeout: ${server.servlet.session.timeout}
+  threads:
+    virtual:
+      enabled: true
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  http:
+    clients:
+      imperative:
+        factory: jdk
+  web:
+    error:
+      include-exception: true
+      include-message: always
+      include-stacktrace: always
+      include-binding-errors: always
+  mvc:
+    apiversion:
+      use:
+        header: X-Herodotus-Api-Version
+      default: v1
+  ssl:
+    bundle:
+      jks:
+        dante-cloud-sas:
+          key:
+            alias: dante-cloud-sas
+            password: 123456
+          keystore:
+            location: classpath:certificate/dante-cloud-sas_keystore.p12
+            password: 123456
+            type: PKCS12
+          truststore:
+            location: classpath:certificate/dante-cloud-sas_truststore.p12
+            password: 123456
+            type: PKCS12
+herodotus:
+  oauth2:
+    authentication:
+      ssl-bundle-provider: dante-cloud-sas
+
+jasypt:
+  encryptor:
+    password: ${JASPYT_HOME:2bda7d3a-dba1-45a4-b08e-cbd731a0418e}
+
+sms:
+  is-print: false
+
+---
+# 开发环境配置
+spring:
+  config:
+    activate:
+      on-profile: development-postgresql
+  sql:
+    init:
+      mode: never
+      platform: ${spring.jpa.database}
+      continue-on-error: true
+      encoding: UTF-8
+      username: ${spring.datasource.username}
+      password: ${spring.datasource.password}
+      # 第一种方式启动的时候 Jpa 会自动创建表，import.sql 只负责创建表单后的初始化数据。第二种方式启动的时候不会创建表，需要在初始化脚本中判断表是否存在，再初始化脚本的步骤
+      # refer: https://www.cnblogs.com/ityouknow/p/7089170.html
+      data-locations:
+        - classpath:sqls/iot-data-postgresql.sql
+#        - classpath:sqls/iot-data-mysql.sql
+  integration:
+    jdbc:
+      initialize-schema: always
+
+  datasource:
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:p6spy:postgresql://localhost:15432/thingsbrain
+    username: athena
+    password: athena
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: Hikari
+      minimum-idle: 5
+      maximum-pool-size: 30
+      # Lowest acceptable connection timeout is 250 ms. Default: 30000 (30 seconds)
+      # 30 秒太长，高并发时线程卡住 30s 才失败，用户体验差。缩短至 3~10s 快速失败，让上层重试或降级。
+      connection-timeout: 10000
+      # the interval in which connections will be tested for aliveness, thus keeping them alive by the act of checking. Value is in milliseconds, default is 0 (disabled)
+      # 防止连接被数据库/防火墙空闲断开。应 小于 数据库 idle_in_transaction_session_timeout 或防火墙超时。
+      keepalive-time: 60000
+      # The minimum allowed value is 10000ms (10 seconds). Default: 600000 (10 minutes)
+      idle-timeout: 120000
+      # We strongly recommend setting this value, and it should be at least 30 seconds less than any database or infrastructure imposed connection time limit. Default: 1800000 (30 minutes)
+      max-lifetime: 1800000
+      # Lowest acceptable validation timeout is 250 ms. Default: 5000
+      validation-timeout: 5000
+      leak-detection-threshold: 60000
+      data-source-properties:
+        # 将批量 insert 改写为多行 insert，显著提升批量插入性能
+        reWriteBatchedInserts: true
+        # 预编译阈值：执行超过 N 次才使用服务端预编译，避免单次 SQL 也花代价预编译
+        prepareThreshold: 5
+        # 根据业务需要可调整默认 fetchSize（默认 0 即一次拉取全部，大结果集可改为 200~500）
+        # defaultRowFetchSize: 200
+  jpa:
+    database: postgresql
+    database-platform: ${spring.jpa.database}
+    generate-ddl: true
+    open-in-view: true
+    hibernate:
+      # DDL mode. This is actually a shortcut for the "hibernate.hbm2ddl.auto" property. Default to "create-drop" when using an embedded database, "none" otherwise.spring.jpa.hibernate.ddl-auto=update
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      jakarta:
+        persistence:
+          sharedCache:
+            mode: ENABLE_SELECTIVE
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+        show_sql: false
+        generate_statistics: false
+        order_inserts: true
+        order_updates: true
+        default_batch_fetch_size: 16
+        cache:
+          use_query_cache: true
+          use_second_level_cache: true
+          use_minimal_puts: true
+          region:
+            factory_class: cn.herodotus.dante.hibernate.cache.spi.HerodotusRegionFactory
+        jakarta:
+          cache:
+            missing_cache_strategy: create
+        boot:
+          allow_jdbc_metadata_access: true
+        connection:
+          handling_mode: DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION
+        jdbc:
+          batch_size: 50
+          # 让版本化数据（@Version）也能批量更新
+          batch_versioned_data: true
+          # 明确时区，避免数据库时区不确定造成转换开销
+          time_zone: UTC
+          lob:
+            # 避免一些 JDBC 驱动需要环境上下文创建 LOB
+            non_contextual_creation: true
+        query:
+          in_clause_parameter_padding: true
+          fail_on_pagination_over_collection_fetch: true
+          optimizer:
+            enabled: true
+
+  data:
+    redis:
+      database: 11
+      host: 192.168.101.10
+      password:
+      port: 16379
+      timeout: 3000ms
+      lettuce:
+        pool:
+          enabled: true
+          # 最大活跃连接数 (根据负载动态调整)。计算公式：max-active = (平均QPS × 平均耗时(秒)) / 可用实例数 + 缓冲值
+          max-active: 64
+          # 最大空闲连接数 (建议max-active的50-75%)。足够覆盖流量波谷，避免频繁创建连接
+          max-idle: 32
+          # 最小空闲连接数 (保持预热连接)。保持预热连接，应对突发流量
+          min-idle: 8
+          # 短等待避免线程阻塞，超时快速失败
+          max-wait: 5000ms
+          # 空闲连接检查间隔
+          time-between-eviction-runs: 30s
+        shutdown-timeout: 200ms
+    redisson:
+      enabled: false
+      single-server-config:
+        address: redis://${spring.data.redis.host}:${spring.data.redis.port}
+#        password: ${spring.data.redis.password}
+  thymeleaf:
+    mode: HTML
+    cache: false
+  security:
+    oauth2:
+      resourceserver:
+        opaquetoken:
+          client-id: 14a9cf797931430896ad13a6b1855611
+          client-secret: a05fe1fc50ed42a4990c6c6fc4bec398
+
+springdoc:
+  api-docs:
+    resolve-schema-properties: true
+  swagger-ui:
+    disable-swagger-default-url: true
+    operations-sorter: method
+    show-common-extensions: true
+    show-extensions: true
+    oauth:
+      use-pkce-with-authorization-code-grant: true
+      app-name: ${spring.application.name}
+
+mybatis-plus:
+  global-config:
+    banner: false
+    db-config:
+      table-underline: true
+  configuration:
+    cache-enabled: true
+    map-underscore-to-camel-case: true
+
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  decodeFilterEnabled: false
+  local:
+    default:
+      type: caffeine
+      keyConvertor: jackson3
+      limit: 10000
+  remote:
+    default:
+      type: redis.lettuce
+      keyConvertor: jackson3
+      broadcastChannel: herodotus
+      valueEncoder: java
+      valueDecoder: java
+      poolConfig:
+        minIdle: ${spring.data.redis.lettuce.pool.min-idle}
+        maxIdle: ${spring.data.redis.lettuce.pool.max-idle}
+        maxTotal: ${spring.data.redis.lettuce.pool.max-active}
+        maxWait: ${spring.data.redis.lettuce.pool.max-wait}
+      uri:
+        - redis://${spring.data.redis.password}@${spring.data.redis.host}:${spring.data.redis.port}/${spring.data.redis.database}
+
+herodotus:
+  platform:
+    swagger:
+      # Swagger中不知道哪里包含Kafka的注解，会自动启动，如果不连接到Kafka会导致启动失败。暂时先取消掉。
+      enabled: true
+  endpoint:
+    issuer-uri: http://192.168.101.10:${server.port}
+  cache:
+    instances:
+      data-upms-sys-employee-:
+        expire: 2h
+  oauth2:
+    authentication:
+      sign-in-endpoint-limited:
+        enabled: false
+      sign-in-kick-out-limited:
+        enabled: false
+    authorization:
+      matcher:
+        permit-all:
+          - /oauth2/device_activation
+          - /emqx/webhook
+  assistant:
+    captcha:
+      graphics:
+        letter: num_and_upper_char
+        font: action
+    access:
+      justauth:
+        enabled: true
+        configs:
+          GITEE:
+            client-id: 7c1623d76f3909757912338688cae8a061e241b56070face6d54114eb61
+            client-secret: 8c343cad9ca732d54242f002d254239e17b68cab11c1d506a57822be
+            redirect-uri: http://aw255fkfqy5m.ngrok.xiaomiqiu123.top/social/oauth2/callback/GITEE
+          OSCHINA:
+            client-id: 7c1623d76f3909757912338688cae8a061e241b56070face6d54114eb61
+            client-secret: 8c343cad9ca732d54242f002d254239e17b68cab11c1d506a57822be
+            redirect-uri: http://192.168.101.10:8847/dante-cloud-uaa/oauth/social/gitee
+    oss:
+      endpoint: http://192.168.101.10:9000
+      access-key: 2RO1WHelOwCFxp6Annr7
+      secret-key: h8wpmcmZZZfvMoCat4Vy3Zy1JJSl0fwM8JNsvNxa
+      proxy:
+        source: http://localhost:3000/api
+        destination: http://127.0.0.1:9000
+  openapi:
+    emqx:
+      api-key: aaa
+      secret-key: bbb
+  message:
+    mqtt:
+      server-urls:
+        - tcp://localhost:1883
+      username: herodotus
+      password: herodotus
+      client-id: thingsbrain-platform
+  nosql:
+    influxdb3:
+      host: http://192.168.101.10:8181
+      token: apiv3_Ye1Vq8ToRa9xVgbf4F32JTdBM2B-EW2_EyR_YKA7HD8gwU6FE3e_H1LGTNAv15orAsghnEmUzSuYZHNJqbGWuw
+
+logging:
+  file:
+    name: logs/${spring.application.name}.log
+  level:
+    root: INFO
+    org.springframework: info
+    org.springframework.security: debug
+    org.springframework.web: debug
+    org.springframework.messaging: debug
+    org.springframework.integration: debug
+    cn.herodotus: debug
+
+---
+# 开发环境配置
+spring:
+  config:
+    activate:
+      on-profile: development-opengauss
+  sql:
+    init:
+      mode: never
+      platform: ${spring.jpa.database}
+      continue-on-error: true
+      encoding: UTF-8
+      username: ${spring.datasource.username}
+      password: ${spring.datasource.password}
+      # 第一种方式启动的时候 Jpa 会自动创建表，import.sql 只负责创建表单后的初始化数据。第二种方式启动的时候不会创建表，需要在初始化脚本中判断表是否存在，再初始化脚本的步骤
+      # refer: https://www.cnblogs.com/ityouknow/p/7089170.html
+      data-locations:
+        - classpath:sqls/iot-data-postgresql.sql
+  #        - classpath:sqls/iot-data-mysql.sql
+
+  datasource:
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:p6spy:opengauss://localhost:25432/thingsbrain
+    username: athena
+    password: athena!QAZ
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: Hikari
+      minimum-idle: 5
+      maximum-pool-size: 30
+      # Lowest acceptable connection timeout is 250 ms. Default: 30000 (30 seconds)
+      # 30 秒太长，高并发时线程卡住 30s 才失败，用户体验差。缩短至 3~10s 快速失败，让上层重试或降级。
+      connection-timeout: 10000
+      # the interval in which connections will be tested for aliveness, thus keeping them alive by the act of checking. Value is in milliseconds, default is 0 (disabled)
+      # 防止连接被数据库/防火墙空闲断开。应 小于 数据库 idle_in_transaction_session_timeout 或防火墙超时。
+      keepalive-time: 60000
+      # The minimum allowed value is 10000ms (10 seconds). Default: 600000 (10 minutes)
+      idle-timeout: 120000
+      # We strongly recommend setting this value, and it should be at least 30 seconds less than any database or infrastructure imposed connection time limit. Default: 1800000 (30 minutes)
+      max-lifetime: 1800000
+      # Lowest acceptable validation timeout is 250 ms. Default: 5000
+      validation-timeout: 5000
+      leak-detection-threshold: 60000
+      data-source-properties:
+        # 将批量 insert 改写为多行 insert，显著提升批量插入性能
+        reWriteBatchedInserts: true
+        # 预编译阈值：执行超过 N 次才使用服务端预编译，避免单次 SQL 也花代价预编译
+        prepareThreshold: 5
+        # 根据业务需要可调整默认 fetchSize（默认 0 即一次拉取全部，大结果集可改为 200~500）
+        # defaultRowFetchSize: 200
+  jpa:
+    database: postgresql
+    database-platform: ${spring.jpa.database}
+    generate-ddl: true
+    open-in-view: true
+    hibernate:
+      # DDL mode. This is actually a shortcut for the "hibernate.hbm2ddl.auto" property. Default to "create-drop" when using an embedded database, "none" otherwise.spring.jpa.hibernate.ddl-auto=update
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      jakarta:
+        persistence:
+          sharedCache:
+            mode: ENABLE_SELECTIVE
+      hibernate:
+        dialect: cn.herodotus.dante.hibernate.dialect.OpenGaussDialect
+        format_sql: false
+        show_sql: false
+        generate_statistics: false
+        order_inserts: true
+        order_updates: true
+        default_batch_fetch_size: 16
+        cache:
+          use_query_cache: true
+          use_second_level_cache: true
+          use_minimal_puts: true
+          region:
+            factory_class: cn.herodotus.dante.hibernate.cache.spi.HerodotusRegionFactory
+        jakarta:
+          cache:
+            missing_cache_strategy: create
+        boot:
+          allow_jdbc_metadata_access: true
+        connection:
+          handling_mode: DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION
+        jdbc:
+          batch_size: 50
+          # 让版本化数据（@Version）也能批量更新
+          batch_versioned_data: true
+          # 明确时区，避免数据库时区不确定造成转换开销
+          time_zone: UTC
+          lob:
+            # 避免一些 JDBC 驱动需要环境上下文创建 LOB
+            non_contextual_creation: true
+        query:
+          in_clause_parameter_padding: true
+          fail_on_pagination_over_collection_fetch: true
+          optimizer:
+            enabled: true
+
+  data:
+    redis:
+      database: 12
+      host: 192.168.101.10
+      password:
+      port: 16379
+      timeout: 3000ms
+      lettuce:
+        pool:
+          enabled: true
+          # 最大活跃连接数 (根据负载动态调整)。计算公式：max-active = (平均QPS × 平均耗时(秒)) / 可用实例数 + 缓冲值
+          max-active: 64
+          # 最大空闲连接数 (建议max-active的50-75%)。足够覆盖流量波谷，避免频繁创建连接
+          max-idle: 32
+          # 最小空闲连接数 (保持预热连接)。保持预热连接，应对突发流量
+          min-idle: 8
+          # 短等待避免线程阻塞，超时快速失败
+          max-wait: 5000ms
+          # 空闲连接检查间隔
+          time-between-eviction-runs: 30s
+        shutdown-timeout: 200ms
+  thymeleaf:
+    mode: HTML
+    cache: false
+  security:
+    oauth2:
+      resourceserver:
+        opaquetoken:
+          client-id: 14a9cf797931430896ad13a6b1855611
+          client-secret: a05fe1fc50ed42a4990c6c6fc4bec398
+
+springdoc:
+  api-docs:
+    resolve-schema-properties: true
+  swagger-ui:
+    disable-swagger-default-url: true
+    operations-sorter: method
+    show-common-extensions: true
+    show-extensions: true
+    oauth:
+      use-pkce-with-authorization-code-grant: true
+      app-name: ${spring.application.name}
+
+mybatis-plus:
+  global-config:
+    banner: false
+    db-config:
+      table-underline: true
+  configuration:
+    cache-enabled: true
+    map-underscore-to-camel-case: true
+
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  decodeFilterEnabled: false
+  local:
+    default:
+      type: caffeine
+      keyConvertor: jackson3
+      limit: 10000
+  remote:
+    default:
+      type: redis.lettuce
+      keyConvertor: jackson3
+      broadcastChannel: herodotus
+      valueEncoder: java
+      valueDecoder: java
+      poolConfig:
+        minIdle: ${spring.data.redis.lettuce.pool.min-idle}
+        maxIdle: ${spring.data.redis.lettuce.pool.max-idle}
+        maxTotal: ${spring.data.redis.lettuce.pool.max-active}
+        maxWait: ${spring.data.redis.lettuce.pool.max-wait}
+      uri:
+        - redis://${spring.data.redis.password}@${spring.data.redis.host}:${spring.data.redis.port}/${spring.data.redis.database}
+
+
+herodotus:
+  platform:
+    swagger:
+      # Swagger中不知道哪里包含Kafka的注解，会自动启动，如果不连接到Kafka会导致启动失败。暂时先取消掉。
+      enabled: true
+  oauth2:
+    authentication:
+      sign-in-endpoint-limited:
+        enabled: false
+      sign-in-kick-out-limited:
+        enabled: false
+  cache:
+    instances:
+      data-upms-sys-employee-:
+        expire: 2h
+  endpoint:
+    issuer-uri: http://192.168.101.10:${server.port}
+  assistant:
+    captcha:
+      graphics:
+        letter: num_and_upper_char
+        font: action
+    access:
+      justauth:
+        configs:
+          GITEE:
+            client-id: 7c1623d76f3909757912338688cae8a061e241b56070face6d54114eb61c
+            client-secret: 8c343cad9ca732d54242f002d254239e17b68cab11c1d506a57822be828
+            redirect-uri: http://aw255fkfqy5m.ngrok.xiaomiqiu123.top/social/oauth2/callback/GITEE
+          OSCHINA:
+            client-id: 7c1623d76f3909757912338688cae8a061e241b56070face6d54114eb61c
+            client-secret: 8c343cad9ca732d54242f002d254239e17b68cab11c1d506a57822be82
+            redirect-uri: http://192.168.101.10:8847/dante-cloud-uaa/oauth/social/gitee
+    oss:
+      endpoint: http://192.168.101.10:9000
+      access-key: 2RO1WHelOwCFxp6Annr7
+      secret-key: h8wpmcmZZZfvMoCat4Vy3Zy1JJSl0fwM8JNsvNxa
+      proxy:
+        source: http://localhost:3000/api
+        destination: http://127.0.0.1:9000
+
+logging:
+  file:
+    name: logs/${spring.application.name}.log
+  level:
+    root: INFO
+    org.springframework: info
+    org.springframework.security: trace
+    org.springframework.web: debug
+    org.springframework.messaging: debug
+    org.springframework.integration: debug
+    cn.herodotus: debug
+
+---
+# 预览开发调试环境配置
+spring:
+  config:
+    activate:
+      on-profile: development-preview
+  sql:
+    init:
+      mode: never
+      platform: ${spring.jpa.database}
+      continue-on-error: true
+      encoding: UTF-8
+      username: ${spring.datasource.username}
+      password: ${spring.datasource.password}
+      # 第一种方式启动的时候 Jpa 会自动创建表，import.sql 只负责创建表单后的初始化数据。第二种方式启动的时候不会创建表，需要在初始化脚本中判断表是否存在，再初始化脚本的步骤
+      # refer: https://www.cnblogs.com/ityouknow/p/7089170.html
+      data-locations:
+        - classpath*:sqls/manage-data-h2.sql
+  #          - classpath:sqls/manage-data-mysql.sql
+
+  datasource:
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:p6spy:h2:file:D:/local-repository/h2/herodotus_monolith;AUTO_RECONNECT=TRUE
+    username: ENC(CSWE8soeetHF+Y52AzTxaZDFgBrUEpgGWLsepunmWgJvBVgbskG3PgOw9f/oqG+P)
+    password: ENC(zugc6sobv8wnGbKANZxCuITrsrKIYuRd20PGlE7fhVe6SFOGofBUKWhLJ4HUCnna)
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: Hikari
+      minimum-idle: 5
+      maximum-pool-size: 30
+      # Lowest acceptable connection timeout is 250 ms. Default: 30000 (30 seconds)
+      # 30 秒太长，高并发时线程卡住 30s 才失败，用户体验差。缩短至 3~10s 快速失败，让上层重试或降级。
+      connection-timeout: 10000
+      # the interval in which connections will be tested for aliveness, thus keeping them alive by the act of checking. Value is in milliseconds, default is 0 (disabled)
+      # 防止连接被数据库/防火墙空闲断开。应 小于 数据库 idle_in_transaction_session_timeout 或防火墙超时。
+      keepalive-time: 60000
+      # The minimum allowed value is 10000ms (10 seconds). Default: 600000 (10 minutes)
+      idle-timeout: 120000
+      # We strongly recommend setting this value, and it should be at least 30 seconds less than any database or infrastructure imposed connection time limit. Default: 1800000 (30 minutes)
+      max-lifetime: 1800000
+      # Lowest acceptable validation timeout is 250 ms. Default: 5000
+      validation-timeout: 5000
+      leak-detection-threshold: 60000
+      data-source-properties:
+        # 将批量 insert 改写为多行 insert，显著提升批量插入性能
+        reWriteBatchedInserts: true
+        # 预编译阈值：执行超过 N 次才使用服务端预编译，避免单次 SQL 也花代价预编译
+        prepareThreshold: 5
+        # 根据业务需要可调整默认 fetchSize（默认 0 即一次拉取全部，大结果集可改为 200~500）
+        # defaultRowFetchSize: 200
+  jpa:
+    database: h2
+    database-platform: ${spring.jpa.database}
+    generate-ddl: true
+    open-in-view: true
+    defer-datasource-initialization: true
+    hibernate:
+      # DDL mode. This is actually a shortcut for the "hibernate.hbm2ddl.auto" property. Default to "create-drop" when using an embedded database, "none" otherwise.spring.jpa.hibernate.ddl-auto=update
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      jakarta:
+        persistence:
+          sharedCache:
+            mode: ENABLE_SELECTIVE
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: false
+        show_sql: false
+        generate_statistics: false
+        order_inserts: true
+        order_updates: true
+        default_batch_fetch_size: 16
+        cache:
+          use_query_cache: true
+          use_second_level_cache: true
+          use_minimal_puts: true
+          region:
+            factory_class: cn.herodotus.dante.hibernate.cache.spi.HerodotusRegionFactory
+        jakarta:
+          cache:
+            missing_cache_strategy: create
+        boot:
+          allow_jdbc_metadata_access: true
+        connection:
+          handling_mode: DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION
+        jdbc:
+          batch_size: 50
+          # 让版本化数据（@Version）也能批量更新
+          batch_versioned_data: true
+          # 明确时区，避免数据库时区不确定造成转换开销
+          time_zone: UTC
+          lob:
+            # 避免一些 JDBC 驱动需要环境上下文创建 LOB
+            non_contextual_creation: true
+        query:
+          in_clause_parameter_padding: true
+          fail_on_pagination_over_collection_fetch: true
+          optimizer:
+            enabled: true
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+        trace: true
+  data:
+    redis:
+      database: 13
+      host: 192.168.101.10
+      password:
+      port: 16379
+      timeout: 3000ms
+      lettuce:
+        pool:
+          enabled: true
+          # 最大活跃连接数 (根据负载动态调整)。计算公式：max-active = (平均QPS × 平均耗时(秒)) / 可用实例数 + 缓冲值
+          max-active: 64
+          # 最大空闲连接数 (建议max-active的50-75%)。足够覆盖流量波谷，避免频繁创建连接
+          max-idle: 32
+          # 最小空闲连接数 (保持预热连接)。保持预热连接，应对突发流量
+          min-idle: 8
+          # 短等待避免线程阻塞，超时快速失败
+          max-wait: 5000ms
+          # 空闲连接检查间隔
+          time-between-eviction-runs: 30s
+        shutdown-timeout: 200ms
+    redisson:
+      enabled: false
+      single-server-config:
+        address: redis://${spring.data.redis.host}:${spring.data.redis.port}
+        #        password: ${spring.data.redis.password}
+
+  thymeleaf:
+    mode: HTML
+    cache: false
+  security:
+    oauth2:
+      resourceserver:
+        opaquetoken:
+          client-id: 14a9cf797931430896ad13a6b1855611
+          client-secret: a05fe1fc50ed42a4990c6c6fc4bec398
+
+server:
+  servlet:
+    context-path: /online
+    session:
+      cookie:
+        path: /
+
+springdoc:
+  default-flat-param-object: true
+  api-docs:
+    enabled: ${herodotus.platform.swagger.enabled}
+    resolve-schema-properties: true
+  swagger-ui:
+    enabled: ${herodotus.platform.swagger.enabled}
+    disable-swagger-default-url: true
+    operations-sorter: method
+    show-common-extensions: true
+    show-extensions: true
+    oauth:
+      use-pkce-with-authorization-code-grant: true
+      app-name: ${spring.application.name}
+
+mybatis-plus:
+  global-config:
+    banner: false
+    db-config:
+      table-underline: true
+  configuration:
+    cache-enabled: true
+    map-underscore-to-camel-case: true
+  mapper-locations:
+    - "classpath*:camunda-extends-mappings/**/*.xml"
+
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  decodeFilterEnabled: false
+  local:
+    default:
+      type: caffeine
+      keyConvertor: jackson3
+      limit: 10000
+  remote:
+    default:
+      type: redis.lettuce
+      keyConvertor: jackson3
+      broadcastChannel: herodotus
+      valueEncoder: java
+      valueDecoder: java
+      poolConfig:
+        minIdle: ${spring.data.redis.lettuce.pool.min-idle}
+        maxIdle: ${spring.data.redis.lettuce.pool.max-idle}
+        maxTotal: ${spring.data.redis.lettuce.pool.max-active}
+        maxWait: ${spring.data.redis.lettuce.pool.max-wait}
+      uri:
+        - redis://${spring.data.redis.password}@${spring.data.redis.host}:${spring.data.redis.port}/${spring.data.redis.database}
+sms:
+  config-type: yaml
+
+herodotus:
+  platform:
+    swagger:
+      # Swagger中不知道哪里包含Kafka的注解，会自动启动，如果不连接到Kafka会导致启动失败。暂时先取消掉。
+      enabled: false
+  cache:
+    instances:
+      data-upms-sys-employee-:
+        expire: 2h
+  endpoint:
+    issuer-uri: http://192.168.101.10:${server.port}${server.servlet.context-path}
+  oauth2:
+    authentication:
+      sign-in-endpoint-limited:
+        enabled: false
+      sign-in-kick-out-limited:
+        enabled: false
+    authorization:
+      matcher:
+        permit-all:
+          - /h2-console/**
+
+  assistant:
+    captcha:
+      graphics:
+        letter: num_and_upper_char
+        font: action
+    access:
+      justauth:
+        enabled: true
+        configs:
+          GITEE:
+            client-id: ENC(56TzjlkmPhsA7xRpVw0wpMtSRAWP5k6tEc/qHXgZNrt0SgDok9eNXEilkun8Iscr8t+XZlDU7SdNco6Fnee2BbLShR6uwfXh3LyBZOVmapqVqPjZhVfxeOCq5aZgGIcz2i+uXqaMh23G80/BIIs7Pg==)
+            client-secret: ENC(6hPv3T20dpUMQXLR50ZgDlbjbw02ZmIJS0jihmL8Xj5pVWPoB/Iz3M7D+N44vv59OJLG96P5xdEDcJu86RhFoEgrsVXJ4auKmu4ZqvRDTSbtIru6UMNMHG0sPZnPcff4vuOPIZdPZBI2y82jXIBTww==)
+            redirect-uri: ${HERODOTUS_GITEE_SOCIAL_REDIRECT_URI:http://localhost:3000/preview/social/oauth2/callback/GITEE}
+      sms:
+        sandbox: true
+    oss:
+      endpoint: ENC(h/jVAY4WbO5utZHM71x9wc3heDRiZfO3hybxrNjZGbz+CFpmb/9hXhr2+ISzbCTr9+7PVomSfPyUGn349Ca+1A==)
+      access-key: ENC(vRRH2o0HxYsJARFnH9tyq9txx2VXtlqcdR/pKKnDIwjq6/aOCiuWEclIVMk9QYFo/T7+hKEmpB0gGu4V59ci9g==)
+      secret-key: ENC(Oc0ksRs1Kwp8nZFp4btvsgKSZFvgjCq7FjkGWG3fjlaehYeujHEYgcNhVkCnptniJEtDUtxJWo3gGXZXe9Gh++Vknnuu8f5b0JUPB3GbuCQ=)
+      proxy:
+        source: http://localhost:3000/api
+        destination: http://127.0.0.1:9000
+  openapi:
+    emqx:
+      api-key: aaa
+      secret-key: bbb
+  secure:
+    audit:
+      enabled: true
+  service:
+    file:
+      destination: D:/workspaces/Testing
+
+
+logging:
+  file:
+    name: logs/${spring.application.name}.log
+  level:
+    root: INFO
+    org.springframework: info
+    org.springframework.security: trace
+    org.springframework.web: debug
+    org.springframework.jdbc: debug
+    org.springframework.messaging: debug
+    org.springframework.integration: debug
+    cn.herodotus: debug
+
+---
+# 预览版本生产环境配置
+spring:
+  config:
+    activate:
+      on-profile: production-preview
+  sql:
+    init:
+      mode: never
+      platform: ${spring.jpa.database}
+      continue-on-error: true
+      encoding: UTF-8
+      username: ${spring.datasource.username}
+      password: ${spring.datasource.password}
+      # 第一种方式启动的时候 Jpa 会自动创建表，import.sql 只负责创建表单后的初始化数据。第二种方式启动的时候不会创建表，需要在初始化脚本中判断表是否存在，再初始化脚本的步骤
+      # refer: https://www.cnblogs.com/ityouknow/p/7089170.html
+      data-locations:
+        - classpath*:sqls/manage-data-h2.sql
+  #          - classpath:sqls/manage-data-mysql.sql
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:/usr/local/herodotus/herodotus_monolith;AUTO_RECONNECT=TRUE
+    username: ENC(CSWE8soeetHF+Y52AzTxaZDFgBrUEpgGWLsepunmWgJvBVgbskG3PgOw9f/oqG+P)
+    password: ENC(zugc6sobv8wnGbKANZxCuITrsrKIYuRd20PGlE7fhVe6SFOGofBUKWhLJ4HUCnna)
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: Hikari
+      minimum-idle: 5
+      maximum-pool-size: 30
+      # Lowest acceptable connection timeout is 250 ms. Default: 30000 (30 seconds)
+      # 30 秒太长，高并发时线程卡住 30s 才失败，用户体验差。缩短至 3~10s 快速失败，让上层重试或降级。
+      connection-timeout: 10000
+      # the interval in which connections will be tested for aliveness, thus keeping them alive by the act of checking. Value is in milliseconds, default is 0 (disabled)
+      # 防止连接被数据库/防火墙空闲断开。应 小于 数据库 idle_in_transaction_session_timeout 或防火墙超时。
+      keepalive-time: 60000
+      # The minimum allowed value is 10000ms (10 seconds). Default: 600000 (10 minutes)
+      idle-timeout: 120000
+      # We strongly recommend setting this value, and it should be at least 30 seconds less than any database or infrastructure imposed connection time limit. Default: 1800000 (30 minutes)
+      max-lifetime: 1800000
+      # Lowest acceptable validation timeout is 250 ms. Default: 5000
+      validation-timeout: 5000
+      leak-detection-threshold: 60000
+      data-source-properties:
+        # 将批量 insert 改写为多行 insert，显著提升批量插入性能
+        reWriteBatchedInserts: true
+        # 预编译阈值：执行超过 N 次才使用服务端预编译，避免单次 SQL 也花代价预编译
+        prepareThreshold: 5
+        # 根据业务需要可调整默认 fetchSize（默认 0 即一次拉取全部，大结果集可改为 200~500）
+        # defaultRowFetchSize: 200
+  jpa:
+    database: h2
+    database-platform: ${spring.jpa.database}
+    generate-ddl: true
+    open-in-view: true
+    defer-datasource-initialization: true
+    hibernate:
+      # DDL mode. This is actually a shortcut for the "hibernate.hbm2ddl.auto" property. Default to "create-drop" when using an embedded database, "none" otherwise.spring.jpa.hibernate.ddl-auto=update
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      jakarta:
+        persistence:
+          sharedCache:
+            mode: ENABLE_SELECTIVE
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+        show_sql: false
+        generate_statistics: false
+        order_inserts: true
+        order_updates: true
+        default_batch_fetch_size: 16
+        cache:
+          use_query_cache: true
+          use_second_level_cache: true
+          use_minimal_puts: true
+          region:
+            factory_class: cn.herodotus.dante.hibernate.cache.spi.HerodotusRegionFactory
+        jakarta:
+          cache:
+            missing_cache_strategy: create
+        boot:
+          allow_jdbc_metadata_access: true
+        connection:
+          handling_mode: DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION
+        jdbc:
+          batch_size: 50
+          # 让版本化数据（@Version）也能批量更新
+          batch_versioned_data: true
+          # 明确时区，避免数据库时区不确定造成转换开销
+          time_zone: UTC
+          lob:
+            # 避免一些 JDBC 驱动需要环境上下文创建 LOB
+            non_contextual_creation: true
+        query:
+          in_clause_parameter_padding: true
+          fail_on_pagination_over_collection_fetch: true
+          optimizer:
+            enabled: true
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+        trace: true
+  data:
+    redis:
+      database: 10
+      host: localhost
+      password:
+      port: 16379
+      timeout: 3000ms
+      lettuce:
+        pool:
+          enabled: true
+          # 最大活跃连接数 (根据负载动态调整)。计算公式：max-active = (平均QPS × 平均耗时(秒)) / 可用实例数 + 缓冲值
+          max-active: 64
+          # 最大空闲连接数 (建议max-active的50-75%)。足够覆盖流量波谷，避免频繁创建连接
+          max-idle: 32
+          # 最小空闲连接数 (保持预热连接)。保持预热连接，应对突发流量
+          min-idle: 8
+          # 短等待避免线程阻塞，超时快速失败
+          max-wait: 5000ms
+          # 空闲连接检查间隔
+          time-between-eviction-runs: 30s
+        shutdown-timeout: 200ms
+
+  thymeleaf:
+    mode: HTML
+    cache: false
+  security:
+    oauth2:
+      resourceserver:
+        opaquetoken:
+          client-id: 14a9cf797931430896ad13a6b1855611
+          client-secret: a05fe1fc50ed42a4990c6c6fc4bec398
+server:
+  servlet:
+    context-path: /online
+    session:
+      cookie:
+        path: /
+
+springdoc:
+  default-flat-param-object: true
+  api-docs:
+    enabled: ${herodotus.platform.swagger.enabled}
+    resolve-schema-properties: true
+  swagger-ui:
+    enabled: ${herodotus.platform.swagger.enabled}
+    disable-swagger-default-url: true
+    operations-sorter: method
+    show-common-extensions: true
+    show-extensions: true
+    oauth:
+      use-pkce-with-authorization-code-grant: true
+      app-name: ${spring.application.name}
+
+mybatis-plus:
+  global-config:
+    banner: false
+    db-config:
+      table-underline: true
+  configuration:
+    cache-enabled: true
+    map-underscore-to-camel-case: true
+  mapper-locations:
+    - "classpath*:camunda-extends-mappings/**/*.xml"
+
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  decodeFilterEnabled: false
+  local:
+    default:
+      type: caffeine
+      keyConvertor: jackson3
+      limit: 10000
+  remote:
+    default:
+      type: redis.lettuce
+      keyConvertor: jackson3
+      broadcastChannel: herodotus
+      valueEncoder: java
+      valueDecoder: java
+      poolConfig:
+        minIdle: ${spring.data.redis.lettuce.pool.min-idle}
+        maxIdle: ${spring.data.redis.lettuce.pool.max-idle}
+        maxTotal: ${spring.data.redis.lettuce.pool.max-active}
+        maxWait: ${spring.data.redis.lettuce.pool.max-wait}
+      uri:
+        - redis://${spring.data.redis.password}@${spring.data.redis.host}:${spring.data.redis.port}/${spring.data.redis.database}
+
+sms:
+  config-type: yaml
+
+herodotus:
+  platform:
+    swagger:
+      # Swagger中不知道哪里包含Kafka的注解，会自动启动，如果不连接到Kafka会导致启动失败。暂时先取消掉。
+      enabled: true
+  cache:
+    instances:
+      data-upms-sys-employee-:
+        expire: 2h
+  endpoint:
+    issuer-uri: http://localhost:${server.port}${server.servlet.context-path}
+  oauth2:
+    authentication:
+      sign-in-endpoint-limited:
+        enabled: false
+      sign-in-kick-out-limited:
+        enabled: false
+  assistant:
+    captcha:
+      graphics:
+        letter: num_and_upper_char
+        font: action
+    access:
+      justauth:
+        enabled: true
+        configs:
+          GITEE:
+            client-id: ENC(56TzjlkmPhsA7xRpVw0wpMtSRAWP5k6tEc/qHXgZNrt0SgDok9eNXEilkun8Iscr8t+XZlDU7SdNco6Fnee2BbLShR6uwfXh3LyBZOVmapqVqPjZhVfxeOCq5aZgGIcz2i+uXqaMh23G80/BIIs7Pg==)
+            client-secret: ENC(6hPv3T20dpUMQXLR50ZgDlbjbw02ZmIJS0jihmL8Xj5pVWPoB/Iz3M7D+N44vv59OJLG96P5xdEDcJu86RhFoEgrsVXJ4auKmu4ZqvRDTSbtIru6UMNMHG0sPZnPcff4vuOPIZdPZBI2y82jXIBTww==)
+            redirect-uri: ${HERODOTUS_GITEE_SOCIAL_REDIRECT_URI:http://localhost:8000/preview/social/oauth2/callback/GITEE}
+      sms:
+        sandbox: true
+    oss:
+      endpoint: ENC(h/jVAY4WbO5utZHM71x9wc3heDRiZfO3hybxrNjZGbz+CFpmb/9hXhr2+ISzbCTr9+7PVomSfPyUGn349Ca+1A==)
+      access-key: ENC(vRRH2o0HxYsJARFnH9tyq9txx2VXtlqcdR/pKKnDIwjq6/aOCiuWEclIVMk9QYFo/T7+hKEmpB0gGu4V59ci9g==)
+      secret-key: ENC(Oc0ksRs1Kwp8nZFp4btvsgKSZFvgjCq7FjkGWG3fjlaehYeujHEYgcNhVkCnptniJEtDUtxJWo3gGXZXe9Gh++Vknnuu8f5b0JUPB3GbuCQ=)
+      proxy:
+        source: http://localhost:3000/api
+        destination: http://127.0.0.1:9000
+  secure:
+    audit:
+      enabled: true
+  service:
+    file:
+      destination: /usr/local/herodotus/files
+
+
+logging:
+  file:
+    name: logs/${spring.application.name}.log
+  level:
+    root: INFO
+    org.springframework: info
+    org.springframework.security: INFO
+    org.springframework.web: INFO
+    org.springframework.jdbc: INFO
+    org.springframework.messaging: INFO
+    org.springframework.integration: INFO
+    cn.herodotus: debug
+---
+# 生产环境配置
+spring:
+  config:
+    activate:
+      on-profile: production

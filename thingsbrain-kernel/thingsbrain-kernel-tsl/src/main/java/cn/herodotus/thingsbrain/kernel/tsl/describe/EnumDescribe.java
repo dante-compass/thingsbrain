@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.describe;
 
-import cn.herodotus.thingsbrain.kernel.commons.constant.SchemaConstants;
+import cn.herodotus.thingsbrain.kernel.tsl.constant.JsonSchemaConstants;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.AbstractDescribe;
 
 import java.util.Map;
@@ -39,10 +39,10 @@ import java.util.Map;
 public class EnumDescribe extends AbstractDescribe {
 
     public EnumDescribe() {
-        setType(SchemaConstants.SCHEMA_TYPE_OBJECT);
+        setType(JsonSchemaConstants.SCHEMA_TYPE_OBJECT);
     }
 
-    private Map<String, Map<String, String>> patternProperties = SchemaConstants.SCHEMA_DESCRIBE_ENUM;
+    private Map<String, Map<String, String>> patternProperties = JsonSchemaConstants.SCHEMA_DESCRIBE_ENUM;
 
     private Boolean additionalProperties = false;
 

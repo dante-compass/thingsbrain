@@ -35,6 +35,10 @@ import cn.herodotus.dante.core.constant.BaseConstants;
  */
 public interface KernelConstants extends BaseConstants {
 
+    Integer VALUE__SHADOW_CLEAR_REQUEST = -1;
+    Integer VALUE__SHADOW_CLEAR_RESULT = 0;
+
+    String SHADOW__EMPTY = "{\"metadata\":{},\"state\":{},\"timestamp\":null,\"version\":0}";
 
     String PROPERTY_IOT_TSDB = PROPERTY_PREFIX_IOT + ".tsdb";
 
@@ -45,13 +49,4 @@ public interface KernelConstants extends BaseConstants {
     String CACHE_IOT_TSL_PREFIX = CACHE_IOT_PREFIX + "tsl:";
 
     String CACHE_NAME_IOT_TSL_SPECIFICATION = CACHE_IOT_TSL_PREFIX + "specification:";
-
-    String KEY__PRODUCT_KEY = "productKey";
-    String KEY__DEVICE_NAME = "deviceName";
-    String KEY__CLIENT_ID = "clientId";
-    String KEY__SECURE_MODE = "securemode";
-    String KEY__SIGNATURE_METHOD = "signMethod";
-    String KEY__TIMESTAMP = "timestamp";
-    String KEY__AUTH_TYPE = "authType";
-    String KEY__RANDOM = "random";
 }

@@ -1,0 +1,15 @@
+{
+  "id": "123",
+  "version": "1.0",
+  "sys": {
+    "ack": 0
+  },
+  "params": {
+    "value": {
+      "Power": "on",
+      "WF": "2"
+    },
+    "time": 1524448722000
+  },
+  "method": "thing.event.${tsl.event.identifier}.post"
+}

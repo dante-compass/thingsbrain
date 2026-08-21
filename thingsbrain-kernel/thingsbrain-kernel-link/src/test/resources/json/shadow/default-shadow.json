@@ -1,0 +1,32 @@
+{
+  "state": {
+    "desired": {
+      "color": "RED",
+      "sequence": [
+        "RED",
+        "GREEN",
+        "BLUE"
+      ]
+    },
+    "reported": {
+      "color": "GREEN"
+    }
+  },
+  "metadata": {
+    "desired": {
+      "color": {
+        "timestamp": 1469564492
+      },
+      "sequence": {
+        "timestamp": 1469564492
+      }
+    },
+    "reported": {
+      "color": {
+        "timestamp": 1469564492
+      }
+    }
+  },
+  "timestamp": 1469564492,
+  "version": 1
+}

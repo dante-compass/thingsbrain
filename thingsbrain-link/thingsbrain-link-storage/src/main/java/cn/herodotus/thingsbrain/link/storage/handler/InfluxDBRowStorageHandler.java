@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.link.storage.handler;
 
+import cn.herodotus.dante.core.constant.SystemConstants;
 import cn.herodotus.dante.core.utils.StringTemplateUtils;
-import cn.herodotus.thingsbrain.kernel.commons.constant.KernelConstants;
 import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import cn.herodotus.thingsbrain.kernel.link.definition.specification.PropertyParamEntry;
 import cn.herodotus.thingsbrain.kernel.link.domain.specification.*;
@@ -61,13 +61,13 @@ public class InfluxDBRowStorageHandler extends AbstractInfluxDB3Service implemen
 
         InfluxDBClient client = this.getClient();
 
-        String measurement = StringTemplateUtils.replace(StorageConstants.INFLUXDB_MEASUREMENT_PROPERTY, Map.of(KernelConstants.KEY__PRODUCT_KEY, productKey));
+        String measurement = StringTemplateUtils.replace(StorageConstants.INFLUXDB_MEASUREMENT_PROPERTY, Map.of(SystemConstants.KEY__PRODUCT_KEY, productKey));
 
         ParamWrapper paramWrapper = new ParamWrapper(request);
 
         Point point = Point.measurement(measurement)
-                .setTag(KernelConstants.KEY__PRODUCT_KEY, productKey)
-                .setTag(KernelConstants.KEY__DEVICE_NAME, deviceName)
+                .setTag(SystemConstants.KEY__PRODUCT_KEY, productKey)
+                .setTag(SystemConstants.KEY__DEVICE_NAME, deviceName)
                 .setFields(paramWrapper.getParams())
                 .setTimestamp(paramWrapper.getTime(), WritePrecision.MS);
 
@@ -122,8 +122,8 @@ public class InfluxDBRowStorageHandler extends AbstractInfluxDB3Service implemen
         String measurement = StringTemplateUtils.replace(StorageConstants.INFLUXDB_MEASUREMENT_EVENT, Map.of(ProtocolConstants.VARIABLE__IDENTIFIER, identifier));
 
         Point point = Point.measurement(measurement)
-                .setTag(KernelConstants.KEY__PRODUCT_KEY, productKey)
-                .setTag(KernelConstants.KEY__DEVICE_NAME, deviceName)
+                .setTag(SystemConstants.KEY__PRODUCT_KEY, productKey)
+                .setTag(SystemConstants.KEY__DEVICE_NAME, deviceName)
                 .setTag(ProtocolConstants.VARIABLE__IDENTIFIER, identifier)
                 .setFields(request.getValue())
                 .setTimestamp(request.getTime(), WritePrecision.MS);

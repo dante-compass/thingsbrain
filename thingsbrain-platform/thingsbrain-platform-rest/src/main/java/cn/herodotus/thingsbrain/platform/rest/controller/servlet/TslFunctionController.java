@@ -32,7 +32,8 @@ import cn.herodotus.dante.security.domain.UserPrincipal;
 import cn.herodotus.dante.security.utils.ServletSecurityUtils;
 import cn.herodotus.dante.web.annotation.AccessLimited;
 import cn.herodotus.dante.web.annotation.Idempotent;
-import cn.herodotus.thingsbrain.mqtt.outbound.service.TslServiceService;
+import cn.herodotus.thingsbrain.kernel.tsl.enums.Dimension;
+import cn.herodotus.thingsbrain.mqtt.outbound.service.MqttTslServiceService;
 import cn.herodotus.thingsbrain.persistence.commons.domain.TslFunction;
 import cn.herodotus.thingsbrain.persistence.commons.service.TslFunctionService;
 import cn.herodotus.thingsbrain.platform.rest.dto.TslInvokeServiceRequest;
@@ -70,11 +71,11 @@ import java.util.Map;
 public class TslFunctionController extends AbstractEntityWriteAndPageController<TslFunction, String, BaseWriteAndPageService<TslFunction, String>> {
 
     private final TslFunctionService tslFunctionService;
-    private final TslServiceService tslServiceService;
+    private final MqttTslServiceService mqttTslServiceService;
 
-    public TslFunctionController(TslFunctionService tslFunctionService, TslServiceService tslServiceService) {
+    public TslFunctionController(TslFunctionService tslFunctionService, MqttTslServiceService mqttTslServiceService) {
         this.tslFunctionService = tslFunctionService;
-        this.tslServiceService = tslServiceService;
+        this.mqttTslServiceService = mqttTslServiceService;
     }
 
     @Override
@@ -83,43 +84,25 @@ public class TslFunctionController extends AbstractEntityWriteAndPageController<
     }
 
     @AccessLimited
-    @Operation(summary = "模糊条件查询物模型功能模块", description = "根据动态输入的字段模糊查询物模型功能模块",
-            responses = {@ApiResponse(description = "物模型功能模块分页列表", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Map.class)))})
+    @Operation(summary = "模糊条件查询物模型功能", description = "根据动态输入的字段模糊查询物模型功能信息",
+            responses = {@ApiResponse(description = "模型功能列表", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Map.class)))})
     @Parameters({
             @Parameter(name = "pageNumber", required = true, description = "当前页码"),
             @Parameter(name = "pageSize", required = true, description = "每页显示数量"),
-            @Parameter(name = "productId", description = "产品ID"),
+            @Parameter(name = "productId", description = "物联网 ProductId"),
+            @Parameter(name = "productKey", description = "物联网 ProductKey"),
+            @Parameter(name = "dimension", description = "物模型维度"),
     })
     @GetMapping("/condition")
     public Result<Map<String, Object>> findByCondition(
             @NotNull @RequestParam("pageNumber") Integer pageNumber,
             @NotNull @RequestParam("pageSize") Integer pageSize,
-            @RequestParam(value = "productKey") String productId) {
-        Page<TslFunction> pages = tslFunctionService.findByProductId(pageNumber, pageSize, productId);
+            @RequestParam(value = "productId", required = false) String productId,
+            @RequestParam(value = "productKey", required = false) String productKey,
+            @RequestParam(value = "dimension", required = false) String dimension) {
+        Page<TslFunction> pages = tslFunctionService.findByCondition(pageNumber, pageSize, productId, productKey, Dimension.parse(dimension));
         return resultFromPage(pages);
     }
-
-//    @Operation(summary = "查询物模型中可以设置的属性", description = "查询物模型中可以设置的属性",
-//            responses = {@ApiResponse(description = "可以设置属性列表", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = List.class)))})
-//    @Parameters({
-//            @Parameter(name = "productKey", required = true, description = "产品KEY"),
-//    })
-//    @GetMapping("/settable")
-//    public Result<List<TslFunction>> settable(@NotNull @RequestParam("productKey") String productKey) {
-//        List<TslFunction> functions = iotTslFunctionService.findAllSettableProperties(productKey);
-//        return result(functions);
-//    }
-//
-//    @Operation(summary = "查询物模型中可以调用的服务", description = "查询物模型中可以调用的服务",
-//            responses = {@ApiResponse(description = "可以设置属性列表", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = List.class)))})
-//    @Parameters({
-//            @Parameter(name = "productKey", required = true, description = "产品KEY"),
-//    })
-//    @GetMapping("/callable")
-//    public Result<List<TslFunction>> callable(@NotNull @RequestParam("productKey") String productKey) {
-//        List<TslFunction> functions = iotTslFunctionService.findAllCallableServices(productKey);
-//        return result(functions);
-//    }
 
     @Idempotent
     @Operation(summary = "设置设备属性", description = "设置设备属性",
@@ -128,27 +111,24 @@ public class TslFunctionController extends AbstractEntityWriteAndPageController<
     @Parameters({
             @Parameter(name = "domain", required = true, description = "可转换为实体的json数据")
     })
-    @PutMapping("/property")
-    public Result<String> setProperty(@Validated @RequestBody TslSetPropertyRequest domain, HttpServletRequest request) {
-
+    @PutMapping("/set")
+    public Result<String> set(@Validated @RequestBody TslSetPropertyRequest domain, HttpServletRequest request) {
         UserPrincipal userPrincipal = ServletSecurityUtils.getUserPrincipal(request);
-
-        tslServiceService.set(domain.getProductKey(), domain.getDeviceName(), domain.getParams(), userPrincipal);
+        mqttTslServiceService.set(domain.getProductKey(), domain.getDeviceName(), domain.getParams(), userPrincipal);
         return Result.success("发送设置设备属性请求成功");
     }
 
-
     @Idempotent
-    @Operation(summary = "设置设备属性", description = "设置设备属性",
+    @Operation(summary = "设备服务调用", description = "设备服务调用",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = TslInvokeServiceRequest.class))),
             responses = {@ApiResponse(description = "已保存数据", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))})
     @Parameters({
             @Parameter(name = "domain", required = true, description = "可转换为实体的json数据")
     })
     @PutMapping("/invoke")
-    public Result<String> invokeService(@Validated @RequestBody TslInvokeServiceRequest domain, HttpServletRequest request) {
+    public Result<String> invoke(@Validated @RequestBody TslInvokeServiceRequest domain, HttpServletRequest request) {
         UserPrincipal userPrincipal = ServletSecurityUtils.getUserPrincipal(request);
-        tslServiceService.invoke(domain.getProductKey(), domain.getDeviceName(), domain.getIdentifier(), domain.getParams(), userPrincipal);
+        mqttTslServiceService.invoke(domain.getProductKey(), domain.getDeviceName(), domain.getIdentifier(), domain.getParams(), userPrincipal);
         return Result.success("设置设备属性操作成功");
     }
 }

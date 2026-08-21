@@ -25,11 +25,14 @@
 
 package cn.herodotus.thingsbrain.persistence.jpa.logic.entity;
 
+import cn.herodotus.thingsbrain.kernel.tsl.enums.ArgumentType;
 import cn.herodotus.thingsbrain.persistence.commons.constant.PersistenceConstants;
 import com.google.common.base.MoreObjects;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.UuidGenerator;
+
+import java.util.Objects;
 
 /**
  * <p>Description: 物联网物模型参数 Jpa 存储实体定义 </p>
@@ -41,15 +44,19 @@ import org.hibernate.annotations.UuidGenerator;
 @Table(name = "iot_tsl_argument", indexes = {@Index(name = "iot_tsl_argument_id_idx", columnList = "argument_id")})
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = PersistenceConstants.REGION_IOT_TSL_ARGUMENT)
-public class HerodotusTslArgument extends AbstractTslArgument {
+public class HerodotusTslArgument extends AbstractTslCharacteristic {
 
     @Id
     @UuidGenerator
     @Column(name = "argument_id", length = 64)
     private String argumentId;
 
-    @Column(name = "is_output")
-    private Boolean output = Boolean.TRUE;
+    @Column(name = "argument_type", length = 50)
+    @Enumerated(EnumType.STRING)
+    private ArgumentType type;
+
+    @Column(name = "argument_specs", columnDefinition = "TEXT")
+    private String specs;
 
     public String getArgumentId() {
         return argumentId;
@@ -59,20 +66,43 @@ public class HerodotusTslArgument extends AbstractTslArgument {
         this.argumentId = argumentId;
     }
 
-    public Boolean getOutput() {
-        return output;
+    public ArgumentType getType() {
+        return type;
     }
 
-    public void setOutput(Boolean output) {
-        this.output = output;
+    public void setType(ArgumentType type) {
+        this.type = type;
+    }
+
+    public String getSpecs() {
+        return specs;
+    }
+
+    public void setSpecs(String specs) {
+        this.specs = specs;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        HerodotusTslArgument argument = (HerodotusTslArgument) o;
+        return Objects.equals(argumentId, argument.argumentId) && Objects.equals(getProductId(), argument.getProductId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(argumentId, getProductId());
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .addValue(super.toString())
                 .add("argumentId", argumentId)
-                .add("output", output)
+                .add("type", type)
+                .add("specs", specs)
+                .addValue(super.toString())
                 .toString();
     }
 }

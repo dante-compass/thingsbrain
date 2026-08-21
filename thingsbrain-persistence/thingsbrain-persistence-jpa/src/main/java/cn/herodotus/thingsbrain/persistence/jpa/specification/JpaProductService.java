@@ -95,16 +95,16 @@ public class JpaProductService implements ProductService {
     }
 
     @Override
+    public List<Product> findAllByProductKey(String productKey) {
+        List<HerodotusProduct> domains = delegate.findAllByProductKey(productKey);
+        return domains.stream().map(toProduct::convert).toList();
+    }
+
+    @Override
     public Optional<Product> findByProductKey(String productKey) {
         Optional<HerodotusProduct> optional = delegate.findByProductKey(productKey);
         return optional
                 .map(this.toProduct::convert);
-    }
-
-    @Override
-    public List<Product> findAllByProductKey(String productKey) {
-        List<HerodotusProduct> domains = delegate.findAllByProductKey(productKey);
-        return domains.stream().map(toProduct::convert).toList();
     }
 
     @Override
@@ -120,7 +120,7 @@ public class JpaProductService implements ProductService {
     }
 
     @Override
-    public Optional<Specification> generate(String productKey) {
-        return herodotusProductManager.generateSpecification(productKey);
+    public Optional<Specification> generate(Product product) {
+        return herodotusProductManager.generate(product.getId(), product.getProductKey());
     }
 }

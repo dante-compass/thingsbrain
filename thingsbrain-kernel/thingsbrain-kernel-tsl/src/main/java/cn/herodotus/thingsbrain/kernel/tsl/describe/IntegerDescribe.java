@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.describe;
 
-import cn.herodotus.thingsbrain.kernel.commons.constant.SchemaConstants;
+import cn.herodotus.thingsbrain.kernel.tsl.constant.JsonSchemaConstants;
 import cn.herodotus.thingsbrain.kernel.tsl.definition.AbstractDigitalDescribe;
 
 /**
@@ -37,6 +37,6 @@ import cn.herodotus.thingsbrain.kernel.tsl.definition.AbstractDigitalDescribe;
 public class IntegerDescribe extends AbstractDigitalDescribe<Integer> {
 
     public IntegerDescribe() {
-        this.setType(SchemaConstants.SCHEMA_TYPE_INTEGER);
+        this.setType(JsonSchemaConstants.SCHEMA_TYPE_INTEGER);
     }
 }

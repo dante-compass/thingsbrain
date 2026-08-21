@@ -33,28 +33,16 @@ import com.google.common.base.MoreObjects;
  * @author : gengwei.zheng
  * @date : 2024/11/1 21:57
  */
-public abstract class AbstractRequest<T> extends AbstractLinkEntity {
+public abstract class AbstractRequest<T> extends AbstractLinkDomain {
 
     protected AbstractRequest() {
         super();
     }
 
     /**
-     * 操作方法
-     */
-    private String method;
-    /**
      * 请求参数
      */
     private T params;
-
-    public String getMethod() {
-        return method;
-    }
-
-    public void setMethod(String method) {
-        this.method = method;
-    }
 
     public T getParams() {
         return params;
@@ -67,7 +55,6 @@ public abstract class AbstractRequest<T> extends AbstractLinkEntity {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("method", method)
                 .add("params", params)
                 .addValue(super.toString())
                 .toString();

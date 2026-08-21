@@ -25,7 +25,12 @@
 
 package cn.herodotus.thingsbrain.kernel.link.definition.specification;
 
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>Description: Event 上报参数标准定义 </p>
@@ -56,5 +61,26 @@ import java.util.HashMap;
 public class EventParams extends HashMap<String, EventParamEntry> {
 
     public EventParams() {
+
+    }
+
+    public EventParams(String key, Map<String, Object> value) {
+        this.add(key, value);
+    }
+
+    public EventParams(String key, Map<String, Object> value, Long time) {
+        this.add(key, value, time);
+    }
+
+    public void add(String key, Map<String, Object> value) {
+        if (StringUtils.isNotBlank(key) && MapUtils.isNotEmpty(value)) {
+            this.put(key, new EventParamEntry(value));
+        }
+    }
+
+    public void add(String key, Map<String, Object> value, Long time) {
+        if (StringUtils.isNotBlank(key) && MapUtils.isNotEmpty(value) && ObjectUtils.isNotEmpty(time)) {
+            this.put(key, new EventParamEntry(value, time));
+        }
     }
 }

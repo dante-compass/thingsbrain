@@ -25,8 +25,8 @@
 
 package cn.herodotus.thingsbrain.link.storage.handler;
 
+import cn.herodotus.dante.core.constant.SystemConstants;
 import cn.herodotus.dante.core.utils.StringTemplateUtils;
-import cn.herodotus.thingsbrain.kernel.commons.constant.KernelConstants;
 import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import cn.herodotus.thingsbrain.kernel.link.domain.specification.*;
 import cn.herodotus.thingsbrain.link.commons.definition.DataStorageHandler;
@@ -61,15 +61,15 @@ public class InfluxDBColumnStorageHandler extends AbstractInfluxDB3Service imple
 
         InfluxDBClient client = this.getClient();
 
-        String measurement = StringTemplateUtils.replace(StorageConstants.INFLUXDB_MEASUREMENT_PROPERTY, Map.of(KernelConstants.KEY__PRODUCT_KEY, productKey));
+        String measurement = StringTemplateUtils.replace(StorageConstants.INFLUXDB_MEASUREMENT_PROPERTY, Map.of(SystemConstants.KEY__PRODUCT_KEY, productKey));
 
         List<Point> points = request
                 .entrySet()
                 .stream()
                 .map(entry -> Point
                         .measurement(measurement)
-                        .setTag(KernelConstants.KEY__PRODUCT_KEY, productKey)
-                        .setTag(KernelConstants.KEY__DEVICE_NAME, deviceName)
+                        .setTag(SystemConstants.KEY__PRODUCT_KEY, productKey)
+                        .setTag(SystemConstants.KEY__DEVICE_NAME, deviceName)
                         .setField(ProtocolConstants.VARIABLE__PROPERTY, entry.getKey())
                         .setField(ProtocolConstants.PARAMETER__VALUE, String.valueOf(entry.getValue().getValue()))
                         .setTimestamp(ObjectUtils.isNotEmpty(entry.getValue().getTime()) ? entry.getValue().getTime() : Instant.now().toEpochMilli(), WritePrecision.MS))
@@ -98,8 +98,8 @@ public class InfluxDBColumnStorageHandler extends AbstractInfluxDB3Service imple
                 .stream()
                 .map(entry -> Point
                         .measurement(measurement)
-                        .setTag(KernelConstants.KEY__PRODUCT_KEY, productKey)
-                        .setTag(KernelConstants.KEY__DEVICE_NAME, deviceName)
+                        .setTag(SystemConstants.KEY__PRODUCT_KEY, productKey)
+                        .setTag(SystemConstants.KEY__DEVICE_NAME, deviceName)
                         .setTag(ProtocolConstants.VARIABLE__IDENTIFIER, identifier)
                         .setField(ProtocolConstants.VARIABLE__PROPERTY, entry.getKey())
                         .setField(ProtocolConstants.PARAMETER__VALUE, String.valueOf(entry.getValue()))

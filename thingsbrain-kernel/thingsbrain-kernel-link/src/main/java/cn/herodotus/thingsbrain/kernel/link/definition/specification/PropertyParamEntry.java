@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.kernel.link.definition.specification;
 
 /**
- * <p>Description: Event 数据基础条目格式定义 </p>
+ * <p>Description: Property 数据基础条目格式定义 </p>
  * <p>
  * 对应格式：
  * <pre>
@@ -39,8 +39,17 @@ package cn.herodotus.thingsbrain.kernel.link.definition.specification;
  * @author : gengwei.zheng
  * @date : 2025/5/15 16:27
  */
-public class PropertyParamEntry extends Param<Object> {
+public class PropertyParamEntry extends ParamEntry<Object> {
 
     public PropertyParamEntry() {
+        super();
+    }
+
+    public PropertyParamEntry(Object value) {
+        super(value);
+    }
+
+    public PropertyParamEntry(Object value, Long time) {
+        super(value, time);
     }
 }

@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.persistence.commons.domain;
 
 import cn.herodotus.dante.data.commons.entity.AbstractSysEntity;
-import cn.herodotus.thingsbrain.kernel.commons.definition.domain.SubscribeTopic;
+import cn.herodotus.thingsbrain.kernel.commons.definition.SubscribeTopic;
 import cn.herodotus.thingsbrain.kernel.commons.enums.Qos;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Action;
 import cn.herodotus.thingsbrain.persistence.commons.enums.Permission;

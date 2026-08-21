@@ -25,13 +25,9 @@
 
 package cn.herodotus.thingsbrain.kernel.tsl.definition;
 
-import cn.herodotus.thingsbrain.kernel.tsl.domain.Argument;
 import cn.herodotus.thingsbrain.kernel.tsl.jackson2.SpecificationViews;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.google.common.base.MoreObjects;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * <p>Description: 物模型三个维度通用属性定义 </p>
@@ -45,21 +41,6 @@ public abstract class AbstractDimension extends AbstractArgument {
      */
     @JsonView(SpecificationViews.CompleteView.class)
     private Boolean required;
-    /**
-     * 描述
-     */
-    @JsonView(SpecificationViews.CompleteView.class)
-    private String desc;
-    /**
-     * 服务对应的方法名称（根据identifier生成）
-     */
-    @JsonView(SpecificationViews.CompleteView.class)
-    private String method;
-    /**
-     * 输出数据
-     */
-    @JsonView(SpecificationViews.SimpleView.class)
-    private List<Argument> outputData = new LinkedList<>();
 
     public Boolean getRequired() {
         return required;
@@ -69,37 +50,11 @@ public abstract class AbstractDimension extends AbstractArgument {
         this.required = required;
     }
 
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    public String getMethod() {
-        return method;
-    }
-
-    public void setMethod(String method) {
-        this.method = method;
-    }
-
-    public List<Argument> getOutputData() {
-        return outputData;
-    }
-
-    public void setOutputData(List<Argument> outputData) {
-        this.outputData = outputData;
-    }
-
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .addValue(super.toString())
                 .add("required", required)
-                .add("desc", desc)
-                .add("method", method)
                 .toString();
     }
 }

@@ -33,7 +33,6 @@ import cn.herodotus.thingsbrain.persistence.jpa.converter.HerodotusProductToAuth
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusProduct;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.entity.HerodotusTslFunction;
 import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusProductService;
-import cn.herodotus.thingsbrain.persistence.jpa.logic.service.HerodotusTslFunctionService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,13 +55,13 @@ public class HerodotusProductManager {
     private static final Logger log = LoggerFactory.getLogger(HerodotusProductManager.class);
 
     private final HerodotusProductService herodotusProductService;
-    private final HerodotusTslFunctionService herodotusTslFunctionService;
+    private final HerodotusTslFunctionManager herodotusTslFunctionManager;
     private final AuthenticationManager authenticationManager;
     private final Converter<HerodotusProduct, RegisteredClientTransmitter> toAuthentication;
 
-    public HerodotusProductManager(HerodotusProductService herodotusProductService, HerodotusTslFunctionService herodotusTslFunctionService, AuthenticationManager authenticationManager) {
+    public HerodotusProductManager(HerodotusProductService herodotusProductService, HerodotusTslFunctionManager herodotusTslFunctionManager, AuthenticationManager authenticationManager) {
         this.herodotusProductService = herodotusProductService;
-        this.herodotusTslFunctionService = herodotusTslFunctionService;
+        this.herodotusTslFunctionManager = herodotusTslFunctionManager;
         this.authenticationManager = authenticationManager;
         this.toAuthentication = new HerodotusProductToAuthenticationConverter();
     }
@@ -122,11 +121,12 @@ public class HerodotusProductManager {
     public void deleteById(String id) {
         authenticationManager.disable(id);
         herodotusProductService.deleteById(id);
+        herodotusTslFunctionManager.deleteAllByProductId(id);
     }
 
-    public Optional<Specification> generateSpecification(String productKey) {
+    public Optional<Specification> generate(String productId, String productKey) {
         Converter<List<HerodotusTslFunction>, Specification> toSpecification = new FunctionsToSpecificationConverter(productKey);
-        List<HerodotusTslFunction> functions = herodotusTslFunctionService.findAllByProductKey(productKey);
+        List<HerodotusTslFunction> functions = herodotusTslFunctionManager.findAllByProductId(productId);
         return Optional.ofNullable(functions)
                 .filter(CollectionUtils::isNotEmpty)
                 .map(toSpecification::convert);

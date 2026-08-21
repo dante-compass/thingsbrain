@@ -56,4 +56,8 @@ import cn.herodotus.thingsbrain.kernel.link.definition.specification.PropertyPar
  * @date : 2024/11/1 22:16
  */
 public class EventPropertyPost extends PropertyParams {
+
+    public EventPropertyPost() {
+        super();
+    }
 }

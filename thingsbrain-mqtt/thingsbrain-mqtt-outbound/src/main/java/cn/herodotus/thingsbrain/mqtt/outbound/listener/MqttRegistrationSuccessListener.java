@@ -26,7 +26,7 @@
 package cn.herodotus.thingsbrain.mqtt.outbound.listener;
 
 import cn.herodotus.thingsbrain.kernel.commons.enums.AuthType;
-import cn.herodotus.thingsbrain.kernel.commons.event.MqttRegistrationResponseEvent;
+import cn.herodotus.thingsbrain.link.commons.event.MqttRegistrationResponseEvent;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

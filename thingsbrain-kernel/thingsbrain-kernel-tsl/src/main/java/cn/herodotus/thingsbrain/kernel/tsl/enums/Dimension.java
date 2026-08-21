@@ -28,6 +28,7 @@ package cn.herodotus.thingsbrain.kernel.tsl.enums;
 import cn.herodotus.dante.core.domain.Dictionary;
 import cn.herodotus.dante.core.domain.DictionaryEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,12 +47,12 @@ public enum Dimension implements DictionaryEnum {
     SERVICE("services", "服务"),
     EVENT("events", "事件");
 
-    private static final Map<Integer, Dimension> INDEX_MAP = new HashMap<>();
+    private static final Map<String, Dimension> INDEX_MAP = new HashMap<>();
     private static final List<Dictionary> DICTIONARIES = new ArrayList<>();
 
     static {
         for (Dimension dimension : Dimension.values()) {
-            INDEX_MAP.put(dimension.ordinal(), dimension);
+            INDEX_MAP.put(dimension.getValue(), dimension);
             DICTIONARIES.add(dimension.getDictionary(dimension.name(), dimension.ordinal()));
         }
     }
@@ -66,12 +67,19 @@ public enum Dimension implements DictionaryEnum {
         this.label = label;
     }
 
-    public static Dimension get(Integer index) {
+    public static Dimension get(String index) {
         return INDEX_MAP.get(index);
     }
 
     public static List<Dictionary> getDictionaries() {
         return DICTIONARIES;
+    }
+
+    public static Dimension parse(String index) {
+        if (StringUtils.isNotBlank(index)) {
+            return Dimension.get(index);
+        }
+        return null;
     }
 
     @Override

@@ -50,4 +50,8 @@ public class HerodotusTslArgumentService extends AbstractJpaService<HerodotusTsl
     public BaseJpaRepository<HerodotusTslArgument, String> getRepository() {
         return herodotusTslArgumentRepository;
     }
+
+    public void deleteAllByProductId(String productId) {
+        herodotusTslArgumentRepository.deleteAllByProductId(productId);
+    }
 }

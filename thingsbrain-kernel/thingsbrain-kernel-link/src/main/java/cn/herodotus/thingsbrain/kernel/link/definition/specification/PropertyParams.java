@@ -25,6 +25,9 @@
 
 package cn.herodotus.thingsbrain.kernel.link.definition.specification;
 
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.HashMap;
 
 /**
@@ -50,5 +53,25 @@ import java.util.HashMap;
 public class PropertyParams extends HashMap<String, PropertyParamEntry> {
 
     public PropertyParams() {
+    }
+
+    public PropertyParams(String property, Object value) {
+        this.add(property, value);
+    }
+
+    public PropertyParams(String property, Object value, Long time) {
+        this.add(property, value, time);
+    }
+
+    public void add(String property, Object value) {
+        if (StringUtils.isNotBlank(property) && ObjectUtils.isNotEmpty(value)) {
+            this.put(property, new PropertyParamEntry(value));
+        }
+    }
+
+    public void add(String property, Object value, Long time) {
+        if (StringUtils.isNotBlank(property) && ObjectUtils.isNotEmpty(value) && ObjectUtils.isNotEmpty(time)) {
+            this.put(property, new PropertyParamEntry(value, time));
+        }
     }
 }

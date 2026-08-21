@@ -27,14 +27,14 @@ package cn.herodotus.thingsbrain.mqtt.inbound.dispatcher;
 
 import cn.herodotus.dante.core.jackson.JacksonUtils;
 import cn.herodotus.thingsbrain.kernel.commons.constant.MethodConstants;
+import cn.herodotus.thingsbrain.kernel.commons.constant.ProtocolConstants;
 import cn.herodotus.thingsbrain.kernel.commons.domain.CompleteIdentifier;
-import cn.herodotus.thingsbrain.kernel.commons.domain.MqttTopic;
-import cn.herodotus.thingsbrain.kernel.commons.domain.Shadow;
 import cn.herodotus.thingsbrain.kernel.link.domain.shadow.ShadowRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.shadow.ShadowResponse;
 import cn.herodotus.thingsbrain.link.commons.definition.DeviceShadowManager;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.dispatcher.InboundMessageDispatcher;
 import cn.herodotus.thingsbrain.persistence.commons.domain.DeviceShadow;
 import org.apache.commons.collections4.MapUtils;
@@ -54,7 +54,7 @@ import java.util.function.Function;
  */
 public class InboundShadowMessageDispatcher implements InboundMessageDispatcher {
 
-    private static final List<String> SUPPORTED_METHOD = List.of(MethodConstants.METHOD__SHADOW__UPDATE, MethodConstants.METHOD__SHADOW__DELETE, MethodConstants.METHOD__SHADOW__GET);
+    private static final List<String> SUPPORTED_METHOD = List.of(MethodConstants.METHOD__SHADOW_UPDATE, MethodConstants.METHOD__SHADOW_DELETE, MethodConstants.METHOD__SHADOW_GET);
     private static final String SHADOW_UPDATE_TOPIC_TEMPLATE = "shadow/update/${productKey}/${deviceName}";
     private static final String SHADOW_GET_TOPIC_TEMPLATE = "shadow/get/${productKey}/${deviceName}";
 
@@ -71,60 +71,82 @@ public class InboundShadowMessageDispatcher implements InboundMessageDispatcher 
     @Override
     public void process(MqttMessageDetails details) {
 
-        ShadowRequest request = JacksonUtils.toObject(details.getPayload(), ShadowRequest.class);
-        ShadowResponse response = verification(request);
-
+        // 从 Topic 中获取必要参数。
         CompleteIdentifier completeIdentifier = CompleteIdentifier.of(SHADOW_MQTT_TOPIC.getTemplate(), details.getTopic()).build();
 
+        // 解析请求数据
+        ShadowRequest request = JacksonUtils.toObject(details.getPayload(), ShadowRequest.class);
+        // 校验请求数据。
+        ShadowResponse response = verification(request);
+
+        // 如果校验通过 response 返回 null，就继续进行逻辑处理，反之则直接发送错误 response 信息
         if (ObjectUtils.isEmpty(response)) {
+            // 进行业务处理。对于需要有 response 的业务，则返回 response。
             response = process(request.getMethod(), completeIdentifier.getProductKey(), completeIdentifier.getDeviceName(), request);
         }
 
-        mqttOutboundMessagePublisher.publish(SHADOW_MQTT_TOPIC.getReplyTopic(completeIdentifier.getProductKey(), completeIdentifier.getDeviceName()), JacksonUtils.toJson(response));
+        // 如果 response 不为 null，则发送 response 信息给设备。
+        if (ObjectUtils.isNotEmpty(response)) {
+            mqttOutboundMessagePublisher.publish(SHADOW_MQTT_TOPIC.getReplyTopic(completeIdentifier.getProductKey(), completeIdentifier.getDeviceName()), JacksonUtils.toJson(response));
+        }
     }
 
     private ShadowResponse process(String method, String productKey, String deviceName, ShadowRequest request) {
         return switch (method) {
-            case MethodConstants.METHOD__SHADOW__GET -> get(productKey, deviceName);
-            case MethodConstants.METHOD__SHADOW__DELETE ->
-                    modify(shadowManager -> shadowManager.delete(productKey, deviceName, request.getState(), request.getVersion()));
-            default ->
-                    modify(shadowManager -> shadowManager.update(productKey, deviceName, request.getState(), request.getVersion()));
+            case MethodConstants.METHOD__SHADOW_GET -> get(productKey, deviceName);
+            case MethodConstants.METHOD__SHADOW_DELETE ->
+                    update(manager -> manager.delete(productKey, deviceName, request));
+            default -> update(manager -> manager.update(productKey, deviceName, request));
         };
     }
 
     private ShadowResponse get(String productKey, String deviceName) {
-        Optional<Shadow> optional = deviceShadowManager.get(productKey, deviceName);
-        return optional.map(ShadowResponse::success).orElse(ShadowResponse.failure());
+        return deviceShadowManager
+                .get(productKey, deviceName)
+                .map(ShadowResponse::reply)
+                .orElse(ShadowResponse.error());
     }
 
-    private ShadowResponse modify(Function<DeviceShadowManager, Optional<DeviceShadow>> function) {
-        Optional<DeviceShadow> optional = function.apply(deviceShadowManager);
-        return optional.map(deviceShadow -> ShadowResponse.success(deviceShadow.getVersion()))
-                .orElse(ShadowResponse.failure());
+    private ShadowResponse update(Function<DeviceShadowManager, Optional<DeviceShadow>> function) {
+        return function.apply(deviceShadowManager)
+                .map(deviceShadow -> ShadowResponse.reply(deviceShadow.getVersion()))
+                .orElse(ShadowResponse.error("409", "影子版本冲突"));
     }
 
+    /**
+     * 校验请求数据
+     *
+     * @param request 设备影子请求数据 {@link ShadowRequest}
+     * @return null 表示校验通过；{@link ShadowResponse} 请求数据校验出现错误
+     */
     private ShadowResponse verification(ShadowRequest request) {
 
         if (ObjectUtils.isEmpty(request)) {
-            return ShadowResponse.failure("400", "不正确的JSON格式");
+            return ShadowResponse.error("400", "不正确的 JSON 格式");
         }
 
         if (StringUtils.isBlank(request.getMethod())) {
-            return ShadowResponse.failure("401", "影子数据缺少 method 信息");
+            return ShadowResponse.error("401", "影子数据缺少 method 信息");
         }
 
         if (!SUPPORTED_METHOD.contains(request.getMethod())) {
-            return ShadowResponse.failure("406", "影子数据中 method是无效的方法");
+            return ShadowResponse.error("406", "影子数据中 method 是无效的方法");
         }
 
-        if (!Strings.CS.equals(request.getMethod(), MethodConstants.METHOD__SHADOW__GET)) {
-            if (ObjectUtils.isEmpty(request.getState())) {
-                return ShadowResponse.failure("402", "影子数据缺少 state 信息");
+        if (MapUtils.isNotEmpty(request.getState())) {
+            if (!request.getState().containsKey(ProtocolConstants.PARAMETER__REPORTED)) {
+                return ShadowResponse.error("404", "影子数据缺少 reported 字段");
+            } else {
+                Object reported = request.getState().get(ProtocolConstants.PARAMETER__REPORTED);
+                if (ObjectUtils.isEmpty(reported)) {
+                    return ShadowResponse.error("405", "影子数据中 reported 属性字段为空");
+                }
             }
-
-            if (MapUtils.isEmpty(request.getState().getReported())) {
-                return ShadowResponse.failure("405", "影子数据中 reported属性字段为空");
+        } else {
+            if (!Strings.CS.equals(request.getMethod(), MethodConstants.METHOD__SHADOW_GET)) {
+                if (ObjectUtils.isEmpty(request.getState())) {
+                    return ShadowResponse.error("407", "影子内容为空");
+                }
             }
         }
 

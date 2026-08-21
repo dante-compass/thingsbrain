@@ -26,11 +26,11 @@
 package cn.herodotus.thingsbrain.platform.authentication.mqtt;
 
 import cn.herodotus.dante.core.utils.SignatureUtils;
+import cn.herodotus.thingsbrain.kernel.commons.definition.MqttSignatureGenerator;
+import cn.herodotus.thingsbrain.kernel.commons.domain.MqttClientIdFactory;
+import cn.herodotus.thingsbrain.kernel.commons.domain.SignatureGenerationResult;
 import cn.herodotus.thingsbrain.kernel.commons.utils.DataFormatUtils;
 import cn.herodotus.thingsbrain.platform.authentication.utils.MqttSignatureContentUtils;
-import cn.herodotus.thingsbrain.platform.commons.definition.MqttSignatureGenerator;
-import cn.herodotus.thingsbrain.platform.commons.domain.MqttClientIdFactory;
-import cn.herodotus.thingsbrain.platform.commons.domain.SignatureGenerationResult;
 
 import java.util.Map;
 

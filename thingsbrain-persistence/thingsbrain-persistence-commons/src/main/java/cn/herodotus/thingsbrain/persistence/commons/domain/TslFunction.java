@@ -32,9 +32,6 @@ import cn.herodotus.thingsbrain.kernel.tsl.enums.EventType;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * <p>Description: 物联网物模型功能统一实体定义 </p>
  *
@@ -42,7 +39,7 @@ import java.util.Set;
  * @date : 2025/4/4 16:04
  */
 @Schema(name = "物联网物模型功能统一实体定义")
-public class TslFunction extends AbstractTslArgument {
+public class TslFunction extends AbstractTslEntity {
 
     @Schema(name = "功能Id")
     private String id;
@@ -65,20 +62,14 @@ public class TslFunction extends AbstractTslArgument {
     @Schema(name = "服务调用类型", description = "只有物模型 services 需要该属性")
     private CallType callType;
 
-    @Schema(name = "是否是标准功能的必选")
-    private Boolean required = Boolean.FALSE;
-
-    @Schema(name = "关联ID", title = "关联属性读写对应的 Event 和 Service", description = "添加属性会根据AccessMode生成对应的 Event 和 Service")
-    private String correlationId;
-
-    @Schema(name = "方法")
+    @Schema(name = "方法", title = "对于默认的 Event 和 Service 可以预存 method 方便使用")
     private String method;
 
     @Schema(name = "描述")
     private String description;
 
     @Schema(name = "功能参数")
-    private Set<TslArgument> arguments = new HashSet<>();
+    private TslFunctionArgument arguments;
 
     public String getId() {
         return id;
@@ -136,22 +127,6 @@ public class TslFunction extends AbstractTslArgument {
         this.callType = callType;
     }
 
-    public Boolean getRequired() {
-        return required;
-    }
-
-    public void setRequired(Boolean required) {
-        this.required = required;
-    }
-
-    public String getCorrelationId() {
-        return correlationId;
-    }
-
-    public void setCorrelationId(String correlationId) {
-        this.correlationId = correlationId;
-    }
-
     public String getMethod() {
         return method;
     }
@@ -168,11 +143,11 @@ public class TslFunction extends AbstractTslArgument {
         this.description = description;
     }
 
-    public Set<TslArgument> getArguments() {
+    public TslFunctionArgument getArguments() {
         return arguments;
     }
 
-    public void setArguments(Set<TslArgument> arguments) {
+    public void setArguments(TslFunctionArgument arguments) {
         this.arguments = arguments;
     }
 
@@ -186,10 +161,9 @@ public class TslFunction extends AbstractTslArgument {
                 .add("accessMode", accessMode)
                 .add("eventType", eventType)
                 .add("callType", callType)
-                .add("required", required)
-                .add("correlationId", correlationId)
                 .add("method", method)
                 .add("description", description)
+                .add("arguments", arguments)
                 .toString();
     }
 }
