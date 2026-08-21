@@ -52,7 +52,7 @@ public class RemoteOAuth2ClientRegistrationSuccessListener extends AbstractOAuth
     public void onApplicationEvent(RemoteOAuth2ClientRegistrationSuccessEvent event) {
         String data = event.getData();
 
-        log.info("[ThingsBrain] |- Oidc client registration REMOTE listener, response event!");
+        log.info("[ThingsBrain] |- OAuth2 client registration REMOTE listener, response event!");
 
         RegisteredClientTransmitter authentication = JacksonUtils.toObject(data, RegisteredClientTransmitter.class);
 

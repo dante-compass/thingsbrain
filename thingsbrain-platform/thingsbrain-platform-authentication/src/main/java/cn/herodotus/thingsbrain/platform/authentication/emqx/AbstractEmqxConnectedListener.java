@@ -26,10 +26,10 @@
 package cn.herodotus.thingsbrain.platform.authentication.emqx;
 
 import cn.herodotus.dante.message.emqx.definition.domain.AbstractEmqxDomain;
+import cn.herodotus.thingsbrain.kernel.commons.domain.MqttClientIdFactory;
 import cn.herodotus.thingsbrain.persistence.commons.domain.DeviceConnection;
 import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import cn.herodotus.thingsbrain.platform.authentication.mqtt.MqttIdentificationHandler;
-import cn.herodotus.thingsbrain.kernel.commons.domain.MqttClientIdFactory;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
