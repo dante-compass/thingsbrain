@@ -126,9 +126,9 @@ public class MqttAutoConfiguration {
     }
 
     @Bean
-    public MqttOutboundMessagePublisher mqttOutboundMessagePublisher() {
+    public MqttOutboundMessagePublisher mqttMessagePublisher() {
         DefaultMqttOutboundMessagePublisher mqttMessageManager = new DefaultMqttOutboundMessagePublisher();
-        log.trace("[ThingsBrain] |- Bean [Mqtt Outbound Message Manager] Configure.");
+        log.trace("[ThingsBrain] |- Bean [Default Mqtt Message Manager] Configure.");
         return mqttMessageManager;
     }
 }

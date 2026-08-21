@@ -60,7 +60,7 @@ public class SchemaValidator {
 
     private JsonNode createSchemaNode(Schema<Argument> describe) {
         JsonNode jsonNode = objectMapper.valueToTree(describe);
-        log.debug("[ThingsMesh] |- Schema is : [{}]", jsonNode.toString());
+        log.debug("[ThingsBrain] |- Schema is : [{}]", jsonNode.toString());
         return jsonNode;
     }
 

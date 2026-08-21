@@ -123,9 +123,9 @@ ThingsBrain 项目开源协议为 Apache License Version 2.0。可用于个人�
 
 ```shell
 thingsbrain
-├── thingsbrain-application -- ThingsMesh 应用相关模块分组
-├    ├── herodotus-cloud-iot-ability -- ThingsMesh 服务模块(微服务版)
-├    └── thingsbrain-monolith-application -- ThingsMesh 物联网平台应用(单体版)
+├── thingsbrain-application -- ThingsBrain 应用相关模块分组
+├    ├── herodotus-cloud-iot-ability -- ThingsBrain 服务模块(微服务版)
+├    └── thingsbrain-monolith-application -- ThingsBrain 物联网平台应用(单体版)
 ├── thingsbrain-dependencies -- ThingsBrain Bom 定义, 统一管理工程模块
 ├── thingsbrain-kernel -- ThingsBrain 核心定义相关模块分组
 ├    ├── thingsbrain-kernel-commons -- 核心定义通用代码模块
