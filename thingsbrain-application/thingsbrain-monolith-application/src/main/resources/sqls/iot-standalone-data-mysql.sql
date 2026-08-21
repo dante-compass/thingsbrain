@@ -1,29 +1,4 @@
 /*
- * Copyright 2020-2030 码匠君<herodotus@aliyun.com>
- *
- * Dante Cloud licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * Dante Cloud 采用 APACHE LICENSE 2.0 开源协议，您在使用过程中，需要注意以下几点：
- *
- * 1. 请不要删除和修改根目录下的LICENSE文件。
- * 2. 请不要删除和修改 Dante Cloud 源码头部的版权声明。
- * 3. 请保留源码和相关描述文件的项目出处，作者声明等。
- * 4. 分发源码时候，请注明软件出处 <https://gitee.com/dromara/dante-cloud>
- * 5. 在修改包名，模块名称，项目代码等时，请注明软件出处 <https://gitee.com/dromara/dante-cloud>
- * 6. 若您的项目无法满足以上几点，可申请商业授权
- */
-
-/*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
  * Copyright (c) 2020-2030 郑庚伟 ZHENGGENGWEI (码匠君), <herodotus@aliyun.com> Licensed under the AGPL License
@@ -239,11 +214,6 @@ INSERT INTO `iot_product_category` (`category_id`, `create_time`, `update_time`,
 INSERT INTO `iot_product` (`product_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `authentication`, `protocol`, `networking`, `node`, `photo_url`, `product_key`, `product_name`, `productsecret`, `quantity`, `registration`, `is_release`, `verification`, `category_id`) VALUES ('8452271e-e42e-4a59-af80-3ea3c83247ea', '2025-04-28 21:20:27.432', '2025-04-28 21:20:27.432', 'system', 0, 'system', NULL, 1, b'1', 0, NULL, NULL, 2, 0, NULL, 'apktestadd', '测试物联网产品', '9f3026f4beddf8d29f3026f4beddf8d2', 0, b'0', b'0', b'0', '2bfa5467-b9f5-46dd-acec-f05aaaa00522');
 
 -- ----------------------------
--- Table data for iot_device
--- ----------------------------
-INSERT INTO `iot_device` (`device_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `is_activated`, `client_id`, `device_name`, `device_secret`, `redirect_uris`, `connection_id`, `shadow_id`, `product_id`) VALUES ('7d7c144f-78d6-4653-a2bd-5ccbfbb4edf1', '2026-08-17 21:05:21.420827', '2026-08-17 21:05:43.982959', 'apktestadd', 0, 'apktestadd', NULL, 0, b'0', 0, b'1', '9527', 'aaaaaa', 'yTG_etXVcb0kYThhhKynHRJPtpRwmda1i8KJjppxFl8oKiDhk1I956CAAF06-1_o', '', 'b35ad272-f700-4a38-9ac1-d37bc8a4c0bb', '7110435a-f9e4-4849-8628-d70edc5653f8', '8452271e-e42e-4a59-af80-3ea3c83247ea');
-
--- ----------------------------
 -- Table data for iot_device_connection
 -- ----------------------------
 INSERT INTO `iot_device_connection` (`connection_id`, `clean_start`, `client_id`, `is_connected`, `connected_at`, `device_name`, `disconnected_at`, `expiry_interval`, `ip_address`, `keep_alive`, `product_key`, `protocol_name`, `protocol_version`, `reason`, `sock_port`, `username`) VALUES ('b35ad272-f700-4a38-9ac1-d37bc8a4c0bb', b'1', '9527', b'1', '2026-08-17 21:05:43.915', 'aaaaaa', NULL, 0, '172.18.0.1', 60, 'apktestadd', 'MQTT', 5, NULL, 1883, 'aaaaaa&apktestadd');
@@ -254,9 +224,14 @@ INSERT INTO `iot_device_connection` (`connection_id`, `clean_start`, `client_id`
 INSERT INTO `iot_device_shadow` (`shadow_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `content`, `device_name`, `product_key`, `version`) VALUES ('7110435a-f9e4-4849-8628-d70edc5653f8', '2026-08-17 21:05:43.921476', '2026-08-17 21:05:43.921476', NULL, 0, NULL, '{"metadata":{},"state":{},"timestamp":null,"version":0}', 'aaaaaa', 'apktestadd', 0);
 
 -- ----------------------------
+-- Table data for iot_device
+-- ----------------------------
+INSERT INTO `iot_device` (`device_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `is_activated`, `client_id`, `device_name`, `device_secret`, `redirect_uris`, `connection_id`, `shadow_id`, `product_id`) VALUES ('7d7c144f-78d6-4653-a2bd-5ccbfbb4edf1', '2026-08-17 21:05:21.420827', '2026-08-17 21:05:43.982959', 'apktestadd', 0, 'apktestadd', NULL, 0, b'0', 0, b'1', '9527', 'aaaaaa', 'yTG_etXVcb0kYThhhKynHRJPtpRwmda1i8KJjppxFl8oKiDhk1I956CAAF06-1_o', '', 'b35ad272-f700-4a38-9ac1-d37bc8a4c0bb', '7110435a-f9e4-4849-8628-d70edc5653f8', '8452271e-e42e-4a59-af80-3ea3c83247ea');
+
+-- ----------------------------
 -- Table data for iot_mqtt_account
 -- ----------------------------
-INSERT INTO `iot_mqtt_account` (`account_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `client_id`, `password`, `is_superuser`, `username`) VALUES ('thingsmesh-platform', '2025-10-07 22:42:29', '2025-10-07 22:42:32', 'system', 0, 'system', '物联网平台链接Mqtt默认账号', 0, b'1', 0, 'thingsmesh-platform', '{bcrypt}$2a$10$/XF002c2EuL0NyaEZ8a0be8S2IxKjFDd8f1ryY6wHpRMuXCiF2x7K', b'1', 'herodotus');
+INSERT INTO `iot_mqtt_account` (`account_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `client_id`, `password`, `is_superuser`, `username`) VALUES ('thingsbrain-platform', '2025-10-07 22:42:29', '2025-10-07 22:42:32', 'system', 0, 'system', '物联网平台链接Mqtt默认账号', 0, b'1', 0, 'thingsbrain-platform', '{bcrypt}$2a$10$/XF002c2EuL0NyaEZ8a0be8S2IxKjFDd8f1ryY6wHpRMuXCiF2x7K', b'1', 'herodotus');
 INSERT INTO `iot_mqtt_account` (`account_id`, `create_time`, `update_time`, `create_by`, `reversion`, `update_by`, `description`, `ranking`, `is_reserved`, `status`, `client_id`, `password`, `is_superuser`, `username`) VALUES ('7d7c144f-78d6-4653-a2bd-5ccbfbb4edf1', '2026-08-17 21:05:21.506958', '2026-08-17 21:05:43.982959', NULL, 0, NULL, NULL, 0, b'0', 0, '9527', '{bcrypt}$2a$10$EHprAqS8sjoh3/g8.GYvW.mWHLWOc5osgW1KWUghccVaYGKiRWvkq', b'0', 'aaaaaa&apktestadd');
 
 -- ----------------------------
@@ -271,9 +246,9 @@ INSERT INTO `iot_mqtt_category` (`category_id`, `create_time`, `update_time`, `c
 -- ----------------------------
 -- Table data for iot_mqtt_category
 -- ----------------------------
-INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('thingsmesh-platform', '1');
-INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('thingsmesh-platform', '2');
-INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('thingsmesh-platform', '5');
+INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('thingsbrain-platform', '1');
+INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('thingsbrain-platform', '2');
+INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('thingsbrain-platform', '5');
 INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('7d7c144f-78d6-4653-a2bd-5ccbfbb4edf1', '4');
 INSERT INTO `iot_mqtt_account_category` (`account_id`, `category_id`) VALUES ('7d7c144f-78d6-4653-a2bd-5ccbfbb4edf1', '3');
 

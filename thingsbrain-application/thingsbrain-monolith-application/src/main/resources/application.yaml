@@ -51,13 +51,13 @@ spring:
             alias: dante-cloud-sas
             password: 123456
           keystore:
-            location: classpath:certificate/dante-cloud-sas_keystore.jks
+            location: classpath:certificate/dante-cloud-sas_keystore.p12
             password: 123456
-            type: JKS
+            type: PKCS12
           truststore:
-            location: classpath:certificate/dante-cloud-sas_truststore.jks
+            location: classpath:certificate/dante-cloud-sas_truststore.p12
             password: 123456
-            type: JKS
+            type: PKCS12
 herodotus:
   oauth2:
     authentication:
@@ -275,7 +275,6 @@ herodotus:
     authorization:
       matcher:
         permit-all:
-          - /security/social/binding/list
           - /oauth2/device_activation
           - /emqx/webhook
   assistant:
@@ -314,9 +313,9 @@ herodotus:
       password: herodotus
       client-id: thingsbrain-platform
   nosql:
-    influxdb2:
-      url: http://192.168.101.10:8086
-      token: kGTzf2ey86guP0mkwF5s7tfRFdtGyVYcG-QVbTQyP8zmQLigb1i6guHbQ2DGB9Wbadu93b4151NJjKt0vWXQfQ==
+    influxdb3:
+      host: http://192.168.101.10:8181
+      token: apiv3_Ye1Vq8ToRa9xVgbf4F32JTdBM2B-EW2_EyR_YKA7HD8gwU6FE3e_H1LGTNAv15orAsghnEmUzSuYZHNJqbGWuw
 
 logging:
   file:
