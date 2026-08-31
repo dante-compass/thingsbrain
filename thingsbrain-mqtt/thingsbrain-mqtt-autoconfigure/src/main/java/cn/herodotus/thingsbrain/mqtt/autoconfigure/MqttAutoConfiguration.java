@@ -28,7 +28,7 @@ package cn.herodotus.thingsbrain.mqtt.autoconfigure;
 import cn.herodotus.dante.core.utils.ListUtils;
 import cn.herodotus.dante.message.autoconfigure.emqx.IntegrationEmqxAutoConfiguration;
 import cn.herodotus.dante.message.autoconfigure.mqtt.MqttProperties;
-import cn.herodotus.dante.message.commons.constant.Channels;
+import cn.herodotus.dante.messaging.constant.Channels;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttInboundMessageHandler;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttSubscribeTopicAppenderListener;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttTopicProperties;
