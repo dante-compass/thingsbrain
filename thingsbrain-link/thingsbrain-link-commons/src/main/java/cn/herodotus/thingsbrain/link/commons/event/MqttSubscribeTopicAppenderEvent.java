@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.link.commons.event;
 
-import cn.herodotus.dante.spring.event.AbstractApplicationEvent;
+import cn.herodotus.dante.messaging.definition.event.AbstractApplicationEvent;
 import cn.herodotus.thingsbrain.kernel.commons.definition.SubscribeTopic;
 
 import java.time.Clock;
