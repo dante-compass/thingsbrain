@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.mqtt.inbound.config;
 
-import cn.herodotus.dante.messaging.definition.strategy.MessageSendingEventManager;
+import cn.herodotus.dante.messaging.strategy.MessageSendingEventManager;
 import cn.herodotus.thingsbrain.link.commons.definition.DeviceShadowManager;
 import cn.herodotus.thingsbrain.mqtt.commons.definition.MqttOutboundMessagePublisher;
 import cn.herodotus.thingsbrain.mqtt.inbound.definition.handler.InboundExtMessageHandler;
