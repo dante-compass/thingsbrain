@@ -25,11 +25,13 @@
 
 package cn.herodotus.thingsbrain.platform.authentication.oauth2;
 
+import cn.herodotus.dante.security.domain.OAuth2ClientType;
 import cn.herodotus.dante.security.domain.RegisteredClientTransmitter;
 import cn.herodotus.thingsbrain.persistence.commons.domain.Device;
 import cn.herodotus.thingsbrain.persistence.commons.domain.Product;
 import cn.herodotus.thingsbrain.persistence.commons.manager.IdentifierManager;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
@@ -60,7 +62,8 @@ abstract class AbstractOAuth2ClientRegistrationSuccessListener {
         log.debug("[ThingsBrain] |- [OAUTH2-CLIENT-REGISTRATION] OAuth2 client registration process BEGIN!");
 
         Optional.ofNullable(registeredClientTransmitter)
-                .filter(transmitter -> StringUtils.isNotBlank(transmitter.getParentClientId()))
+                // 判断 clientType 是否为 iot。如果不是 iot ，则不是物联网设备的动态注册，就不进行设备信息的同步操作
+                .filter(transmitter -> StringUtils.isNoneBlank(transmitter.getParentClientId(), transmitter.getClientType()) && Strings.CI.equals(transmitter.getClientType(), OAuth2ClientType.IOT.getValue()))
                 .map(RegisteredClientTransmitter::getParentClientId)
                 .flatMap(identifierManager::findProductByProductKey)
                 .map(product -> toDevice(registeredClientTransmitter, product))

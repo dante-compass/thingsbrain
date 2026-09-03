@@ -61,8 +61,15 @@ public class OAuth2ClientRegistration implements Serializable {
      * <p>
      * 如果不指定，平台默认使用 Opaque Token
      */
-    @JsonProperty(SystemConstants.TOKEN_FORMAT)
+    @JsonProperty(SystemConstants.PARAMETER__TOKEN_FORMAT)
     private String tokenFormat;
+
+    /**
+     * 指定客户端动态注册
+     */
+    @JsonProperty(SystemConstants.PARAMETER__APPLICATION_TYPE)
+    private String applicationType;
+
     /**
      * 客户端ID。
      * <p>
@@ -186,6 +193,14 @@ public class OAuth2ClientRegistration implements Serializable {
         this.tokenFormat = tokenFormat;
     }
 
+    public String getApplicationType() {
+        return applicationType;
+    }
+
+    public void setApplicationType(String applicationType) {
+        this.applicationType = applicationType;
+    }
+
     public String getClientId() {
         return clientId;
     }
@@ -279,6 +294,7 @@ public class OAuth2ClientRegistration implements Serializable {
         return MoreObjects.toStringHelper(this)
                 .add("productKey", productKey)
                 .add("tokenFormat", tokenFormat)
+                .add("applicationType", applicationType)
                 .add("clientId", clientId)
                 .add("clientIdIssuedAt", clientIdIssuedAt)
                 .add("clientSecret", clientSecret)

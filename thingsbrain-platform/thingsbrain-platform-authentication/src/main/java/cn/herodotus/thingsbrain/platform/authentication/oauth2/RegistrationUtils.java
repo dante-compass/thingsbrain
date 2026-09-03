@@ -25,6 +25,7 @@
 
 package cn.herodotus.thingsbrain.platform.authentication.oauth2;
 
+import cn.herodotus.dante.security.domain.OAuth2ClientType;
 import cn.herodotus.thingsbrain.platform.authentication.domain.OAuth2ClientRegistration;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
@@ -42,6 +43,7 @@ public class RegistrationUtils {
     public static OAuth2ClientRegistration create(String clientId, String productKey, String deviceName) {
         OAuth2ClientRegistration registration = new OAuth2ClientRegistration();
         registration.setProductKey(productKey);
+        registration.setApplicationType(OAuth2ClientType.IOT.getValue());
         registration.setGrantTypes(List.of(AuthorizationGrantType.CLIENT_CREDENTIALS.getValue()));
         registration.setScope("profile");
         registration.setClientName(deviceName);
