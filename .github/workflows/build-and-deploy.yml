@@ -1,0 +1,38 @@
+name: Publish package to the Maven Central Repository
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: '要发布的 Git 标签（例如 v1.0.0）'
+        required: true
+        type: string
+        default: 'v'   # 可设置默认值，但仍需用户填写
+
+jobs:
+  deploy:
+    name: Deploy package to the Maven Central Repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.event.inputs.release_tag }}
+
+      - name: Set up Apache Maven Central
+        uses: actions/setup-java@v6.0.1
+        with:
+          distribution: 'liberica'
+          java-version: '25'
+          server-id: sonatype-nexus-staging
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_CENTRAL_TOKEN
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+
+      - name: Publish to Apache Maven Central
+        run: mvn -P githubAction --batch-mode deploy -DskipTests
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_TOKEN_USERNAME }}
+          MAVEN_CENTRAL_TOKEN: ${{ secrets.OSSRH_TOKEN_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
