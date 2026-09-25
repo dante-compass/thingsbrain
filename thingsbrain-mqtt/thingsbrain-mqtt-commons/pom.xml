@@ -6,7 +6,7 @@
     <parent>
         <groupId>cn.herodotus.thingsbrain</groupId>
         <artifactId>thingsbrain-mqtt</artifactId>
-        <version>4.1.1.0</version>
+        <version>4.1.1.1</version>
     </parent>
 
     <artifactId>thingsbrain-mqtt-commons</artifactId>
@@ -28,7 +28,7 @@
 
         <dependency>
             <groupId>cn.herodotus.dante</groupId>
-            <artifactId>dante-message-commons</artifactId>
+            <artifactId>dante-messaging</artifactId>
         </dependency>
     </dependencies>
 

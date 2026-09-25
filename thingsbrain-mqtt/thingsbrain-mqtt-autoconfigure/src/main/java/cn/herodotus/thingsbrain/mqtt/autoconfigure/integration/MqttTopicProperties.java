@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.mqtt.autoconfigure.integration;
 
-import cn.herodotus.dante.message.commons.constant.MessageConstants;
+import cn.herodotus.dante.messaging.constant.MessageConstants;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.List;

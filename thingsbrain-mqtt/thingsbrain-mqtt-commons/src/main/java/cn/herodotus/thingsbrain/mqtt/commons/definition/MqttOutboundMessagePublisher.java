@@ -26,15 +26,15 @@
 package cn.herodotus.thingsbrain.mqtt.commons.definition;
 
 import cn.herodotus.dante.core.jackson.JacksonUtils;
-import cn.herodotus.dante.message.commons.event.MqttMessageSendingEvent;
+import cn.herodotus.dante.messaging.event.MqttMessageSendingEvent;
 import cn.herodotus.dante.security.domain.UserPrincipal;
 import cn.herodotus.dante.spring.context.ServiceContextHolder;
-import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttTopic;
 import cn.herodotus.thingsbrain.kernel.commons.enums.Qos;
 import cn.herodotus.thingsbrain.kernel.link.domain.LinkRequest;
 import cn.herodotus.thingsbrain.kernel.link.domain.LinkResponse;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttMessageDetails;
 import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttOperation;
+import cn.herodotus.thingsbrain.mqtt.commons.domain.MqttTopic;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
