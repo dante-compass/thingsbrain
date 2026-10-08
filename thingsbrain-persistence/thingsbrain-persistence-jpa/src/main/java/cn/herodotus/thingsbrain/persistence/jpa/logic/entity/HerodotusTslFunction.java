@@ -80,19 +80,19 @@ public class HerodotusTslFunction extends AbstractTslCharacteristic implements S
     @Column(name = "product_key", length = 32)
     private String productKey;
 
-    @Column(name = "dimension", length = 50)
+    @Column(name = "dimension", length = 30)
     @Enumerated(EnumType.STRING)
     private Dimension dimension;
 
-    @Column(name = "access_mode", length = 50)
+    @Column(name = "access_mode", length = 30)
     @Enumerated(EnumType.STRING)
     private AccessMode accessMode;
 
-    @Column(name = "event_type", length = 50)
+    @Column(name = "event_type", length = 30)
     @Enumerated(EnumType.STRING)
     private EventType eventType;
 
-    @Column(name = "call_type", length = 50)
+    @Column(name = "call_type", length = 30)
     @Enumerated(EnumType.STRING)
     private CallType callType;
 
