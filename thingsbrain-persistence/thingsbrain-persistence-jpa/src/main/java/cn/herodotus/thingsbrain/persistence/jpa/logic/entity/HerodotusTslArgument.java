@@ -51,7 +51,7 @@ public class HerodotusTslArgument extends AbstractTslCharacteristic {
     @Column(name = "argument_id", length = 64)
     private String argumentId;
 
-    @Column(name = "argument_type", length = 50)
+    @Column(name = "argument_type", length = 30)
     @Enumerated(EnumType.STRING)
     private ArgumentType type;
 

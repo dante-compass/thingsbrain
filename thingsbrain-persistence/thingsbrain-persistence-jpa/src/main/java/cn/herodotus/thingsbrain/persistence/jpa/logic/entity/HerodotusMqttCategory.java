@@ -59,15 +59,15 @@ public class HerodotusMqttCategory extends AbstractSysEntity {
     @Column(name = "category_name", length = 128)
     private String categoryName;
 
-    @Column(name = "area", length = 50)
+    @Column(name = "area", length = 30)
     @Enumerated(EnumType.STRING)
     private Area area = Area.DEVICE;
 
-    @Column(name = "action", length = 50)
+    @Column(name = "action", length = 30)
     @Enumerated(EnumType.STRING)
     private Action action;
 
-    @Column(name = "purpose", length = 50)
+    @Column(name = "purpose", length = 30)
     @Enumerated(EnumType.STRING)
     private Purpose purpose = Purpose.LINK;
 
