@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.commons.domain;
 
-import cn.herodotus.dante.core.enums.SignatureMethod;
+import cn.herodotus.dante.spring.enums.SignatureMethod;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

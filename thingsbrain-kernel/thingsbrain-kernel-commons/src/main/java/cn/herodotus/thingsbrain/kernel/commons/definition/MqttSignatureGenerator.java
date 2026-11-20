@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.kernel.commons.definition;
 
-import cn.herodotus.dante.core.enums.SignatureMethod;
+import cn.herodotus.dante.spring.enums.SignatureMethod;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttClientIdFactory;
 import cn.herodotus.thingsbrain.kernel.commons.domain.SignatureGenerationResult;
 
