@@ -25,7 +25,7 @@
 
 package cn.herodotus.thingsbrain.platform.authentication.mqtt;
 
-import cn.herodotus.dante.core.utils.SignatureUtils;
+import cn.herodotus.dante.spring.utils.SignatureUtils;
 import cn.herodotus.thingsbrain.kernel.commons.definition.MqttSignatureGenerator;
 import cn.herodotus.thingsbrain.kernel.commons.domain.MqttClientIdFactory;
 import cn.herodotus.thingsbrain.kernel.commons.domain.SignatureGenerationResult;
