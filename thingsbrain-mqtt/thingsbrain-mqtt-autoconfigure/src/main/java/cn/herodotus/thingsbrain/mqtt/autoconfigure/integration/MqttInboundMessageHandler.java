@@ -44,6 +44,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessagingException;
 
+import java.nio.ByteBuffer;
 import java.util.Map;
 
 /**
@@ -94,7 +95,7 @@ public class MqttInboundMessageHandler implements MessageHandler {
             String topic = source.getHeaders().get(mqttProperties.getTopicHeader(), String.class);
             String payload = getPayload(source.getPayload());
             Integer qos = source.getHeaders().get(MqttHeaders.QOS, Integer.class);
-            byte[] correlationData = source.getHeaders().get(MqttHeaders.CORRELATION_DATA, byte[].class);
+            byte[] correlationData = getCorrelationData(source);
             String responseTopic = source.getHeaders().get(MqttHeaders.RESPONSE_TOPIC, String.class);
             Integer id = source.getHeaders().get(MqttHeaders.ID, Integer.class);
             Boolean duplicate = source.getHeaders().get(MqttHeaders.DUPLICATE, Boolean.class);
@@ -113,6 +114,19 @@ public class MqttInboundMessageHandler implements MessageHandler {
                 return (String) payload;
             }
             return null;
+        }
+
+        private byte[] getCorrelationData(Message<?> source) {
+            ByteBuffer correlationBuffer = source.getHeaders().get(MqttHeaders.CORRELATION_DATA, ByteBuffer.class);
+            byte[] correlationData = null;
+            if (ObjectUtils.isNotEmpty(correlationBuffer)) {
+                // 2. 使用 duplicate() 创建副本，避免影响原始 buffer 的读取位置
+                ByteBuffer byteBuffer = correlationBuffer.duplicate();
+                // 3. 根据可读字节数创建数组并复制数据
+                correlationData = new byte[byteBuffer.remaining()];
+                byteBuffer.get(correlationData);
+            }
+            return correlationData;
         }
     }
 

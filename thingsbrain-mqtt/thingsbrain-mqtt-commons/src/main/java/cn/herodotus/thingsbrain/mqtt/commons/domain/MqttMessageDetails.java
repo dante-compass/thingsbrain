@@ -32,6 +32,7 @@ import cn.herodotus.dante.core.jackson.JsonNodeUtils;
 import cn.herodotus.thingsbrain.mqtt.commons.enums.TopicCategory;
 import cn.hutool.v7.crypto.SecureUtil;
 import com.google.common.base.MoreObjects;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import tools.jackson.databind.JsonNode;
@@ -243,7 +244,7 @@ public class MqttMessageDetails implements BaseModel {
             details.setMessageId(createMessageId(this.topic, this.messageId));
             details.setRequestId(JsonNodeUtils.findStringValue(payload, "id"));
             details.setMethod(JsonNodeUtils.findStringValue(payload, "method"));
-            details.setDuplicate(this.duplicate);
+            details.setDuplicate(BooleanUtils.toBoolean(this.duplicate));
             details.setTopicCategory(getTopicCategory(this.topic));
             details.setEmpty(ObjectUtils.isEmpty(this.payload));
             details.setSupportResponse(StringUtils.isNotBlank(this.responseTopic));
