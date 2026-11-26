@@ -25,11 +25,11 @@
 
 package cn.herodotus.thingsbrain.mqtt.autoconfigure;
 
-import cn.herodotus.dante.core.utils.ListUtils;
 import cn.herodotus.dante.message.autoconfigure.emqx.IntegrationEmqxAutoConfiguration;
 import cn.herodotus.dante.message.autoconfigure.mqtt.MqttProperties;
 import cn.herodotus.dante.messaging.constant.Channels;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttInboundMessageHandler;
+import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttSubscribeTopicAppender;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttSubscribeTopicAppenderListener;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.integration.MqttTopicProperties;
 import cn.herodotus.thingsbrain.mqtt.autoconfigure.processor.DefaultMqttInboundMessageDuplicateInspector;
@@ -40,8 +40,6 @@ import cn.herodotus.thingsbrain.mqtt.inbound.config.MqttInboundConfiguration;
 import cn.herodotus.thingsbrain.mqtt.inbound.dispatcher.MqttInboundMessageDispatcher;
 import cn.herodotus.thingsbrain.mqtt.outbound.config.MqttOutboundConfiguration;
 import jakarta.annotation.PostConstruct;
-import org.eclipse.paho.mqttv5.client.IMqttAsyncClient;
-import org.eclipse.paho.mqttv5.client.MqttConnectionOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,10 +48,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.integration.annotation.ServiceActivator;
-import org.springframework.integration.context.IntegrationContextUtils;
 import org.springframework.integration.dsl.MessageChannels;
-import org.springframework.integration.mqtt.core.ClientManager;
-import org.springframework.integration.mqtt.inbound.Mqttv5PahoMessageDrivenChannelAdapter;
+import org.springframework.integration.dsl.context.IntegrationFlowContext;
+import org.springframework.integration.mqtt.client.core.Mqtt5ClientManager;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 
@@ -95,18 +92,14 @@ public class MqttAutoConfiguration {
         return MessageChannels.direct().getObject();
     }
 
-    @Bean(name = "mqttThingsBrainInbound")
-    public Mqttv5PahoMessageDrivenChannelAdapter mqttThingsBrainInbound(
-            ClientManager<IMqttAsyncClient, MqttConnectionOptions> clientManager,
-            MqttTopicProperties mqttTopicProperties,
-            @Qualifier(Channels.MQTT__THINGSBRAIN_INBOUND_CHANNEL) MessageChannel mqttThingsBrainInboundChannel) {
-        Mqttv5PahoMessageDrivenChannelAdapter adapter = new Mqttv5PahoMessageDrivenChannelAdapter(clientManager, ListUtils.toStringArray(mqttTopicProperties.getDefaultSubscribes()));
-        adapter.setPayloadType(String.class);
-        adapter.setManualAcks(false);
-        adapter.setOutputChannel(mqttThingsBrainInboundChannel);
-        adapter.setErrorChannelName(IntegrationContextUtils.ERROR_CHANNEL_BEAN_NAME);
-        log.trace("[ThingsBrain] |- Bean [Things Mesh Mqtt Message Driven Channel Adapter] Configure.");
-        return adapter;
+    @Bean
+    public MqttSubscribeTopicAppender mqttSubscribeTopicAppender(
+            IntegrationFlowContext integrationFlowContext,
+            Mqtt5ClientManager mqtt5ClientManager,
+            @Qualifier(Channels.MQTT__THINGSBRAIN_INBOUND_CHANNEL) MessageChannel mqttThingsMeshInboundChannel) {
+        MqttSubscribeTopicAppender appender = new MqttSubscribeTopicAppender(integrationFlowContext, mqtt5ClientManager, mqttThingsMeshInboundChannel);
+        log.trace("[ThingsMesh] |- Bean [Mqtt Subscribe Topic Appender] Configure.");
+        return appender;
     }
 
     @Bean
@@ -119,9 +112,9 @@ public class MqttAutoConfiguration {
     }
 
     @Bean
-    public MqttSubscribeTopicAppenderListener mqttSubscribeTopicAppenderListener(@Qualifier("mqttThingsBrainInbound") Mqttv5PahoMessageDrivenChannelAdapter mqttThingsBrainInbound) {
-        MqttSubscribeTopicAppenderListener listener = new MqttSubscribeTopicAppenderListener(mqttThingsBrainInbound);
-        log.trace("[ThingsBrain] |- Bean [Mqtt Subscribe Topic Appender] Configure.");
+    public MqttSubscribeTopicAppenderListener mqttSubscribeTopicAppenderListener(MqttSubscribeTopicAppender mqttSubscribeTopicAppender, MqttTopicProperties mqttTopicProperties) {
+        MqttSubscribeTopicAppenderListener listener = new MqttSubscribeTopicAppenderListener(mqttSubscribeTopicAppender, mqttTopicProperties);
+        log.trace("[ThingsMesh] |- Bean [Mqtt Subscribe Topic Appender Listener] Configure.");
         return listener;
     }
 

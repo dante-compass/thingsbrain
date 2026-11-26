@@ -76,12 +76,12 @@ public class MqttAuthority extends AbstractSysEntity implements SubscribeTopic {
         this.id = id;
     }
 
-    public String getTopic() {
+    public String topic() {
         return topic;
     }
 
     @Override
-    public int getQuality() {
+    public int quality() {
         if (ObjectUtils.isNotEmpty(getQos())) {
             return getQos().ordinal();
         }

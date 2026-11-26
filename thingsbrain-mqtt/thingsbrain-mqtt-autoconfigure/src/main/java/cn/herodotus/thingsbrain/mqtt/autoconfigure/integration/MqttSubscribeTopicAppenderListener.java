@@ -27,15 +27,17 @@ package cn.herodotus.thingsbrain.mqtt.autoconfigure.integration;
 
 import cn.herodotus.thingsbrain.kernel.commons.definition.SubscribeTopic;
 import cn.herodotus.thingsbrain.link.commons.event.MqttSubscribeTopicAppenderEvent;
+import com.hivemq.client.mqtt.datatypes.MqttQos;
+import com.hivemq.client.mqtt.mqtt5.message.subscribe.Mqtt5Subscription;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
-import org.springframework.integration.mqtt.inbound.Mqttv5PahoMessageDrivenChannelAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.IntStream;
 
 /**
  * <p>Description: 平台订阅主题动态添加器 </p>
@@ -47,31 +49,51 @@ public class MqttSubscribeTopicAppenderListener implements ApplicationListener<M
 
     private static final Logger log = LoggerFactory.getLogger(MqttSubscribeTopicAppenderListener.class);
 
-    private final Mqttv5PahoMessageDrivenChannelAdapter mqttv5PahoMessageDrivenChannelAdapter;
+    private final MqttSubscribeTopicAppender appender;
+    private final MqttTopicProperties properties;
 
-    public MqttSubscribeTopicAppenderListener(Mqttv5PahoMessageDrivenChannelAdapter mqttv5PahoMessageDrivenChannelAdapter) {
-        this.mqttv5PahoMessageDrivenChannelAdapter = mqttv5PahoMessageDrivenChannelAdapter;
+    public MqttSubscribeTopicAppenderListener(MqttSubscribeTopicAppender appender, MqttTopicProperties properties) {
+        this.appender = appender;
+        this.properties = properties;
     }
+
 
     @Override
     public void onApplicationEvent(MqttSubscribeTopicAppenderEvent event) {
 
         Set<? extends SubscribeTopic> data = event.getData();
 
-        List<? extends SubscribeTopic> items = new ArrayList<>(data);
+        if (CollectionUtils.isNotEmpty(data)) {
 
-        String[] topicItems = new String[data.size()];
-        int[] qosItems = new int[data.size()];
+            List<SubscribeTopic> items = new ArrayList<>(data);
+            if (CollectionUtils.isNotEmpty(properties.getDefaultSubscribes())) {
+                properties.getDefaultSubscribes().stream()
+                        .map(DefaultSubscribeTopic::with)
+                        .forEach(items::add);
+            }
 
-        IntStream.range(0, data.size()).forEach(i -> {
-            topicItems[i] = items.get(i).getTopic();
-            qosItems[i] = items.get(i).getQuality();
-        });
+            Mqtt5Subscription[] subscriptions = items.stream()
+                    .map(item -> Mqtt5Subscription.builder()
+                            .topicFilter(item.topic())
+                            .qos(getMqttQos(item.quality())) // 可以从外部传入，或使用默认值
+                            .noLocal(false) // 按需设置
+                            .build())
+                    .toArray(Mqtt5Subscription[]::new);
 
-        mqttv5PahoMessageDrivenChannelAdapter.addTopics(topicItems, qosItems);
+            appender.subscribe(subscriptions);
 
-        log.info("[ThingsBrain] |- Dynamic add [{}] subscribe topics.", data.size());
+            log.info("[ThingsMesh] |- Dynamic add [{}] subscribe topics.", data.size());
+        }
     }
 
+    private MqttQos getMqttQos(int quality) {
+        MqttQos mqttQos = MqttQos.fromCode(quality);
+        return ObjectUtils.isNotEmpty(mqttQos) ? mqttQos : MqttQos.AT_LEAST_ONCE;
+    }
 
+    record DefaultSubscribeTopic(String topic, int quality) implements SubscribeTopic {
+        public static DefaultSubscribeTopic with(String topic) {
+            return new DefaultSubscribeTopic(topic, 0);
+        }
+    }
 }

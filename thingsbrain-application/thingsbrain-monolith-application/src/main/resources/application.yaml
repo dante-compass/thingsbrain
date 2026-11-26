@@ -283,7 +283,7 @@ herodotus:
         letter: num_and_upper_char
         font: action
     access:
-      justauth:
+      anduin:
         enabled: true
         configs:
           GITEE:
@@ -307,8 +307,8 @@ herodotus:
       secret-key: bbb
   message:
     mqtt:
-      server-urls:
-        - tcp://localhost:1883
+      host: localhost
+      port: 1883
       username: herodotus
       password: herodotus
       client-id: thingsbrain-platform
@@ -530,7 +530,7 @@ herodotus:
         letter: num_and_upper_char
         font: action
     access:
-      justauth:
+      anduin:
         configs:
           GITEE:
             client-id: 7c1623d76f3909757912338688cae8a061e241b56070face6d54114eb61c
@@ -791,7 +791,7 @@ herodotus:
         letter: num_and_upper_char
         font: action
     access:
-      justauth:
+      anduin:
         enabled: true
         configs:
           GITEE:
@@ -1053,7 +1053,7 @@ herodotus:
         letter: num_and_upper_char
         font: action
     access:
-      justauth:
+      anduin:
         enabled: true
         configs:
           GITEE:

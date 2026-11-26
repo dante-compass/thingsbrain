@@ -38,10 +38,10 @@ public interface SubscribeTopic extends BaseModel {
     /**
      * 主题
      */
-    String getTopic();
+    String topic();
 
     /**
      * qos
      */
-    int getQuality();
+    int quality();
 }

@@ -60,7 +60,7 @@ public class FromMqttAuthorityConverter extends AbstractFromSysEntityConverter<M
     public void prepare(MqttAuthority source, HerodotusMqttAuthority target) {
 
         target.setAuthorityId(source.getId());
-        target.setTopic(source.getTopic());
+        target.setTopic(source.topic());
         target.setPermission(source.getPermission());
         target.setAction(source.getAction());
         target.setQos(source.getQos());
